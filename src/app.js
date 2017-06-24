@@ -1,7 +1,21 @@
+/**
+ * High are the mountains, thick are the shade trees, and under an old pine I sit quietly and contentedly in my monkish home:
+ * Perfect tranquility and rustic simplicity rules here. - Yoka Daishi
+ * 
+ * 
+ * This file is the first thing happens to badlee.
+ * we do all lots of react and redux configuration and start up our app.
+ * Here, we go
+ * 
+ * @author- heartit pirates were here.
+ */
+
 "use strict";
 
+// Import React stuff
 import React, { Component } from "react";
-import { View, StyleSheet, BackAndroid, StatusBar } from "react-native";
+
+import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
 import { Drawer } from "native-base";
 import { makeStore } from "./store";
 import { connect, Provider } from "react-redux";
@@ -10,23 +24,37 @@ import SplashScreen from "./containers/static/SplashScreen";
 import SideBar from "./components/sidebar";
 import { Navigator } from "react-native-deprecated-custom-components";
 
-BackAndroid.addEventListener("hardwareBackPress", function() {
+/**
+ * Backhandler : Detect hardware button presses for back navigation
+ * Navigator handles the transition between different scenes in your app.
+ * Transition back and unmount the current scene.
+ */
+BackHandler.addEventListener("hardwareBackPress", function() {
+  // If scopeNavigator and it has routes information
   if (scopeNavigator && scopeNavigator.getCurrentRoutes().length > 1) {
+    // unmount current screen and go to previous scene
     scopeNavigator.pop();
     return true;
   }
   return false;
 });
 
-class StkMobile extends Component {
+class BadleeApp extends Component {
+  // Function to open Sidebar drawer
   openSidebar() {
     this._drawer._root.open();
   }
 
+  // Function to close Sidebar
   closeSidebar() {
     this._drawer._root.close();
   }
 
+  /**
+   * Function that navigator uses to render the scene for a given route.
+   * @param {*} route 
+   * @param {*} navigator 
+   */
   renderScene(route, navigator) {
     let params = {};
     let Component = route.component;
@@ -37,6 +65,7 @@ class StkMobile extends Component {
 
     if (route.component) {
       return (
+        // Put drawer, Open Sidebar Component in it.
         <Drawer
           ref={ref => {
             this._drawer = ref;
@@ -49,6 +78,7 @@ class StkMobile extends Component {
           }
           onClose={() => this.closeSidebar()}
         >
+          {/*Our Main Content View*/}
           <View style={styles.main}>
             <StatusBar
               hidden={route.statusBarHidden}
@@ -67,6 +97,10 @@ class StkMobile extends Component {
     }
   }
 
+  /**
+   * Render Badlee App with our Redux store provider. 
+   * Initial Route is SplashScreen.
+   */
   render() {
     return (
       <Provider store={store}>
@@ -95,4 +129,4 @@ let styles = StyleSheet.create({
   }
 });
 
-export default StkMobile;
+export default BadleeApp;

@@ -1,4 +1,4 @@
-package com.starterkit;
+package com.badlee;
 
 import android.app.Application;
 

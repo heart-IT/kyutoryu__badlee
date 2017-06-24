@@ -9,6 +9,6 @@
 
 import React from "react";
 import { AppRegistry } from "react-native";
-import starterKit from "./src/app";
+import Badlee from "./src/app";
 
-AppRegistry.registerComponent("starterKit", () => starterKit);
+AppRegistry.registerComponent("Badlee", () => Badlee);

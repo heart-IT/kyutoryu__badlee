@@ -16,7 +16,7 @@ export default {
   androidRippleColorDark: "rgba(0, 0, 0, 0.15)",
 
   // Badge
-  badgeBg: "#ED1727",
+  badgeBg: "#D81159",
   badgeColor: "#fff",
   // New Variable
   badgePadding: platform === "ios" ? 3 : 0,

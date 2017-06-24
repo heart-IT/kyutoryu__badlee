@@ -12,9 +12,7 @@
 
 "use strict";
 
-// Import React stuff
 import React, { Component } from "react";
-
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
 import { Drawer } from "native-base";
 import { makeStore } from "./store";

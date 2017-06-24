@@ -2,6 +2,14 @@
  * @flow
  */
 
+/**
+ * The Master detaches herself from all things: Therefore she is united with all things.
+ * She gives no thoughts to self. Therefore she is perfectly fulfilled - Lao Tzu
+ * 
+ * 
+ * This file contains Flow object types definition used in the App.
+ */
+
 import type { Record as RecordType } from "immutable";
 
 export type Dispatch = Function;
@@ -55,6 +63,15 @@ export type Action =
   | CHANGE_CONNECTION_STATUS
   | SET_NAVIGATOR;
 
+/**
+ * Application State Record. It contains :
+ * 1. loading -> Is app loading {Boolean}
+ * 2. accessToken -> App access token
+ * 3. user -> User object
+ * 4. isOnline -> is App Online?
+ * 5. loggedIn -> is User Logged In?
+ * 6. navigator -> App Navigation
+ */
 export type AppState = {|
   loading: boolean,
   accessToken: ?string,

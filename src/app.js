@@ -12,6 +12,12 @@
 
 "use strict";
 
+/**
+ * Imp[o]rts Guide :-
+ * 1. Backhandler : Detect hardware button presses for back navigation
+ * 2. StatusBar : Component to control app status bar.
+ * 3. Drawer : App drawer native base component
+ */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
 import { Drawer } from "native-base";
@@ -23,7 +29,6 @@ import SideBar from "./components/sidebar";
 import { Navigator } from "react-native-deprecated-custom-components";
 
 /**
- * Backhandler : Detect hardware button presses for back navigation
  * Navigator handles the transition between different scenes in your app.
  * Transition back and unmount the current scene.
  */

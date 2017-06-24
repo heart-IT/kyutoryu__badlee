@@ -1,24 +1,27 @@
-'use strict'
+"use strict";
 
-import React, { Component, PropTypes } from 'react';
-import { View, Text, InteractionManager } from 'react-native';
+import React, { Component, PropTypes } from "react";
+import { View, Text, InteractionManager } from "react-native";
 import {
-  Container, Header, Title,
-  Button, Left, Body, Icon
-} from 'native-base';
-import LoadingView from './LoadingView';
-
+  Container,
+  Header,
+  Title,
+  Button,
+  Left,
+  Body,
+  Icon
+} from "native-base";
+import LoadingView from "./LoadingView";
 
 class Toolbar extends Component {
-
   static propTypes = {
     showSideBar: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     renderFooter: () => {},
     showSideBar: true
-  }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -32,9 +35,7 @@ class Toolbar extends Component {
   }
 
   _renderPlaceholderView() {
-    return (
-      <LoadingView />
-    );
+    return <LoadingView />;
   }
 
   _renderContent() {
@@ -44,15 +45,15 @@ class Toolbar extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: '#de0000' }}>
+        <Header style={{ backgroundColor: "#de0000" }}>
           <Left>
             {this.props.showSideBar &&
               <Button transparent onPress={this.props.openSidebar}>
-                <Icon name='menu'  style={{ color: '#FFF' }} />
+                <Icon name="menu" style={{ color: "#FFF" }} />
               </Button>}
           </Left>
           <Body>
-              <Title style={{ color: '#FFF' }}>{this.props.title}</Title>
+            <Title style={{ color: "#FFF" }}>{this.props.title}</Title>
           </Body>
         </Header>
 
@@ -60,7 +61,7 @@ class Toolbar extends Component {
         {!this.state.renderPlaceholderOnly && this._renderContent()}
         {!this.state.renderPlaceholderOnly && this.props.renderFooter()}
       </Container>
-    )
+    );
   }
 }
 

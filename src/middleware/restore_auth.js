@@ -1,13 +1,12 @@
 // @flow
-'use strict';
+"use strict";
 
-import { Toast } from 'native-base';
-import { AsyncStorage, NetInfo} from 'react-native';
-import * as actionCreators from '../action_creators';
-import Settings from '../settings';
-import { dummyUser } from '../fixtures';
-import type {Action, RESTORE_AUTH} from '../types';
-
+import { Toast } from "native-base";
+import { AsyncStorage, NetInfo } from "react-native";
+import * as actionCreators from "../action_creators";
+import Settings from "../settings";
+import { dummyUser } from "../fixtures";
+import type { Action, RESTORE_AUTH } from "../types";
 
 function getNextRoute(route, isAuthanticated) {
   let components = route.component;
@@ -15,7 +14,7 @@ function getNextRoute(route, isAuthanticated) {
   if (isAuthanticated) {
     component = {
       component: components.authanticated.component,
-       reset: true
+      reset: true
     };
   } else {
     component = {
@@ -26,18 +25,15 @@ function getNextRoute(route, isAuthanticated) {
   return Object.assign(route, component);
 }
 
-
 async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
   try {
     await store.dispatch(actionCreators.startLoading());
 
-    NetInfo.isConnected.addEventListener(
-      'change', async function(isConnected) {
-        await store.dispatch(actionCreators.changeInternetConnectionStatus(
-          isConnected
-        ));
-      }
-    );
+    NetInfo.isConnected.addEventListener("change", async function(isConnected) {
+      await store.dispatch(
+        actionCreators.changeInternetConnectionStatus(isConnected)
+      );
+    });
 
     let route = action.route;
     let token = await AsyncStorage.getItem(Settings.session_key);
@@ -48,9 +44,15 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
 
       // only call next if we have username
       next(action);
-      route && await store.dispatch(actionCreators.navigate(getNextRoute(route, true)));
+      route &&
+        (await store.dispatch(
+          actionCreators.navigate(getNextRoute(route, true))
+        ));
     } else {
-      route && await store.dispatch(actionCreators.navigate(getNextRoute(route, false)));
+      route &&
+        (await store.dispatch(
+          actionCreators.navigate(getNextRoute(route, false))
+        ));
     }
   } finally {
     await store.dispatch(actionCreators.finishLoading());
@@ -58,7 +60,7 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
 }
 
 export default store => (next: Function) => (action: Action) => {
-  if (action.type === 'RESTORE_AUTH') {
+  if (action.type === "RESTORE_AUTH") {
     return doRestoreAuth(store, next, action);
   }
   return next(action);

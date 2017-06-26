@@ -65,7 +65,8 @@ const styles = {
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 100,
+    justifyContent: "center",
+    // marginTop: 100,
     marginLeft: 50,
     marginRight: 50
   }

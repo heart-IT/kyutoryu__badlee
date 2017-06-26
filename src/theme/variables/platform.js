@@ -40,12 +40,12 @@ export default {
   checkboxTickColor: "#fff",
 
   // Segment
-  segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#611265",
   segmentActiveBackgroundColor: platform === "ios" ? "#007aff" : "#fff",
   segmentTextColor: platform === "ios" ? "#007aff" : "#fff",
-  segmentActiveTextColor: platform === "ios" ? "#fff" : "#3F51B5",
+  segmentActiveTextColor: platform === "ios" ? "#fff" : "#611265",
   segmentBorderColor: platform === "ios" ? "#007aff" : "#fff",
-  segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#3F51B5",
+  segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#611265",
 
   // New Variable
   get defaultTextColor() {
@@ -108,7 +108,7 @@ export default {
   cardDefaultBg: "#fff",
 
   // Color
-  brandPrimary: platform === "ios" ? "#007aff" : "#3F51B5",
+  brandPrimary: platform === "ios" ? "#007aff" : "#611265",
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
@@ -139,10 +139,10 @@ export default {
   activeTab: platform === "ios" ? "#007aff" : "#fff",
   sTabBarActiveTextColor: "#007aff",
   tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
-  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#3F51B5",
+  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#611265",
 
   // Tab
-  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
   topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
   topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
   topTabActiveBgColor: platform === "ios" ? "#cde1f9" : undefined,
@@ -151,7 +151,7 @@ export default {
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
-  toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
   toolbarHeight: platform === "ios" ? 64 : 56,
   toolbarIconSize: platform === "ios" ? 20 : 22,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
@@ -159,7 +159,7 @@ export default {
   searchBarHeight: platform === "ios" ? 30 : 40,
   toolbarInverseBg: "#222",
   toolbarTextColor: platform === "ios" ? "#000" : "#fff",
-  toolbarDefaultBorder: platform === "ios" ? "#a7a6ab" : "#3F51B5",
+  toolbarDefaultBorder: platform === "ios" ? "#a7a6ab" : "#611265",
   iosStatusbar: platform === "ios" ? "dark-content" : "light-content",
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).string();
@@ -221,7 +221,7 @@ export default {
 
   // Radio Button
   radioBtnSize: platform === "ios" ? 25 : 23,
-  radioSelectedColorAndroid: "#3F51B5",
+  radioSelectedColorAndroid: "#611265",
 
   // New Variable
   radioBtnLineHeight: platform === "ios" ? 29 : 24,

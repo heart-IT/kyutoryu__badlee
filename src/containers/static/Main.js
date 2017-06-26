@@ -12,7 +12,7 @@ import {
   TabHeading,
   Icon
 } from "native-base";
-// import Toolbar from "../../components/toolbar";
+import Toolbar from "../../components/toolbar";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../action_creators";
 import type { State } from "../../types";
@@ -23,7 +23,7 @@ class Main extends Component {
       <StyleProvider style={getTheme()}>
 
         <Content>
-          <Tabs initialPage={0}>
+          <Tabs initialPage={0} tabStyle={{ backgroundColor: "#611265" }}>
             <Tab
               heading={
                 <TabHeading>

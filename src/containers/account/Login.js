@@ -49,16 +49,38 @@ class Login extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content>
-          <Form>
+          <Text
+            style={{
+              marginTop: 60,
+              marginBottom: 9,
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 24,
+              color: "#6f156d"
+            }}
+          >
+            badlee
+          </Text>
+          <Text
+            style={{
+              color: "#616161",
+              marginBottom: 20,
+              textAlign: "center",
+              fontSize: 14
+            }}
+          >
+            badal ke dekho zara samaan
+          </Text>
+          <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
             <Item floatingLabel marxFormElement>
-              <Label>Username</Label>
+              <Label style={{ fontWeight: "bold" }}>Username</Label>
               <Input
                 onChangeText={username => this.setState({ username })}
                 value={this.state.username}
               />
             </Item>
             <Item floatingLabel marxFormElement>
-              <Label>Password</Label>
+              <Label style={{ fontWeight: "bold" }}>Password</Label>
               <Input
                 secureTextEntry={true}
                 onChangeText={passwd => this.setState({ passwd })}
@@ -70,7 +92,7 @@ class Login extends Component {
 
             <View style={{ marginLeft: 10, marginRight: 10 }}>
               <Button
-                red
+                violet
                 common
                 block
                 marxFormElement
@@ -80,6 +102,38 @@ class Login extends Component {
               </Button>
             </View>
           </Form>
+          <Text
+            style={{
+              color: "#616161",
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 15,
+              marginTop: 4
+            }}
+          >
+            Forgot password?
+          </Text>
+          <View
+            style={{
+              marginTop: 60,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ textAlign: "center" }}>
+              Don't have an account?
+            </Text>
+            <Button
+              style={{
+                marginLeft: 6,
+                backgroundColor: "#DE6449",
+                borderRadius: 4
+              }}
+            >
+              <Text style={{ fontWeight: "400", fontSize: 14 }}>Register</Text>
+            </Button>
+          </View>
         </Content>
       </StyleProvider>
     );

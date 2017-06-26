@@ -1,3 +1,13 @@
+/**
+ * All is silent, lucid, and self-illumination: There is no exertion, no waste of energy- This is where thinking never attains.
+ * This is where the imagination fails to measure. - Seng-t'san
+ * 
+ * 
+ * This file is the Welcome page. This is what shown to user first time.
+ * @fileName Welcome.js
+ * @author heartIT pirates were here
+ */
+
 "use strict";
 
 import React, { Component } from "react";
@@ -22,16 +32,28 @@ class Welcome extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <View style={styles.container}>
-          <Text>Welcome to React Native Starter Kit</Text>
-
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "rgba(0, 0, 0, 0.87)",
+              fontSize: 18,
+              marginBottom: 24
+            }}
+          >
+            Welcome to <Text style={{ color: "#6f156d" }}> badlee </Text>
+            Application
+          </Text>
+          <Text style={{ textAlign: "center" }}>
+            We are still in a very priminilary stage of App, so handle with care
+          </Text>
           <Button
-            red
+            violet
             common
             block
             style={{ marginTop: 30 }}
             onPress={this.handleLogin.bind(this)}
           >
-            <Text style={{ color: "#FFF" }}>Giriş</Text>
+            <Text style={{ color: "#FFF" }}>Enter to see badlee App</Text>
           </Button>
         </View>
       </StyleProvider>

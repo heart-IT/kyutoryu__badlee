@@ -16,6 +16,7 @@ import getTheme from "../../theme/components";
 import * as actionCreators from "../../action_creators";
 import type { State } from "../../types";
 
+import Store from "../badlee/store";
 import User from "../account/User";
 
 class Main extends Component {
@@ -31,43 +32,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Tabs hello style={{ backgroundColor: "#fff" }}>
-                <Tab
-                  heading={
-                    <TabHeading>
-                      <Icon name="ios-people" />
-                    </TabHeading>
-                  }
-                  tabStyle={{ backgroundColor: "red" }}
-                  textStyle={{ color: "#fff" }}
-                  activeTabStyle={{ backgroundColor: "red" }}
-                  activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
-                >
-                  <Text>Hello world</Text>
-                </Tab>
-                <Tab
-                  heading={
-                    <TabHeading>
-                      <Icon name="ios-locate-outline" />
-                    </TabHeading>
-                  }
-                  tabStyle={{ backgroundColor: "red" }}
-                  textStyle={{ color: "#fff" }}
-                  activeTabStyle={{ backgroundColor: "red" }}
-                  activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
-                />
-                <Tab
-                  heading={
-                    <TabHeading>
-                      <Icon name="ios-globe-outline" />
-                    </TabHeading>
-                  }
-                  tabStyle={{ backgroundColor: "red" }}
-                  textStyle={{ color: "#fff" }}
-                  activeTabStyle={{ backgroundColor: "red" }}
-                  activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
-                />
-              </Tabs>
+              <Store />
             </Tab>
             <Tab
               heading={
@@ -76,7 +41,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Wrold</Text>
+              <Text>Wingardium Levoisa</Text>
             </Tab>
             <Tab
               heading={

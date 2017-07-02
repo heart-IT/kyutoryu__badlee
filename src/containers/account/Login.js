@@ -30,12 +30,14 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: null,
       username: null,
-      passwd: null
+      passwd: null,
+      screenType: "Login"
     };
   }
 
-  handleLogin() {
+  formSubmit() {
     requestAnimationFrame(() => {
       this.props.login(this.state.username, this.state.passwd, {
         navigator: this.props.navigator,
@@ -45,7 +47,16 @@ class Login extends Component {
     });
   }
 
+  switchPage = () => {
+    if (this.state.screenType === "Login") {
+      this.setState({ screenType: "Register" });
+    } else {
+      this.setState({ screenType: "Login" });
+    }
+  };
+
   render() {
+    const screenType = this.state.screenType;
     return (
       <StyleProvider style={getTheme()}>
         <Content>
@@ -72,6 +83,14 @@ class Login extends Component {
             badal ke dekho zara samaan
           </Text>
           <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
+            {screenType === "Register" &&
+              <Item floatingLabel marxFormElement>
+                <Label style={{ fontWeight: "bold" }}>Email</Label>
+                <Input
+                  onChangeText={email => this.setState({ email })}
+                  value={this.state.email}
+                />
+              </Item>}
             <Item floatingLabel marxFormElement>
               <Label style={{ fontWeight: "bold" }}>Username</Label>
               <Input
@@ -87,32 +106,33 @@ class Login extends Component {
                 value={this.state.passwd}
               />
             </Item>
-
             <View style={{ marginBottom: 30 }} />
-
             <View style={{ marginLeft: 10, marginRight: 10 }}>
               <Button
                 violet
                 common
                 block
                 marxFormElement
-                onPress={this.handleLogin.bind(this)}
+                onPress={this.formSubmit.bind(this)}
               >
-                <Text>Login</Text>
+                <Text>
+                  {screenType}
+                </Text>
               </Button>
             </View>
           </Form>
-          <Text
-            style={{
-              color: "#616161",
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 15,
-              marginTop: 4
-            }}
-          >
-            Forgot password?
-          </Text>
+          {screenType === "Login" &&
+            <Text
+              style={{
+                color: "#616161",
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 15,
+                marginTop: 4
+              }}
+            >
+              Forgot password?
+            </Text>}
           <View
             style={{
               marginTop: 60,
@@ -122,16 +142,21 @@ class Login extends Component {
             }}
           >
             <Text style={{ textAlign: "center" }}>
-              Don't have an account?
+              {screenType === "Login"
+                ? "Don't have an account?"
+                : "Already have an account"}
             </Text>
             <Button
+              onPress={this.switchPage}
               style={{
                 marginLeft: 6,
                 backgroundColor: "#DE6449",
                 borderRadius: 4
               }}
             >
-              <Text style={{ fontWeight: "400", fontSize: 14 }}>Register</Text>
+              <Text style={{ fontWeight: "400", fontSize: 14 }}>
+                {screenType === "Login" ? "Register" : "Login"}
+              </Text>
             </Button>
           </View>
         </Content>

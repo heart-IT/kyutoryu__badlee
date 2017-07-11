@@ -20,12 +20,10 @@
  */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
-import { Drawer } from "native-base";
 import { makeStore } from "./store";
 import { connect, Provider } from "react-redux";
 import * as actionCreators from "./action_creators";
 import SplashScreen from "./containers/static/SplashScreen";
-import SideBar from "./components/sidebar";
 import { Navigator } from "react-native-deprecated-custom-components";
 
 /**
@@ -43,16 +41,6 @@ BackHandler.addEventListener("hardwareBackPress", function() {
 });
 
 class BadleeApp extends Component {
-  // Function to open Sidebar drawer
-  openSidebar() {
-    this._drawer._root.open();
-  }
-
-  // Function to close Sidebar
-  closeSidebar() {
-    this._drawer._root.close();
-  }
-
   /**
    * Function that navigator uses to render the scene for a given route.
    * @param {*} route 
@@ -68,31 +56,10 @@ class BadleeApp extends Component {
 
     if (route.component) {
       return (
-        // Put drawer, Open Sidebar Component in it.
-        // <Drawer
-        //   ref={ref => {
-        //     this._drawer = ref;
-        //   }}
-        //   content={
-        //     <SideBar
-        //       navigator={navigator}
-        //       closeSidebar={this.closeSidebar.bind(this)}
-        //     />
-        //   }
-        //   onClose={() => this.closeSidebar()}
-        // >
-        // {/*Our Main Content View*/}
-        // </Drawer>
         <View style={styles.main}>
-          {/*<StatusBar
-            hidden={route.statusBarHidden}
-            barStyle="light-content"
-          />*/}
           <Component
             navigator={navigator}
             style={styles.content}
-            openSidebar={this.openSidebar.bind(this)}
-            closeSidebar={this.closeSidebar.bind(this)}
             params={params}
           />
         </View>

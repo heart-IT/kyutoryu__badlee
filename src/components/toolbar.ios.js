@@ -15,13 +15,10 @@ import {
 import LoadingView from "./LoadingView";
 
 class Toolbar extends Component {
-  static propTypes = {
-    showSideBar: PropTypes.bool
-  };
+  static propTypes = {};
 
   static defaultProps = {
-    renderFooter: () => {},
-    showSideBar: true
+    renderFooter: () => {}
   };
 
   constructor(props, context) {
@@ -67,14 +64,10 @@ class Toolbar extends Component {
             {this._renderBackButton()}
           </Left>
           <Body>
-            <Title style={{ color: "#FFF" }}>{this.props.title}</Title>
+            <Title style={{ color: "#FFF" }}>
+              {this.props.title}
+            </Title>
           </Body>
-          <Right>
-            {this.props.showSideBar &&
-              <Button transparent onPress={this.props.openSidebar}>
-                <Icon name="menu" style={{ color: "#FFF" }} />
-              </Button>}
-          </Right>
         </Header>
 
         {this.state.renderPlaceholderOnly && this._renderPlaceholderView()}

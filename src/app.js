@@ -69,33 +69,33 @@ class BadleeApp extends Component {
     if (route.component) {
       return (
         // Put drawer, Open Sidebar Component in it.
-        <Drawer
-          ref={ref => {
-            this._drawer = ref;
-          }}
-          content={
-            <SideBar
-              navigator={navigator}
-              closeSidebar={this.closeSidebar.bind(this)}
-            />
-          }
-          onClose={() => this.closeSidebar()}
-        >
-          {/*Our Main Content View*/}
-          <View style={styles.main}>
-            <StatusBar
-              hidden={route.statusBarHidden}
-              barStyle="light-content"
-            />
-            <Component
-              navigator={navigator}
-              style={styles.content}
-              openSidebar={this.openSidebar.bind(this)}
-              closeSidebar={this.closeSidebar.bind(this)}
-              params={params}
-            />
-          </View>
-        </Drawer>
+        // <Drawer
+        //   ref={ref => {
+        //     this._drawer = ref;
+        //   }}
+        //   content={
+        //     <SideBar
+        //       navigator={navigator}
+        //       closeSidebar={this.closeSidebar.bind(this)}
+        //     />
+        //   }
+        //   onClose={() => this.closeSidebar()}
+        // >
+        // {/*Our Main Content View*/}
+        // </Drawer>
+        <View style={styles.main}>
+          {/*<StatusBar
+            hidden={route.statusBarHidden}
+            barStyle="light-content"
+          />*/}
+          <Component
+            navigator={navigator}
+            style={styles.content}
+            openSidebar={this.openSidebar.bind(this)}
+            closeSidebar={this.closeSidebar.bind(this)}
+            params={params}
+          />
+        </View>
       );
     }
   }

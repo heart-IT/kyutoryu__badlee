@@ -7,7 +7,7 @@ import * as actionCreators from "../action_creators";
 import Settings from "../settings";
 import { dummyUser, dummyToken, dummyLogin } from "../fixtures";
 import type { Action, LOGIN } from "../types";
-
+N;
 async function checkLogin(store, next: Function, action: LOGIN) {
   try {
     await store.dispatch(actionCreators.startLoading());

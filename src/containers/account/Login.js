@@ -24,6 +24,7 @@ import {
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../action_creators";
 import Main from "../static/Main";
+import User from "./User";
 import type { State } from "../../types";
 
 class Login extends Component {
@@ -38,13 +39,29 @@ class Login extends Component {
   }
 
   formSubmit() {
-    requestAnimationFrame(() => {
-      this.props.login(this.state.username, this.state.passwd, {
-        navigator: this.props.navigator,
-        component: Main,
-        reset: true
+    if (this.state.screenType === "Login") {
+      requestAnimationFrame(() => {
+        this.props.login(this.state.username, this.state.passwd, {
+          navigator: this.props.navigator,
+          component: Main,
+          reset: true
+        });
       });
-    });
+    } else {
+      requestAnimationFrame(() => {
+        this.props.register(
+          this.state.email,
+          this.state.username,
+          this.state.passwd,
+          {
+            navigator: this.props.navigator,
+            component: User,
+            params: "set",
+            reset: true
+          }
+        );
+      });
+    }
   }
 
   switchPage = () => {

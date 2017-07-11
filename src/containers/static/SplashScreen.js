@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, View } from "react-native";
+import { Text, Image, View } from "react-native";
 import { connect } from "react-redux";
 import { StyleProvider, Content, Container, Spinner } from "native-base";
 import getTheme from "../../theme/components";
@@ -41,6 +41,7 @@ class SplashScreen extends Component {
         <Container style={{ backgroundColor: "#fff" }}>
           <Content style={{ marginTop: 100 }}>
             <Spinner color="#6f156d" />
+            <Text style={{ textAlign: "center" }}>Loading badlee</Text>
           </Content>
         </Container>
       </StyleProvider>

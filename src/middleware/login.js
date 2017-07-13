@@ -7,6 +7,7 @@ import * as actionCreators from "../action_creators";
 import Settings from "../settings";
 import { dummyUser, dummyToken, dummyLogin } from "../fixtures";
 import type { Action, LOGIN } from "../types";
+import base64 from "base-64";
 
 async function checkLogin(store, next: Function, action: LOGIN) {
   try {
@@ -14,12 +15,16 @@ async function checkLogin(store, next: Function, action: LOGIN) {
 
     const passwd: string = action.passwd;
     const username: string = action.username;
-    if (username === dummyLogin.username && passwd === dummyLogin.password) {
+    let response = await fetch("http://mri2189.badlee.com/login.php", {
+      headers: {
+        Authorization: `Basic ${base64.encode(username + ":" + passwd)}`
+      },
+      method: "POST"
+    });
+    if (response.status === 403) {
       await AsyncStorage.setItem(Settings.session_key, dummyToken);
-
       action.token = dummyToken;
       action.user = dummyUser;
-
       await store.dispatch(actionCreators.navigate(action.route));
     } else {
       Toast.show({

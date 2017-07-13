@@ -14,6 +14,9 @@ export const dummyLogin: User = {
   password: "demo"
 };
 
+export const applicationID = "xYqBgc1Xcf2Ufyhir5ab";
+export const applicationSecret = "vh4tyy74xAnNLtGagto4";
+
 export const dummySplashScreenTimeout = 3000;
 
 export const dummy__badleeList = [

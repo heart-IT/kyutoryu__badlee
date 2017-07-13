@@ -9,7 +9,12 @@ import type {
   FINISH_LOADING,
   CHANGE_CONNECTION_STATUS
 } from "./types";
-import { dummyUser, dummyToken } from "./fixtures";
+import {
+  dummyUser,
+  dummyToken,
+  applicationID,
+  applicationSecret
+} from "./fixtures";
 
 export const setNavigator = (navigator: any) => ({
   type: "SET_NAVIGATOR",
@@ -19,6 +24,28 @@ export const setNavigator = (navigator: any) => ({
 export const navigate = (route: ?Object) => ({
   type: "NAVIGATE_TO",
   route: route
+});
+
+export const register = (
+  email: string,
+  username: string,
+  passwd: string,
+  application_id: string,
+  application_secret: string,
+  fname: string,
+  lname: string,
+  gender: string,
+  route: Object
+): REGISTER => ({
+  type: "REGISTER",
+  email: email,
+  username: username,
+  passwd: passwd,
+  application_id: applicationID,
+  application_secret: applicationSecret,
+  fname: "John",
+  lname: "Doe",
+  gender: "Male"
 });
 
 export const login = (

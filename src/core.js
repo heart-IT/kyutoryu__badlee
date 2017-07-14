@@ -45,6 +45,10 @@ export function login(state: State, token: string, user: User): State {
     .set("user", user);
 }
 
+export function register(state: State, user: User): Stte {
+  return state.set("loggedIn", true).set("user", user);
+}
+
 export function restoreAuth(state: State, token: string, user: User): State {
   return state
     .set("accessToken", token)

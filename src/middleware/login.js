@@ -21,6 +21,7 @@ async function checkLogin(store, next: Function, action: LOGIN) {
       },
       method: "POST"
     });
+    console.log(response);
     if (response.status === 403) {
       await AsyncStorage.setItem(Settings.session_key, dummyToken);
       action.token = dummyToken;

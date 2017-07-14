@@ -21,6 +21,7 @@
 import { createStore, applyMiddleware } from "redux";
 import { reducer } from "./reducer";
 import loginMiddleware from "./middleware/login";
+import registerMiddleware from "./middleware/register";
 import navigateMiddleware from "./middleware/navigate";
 import restoreAuthMiddleware from "./middleware/restore_auth";
 import logoutMiddleware from "./middleware/logout";
@@ -28,6 +29,7 @@ import logoutMiddleware from "./middleware/logout";
 // List of middleware we are using.
 const middleware = [
   loginMiddleware,
+  registerMiddleware,
   navigateMiddleware,
   restoreAuthMiddleware,
   logoutMiddleware

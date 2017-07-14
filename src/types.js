@@ -28,6 +28,15 @@ export type LOGIN = {|
   route: ?Object
 |};
 
+export type REGISTER = {|
+  type: "REGISTER",
+  user: User,
+  username: string,
+  passwd: string,
+  email: string,
+  route: ?Object
+|};
+
 export type LOGOUT = {| type: "LOGOUT", route: ?Object |};
 
 export type RESTORE_AUTH = {|

@@ -23,6 +23,8 @@ export function reducer(
   switch (action.type) {
     case "LOGIN":
       return core.login(state, action.token, action.user);
+    case "REGISTER":
+      return core.register(state, action.user);
     case "LOGOUT":
       return core.logout(state);
     case "RESTORE_AUTH":

@@ -24,7 +24,7 @@ class Main extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content>
-          <Tabs initialPage={0}>
+          <Tabs initialPage={0} locked="true">
             <Tab
               heading={
                 <TabHeading>
@@ -62,7 +62,6 @@ class Main extends Component {
               <User />
             </Tab>
           </Tabs>
-
         </Content>
       </StyleProvider>
     );

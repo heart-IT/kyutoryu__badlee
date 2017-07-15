@@ -67,9 +67,12 @@ class Store extends Component {
             <Left>
               <Thumbnail source={{ uri: "../images/brook.jpg" }} />
               <Body>
-                <Text>{data["user"]}</Text>
-                <Text>{data["description"]}</Text>
-
+                <Text>
+                  {data["user"]}
+                </Text>
+                <Text>
+                  {data["description"]}
+                </Text>
               </Body>
             </Left>
           </CardItem>
@@ -79,7 +82,6 @@ class Store extends Component {
               source={{ uri: "../../images/luffy.png" }}
               style={{ height: 200, width: null, flex: 1 }}
             />*/}
-
           </CardItem>
 
           <CardItem footer>
@@ -96,7 +98,6 @@ class Store extends Component {
         </Card>
       );
     });
-    console.log(badlees);
     return (
       <StyleProvider style={getTheme()}>
         <Content>
@@ -107,6 +108,7 @@ class Store extends Component {
                   <Icon name="ios-people" />
                 </TabHeading>
               }
+              tabStyle={{ backgroundColor: "#fff" }}
             >
               <View style={{ paddingTop: 4 }}>
                 {badlees}

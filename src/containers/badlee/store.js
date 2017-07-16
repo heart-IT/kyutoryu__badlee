@@ -1,8 +1,11 @@
 "use strict";
 
 import React, { Component } from "react";
-import Image from "react-native";
-import Moment from "moment";
+import { Image, StyleSheet } from "react-native";
+import moment from "moment";
+// import TimeAgo from "react-native-timeago";
+// import Moment from "react-moment";
+
 import {
   StyleProvider,
   Content,
@@ -17,8 +20,10 @@ import {
   Body,
   Thumbnail,
   Left,
-  Button
+  Button,
+  Fab
 } from "native-base";
+import { connectStyle } from "native-base";
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../action_creators";
@@ -26,6 +31,12 @@ import * as actionCreators from "../../action_creators";
 import { dummy__badleeList } from "../../fixtures";
 
 let request_url = "http://mri2189.badlee.com/posts.php";
+
+const styles = StyleSheet.create({
+  tabs: {
+    backgroundColor: "#fff"
+  }
+});
 
 class Store extends Component {
   constructor() {
@@ -56,32 +67,67 @@ class Store extends Component {
       return (
         <Card
           style={{
-            marginLeft: 12,
-            marginRight: 12,
+            marginLeft: 16,
+            marginRight: 16,
             marginBottom: 4,
-            marginTop: 2
+            marginTop: 3,
+            borderRadius: 6
           }}
           key={data["id"]}
         >
           <CardItem header>
             <Left>
-              <Thumbnail source={{ uri: "../images/brook.jpg" }} />
-              <Body>
-                <Text>
+              <Thumbnail
+                source={{
+                  uri: data["photo"]
+                }}
+                style={{ height: 32, width: 32, marginLeft: 12 }}
+              />
+              <Text>
+                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
                   {data["user"]}
                 </Text>
-                <Text>
-                  {data["description"]}
+                <Text style={{ fontSize: 12 }}>'s</Text>
+                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+                  {" "}Thingy
                 </Text>
-              </Body>
+                <Text style={{ fontSize: 12 }}>
+                  {" "}{moment(data["timestamp"]).fromNow()}
+                </Text>
+              </Text>
             </Left>
           </CardItem>
 
-          <CardItem cardBody>
-            {/*<Image
-              source={{ uri: "../../images/luffy.png" }}
-              style={{ height: 200, width: null, flex: 1 }}
-            />*/}
+          <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
+            <Image
+              source={{
+                uri: data["photo"]
+              }}
+              style={{ height: 200, width: "100%", flex: 1 }}
+            />
+            <Body>
+              <Text
+                style={{
+                  marginLeft: 12,
+                  marginTop: 2,
+                  fontWeight: "bold",
+                  fontSize: 12
+                }}
+              >
+                {data["place"]}
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 12,
+                  marginTop: 12,
+                  fontWeight: "bold",
+                  fontSize: 18,
+                  fontStyle: "italic"
+                }}
+              >
+                {data["description"]}
+              </Text>
+            </Body>
           </CardItem>
 
           <CardItem footer>
@@ -101,14 +147,13 @@ class Store extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content>
-          <Tabs style={{ backgroundColor: "#fff" }}>
+          <Tabs class="secondary" style={styles.tabs}>
             <Tab
               heading={
-                <TabHeading>
-                  <Icon name="ios-people" />
+                <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <Icon name="ios-people" style={{ color: "#4b4b4b" }} />
                 </TabHeading>
               }
-              tabStyle={{ backgroundColor: "#fff" }}
             >
               <View style={{ paddingTop: 4 }}>
                 {badlees}
@@ -116,15 +161,18 @@ class Store extends Component {
             </Tab>
             <Tab
               heading={
-                <TabHeading>
-                  <Icon name="ios-locate-outline" />
+                <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <Icon
+                    name="ios-locate-outline"
+                    style={{ color: "#4b4b4b" }}
+                  />
                 </TabHeading>
               }
             />
             <Tab
               heading={
-                <TabHeading>
-                  <Icon name="ios-globe-outline" />
+                <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <Icon name="ios-globe-outline" style={{ color: "#4b4b4b" }} />
                 </TabHeading>
               }
               tabStyle={{ backgroundColor: "red" }}
@@ -133,6 +181,23 @@ class Store extends Component {
               activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
             />
           </Tabs>
+          <Fab
+            direction="up"
+            containerStyle={{}}
+            style={{ backgroundColor: "#5067FF" }}
+            position="bottomRight"
+          >
+            <Icon name="ios-people" />
+            <Button style={{ backgroundColor: "#34A34F" }}>
+              <Icon name="logo-whatsapp" />
+            </Button>
+            <Button style={{ backgroundColor: "#3B5998" }}>
+              <Icon name="logo-facebook" />
+            </Button>
+            <Button disabled style={{ backgroundColor: "#DD5144" }}>
+              <Icon name="mail" />
+            </Button>
+          </Fab>
         </Content>
       </StyleProvider>
     );

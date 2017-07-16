@@ -142,12 +142,12 @@ export default {
   tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#3F51B5",
 
   // Tab
-  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
-  topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
+  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
+  topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#a072a2",
   topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
   topTabActiveBgColor: platform === "ios" ? "#cde1f9" : undefined,
   topTabBarBorderColor: platform === "ios" ? "#a7a6ab" : "#fff",
-  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#fff",
+  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#611265",
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
@@ -210,7 +210,7 @@ export default {
   cardBorderColor: "#ccc",
 
   // Changed Variable
-  listItemPadding: platform === "ios" ? 10 : 12,
+  listItemPadding: platform === "ios" ? 10 : 2,
 
   listNoteColor: "#808080",
   listNoteSize: 13,

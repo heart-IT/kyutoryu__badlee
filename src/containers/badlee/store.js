@@ -147,6 +147,23 @@ class Store extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content>
+          <Fab
+            direction="up"
+            containerStyle={{}}
+            style={{ backgroundColor: "#5067FF" }}
+            position="bottomRight"
+          >
+            <Icon name="ios-people" />
+            <Button style={{ backgroundColor: "#34A34F" }}>
+              <Icon name="logo-whatsapp" />
+            </Button>
+            <Button style={{ backgroundColor: "#3B5998" }}>
+              <Icon name="logo-facebook" />
+            </Button>
+            <Button disabled style={{ backgroundColor: "#DD5144" }}>
+              <Icon name="mail" />
+            </Button>
+          </Fab>
           <Tabs class="secondary" style={styles.tabs}>
             <Tab
               heading={
@@ -181,23 +198,6 @@ class Store extends Component {
               activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
             />
           </Tabs>
-          <Fab
-            direction="up"
-            containerStyle={{}}
-            style={{ backgroundColor: "#5067FF" }}
-            position="bottomRight"
-          >
-            <Icon name="ios-people" />
-            <Button style={{ backgroundColor: "#34A34F" }}>
-              <Icon name="logo-whatsapp" />
-            </Button>
-            <Button style={{ backgroundColor: "#3B5998" }}>
-              <Icon name="logo-facebook" />
-            </Button>
-            <Button disabled style={{ backgroundColor: "#DD5144" }}>
-              <Icon name="mail" />
-            </Button>
-          </Fab>
         </Content>
       </StyleProvider>
     );

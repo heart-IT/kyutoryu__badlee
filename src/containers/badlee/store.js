@@ -67,11 +67,11 @@ class Store extends Component {
       return (
         <Card
           style={{
-            marginLeft: 16,
-            marginRight: 16,
-            marginBottom: 4,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 6,
             marginTop: 3,
-            borderRadius: 6
+            borderRadius: 0
           }}
           key={data["id"]}
         >
@@ -172,7 +172,7 @@ class Store extends Component {
                 </TabHeading>
               }
             >
-              <View style={{ paddingTop: 4 }}>
+              <View style={{ paddingTop: 4, backgroundColor: "#bdbdbd" }}>
                 {badlees}
               </View>
             </Tab>

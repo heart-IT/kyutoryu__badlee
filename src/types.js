@@ -24,7 +24,7 @@ export type LOGIN = {|
   token: string,
   user: User,
   username: string,
-  passwd: string,
+  password: string,
   route: ?Object
 |};
 
@@ -32,8 +32,13 @@ export type REGISTER = {|
   type: "REGISTER",
   user: User,
   username: string,
-  passwd: string,
+  password: string,
   email: string,
+  fname: string,
+  lname: string,
+  gender: string,
+  application_id: string,
+  application_secret: string,
   route: ?Object
 |};
 

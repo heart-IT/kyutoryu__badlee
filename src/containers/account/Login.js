@@ -33,7 +33,7 @@ class Login extends Component {
     this.state = {
       email: null,
       username: null,
-      passwd: null,
+      password: null,
       screenType: "Login"
     };
   }
@@ -41,7 +41,7 @@ class Login extends Component {
   formSubmit() {
     if (this.state.screenType === "Login") {
       requestAnimationFrame(() => {
-        this.props.login(this.state.username, this.state.passwd, {
+        this.props.login(this.state.username, this.state.password, {
           navigator: this.props.navigator,
           component: Main,
           reset: true
@@ -52,7 +52,7 @@ class Login extends Component {
         this.props.register(
           this.state.email,
           this.state.username,
-          this.state.passwd,
+          this.state.password,
           {
             navigator: this.props.navigator,
             component: User,
@@ -119,8 +119,8 @@ class Login extends Component {
               <Label style={{ fontWeight: "bold" }}>Password</Label>
               <Input
                 secureTextEntry={true}
-                onChangeText={passwd => this.setState({ passwd })}
-                value={this.state.passwd}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
               />
             </Item>
             <View style={{ marginBottom: 30 }} />

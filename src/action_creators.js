@@ -29,33 +29,29 @@ export const navigate = (route: ?Object) => ({
 export const register = (
   email: string,
   username: string,
-  passwd: string,
-  application_id: string,
-  application_secret: string,
-  fname: string,
-  lname: string,
-  gender: string,
+  password: string,
   route: Object
 ): REGISTER => ({
   type: "REGISTER",
   email: email,
   username: username,
-  passwd: passwd,
+  password: password,
   application_id: applicationID,
   application_secret: applicationSecret,
-  fname: "John",
-  lname: "Doe",
-  gender: "Male"
+  fname: "Monkey",
+  lname: "D. Luffy",
+  gender: "Male",
+  route: route
 });
 
 export const login = (
   username: string,
-  passwd: string,
+  password: string,
   route: Object
 ): LOGIN => ({
   type: "LOGIN",
   username: username,
-  passwd: passwd,
+  password: password,
   user: dummyUser,
   token: dummyToken,
   route: route

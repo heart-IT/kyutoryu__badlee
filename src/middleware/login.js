@@ -13,19 +13,17 @@ async function checkLogin(store, next: Function, action: LOGIN) {
   try {
     await store.dispatch(actionCreators.startLoading());
 
-    const passwd: string = action.passwd;
+    const password: string = action.password;
     const username: string = action.username;
     let response = await fetch("http://mri2189.badlee.com/login.php", {
       headers: {
-        Authorization: `Basic ${base64.encode(username + ":" + passwd)}`
+        Authorization: `Basic ${base64.encode(username + ":" + password)}`
       },
       method: "POST"
     });
-    console.log(response);
     if (response.status === 200) {
-      // await AsyncStorage.setItem(Settings.session_key, dummyToken);
       await AsyncStorage.setItem("username", username);
-      await AsyncStorage.setItem("passwd", passwd);
+      await AsyncStorage.setItem("password", password);
       action.token = dummyToken;
       action.user = dummyUser;
       await store.dispatch(actionCreators.navigate(action.route));

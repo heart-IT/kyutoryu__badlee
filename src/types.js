@@ -65,6 +65,7 @@ export type SET_NAVIGATOR = {|
 export type Action =
   | LOGIN
   | LOGOUT
+  | REGISTER
   | RESTORE_AUTH
   | START_LOADING
   | FINISH_LOADING

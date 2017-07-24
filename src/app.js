@@ -16,7 +16,7 @@
  * Imp[o]rts Guide :-
  * 1. Backhandler : Detect hardware button presses for back navigation
  * 2. StatusBar : Component to control app status bar.
- * 3. Drawer : App drawer native base component
+ * 3. makeStore : This file makes Redux Store with Middlewares.
  */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";

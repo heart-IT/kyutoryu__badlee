@@ -1,3 +1,17 @@
+/**
+ * To live is so startling it leaves little time to anything else - Emily Dickinson
+ * 
+ * @author - heartit pirates 
+ */
+
+/**
+  * To do :-
+  1. Add screen
+  a. take from rohan
+  b. make a splash screen with next button
+  c. 
+  */
+
 "use strict";
 
 import React, { Component } from "react";
@@ -40,8 +54,7 @@ class SplashScreen extends Component {
       <StyleProvider style={getTheme()}>
         <Container style={{ backgroundColor: "#fff" }}>
           <Content style={{ marginTop: 100 }}>
-            <Spinner color="#6f156d" />
-            <Text style={{ textAlign: "center" }}>Loading badlee</Text>
+            <Text style={{ textAlign: "center" }}>Loading Badlee</Text>
           </Content>
         </Container>
       </StyleProvider>

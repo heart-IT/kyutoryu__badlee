@@ -55,7 +55,7 @@ class Login extends Component {
           this.state.password,
           {
             navigator: this.props.navigator,
-            component: User,
+            component: Main,
             params: "set",
             reset: true
           }

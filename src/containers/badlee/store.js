@@ -50,34 +50,21 @@ class Store extends Component {
   }
 
   componentDidMount() {
-    var myHeaders = new Headers();
-
     var myInit = {
       method: "GET",
+      mode: "no-cors",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        mode: "cors"
+        "Content-Type": "application/json"
       }
     };
 
     fetch(request_url, myInit).then(response => {
       if (response.status === 200) {
-        var json = response.json();
+        var json = response.text();
         console.log(json);
-        this.setState("badlees", json);
+        console.log(json["_1"]);
+        // this.setState({ badlees: json["_1"] });
       }
-    });
-  }
-
-  fetchData(offset) {
-    fetch(request_url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "text/json"
-      }
-    }).then(response => {
-      console.log(response);
     });
   }
 

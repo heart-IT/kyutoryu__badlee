@@ -27,6 +27,19 @@ import Main from "../static/Main";
 import User from "./User";
 import type { State } from "../../types";
 
+class BackgroundImage extends Component {
+  render() {
+    return (
+      <Image
+        source={require("../../images/login__bg.png")}
+        style={styles.backgroundImage}
+      >
+        {this.props.children}
+      </Image>
+    );
+  }
+}
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -76,107 +89,109 @@ class Login extends Component {
     const screenType = this.state.screenType;
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
-          <Text
-            style={{
-              marginTop: 60,
-              marginBottom: 9,
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 24,
-              color: "#6f156d"
-            }}
-          >
-            badlee
-          </Text>
-          <Text
-            style={{
-              color: "#616161",
-              marginBottom: 20,
-              textAlign: "center",
-              fontSize: 14
-            }}
-          >
-            badal ke dekho zara samaan
-          </Text>
-          <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
-            {screenType === "Register" &&
-              <Item floatingLabel marxFormElement>
-                <Label style={{ fontWeight: "bold" }}>Email</Label>
-                <Input
-                  onChangeText={email => this.setState({ email })}
-                  value={this.state.email}
-                />
-              </Item>}
-            <Item floatingLabel marxFormElement>
-              <Label style={{ fontWeight: "bold" }}>Username</Label>
-              <Input
-                onChangeText={username => this.setState({ username })}
-                value={this.state.username}
-              />
-            </Item>
-            <Item floatingLabel marxFormElement>
-              <Label style={{ fontWeight: "bold" }}>Password</Label>
-              <Input
-                secureTextEntry={true}
-                onChangeText={password => this.setState({ password })}
-                value={this.state.password}
-              />
-            </Item>
-            <View style={{ marginBottom: 30 }} />
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <Button
-                violet
-                common
-                block
-                marxFormElement
-                onPress={this.formSubmit.bind(this)}
-              >
-                <Text>
-                  {screenType}
-                </Text>
-              </Button>
-            </View>
-          </Form>
-          {screenType === "Login" &&
+        <BackgroundImage>
+          <Content>
+            <Text
+              style={{
+                marginTop: 60,
+                marginBottom: 9,
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 24,
+                color: "#6f156d"
+              }}
+            >
+              badlee
+            </Text>
             <Text
               style={{
                 color: "#616161",
+                marginBottom: 20,
                 textAlign: "center",
-                fontWeight: "bold",
-                fontSize: 15,
-                marginTop: 4
+                fontSize: 14
               }}
             >
-              Forgot password?
-            </Text>}
-          <View
-            style={{
-              marginTop: 60,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <Text style={{ textAlign: "center" }}>
-              {screenType === "Login"
-                ? "Don't have an account?"
-                : "Already have an account"}
+              badal ke dekho zara samaan
             </Text>
-            <Button
-              onPress={this.switchPage}
+            <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
+              {screenType === "Register" &&
+                <Item floatingLabel marxFormElement>
+                  <Label style={{ fontWeight: "bold" }}>Email</Label>
+                  <Input
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.email}
+                  />
+                </Item>}
+              <Item floatingLabel marxFormElement>
+                <Label style={{ fontWeight: "bold" }}>Username</Label>
+                <Input
+                  onChangeText={username => this.setState({ username })}
+                  value={this.state.username}
+                />
+              </Item>
+              <Item floatingLabel marxFormElement>
+                <Label style={{ fontWeight: "bold" }}>Password</Label>
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={password => this.setState({ password })}
+                  value={this.state.password}
+                />
+              </Item>
+              <View style={{ marginBottom: 30 }} />
+              <View style={{ marginLeft: 10, marginRight: 10 }}>
+                <Button
+                  violet
+                  common
+                  block
+                  marxFormElement
+                  onPress={this.formSubmit.bind(this)}
+                >
+                  <Text>
+                    {screenType}
+                  </Text>
+                </Button>
+              </View>
+            </Form>
+            {screenType === "Login" &&
+              <Text
+                style={{
+                  color: "#616161",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  marginTop: 4
+                }}
+              >
+                Forgot password?
+              </Text>}
+            <View
               style={{
-                marginLeft: 6,
-                backgroundColor: "#DE6449",
-                borderRadius: 4
+                marginTop: 60,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
               }}
             >
-              <Text style={{ fontWeight: "400", fontSize: 14 }}>
-                {screenType === "Login" ? "Register" : "Login"}
+              <Text style={{ textAlign: "center" }}>
+                {screenType === "Login"
+                  ? "Don't have an account?"
+                  : "Already have an account"}
               </Text>
-            </Button>
-          </View>
-        </Content>
+              <Button
+                onPress={this.switchPage}
+                style={{
+                  marginLeft: 6,
+                  backgroundColor: "#DE6449",
+                  borderRadius: 4
+                }}
+              >
+                <Text style={{ fontWeight: "400", fontSize: 14 }}>
+                  {screenType === "Login" ? "Register" : "Login"}
+                </Text>
+              </Button>
+            </View>
+          </Content>
+        </BackgroundImage>
       </StyleProvider>
     );
   }

@@ -9,12 +9,7 @@ import type {
   FINISH_LOADING,
   CHANGE_CONNECTION_STATUS
 } from "./types";
-import {
-  dummyUser,
-  dummyToken,
-  applicationID,
-  applicationSecret
-} from "./fixtures";
+import { applicationID, applicationSecret } from "./fixtures";
 
 export const setNavigator = (navigator: any) => ({
   type: "SET_NAVIGATOR",
@@ -52,8 +47,6 @@ export const login = (
   type: "LOGIN",
   username: username,
   password: password,
-  user: dummyUser,
-  token: dummyToken,
   route: route
 });
 
@@ -64,9 +57,7 @@ export const logout = (route: ?Object): LOGOUT => ({
 
 export const restoreAuth = (route: ?Object = null): RESTORE_AUTH => ({
   type: "RESTORE_AUTH",
-  route: route,
-  token: dummyToken,
-  user: dummyUser
+  route: route
 });
 
 export const startLoading = (): START_LOADING => ({ type: "START_LOADING" });

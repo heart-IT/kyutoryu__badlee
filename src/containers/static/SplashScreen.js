@@ -52,9 +52,27 @@ class SplashScreen extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container style={{ backgroundColor: "#fff" }}>
+        <Container style={{ backgroundColor: "#fff", alignItems: "center" }}>
           <Content style={{ marginTop: 100 }}>
-            <Text style={{ textAlign: "center" }}>Loading Badlee</Text>
+            <Image
+              source={require("../../images/badlee.png")}
+              style={{
+                width: 40,
+                height: 40,
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: 8
+              }}
+            />
+            <Text
+              style={{
+                textAlign: "center",
+                color: "#611265",
+                fontWeight: "bold"
+              }}
+            >
+              Loading Badlee
+            </Text>
           </Content>
         </Container>
       </StyleProvider>

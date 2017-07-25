@@ -14,6 +14,8 @@ import type { Record as RecordType } from "immutable";
 
 export type Dispatch = Function;
 
+export type applicationSecrets = String;
+
 export type User = {|
   username: string,
   password: string

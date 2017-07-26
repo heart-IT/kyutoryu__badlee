@@ -22,7 +22,7 @@ export default {
   badgePadding: platform === "ios" ? 3 : 0,
 
   // Button
-  btnFontFamily: platform === "ios" ? "System" : "Roboto_medium",
+  btnFontFamily: platform === "ios" ? "System" : "Poiret One_medium",
   btnDisabledBg: "#b5b5b5",
   btnDisabledClr: "#f1f1f1",
 
@@ -116,7 +116,8 @@ export default {
   brandSidebar: "#252932",
 
   // Font
-  fontFamily: platform === "ios" ? "System" : "Roboto",
+  // fontFamily: platform === "ios" ? "System" : "Poiret One",
+  fontFamily: "Poiret One",
   fontSizeBase: 15,
 
   get fontSizeH1() {
@@ -247,7 +248,7 @@ export default {
   noteFontSize: 14,
 
   // Title
-  titleFontfamily: platform === "ios" ? "System" : "Roboto_medium",
+  titleFontfamily: platform === "ios" ? "System" : "Poiret One_medium",
   titleFontSize: platform === "ios" ? 17 : 19,
   subTitleFontSize: platform === "ios" ? 12 : 14,
   subtitleColor: platform === "ios" ? "#8e8e93" : "#FFF",

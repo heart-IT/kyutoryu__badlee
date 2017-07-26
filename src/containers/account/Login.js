@@ -10,6 +10,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Image } from "react-native";
 import {
   StyleProvider,
   Form,
@@ -196,6 +197,15 @@ class Login extends Component {
     );
   }
 }
+
+const styles = {
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: "cover"
+  }
+};
 
 const _Wrapped = connect(
   (state: State) => ({

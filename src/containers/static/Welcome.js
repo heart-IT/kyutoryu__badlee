@@ -61,7 +61,13 @@ class Welcome extends Component {
                     marginBottom: 30
                   }}
                 />
-                <Text style={{ textAlign: "center", marginBottom: 5 }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    marginBottom: 5,
+                    fontFamily: "Righteous"
+                  }}
+                >
                   An exclusive social network for your commodity needs.
                 </Text>
                 <Text style={{ textAlign: "center", marginBottom: 5 }}>

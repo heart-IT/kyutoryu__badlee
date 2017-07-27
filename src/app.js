@@ -69,6 +69,7 @@ class BadleeApp extends Component {
 
   /**
    * Render Badlee App with our Redux store provider. 
+   * 1. save reference of Navigator to scopeNavigator variable
    * Initial Route is SplashScreen.
    */
   render() {

@@ -92,45 +92,46 @@ class Login extends Component {
       <StyleProvider style={getTheme()}>
         <BackgroundImage>
           <Content>
+            <Image
+              source={require("../../images/badlee.png")}
+              style={{
+                height: 48,
+                width: 48,
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: 6
+              }}
+            />
             <Text
               style={{
-                marginTop: 60,
-                marginBottom: 9,
+                marginTop: 30,
+                marginBottom: 30,
                 textAlign: "center",
-                fontWeight: "bold",
-                fontSize: 24,
-                color: "#6f156d"
+                fontFamily: "Righteous-Regular",
+                fontSize: 33,
+                color: "#fff"
               }}
             >
-              badlee
+              Login
             </Text>
-            <Text
-              style={{
-                color: "#616161",
-                marginBottom: 20,
-                textAlign: "center",
-                fontSize: 14
-              }}
-            >
-              badal ke dekho zara samaan
-            </Text>
-            <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
+            <Form style={{ paddingLeft: 80, paddingRight: 80 }}>
+              <Item marxFormElement>
+                <Label style={{ fontWeight: "bold" }}>Use</Label>
+                <Input
+                  onChangeText={username => this.setState({ username })}
+                  value={this.state.username}
+                  style={{ marginLeft: 80 }}
+                />
+              </Item>
               {screenType === "Register" &&
-                <Item floatingLabel marxFormElement>
+                <Item marxFormElement>
                   <Label style={{ fontWeight: "bold" }}>Email</Label>
                   <Input
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
                   />
                 </Item>}
-              <Item floatingLabel marxFormElement>
-                <Label style={{ fontWeight: "bold" }}>Username</Label>
-                <Input
-                  onChangeText={username => this.setState({ username })}
-                  value={this.state.username}
-                />
-              </Item>
-              <Item floatingLabel marxFormElement>
+              <Item marxFormElement>
                 <Label style={{ fontWeight: "bold" }}>Password</Label>
                 <Input
                   secureTextEntry={true}

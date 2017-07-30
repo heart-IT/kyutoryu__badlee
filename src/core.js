@@ -38,22 +38,17 @@ export function setNavigator(state: State, navigator: any): State {
   return state.set("navigator", navigator);
 }
 
-export function login(state: State, token: string, user: User): State {
-  return state
-    .set("accessToken", token)
-    .set("loggedIn", true)
-    .set("user", user);
+export function login(state: State, user: User): State {
+  console.log("is here2");
+  return state.set("loggedIn", true).set("user", user);
 }
 
 export function register(state: State, user: User): Stte {
   return state.set("loggedIn", true).set("user", user);
 }
 
-export function restoreAuth(state: State, token: string, user: User): State {
-  return state
-    .set("accessToken", token)
-    .set("loggedIn", true)
-    .set("user", user);
+export function restoreAuth(state: State, user: User): State {
+  return state.set("loggedIn", true).set("user", user);
 }
 
 export function logout(state: State): State {

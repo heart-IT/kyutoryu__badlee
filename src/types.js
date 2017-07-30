@@ -18,7 +18,12 @@ export type applicationSecrets = String;
 
 export type User = {|
   username: string,
-  password: string
+  password: string,
+  email: string,
+  fname: string,
+  lname: string,
+  gender: string,
+  avatar: string
 |};
 
 export type LOGIN = {|

@@ -22,14 +22,13 @@ export function reducer(
 ): State {
   switch (action.type) {
     case "LOGIN":
-      console.log(state, action);
-      return core.login(state, action.token, action.user);
+      return core.login(state, action.user);
     case "REGISTER":
       return core.register(state, action.user);
     case "LOGOUT":
       return core.logout(state);
     case "RESTORE_AUTH":
-      return core.restoreAuth(state, action.token, action.user);
+      return core.restoreAuth(state, action.user);
     case "START_LOADING":
       return core.startLoading(state);
     case "FINISH_LOADING":

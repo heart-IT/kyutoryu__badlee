@@ -36,10 +36,10 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
     });
 
     let route = action.route;
-    let user = await AsyncStorage.getItem("sss");
+    let user = await AsyncStorage.getItem("user");
 
     if (user) {
-      action.user = user;
+      action.user = JSON.parse(user);
 
       // only call next if we have username
       next(action);

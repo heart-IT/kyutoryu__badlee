@@ -24,7 +24,7 @@ async function checkLogin(store, next: Function, action: LOGIN) {
     if (response.status === 200 && response.ok === true) {
       let user = await response.json();
       let jollyroger = `Basic ${base64.encode(username + ":" + password)}`;
-      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
       await AsyncStorage.setItem("jollyroger", jollyroger);
       action.user = user;
       await store.dispatch(actionCreators.navigate(action.route));

@@ -41,8 +41,9 @@ async function doRegistration(store, next: Function, action: REGISTER) {
       let jollyroger = `Basic ${base64.encode(
         data.username + ":" + data.password
       )}`;
-      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
       await AsyncStorage.setItem("jollyroger", jollyroger);
+      action.user = user;
       await store.dispatch(actionCreators.navigate(action.route));
     }
   } finally {

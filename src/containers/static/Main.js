@@ -24,7 +24,7 @@ class Main extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content>
-          <Tabs initialPage={0} locked="true">
+          <Tabs initialPage={0}>
             <Tab
               heading={
                 <TabHeading>

@@ -34,7 +34,9 @@ class User extends Component {
               <Text>Username</Text>
             </Left>
             <Body>
-              <Text>{this.props.user.username}</Text>
+              <Text>
+                {this.props.user.username}
+              </Text>
             </Body>
           </ListItem>
 

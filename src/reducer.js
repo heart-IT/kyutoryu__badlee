@@ -22,6 +22,7 @@ export function reducer(
 ): State {
   switch (action.type) {
     case "LOGIN":
+      console.log(state, action);
       return core.login(state, action.token, action.user);
     case "REGISTER":
       return core.register(state, action.user);

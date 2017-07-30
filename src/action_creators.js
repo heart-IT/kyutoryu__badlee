@@ -28,14 +28,18 @@ export const register = (
   route: Object
 ): REGISTER => ({
   type: "REGISTER",
-  email: email,
   username: username,
+  email: email,
   password: password,
   application_id: applicationID,
   application_secret: applicationSecret,
-  fname: "Monkey",
-  lname: "D. Luffy",
-  gender: "Male",
+  fname: ["Monkey", "Jiraiya", "Ichigo", "Zoro"][Math.floor(Math.random() * 4)],
+  lname: ["D. Luffy", "Ichigo", "Sama", "Lost"][Math.floor(Math.random() * 4)],
+  gender: ["Male", "Female", "Shinigami"][Math.floor(Math.random() * 3)],
+  avatar: [
+    "https://qph.ec.quoracdn.net/main-qimg-c0f2e7c8e5fb40c52acd389e5de0d314",
+    "https://ramenchan.files.wordpress.com/2011/12/jiraiya_forever_by_ernie1991-d2ykhfi.png"
+  ][Math.floor(Math.random() * 2)],
   route: route
 });
 

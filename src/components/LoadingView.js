@@ -28,7 +28,8 @@ const styles = {
     left: 0,
     right: 0,
     backgroundColor: "#CCC",
-    opacity: 0.5
+    opacity: 0.5,
+    zIndex: 9999
   },
   spinner: {
     flex: 1,

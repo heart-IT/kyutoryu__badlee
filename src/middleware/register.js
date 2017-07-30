@@ -5,19 +5,21 @@ import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
 import Settings from "../settings";
 import type { Action, REGISTER } from "../types";
+import base64 from "base-64";
 
 async function doRegistration(store, next: Function, action: REGISTER) {
   try {
     await store.dispatch(actionCreators.startLoading());
     var data = {
+      username: action.username,
+      email: action.email,
+      password: action.password,
       application_id: action.application_id,
       application_secret: action.application_secret,
-      email: action.email,
       fname: action.fname,
       lname: action.lname,
       gender: action.gender,
-      username: action.username,
-      password: action.password
+      avatar: action.avatar
     };
     var formBody = [];
     for (var property in data) {
@@ -26,7 +28,6 @@ async function doRegistration(store, next: Function, action: REGISTER) {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    console.log(data);
     let response = await fetch("http://mri2189.badlee.com/register.php", {
       method: "POST",
       headers: {
@@ -35,9 +36,13 @@ async function doRegistration(store, next: Function, action: REGISTER) {
       },
       body: formBody
     });
-    if (response.status === 200) {
-      await AsyncStorage.setItem("username", data.username);
-      await AsyncStorage.setItem("password", data.password);
+    if (response.status === 200 && response.ok === true) {
+      let user = await response.json();
+      let jollyroger = `Basic ${base64.encode(
+        data.username + ":" + data.password
+      )}`;
+      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("jollyroger", jollyroger);
       await store.dispatch(actionCreators.navigate(action.route));
     }
   } finally {

@@ -12,7 +12,6 @@ import base64 from "base-64";
 async function checkLogin(store, next: Function, action: LOGIN) {
   try {
     await store.dispatch(actionCreators.startLoading());
-
     const password: string = action.password;
     const username: string = action.username;
     let response = await fetch("http://mri2189.badlee.com/login.php", {
@@ -22,11 +21,11 @@ async function checkLogin(store, next: Function, action: LOGIN) {
       },
       method: "POST"
     });
-    var user = await response.json();
-    if (response.status === 200) {
-      await AsyncStorage.setItem("username", username);
-      await AsyncStorage.setItem("password", password);
+    if (response.status === 200 && response.ok === true) {
+      let user = await response.json();
+      let jollyroger = `Basic ${base64.encode(username + ":" + password)}`;
       await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("jollyroger", jollyroger);
       action.user = user;
       await store.dispatch(actionCreators.navigate(action.route));
     } else {

@@ -20,7 +20,8 @@ import {
   Button,
   Text,
   View,
-  Content
+  Content,
+  Icon
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../action_creators";
@@ -70,7 +71,9 @@ class Login extends Component {
           {
             navigator: this.props.navigator,
             component: Main,
-            params: "set",
+            params: {
+              registered: true
+            },
             reset: true
           }
         );
@@ -80,7 +83,7 @@ class Login extends Component {
 
   switchPage = () => {
     if (this.state.screenType === "Login") {
-      this.setState({ screenType: "Register" });
+      this.setState({ screenType: "Sign Up" });
     } else {
       this.setState({ screenType: "Login" });
     }
@@ -114,83 +117,80 @@ class Login extends Component {
             >
               Login
             </Text>
-            <Form style={{ paddingLeft: 80, paddingRight: 80 }}>
-              <Item marxFormElement>
-                <Label style={{ fontWeight: "bold" }}>Use</Label>
-                <Input
-                  onChangeText={username => this.setState({ username })}
-                  value={this.state.username}
-                  style={{ marginLeft: 80 }}
-                />
-              </Item>
-              {screenType === "Register" &&
-                <Item marxFormElement>
-                  <Label style={{ fontWeight: "bold" }}>Email</Label>
+            <Form
+              style={{
+                paddingLeft: 36,
+                paddingRight: 36,
+                width: 300,
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
+            >
+              <View style={styles.inputWrapper}>
+                <Icon name="contact" style={styles.inputIcon} />
+                <Item style={styles.boxWrapper}>
                   <Input
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.email}
+                    onChangeText={username => this.setState({ username })}
+                    value={this.state.username}
+                    placeholder="User_Name"
+                    placeholderTextColor="#7d5c85"
+                    fontFamily="PoiretOne-Regular"
+                    style={styles.inputBox}
                   />
-                </Item>}
-              <Item marxFormElement>
-                <Label style={{ fontWeight: "bold" }}>Password</Label>
-                <Input
-                  secureTextEntry={true}
-                  onChangeText={password => this.setState({ password })}
-                  value={this.state.password}
-                />
-              </Item>
+                </Item>
+              </View>
+              {screenType === "Sign Up" &&
+                <View style={styles.inputWrapper}>
+                  <Icon name="settings" style={styles.inputIcon} />
+                  <Item style={styles.boxWrapper}>
+                    <Input
+                      onChangeText={email => this.setState({ email })}
+                      value={this.state.email}
+                      placeholder="Email"
+                      placeholderTextColor="#7d5c85"
+                      fontFamily="PoiretOne-Regular"
+                      style={styles.inputBox}
+                    />
+                  </Item>
+                </View>}
+              <View style={styles.inputWrapper}>
+                <Icon name="settings" style={styles.inputIcon} />
+                <Item style={styles.boxWrapper}>
+                  <Input
+                    secureTextEntry={true}
+                    onChangeText={password => this.setState({ password })}
+                    placeholder="Password"
+                    placeholderTextColor="#7d5c85"
+                    fontFamily="PoiretOne-Regular"
+                    value={this.state.password}
+                    style={styles.inputBox}
+                  />
+                </Item>
+              </View>
               <View style={{ marginBottom: 30 }} />
               <View style={{ marginLeft: 10, marginRight: 10 }}>
                 <Button
-                  violet
                   common
-                  block
-                  marxFormElement
                   onPress={this.formSubmit.bind(this)}
+                  style={styles.submitButton}
                 >
-                  <Text>
+                  <Text style={styles.submitButtonText}>
                     {screenType}
                   </Text>
                 </Button>
               </View>
             </Form>
             {screenType === "Login" &&
-              <Text
-                style={{
-                  color: "#616161",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  marginTop: 4
-                }}
-              >
-                Forgot password?
-              </Text>}
-            <View
-              style={{
-                marginTop: 60,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              <Text style={{ textAlign: "center" }}>
+              <Text style={styles.forgotPasswordText}>Forgot password?</Text>}
+            <View style={styles.pageSwitcher}>
+              <Text style={styles.switcherText}>
                 {screenType === "Login"
-                  ? "Don't have an account?"
+                  ? "New to the community?"
                   : "Already have an account"}
               </Text>
-              <Button
-                onPress={this.switchPage}
-                style={{
-                  marginLeft: 6,
-                  backgroundColor: "#DE6449",
-                  borderRadius: 4
-                }}
-              >
-                <Text style={{ fontWeight: "400", fontSize: 14 }}>
-                  {screenType === "Login" ? "Register" : "Login"}
-                </Text>
-              </Button>
+              <Text style={styles.switcherTextLink} onPress={this.switchPage}>
+                {screenType === "Login" ? "Sign Up" : "Login"}
+              </Text>
             </View>
           </Content>
         </BackgroundImage>
@@ -205,6 +205,73 @@ const styles = {
     width: null,
     height: null,
     resizeMode: "cover"
+  },
+  inputWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  inputIcon: {
+    color: "#fff",
+    flex: 3,
+    textAlign: "center",
+    borderRightWidth: 1,
+    borderColor: "#fff"
+  },
+  boxWrapper: {
+    flex: 12,
+    paddingLeft: 15,
+    borderBottomWidth: 0
+  },
+  inputBox: {
+    color: "#fff",
+    fontSize: 21,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
+    height: 36,
+    padding: 0,
+    marginBottom: 12
+  },
+  submitButton: {
+    backgroundColor: "#fff",
+    padding: 0,
+    paddingTop: 0,
+    height: 42,
+    margin: 0,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  submitButtonText: {
+    color: "#611265",
+    fontFamily: "PoiretOne-Regular",
+    fontSize: 18
+  },
+  forgotPasswordText: {
+    color: "#fff",
+    textDecorationLine: "underline",
+    fontFamily: "PoiretOne-Regular",
+    textAlign: "center",
+    fontSize: 16,
+    marginTop: 9
+  },
+  pageSwitcher: {
+    marginTop: 36,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  switcherText: {
+    textAlign: "center",
+    color: "#fff",
+    fontFamily: "PoiretOne-Regular",
+    fontSize: 16
+  },
+  switcherTextLink: {
+    marginLeft: 6,
+    textDecorationLine: "underline",
+    color: "#fff",
+    fontFamily: "PoiretOne-Regular",
+    fontSize: 18
   }
 };
 

@@ -15,16 +15,18 @@
 /**
  * Imp[o]rts Guide :-
  * 1. Backhandler : Detect hardware button presses for back navigation
- * 2. StatusBar : Component to control app status bar.
- * 3. makeStore : This file makes Redux Store with Middlewares.
+ * 2. makeStore : This file makes Redux Store with Middlewares.
+ * 3. badlee redux store and connection fns
+ * 4. action factories
+ * 5. splash screen component
  */
 import React, { Component } from "react";
-import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
-import { makeStore } from "./store";
+import { View, StyleSheet, BackHandler } from "react-native";
+import { Navigator } from "react-native-deprecated-custom-components";
+import { makeStore } from "./badlee_store/store";
 import { connect, Provider } from "react-redux";
 import * as actionCreators from "./action_creators";
 import SplashScreen from "./containers/static/SplashScreen";
-import { Navigator } from "react-native-deprecated-custom-components";
 
 /**
  * Navigator handles the transition between different scenes in your app.

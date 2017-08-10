@@ -9,7 +9,7 @@ import type {
   FINISH_LOADING,
   CHANGE_CONNECTION_STATUS
 } from "./types";
-import { applicationID, applicationSecret } from "./fixtures";
+import { applicationID, applicationSecret } from "./../fixtures";
 
 export const setNavigator = (navigator: any) => ({
   type: "SET_NAVIGATOR",

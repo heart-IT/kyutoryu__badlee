@@ -15,7 +15,7 @@ import { Image, View, Text, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { StyleProvider, Button } from "native-base";
 import getTheme from "../../theme/components";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 import Login from "../account/Login";
 import Swiper from "react-native-swiper";
 

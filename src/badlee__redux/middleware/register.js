@@ -3,7 +3,7 @@
 
 import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
-import Settings from "../settings";
+import Settings from "../../settings";
 import type { Action, REGISTER } from "../types";
 import base64 from "base-64";
 

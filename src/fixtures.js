@@ -1,5 +1,5 @@
 // @flow
-import { applicationSecrets } from "./types";
+import { applicationSecrets } from "./badlee__redux/types";
 
 export const applicationID: applicationSecrets = "xYqBgc1Xcf2Ufyhir5ab";
 export const applicationSecret: applicationSecrets = "vh4tyy74xAnNLtGagto4";

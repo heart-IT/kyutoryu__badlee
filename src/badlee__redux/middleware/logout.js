@@ -3,7 +3,7 @@
 import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
-import Settings from "../settings";
+import Settings from "../../settings";
 import type { Action, LOGOUT } from "../types";
 
 async function removeStore(store, next: Function, action: LOGOUT) {

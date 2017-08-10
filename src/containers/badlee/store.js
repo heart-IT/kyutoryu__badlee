@@ -26,7 +26,7 @@ import {
 import { connectStyle } from "native-base";
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 
 import { dummy__badleeList } from "../../fixtures";
 

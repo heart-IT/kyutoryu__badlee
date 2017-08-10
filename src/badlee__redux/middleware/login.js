@@ -4,8 +4,8 @@
 import { Toast } from "native-base";
 import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
-import Settings from "../settings";
-import { dummyUser, dummyToken, dummyLogin } from "../fixtures";
+import Settings from "../../settings";
+import { dummyUser, dummyToken, dummyLogin } from "../../fixtures";
 import type { Action, LOGIN } from "../types";
 import base64 from "base-64";
 

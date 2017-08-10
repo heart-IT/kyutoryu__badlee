@@ -23,9 +23,9 @@
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler } from "react-native";
 import { Navigator } from "react-native-deprecated-custom-components";
-import { makeStore } from "./badlee_store/store";
+import { makeStore } from "./badlee__redux/store";
+import * as actionCreators from "./badlee__redux/action_creators";
 import { connect, Provider } from "react-redux";
-import * as actionCreators from "./action_creators";
 import SplashScreen from "./containers/static/SplashScreen";
 
 /**

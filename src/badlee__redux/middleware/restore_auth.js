@@ -4,8 +4,8 @@
 import { Toast } from "native-base";
 import { AsyncStorage, NetInfo } from "react-native";
 import * as actionCreators from "../action_creators";
-import Settings from "../settings";
-import { dummyUser } from "../fixtures";
+import Settings from "../../settings";
+import { dummyUser } from "../../fixtures";
 import type { Action, RESTORE_AUTH } from "../types";
 
 function getNextRoute(route, isAuthanticated) {

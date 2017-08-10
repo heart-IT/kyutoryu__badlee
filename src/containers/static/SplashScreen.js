@@ -19,7 +19,7 @@ import { Text, Image, View } from "react-native";
 import { connect } from "react-redux";
 import { StyleProvider, Content, Container, Spinner } from "native-base";
 import getTheme from "../../theme/components";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 import Welcome from "./Welcome";
 import Main from "./Main";
 import { dummySplashScreenTimeout } from "../../fixtures";

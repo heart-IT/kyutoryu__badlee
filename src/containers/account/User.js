@@ -13,7 +13,7 @@ import {
 } from "native-base";
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 import Welcome from "../static/Welcome";
 
 class User extends Component {

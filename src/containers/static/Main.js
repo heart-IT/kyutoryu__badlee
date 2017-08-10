@@ -13,7 +13,7 @@ import {
   Icon
 } from "native-base";
 import getTheme from "../../theme/components";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 import type { State } from "../../types";
 
 import Store from "../badlee/store";

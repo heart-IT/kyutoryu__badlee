@@ -17,6 +17,7 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 import type { State } from "../../types";
 
 import Store from "../badlee/store";
+import MessageThread from "../MessageThread";
 import User from "../account/User";
 
 class Main extends Component {
@@ -41,7 +42,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Wingardium Levoisa</Text>
+              <MessageThread />
             </Tab>
             <Tab
               heading={

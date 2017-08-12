@@ -14,6 +14,8 @@ import * as actionCreators from "../badlee__redux/action_creators";
 import { StyleProvider, Content, Tabs, Tab, Text } from "native-base";
 import getTheme from "../theme/components";
 
+import Svg from "react-native-svg";
+
 class Main extends Component {
   constructor() {
     super();

@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, ListView } from "react-native";
 import moment from "moment";
 // import TimeAgo from "react-native-timeago";
 // import Moment from "react-moment";
@@ -35,17 +35,24 @@ let request_url = "http://mri2189.badlee.com/posts.php";
 const styles = StyleSheet.create({
   tabs: {
     backgroundColor: "#fff"
+  },
+  fab: {
+    backgroundColor: "#5067FF"
   }
 });
 
 class Store extends Component {
   constructor() {
     super();
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
     this.state = {
       offset: 0,
       loaded: false,
       isLoading: false,
-      badlees: dummy__badleeList
+      badlees: dummy__badleeList,
+      dataSource: ds.cloneWithRows(dummy__badleeList)
     };
   }
 
@@ -61,15 +68,12 @@ class Store extends Component {
     fetch(request_url, myInit).then(response => {
       if (response.status === 200) {
         var json = response.text();
-        console.log(json);
-        console.log(json["_1"]);
-        // this.setState({ badlees: json["_1"] });
       }
     });
   }
 
   render() {
-    var badlees = this.state.badlees.map(data => {
+    function badlee(data) {
       return (
         <Card
           style={{
@@ -149,67 +153,72 @@ class Store extends Component {
           </CardItem>
         </Card>
       );
-    });
+    }
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
-          <Fab
-            direction="up"
-            containerStyle={{}}
-            style={{ backgroundColor: "#5067FF" }}
-            position="bottomRight"
-          >
-            <Icon name="ios-people" />
-            <Button style={{ backgroundColor: "#34A34F" }}>
-              <Icon name="logo-whatsapp" />
-            </Button>
-            <Button style={{ backgroundColor: "#3B5998" }}>
-              <Icon name="logo-facebook" />
-            </Button>
-            <Button disabled style={{ backgroundColor: "#DD5144" }}>
-              <Icon name="mail" />
-            </Button>
-          </Fab>
-          <Tabs class="secondary" style={styles.tabs}>
-            <Tab
-              heading={
-                <TabHeading style={{ backgroundColor: "#fff" }}>
-                  <Icon name="ios-people" style={{ color: "#4b4b4b" }} />
-                </TabHeading>
-              }
-            >
-              <View style={{ paddingTop: 4, backgroundColor: "#bdbdbd" }}>
-                {badlees}
-              </View>
-            </Tab>
-            <Tab
-              heading={
-                <TabHeading style={{ backgroundColor: "#fff" }}>
-                  <Icon
-                    name="ios-locate-outline"
-                    style={{ color: "#4b4b4b" }}
-                  />
-                </TabHeading>
-              }
-            />
-            <Tab
-              heading={
-                <TabHeading style={{ backgroundColor: "#fff" }}>
-                  <Icon name="ios-globe-outline" style={{ color: "#4b4b4b" }} />
-                </TabHeading>
-              }
-              tabStyle={{ backgroundColor: "red" }}
-              textStyle={{ color: "#fff" }}
-              activeTabStyle={{ backgroundColor: "red" }}
-              activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
-            />
-          </Tabs>
+        <Content style={{ display: "flex" }}>
+          <View style={{ flex: 1 }}>
+            <Fab direction="up" style={styles.fab} position="bottomRight">
+              <Icon name="ios-people" />
+              <Button style={{ backgroundColor: "#34A34F" }}>
+                <Icon name="logo-whatsapp" />
+              </Button>
+              <Button style={{ backgroundColor: "#3B5998" }}>
+                <Icon name="logo-facebook" />
+              </Button>
+              <Button disabled style={{ backgroundColor: "#DD5144" }}>
+                <Icon name="mail" />
+              </Button>
+            </Fab>
+            <Tabs class="secondary" style={styles.tabs}>
+              <Tab
+                heading={
+                  <TabHeading style={{ backgroundColor: "#fff" }}>
+                    <Icon name="ios-people" style={{ color: "#4b4b4b" }} />
+                  </TabHeading>
+                }
+              >
+                <ListView
+                  style={{
+                    paddingTop: 4,
+                    backgroundColor: "#bdbdbd",
+                    overflow: "scroll"
+                  }}
+                  dataSource={this.state.dataSource}
+                  renderRow={data => badlee(data)}
+                />
+              </Tab>
+              <Tab
+                heading={
+                  <TabHeading style={{ backgroundColor: "#fff" }}>
+                    <Icon
+                      name="ios-locate-outline"
+                      style={{ color: "#4b4b4b" }}
+                    />
+                  </TabHeading>
+                }
+              />
+              <Tab
+                heading={
+                  <TabHeading style={{ backgroundColor: "#fff" }}>
+                    <Icon
+                      name="ios-globe-outline"
+                      style={{ color: "#4b4b4b" }}
+                    />
+                  </TabHeading>
+                }
+                tabStyle={{ backgroundColor: "red" }}
+                textStyle={{ color: "#fff" }}
+                activeTabStyle={{ backgroundColor: "red" }}
+                activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
+              />
+            </Tabs>
+          </View>
         </Content>
       </StyleProvider>
     );
   }
 }
-
 const _Wrapped = connect(
   state => ({ user: state.get("user") }),
   actionCreators

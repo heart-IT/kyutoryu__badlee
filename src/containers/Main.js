@@ -11,10 +11,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../badlee__redux/action_creators";
 
-import { StyleProvider, Content, Tabs, Tab, Text } from "native-base";
+import {
+  StyleProvider,
+  Content,
+  TabHeading,
+  Tabs,
+  Tab,
+  Text
+} from "native-base";
 import getTheme from "../theme/components";
 
-import Svg from "react-native-svg";
+import Icon from "../components/Icon";
 
 class Main extends Component {
   constructor() {
@@ -32,13 +39,61 @@ class Main extends Component {
             initialPage={this.state.initial_tab}
             tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
           >
-            <Tab heading="Tab 1" style={styles.mainTab}>
-              <Text>Tab 1</Text>
+            <Tab
+              heading={
+                <TabHeading>
+                  <Icon
+                    name="home"
+                    viewBox="0 0 60 60"
+                    width="22"
+                    height="22"
+                  />
+                </TabHeading>
+              }
+            >
+              <Text>hello</Text>
             </Tab>
-            <Tab heading="Tab 2" style={styles.mainTab}>
+            <Tab
+              heading={
+                <TabHeading>
+                  <Icon
+                    name="messages"
+                    viewBox="0 0 60 60"
+                    width="22"
+                    height="22"
+                  />
+                </TabHeading>
+              }
+            >
               <Text>Tab 2</Text>
             </Tab>
-            <Tab heading="Tab 3" style={styles.mainTab}>
+
+            <Tab
+              heading={
+                <TabHeading>
+                  <Icon
+                    name="notifications"
+                    viewBox="0 0 60 60"
+                    width="22"
+                    height="22"
+                  />
+                </TabHeading>
+              }
+            >
+              <Text>Tab 3</Text>
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading>
+                  <Icon
+                    name="user"
+                    viewBox="0 0 60 60"
+                    width="22"
+                    height="22"
+                  />
+                </TabHeading>
+              }
+            >
               <Text>Tab 3</Text>
             </Tab>
           </Tabs>

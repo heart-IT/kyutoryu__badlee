@@ -23,6 +23,8 @@ import getTheme from "../theme/components";
 
 import Icon from "../components/Icon";
 
+import Badlees from "./main/Badlees";
+
 class Main extends Component {
   constructor() {
     super();
@@ -51,7 +53,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>hello</Text>
+              <Badlees />
             </Tab>
             <Tab
               heading={
@@ -94,7 +96,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Tab 3</Text>
+              <Text>Tab 4</Text>
             </Tab>
           </Tabs>
         </Content>

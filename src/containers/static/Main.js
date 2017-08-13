@@ -24,6 +24,7 @@ class Main extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
+        <StatusBar backgroundColor="blue" barStyle="light-content" />
         <Content>
           <Tabs initialPage={0}>
             <Tab

@@ -143,12 +143,12 @@ export default {
   tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#3F51B5",
 
   // Tab
-  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
+  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#500655",
   topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#a072a2",
   topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
   topTabActiveBgColor: platform === "ios" ? "#cde1f9" : undefined,
   topTabBarBorderColor: platform === "ios" ? "#a7a6ab" : "#fff",
-  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#611265",
+  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#500655",
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",

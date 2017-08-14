@@ -24,6 +24,7 @@ import getTheme from "../theme/components";
 import Icon from "../components/Icon";
 
 import Badlees from "./main/Badlees";
+import UserProfile from "./account/User";
 
 class Main extends Component {
   constructor() {
@@ -36,7 +37,7 @@ class Main extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Tabs
             initialPage={this.state.initial_tab}
             tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
@@ -67,7 +68,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Tab 2</Text>
+              <Text>Wingardium Leviousa</Text>
             </Tab>
 
             <Tab
@@ -82,7 +83,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Tab 3</Text>
+              <Text>One Piece is hidden somewhere in the app</Text>
             </Tab>
             <Tab
               heading={
@@ -96,7 +97,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Text>Tab 4</Text>
+              <UserProfile />
             </Tab>
           </Tabs>
         </Content>

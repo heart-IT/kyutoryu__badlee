@@ -13,28 +13,29 @@ import { StyleProvider, Content } from "native-base";
 import * as actionCreators from "../badlee__redux/action_creators";
 import getTheme from "../theme/components";
 
-// import Welcome from "./Not__Authenticated/Welcome";
-// import Main from "./Authenticated/Main";
+import Welcome from "./Not__Authenticated/Welcome";
+import Main from "./Authenticated/Main";
 import Loading from "./../components/LoadingView";
 
 class Init extends Component {
   componentDidMount() {
     const navigator = this.props.navigator;
-    // let route = {
-    //   navigator: this.props.navigator,
-    //   component: {
-    //     authenticated: {
-    //       component: Main
-    //     },
-    //     not__authenticated: {
-    //       component: Welcome
-    //     }
-    //   }
-    // };
+    let route = {
+      navigator: this.props.navigator,
+      component: {
+        authenticated: {
+          component: Main
+        },
+        not__authenticated: {
+          component: Welcome
+        }
+      }
+    };
     this.props.setNavigator(navigator);
-    this.props.restoreAuth();
+    this.props.restoreAuth(route);
   }
   render() {
+    const { loading } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Content
@@ -45,7 +46,7 @@ class Init extends Component {
             justifyContent: "center"
           }}
         >
-          {this.props.loading && <Loading />}
+          {loading && <Loading />}
         </Content>
       </StyleProvider>
     );
@@ -53,7 +54,7 @@ class Init extends Component {
 }
 
 const _Wrapped = connect(
-  state => ({ loading: state.getIn(["applicationStatus"])["isLoading"] }),
+  state => ({ loading: state.get("isLoading") }),
   actionCreators
 )(Init);
 export default _Wrapped;

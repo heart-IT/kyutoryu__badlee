@@ -27,7 +27,7 @@ function getNextRoute(route, isAuthanticated) {
 async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
   try {
     await store.dispatch(actionCreators.startLoading());
-
+    console.log(store.getState());
     NetInfo.isConnected.addEventListener("change", async function(isConnected) {
       await store.dispatch(
         actionCreators.changeInternetConnectionStatus(isConnected)
@@ -36,20 +36,19 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
 
     let route = action.route;
     let user = await AsyncStorage.getItem("user");
-    console.log(user);
-    // if (user) {
-    //   action.user = JSON.parse(user);
-    //   next(action);
-    //   route &&
-    //     (await store.dispatch(
-    //       actionCreators.navigate(getNextRoute(route, true))
-    //     ));
-    // } else {
-    //   route &&
-    //     (await store.dispatch(
-    //       actionCreators.navigate(getNextRoute(route, false))
-    //     ));
-    // }
+    if (user) {
+      action.user = JSON.parse(user);
+      next(action);
+      route &&
+        (await store.dispatch(
+          actionCreators.navigate(getNextRoute(route, true))
+        ));
+    } else {
+      route &&
+        (await store.dispatch(
+          actionCreators.navigate(getNextRoute(route, false))
+        ));
+    }
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

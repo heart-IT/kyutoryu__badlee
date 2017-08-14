@@ -7,7 +7,7 @@ import type { Action, NAVIGATE_TO } from "../types";
 function doNavigate(store, next, action: NAVIGATE_TO) {
   let route = action.route;
   const state = store.getState();
-  const navigator = state.getIn(["applicationStatus"])["navigator"];
+  const navigator = state.get("navigator");
 
   if (navigator && route.component) {
     let context = {

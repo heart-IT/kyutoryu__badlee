@@ -1,169 +1,161 @@
 /**
- * All is silent, lucid, and self-illumination: There is no exertion, no waste of energy- This is where thinking never attains.
+ * @chill- All is silent, lucid, and self-illumination: There is no exertion, no waste of energy- This is where thinking never attains.
  * This is where the imagination fails to measure. - Seng-t'san
  * 
- * 
- * This file is the Welcome page. This is what shown to user first time.
- * @fileName Welcome.js
+ * @description- This file is the Welcome page. This is what shown to user first time.
+ * @file- Welcome.js
  * @author heartIT pirates were here
  */
 
 "use strict";
 
 import React, { Component } from "react";
-import { Image, View, Text, Dimensions } from "react-native";
+import { Image, Text } from "react-native";
 import { connect } from "react-redux";
-import { StyleProvider, Button } from "native-base";
+import { StyleProvider, Content, View, Button } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Login from "../account/Login";
+
 import Swiper from "react-native-swiper";
 
-class BackgroundImage extends Component {
-  render() {
-    return (
-      <Image
-        source={require("../../images/welcome__bg.png")}
-        style={styles.backgroundImage}
-      >
-        {this.props.children}
-      </Image>
-    );
-  }
-}
+import BackgroundImage from "../../components/BackgroundImage";
 
 class Welcome extends Component {
   handleLogin() {
-    requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: Login
-      });
-    });
+    // requestAnimationFrame(() => {
+    //   this.props.navigate({
+    //     navigator: this.props.navigator,
+    //     component: Login
+    //   });
+    // });
   }
 
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <BackgroundImage>
-          <View style={styles.container}>
-            <Swiper
-              loop={false}
-              showsButtons={false}
-              dot={
-                <View
-                  style={{
-                    backgroundColor: "#a763a7",
-                    width: 5,
-                    height: 5,
-                    borderRadius: 4,
-                    marginLeft: 3,
-                    marginRight: 3,
-                    marginTop: 3,
-                    marginBottom: 3
-                  }}
-                />
-              }
-              activeDot={
-                <View
-                  style={{
-                    backgroundColor: "#93298f",
-                    width: 8,
-                    height: 8,
-                    borderRadius: 4,
-                    marginLeft: 3,
-                    marginRight: 3,
-                    marginTop: 3,
-                    marginBottom: 3
-                  }}
-                />
-              }
-            >
-              <View style={styles.view}>
-                <Text style={[styles.head, styles.badleeColor]}>Badlee?</Text>
-                <Image
-                  source={require("../../images/badlee.png")}
-                  style={styles.image}
-                />
-                <View>
-                  <Text style={styles.content}>
-                    An exclusive social network for your commodity needs.
-                  </Text>
-                  <Text style={styles.content}>
-                    See what you have, see what they got.
-                  </Text>
-                  <Text style={styles.content}>
-                    It's your personal bank of things, where Borrowing and
-                    Lending of commodities are done.
-                  </Text>
+        <Content>
+          <BackgroundImage>
+            <View style={styles.container}>
+              <Swiper
+                loop={false}
+                showsButtons={false}
+                dot={
+                  <View
+                    style={{
+                      backgroundColor: "#a763a7",
+                      width: 5,
+                      height: 5,
+                      borderRadius: 4,
+                      marginLeft: 3,
+                      marginRight: 3,
+                      marginTop: 3,
+                      marginBottom: 3
+                    }}
+                  />
+                }
+                activeDot={
+                  <View
+                    style={{
+                      backgroundColor: "#93298f",
+                      width: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      marginLeft: 3,
+                      marginRight: 3,
+                      marginTop: 3,
+                      marginBottom: 3
+                    }}
+                  />
+                }
+              >
+                <View style={styles.view}>
+                  <Text style={[styles.head, styles.badleeColor]}>Badlee?</Text>
+                  <Image
+                    source={require("../../images/badlee.png")}
+                    style={styles.image}
+                  />
+                  <View>
+                    <Text style={styles.content}>
+                      An exclusive social network for your commodity needs.
+                    </Text>
+                    <Text style={styles.content}>
+                      See what you have, see what they got.
+                    </Text>
+                    <Text style={styles.content}>
+                      It's your personal bank of things, where Borrowing and
+                      Lending of commodities are done.
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.view}>
-                <Text style={[styles.head, styles.lendBorrowColor]}>
-                  lend and borrow
-                </Text>
-                <Image
-                  source={require("../../images/exchange.png")}
-                  style={styles.image}
-                />
-                <View>
-                  <Text style={styles.content}>
-                    Post under this badge anything that you're willing to lend
-                    to anyone in your community.
+                <View style={styles.view}>
+                  <Text style={[styles.head, styles.lendBorrowColor]}>
+                    lend and borrow
                   </Text>
-                  <Text style={styles.content}>
-                    You can also borrow anything posted by another user under
-                    this badge.
-                  </Text>
-                  <Text style={styles.content}>
-                    The true essence of Badlee, it is
-                  </Text>
+                  <Image
+                    source={require("../../images/exchange.png")}
+                    style={styles.image}
+                  />
+                  <View>
+                    <Text style={styles.content}>
+                      Post under this badge anything that you're willing to lend
+                      to anyone in your community.
+                    </Text>
+                    <Text style={styles.content}>
+                      You can also borrow anything posted by another user under
+                      this badge.
+                    </Text>
+                    <Text style={styles.content}>
+                      The true essence of Badlee, it is
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.view}>
-                <Text style={[styles.head, styles.showoffColor]}>show off</Text>
-                <Image
-                  source={require("../../images/show off 2.png")}
-                  style={styles.image}
-                />
-                <View>
-                  <Text style={styles.content}>
-                    Got something 'premium'? Here's Badlee giving you an
-                    exclusive platform to show your premium possession off.
+                <View style={styles.view}>
+                  <Text style={[styles.head, styles.showoffColor]}>
+                    show off
                   </Text>
-                  <Text style={styles.content}>
-                    Got Something? Brag about it!
-                  </Text>
+                  <Image
+                    source={require("../../images/show off 2.png")}
+                    style={styles.image}
+                  />
+                  <View>
+                    <Text style={styles.content}>
+                      Got something 'premium'? Here's Badlee giving you an
+                      exclusive platform to show your premium possession off.
+                    </Text>
+                    <Text style={styles.content}>
+                      Got Something? Brag about it!
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.view}>
-                <Text style={[styles.head, styles.shoutColor]}>shout</Text>
-                <Image
-                  source={require("../../images/shout badge.png")}
-                  style={styles.image}
-                />
-                <View>
-                  <Text style={styles.content}>
-                    What if you don't get something you are looking for in the
-                    feeds on your homescreen?
-                  </Text>
-                  <Text style={styles.content}>
-                    Yes! You can post your demands under this badge, so that
-                    someone who sees your post.
-                  </Text>
-                  <Button
-                    common
-                    block
-                    style={{ marginTop: 30, backgroundColor: "#611265" }}
-                    onPress={this.handleLogin.bind(this)}
-                  >
-                    <Text style={{ color: "#FFF" }}>Enter badlee App</Text>
-                  </Button>
+                <View style={styles.view}>
+                  <Text style={[styles.head, styles.shoutColor]}>shout</Text>
+                  <Image
+                    source={require("../../images/shout badge.png")}
+                    style={styles.image}
+                  />
+                  <View>
+                    <Text style={styles.content}>
+                      What if you don't get something you are looking for in the
+                      feeds on your homescreen?
+                    </Text>
+                    <Text style={styles.content}>
+                      Yes! You can post your demands under this badge, so that
+                      someone who sees your post.
+                    </Text>
+                    <Button
+                      common
+                      block
+                      style={{ marginTop: 30, backgroundColor: "#611265" }}
+                      onPress={this.handleLogin.bind(this)}
+                    >
+                      <Text style={{ color: "#FFF" }}>Enter badlee App</Text>
+                    </Button>
+                  </View>
                 </View>
-              </View>
-            </Swiper>
-          </View>
-        </BackgroundImage>
+              </Swiper>
+            </View>
+          </BackgroundImage>
+        </Content>
       </StyleProvider>
     );
   }
@@ -222,7 +214,7 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  state => ({ loading: state.get("loading") }),
+  state => ({ loading: state.get("isLoading") }),
   actionCreators
 )(Welcome);
 

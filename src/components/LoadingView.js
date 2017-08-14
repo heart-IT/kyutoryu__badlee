@@ -7,14 +7,24 @@
 "use strict";
 
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Spinner } from "native-base";
 
 class LoadingView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Spinner color="#9C27B0" style={styles.spinner} />
+        <View style={styles.spinner}>
+          <Spinner color="#611265" />
+          <Text
+            style={{
+              color: "rgba(0, 0, 0, 0.87)",
+              fontWeight: "bold"
+            }}
+          >
+            Loading badlee
+          </Text>
+        </View>
       </View>
     );
   }
@@ -27,8 +37,8 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#CCC",
-    opacity: 0.5,
+    backgroundColor: "#fcfcfc",
+    opacity: 0.67,
     zIndex: 9999
   },
   spinner: {

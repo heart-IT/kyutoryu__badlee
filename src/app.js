@@ -1,11 +1,13 @@
 /**
- * High are the mountains, thick are the shade trees, and under an old pine I sit quietly and contentedly in my monkish home:
+ * app.js
+ * 
+ * @chill- High are the mountains, thick are the shade trees, and under an old pine I sit quietly and contentedly in my monkish home:
  * Perfect tranquility and rustic simplicity rules here. - Yoka Daishi
  * 
  * 
- * This file is the first thing happens to badlee.
- * we do all lots of react and redux configuration and start up our app.
- * Here, we go
+ * @description- This file is the first thing happens to badlee.
+ * we combine redux and our react app with navigator and start Badlee app.
+ * Here, we go!
  * 
  * @author- heartit pirates were here.
  */
@@ -15,22 +17,21 @@
 /**
  * Imp[o]rts Guide :-
  * 1. Backhandler : Detect hardware button presses for back navigation
- * 2. makeStore : This file makes Redux Store with Middlewares.
- * 3. badlee redux store and connection fns
- * 4. action factories
- * 5. splash screen component
  */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler } from "react-native";
 import { Navigator } from "react-native-deprecated-custom-components";
+import { connect, Provider } from "react-redux";
 import { makeStore } from "./badlee__redux/store";
 import * as actionCreators from "./badlee__redux/action_creators";
-import { connect, Provider } from "react-redux";
-import SplashScreen from "./containers/static/SplashScreen";
+
+// Set initial screen as SplashScreen
+import Init from "./containers/Init";
 
 /**
  * Navigator handles the transition between different scenes in your app.
  * Transition back and unmount the current scene.
+ * @description- on backpress button in mobile, show previous route
  */
 BackHandler.addEventListener("hardwareBackPress", function() {
   // If scopeNavigator and it has routes information
@@ -69,11 +70,6 @@ class BadleeApp extends Component {
     }
   }
 
-  /**
-   * Render Badlee App with our Redux store provider. 
-   * 1. save reference of Navigator to scopeNavigator variable
-   * Initial Route is SplashScreen.
-   */
   render() {
     return (
       <Provider store={store}>
@@ -81,7 +77,7 @@ class BadleeApp extends Component {
           ref={nav => {
             scopeNavigator = nav;
           }}
-          initialRoute={{ component: SplashScreen }}
+          initialRoute={{ component: Init }}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}

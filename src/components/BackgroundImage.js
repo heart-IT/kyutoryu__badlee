@@ -18,6 +18,7 @@ class BackgroundImage extends Component {
 
 const styles = {
   backgroundImage: {
+    display: "flex",
     flex: 1,
     width: null,
     height: null,

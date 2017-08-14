@@ -18,22 +18,23 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Swiper from "react-native-swiper";
 
+import Icon from "../../components/Icon";
 import BackgroundImage from "../../components/BackgroundImage";
 
 class Welcome extends Component {
   handleLogin() {
-    // requestAnimationFrame(() => {
-    //   this.props.navigate({
-    //     navigator: this.props.navigator,
-    //     component: Login
-    //   });
-    // });
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Login
+      });
+    });
   }
 
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <BackgroundImage>
             <View style={styles.container}>
               <Swiper
@@ -49,7 +50,7 @@ class Welcome extends Component {
                       marginLeft: 3,
                       marginRight: 3,
                       marginTop: 3,
-                      marginBottom: 3
+                      marginBottom: 12
                     }}
                   />
                 }
@@ -63,7 +64,7 @@ class Welcome extends Component {
                       marginLeft: 3,
                       marginRight: 3,
                       marginTop: 3,
-                      marginBottom: 3
+                      marginBottom: 12
                     }}
                   />
                 }
@@ -91,9 +92,12 @@ class Welcome extends Component {
                   <Text style={[styles.head, styles.lendBorrowColor]}>
                     lend and borrow
                   </Text>
-                  <Image
-                    source={require("../../images/exchange.png")}
+                  <Icon
+                    name="exchange"
+                    viewBox="0 0 60 60"
                     style={styles.image}
+                    width="135"
+                    height="135"
                   />
                   <View>
                     <Text style={styles.content}>
@@ -129,8 +133,11 @@ class Welcome extends Component {
                 </View>
                 <View style={styles.view}>
                   <Text style={[styles.head, styles.shoutColor]}>shout</Text>
-                  <Image
-                    source={require("../../images/shout badge.png")}
+                  <Icon
+                    name="shoutout"
+                    viewBox="0 0 60 60"
+                    width="135"
+                    height="135"
                     style={styles.image}
                   />
                   <View>
@@ -142,13 +149,50 @@ class Welcome extends Component {
                       Yes! You can post your demands under this badge, so that
                       someone who sees your post.
                     </Text>
+                  </View>
+                </View>
+                <View style={styles.view}>
+                  <Text style={[styles.head, styles.expressionColor]}>
+                    expressions
+                  </Text>
+                  <View>
+                    <Text style={[styles.semihead, styles.likeColor]}>
+                      like
+                    </Text>
+                    <Icon
+                      name="like"
+                      viewBox="0 0 800 800"
+                      width="135"
+                      height="135"
+                      style={styles.image}
+                    />
+                    <Text
+                      style={[
+                        styles.semihead,
+                        styles.wishColor,
+                        styles.likeBorder
+                      ]}
+                    >
+                      wish
+                    </Text>
+                    <Icon
+                      name="wish"
+                      viewBox="0 0 800 800"
+                      width="135"
+                      height="135"
+                      fill="#EF5454"
+                      style={styles.image}
+                    />
                     <Button
-                      common
-                      block
-                      style={{ marginTop: 30, backgroundColor: "#611265" }}
+                      style={{
+                        position: "absolute",
+                        bottom: -64,
+                        right: -24,
+                        backgroundColor: "#611265"
+                      }}
                       onPress={this.handleLogin.bind(this)}
                     >
-                      <Text style={{ color: "#FFF" }}>Enter badlee App</Text>
+                      <Text style={{ color: "#FFF" }}>Enter</Text>
                     </Button>
                   </View>
                 </View>
@@ -162,12 +206,6 @@ class Welcome extends Component {
 }
 
 const styles = {
-  backgroundImage: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: "cover"
-  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -176,12 +214,19 @@ const styles = {
   view: {
     paddingLeft: 42,
     paddingRight: 42,
-    marginTop: 60
+    paddingTop: 60
   },
   head: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 33,
     marginBottom: 30,
+    marginTop: 6,
+    fontFamily: "Righteous-Regular"
+  },
+  semihead: {
+    textAlign: "center",
+    fontSize: 27,
+    marginBottom: 0,
     fontFamily: "Righteous-Regular"
   },
   image: {
@@ -189,11 +234,13 @@ const styles = {
     height: 135,
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 30
+    marginBottom: 12
   },
   content: {
     fontSize: 18,
     color: "rgba(0, 0, 0, 0.87)",
+    textShadowColor: "rgba(0, 0, 0, 0.23)",
+    textShadowOffset: { width: 1, height: 0 },
     fontFamily: "PoiretOne-Regular",
     textAlign: "center",
     lineHeight: 21,
@@ -203,13 +250,26 @@ const styles = {
     color: "#611265"
   },
   lendBorrowColor: {
-    color: "#94c655"
+    color: "#8CD790"
   },
   showoffColor: {
     color: "#f3e309"
   },
   shoutColor: {
     color: "#428ee2"
+  },
+  expressionColor: {
+    color: "#6d156c"
+  },
+  likeColor: {
+    color: "#c876e4"
+  },
+  wishColor: {
+    color: "#ee5253"
+  },
+  likeBorder: {
+    borderTopWidth: 2,
+    borderColor: "#6d156c"
   }
 };
 

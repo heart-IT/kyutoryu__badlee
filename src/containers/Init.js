@@ -9,28 +9,30 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleProvider, Content, Spinner, Text } from "native-base";
-import getTheme from "../theme/components";
+import { StyleProvider, Content } from "native-base";
 import * as actionCreators from "../badlee__redux/action_creators";
-import Welcome from "./Not__Authenticated/Welcome";
-import Main from "./Authenticated/Main";
+import getTheme from "../theme/components";
+
+// import Welcome from "./Not__Authenticated/Welcome";
+// import Main from "./Authenticated/Main";
 import Loading from "./../components/LoadingView";
 
 class Init extends Component {
   componentDidMount() {
     const navigator = this.props.navigator;
-    let route = {
-      navigator: this.props.navigator,
-      component: {
-        authenticated: {
-          component: Main
-        },
-        not__authenticated: {
-          component: Welcome
-        }
-      }
-    };
+    // let route = {
+    //   navigator: this.props.navigator,
+    //   component: {
+    //     authenticated: {
+    //       component: Main
+    //     },
+    //     not__authenticated: {
+    //       component: Welcome
+    //     }
+    //   }
+    // };
     this.props.setNavigator(navigator);
+    this.props.restoreAuth();
   }
   render() {
     return (
@@ -43,12 +45,15 @@ class Init extends Component {
             justifyContent: "center"
           }}
         >
-          <Loading />
+          {this.props.loading && <Loading />}
         </Content>
       </StyleProvider>
     );
   }
 }
 
-const _Wrapped = connect(state => ({}), actionCreators)(Init);
+const _Wrapped = connect(
+  state => ({ loading: state.getIn(["applicationStatus"])["isLoading"] }),
+  actionCreators
+)(Init);
 export default _Wrapped;

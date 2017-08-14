@@ -1,9 +1,9 @@
 /**
- * Preferring simplicity and freedom, Practicing not-doing. Everything will fall into places - Lao Tzu
+ * @chill- Preferring simplicity and freedom, Practicing not-doing. Everything will fall into places - Lao Tzu
  * 
- * 
- * Badlee App Redux Data Store. This is also very critical file for badlee App.
- * It contains the single data source for application and updating it with changes application state.
+ * @description- Badlee Redux Data Store.
+ * It contains the single source of data for the application and updating it will change application state.
+ * action_creators -> middlewares -> reducer -> core
  * 
  * @author - heartit pirates were here
  */
@@ -20,17 +20,17 @@
  */
 import { createStore, applyMiddleware } from "redux";
 import { reducer } from "./reducer";
+import navigateMiddleware from "./middleware/navigate";
 import loginMiddleware from "./middleware/login";
 import registerMiddleware from "./middleware/register";
-import navigateMiddleware from "./middleware/navigate";
 import restoreAuthMiddleware from "./middleware/restore_auth";
 import logoutMiddleware from "./middleware/logout";
 
 // List of middleware we are using.
 const middleware = [
+  navigateMiddleware,
   loginMiddleware,
   registerMiddleware,
-  navigateMiddleware,
   restoreAuthMiddleware,
   logoutMiddleware
 ];

@@ -12,12 +12,12 @@ function getNextRoute(route, isAuthanticated) {
   let component;
   if (isAuthanticated) {
     component = {
-      component: components.authanticated.component,
+      component: components.authenticated.component,
       reset: true
     };
   } else {
     component = {
-      component: components.anonymous.component,
+      component: components.not__authenticated.component,
       reset: true
     };
   }
@@ -36,20 +36,20 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
 
     let route = action.route;
     let user = await AsyncStorage.getItem("user");
-
-    if (user) {
-      action.user = JSON.parse(user);
-      next(action);
-      route &&
-        (await store.dispatch(
-          actionCreators.navigate(getNextRoute(route, true))
-        ));
-    } else {
-      route &&
-        (await store.dispatch(
-          actionCreators.navigate(getNextRoute(route, false))
-        ));
-    }
+    console.log(user);
+    // if (user) {
+    //   action.user = JSON.parse(user);
+    //   next(action);
+    //   route &&
+    //     (await store.dispatch(
+    //       actionCreators.navigate(getNextRoute(route, true))
+    //     ));
+    // } else {
+    //   route &&
+    //     (await store.dispatch(
+    //       actionCreators.navigate(getNextRoute(route, false))
+    //     ));
+    // }
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

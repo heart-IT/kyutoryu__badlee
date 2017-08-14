@@ -1,7 +1,6 @@
 // @flow
 "use strict";
 
-import { Toast } from "native-base";
 import { AsyncStorage, NetInfo } from "react-native";
 import * as actionCreators from "../action_creators";
 import Settings from "../../settings";
@@ -40,8 +39,6 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
 
     if (user) {
       action.user = JSON.parse(user);
-
-      // only call next if we have username
       next(action);
       route &&
         (await store.dispatch(

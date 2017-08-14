@@ -22,52 +22,77 @@ import { Record } from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
-  loading: false,
-  accessToken: undefined,
-  loggedIn: false,
   user: undefined,
-  isOnline: true,
-  navigator: null
+  applicationStatus: undefined,
+  badlees: null,
+  badleeOrderIDS: {
+    followers: null,
+    nearby: null,
+    shoutouts: null
+  },
+  friends: null,
+  messages: null,
+  notifications: null
 });
 
 export const InitialState: State = new StateRecord({
-  user: {}
+  user: {},
+  applicationStatus: {
+    isLoggedIn: false,
+    isOnline: true,
+    navigator: null,
+    isLoading: false
+  },
+  badlees: [],
+  badleeOrderIDS: {
+    followers: [],
+    nearby: [],
+    shoutouts: []
+  },
+  friends: [],
+  messages: [],
+  notifications: []
 });
 
 export function setNavigator(state: State, navigator: any): State {
-  return state.set("navigator", navigator);
-}
-
-export function login(state: State, user: User): State {
-  console.log("is here2");
-  return state.set("loggedIn", true).set("user", user);
-}
-
-export function register(state: State, user: User): Stte {
-  return state.set("loggedIn", true).set("user", user);
-}
-
-export function restoreAuth(state: State, user: User): State {
-  return state.set("loggedIn", true).set("user", user);
-}
-
-export function logout(state: State): State {
-  // mark user as logged out
-  return state.set("loggedIn", false).set("accessToken", null).set("user", {});
+  return state.set(state.getIn(["applicationStatus"])["navigator"], navigator);
 }
 
 export function startLoading(state: State): State {
-  // set state as loading
-  return state.set("loading", true);
+  return state.set(state.getIn(["applicationStatus"])["isLoading"], true);
 }
 
 export function finishLoading(state: State): State {
-  return state.set("loading", false);
+  return state.set(state.getIn(["applicationStatus"])["isLoading"], false);
+}
+
+export function login(state: State, user: User): State {
+  return state
+    .set(state.getIn(["applicationStatus"])["isLoggedIn"], true)
+    .set("user", user);
+}
+
+export function register(state: State, user: User): Stte {
+  return state
+    .set(state.getIn(["applicationStatus"])["isLoggedIn"], true)
+    .set("user", user);
+}
+
+export function restoreAuth(state: State, user: User): State {
+  return state
+    .set(state.getIn(["applicationStatus"])["isLoggedIn"], true)
+    .set("user", user);
+}
+
+export function logout(state: State): State {
+  return state
+    .set(state.getIn(["applicationStatus"])["isLoggedIn"], false)
+    .set("user", {});
 }
 
 export function changeInternetConnectionStatus(
   state: State,
   status: boolean
 ): State {
-  return state.set("isOnline", status);
+  return state.set(state.getIn(["applicationStatus"])["isOnline"], status);
 }

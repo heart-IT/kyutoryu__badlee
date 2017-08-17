@@ -2,8 +2,8 @@
  * @chill- All is silent, lucid, and self-illumination: There is no exertion, no waste of energy- This is where thinking never attains.
  * This is where the imagination fails to measure. - Seng-t'san
  * 
- * @description- This file is the Welcome page. This is what shown to user first time.
- * @file- Welcome.js
+ * @file- Onboarding.js
+ * @description- This file is the Onboarding page. This is what shown to user first time.
  * @author heartIT pirates were here
  */
 
@@ -22,7 +22,7 @@ import Login from "./Login";
 import Icon from "../../components/Icon";
 import BackgroundImage from "../../components/BackgroundImage";
 
-class Welcome extends Component {
+class Onboarding extends Component {
   handleLogin() {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -277,6 +277,6 @@ const styles = {
 const _Wrapped = connect(
   state => ({ loading: state.get("isLoading") }),
   actionCreators
-)(Welcome);
+)(Onboarding);
 
 export default _Wrapped;

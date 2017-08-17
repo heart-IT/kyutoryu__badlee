@@ -18,6 +18,7 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Swiper from "react-native-swiper";
 
+import Login from "./Login";
 import Icon from "../../components/Icon";
 import BackgroundImage from "../../components/BackgroundImage";
 

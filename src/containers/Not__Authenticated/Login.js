@@ -3,7 +3,8 @@
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
  * 
- * This file is the login page. WiP here
+ * @description- This file is the login page. WiP here
+ * @author- heartit pirates
  */
 
 "use strict";

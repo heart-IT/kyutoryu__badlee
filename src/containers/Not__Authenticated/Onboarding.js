@@ -4,7 +4,7 @@
  * 
  * @file- Onboarding.js
  * @description- This file is the Onboarding page. This is what shown to user first time.
- * @author heartIT pirates were here
+ * @author- heartIT pirates were here
  */
 
 "use strict";
@@ -222,7 +222,7 @@ const styles = {
     flex: 1,
     width: null,
     height: null,
-    resizeMode: "cover"
+    resizeMode: "stretch"
   },
   container: {
     flex: 1,

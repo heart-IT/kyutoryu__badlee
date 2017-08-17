@@ -1,4 +1,11 @@
 // @flow
+/**
+ * @chill- To observe the impermanence of things is not to reject them, but to be in contact with them with deep understanding, without being caught in desire and attachent - Thich Nhat Hanh
+ * 
+ * @name- action_creators.js
+ * @description- This file function are called by the application to connect to the redux store. These are action factories of our.
+ * @author- heartit p[i]rates
+ */
 "use strict";
 
 import type {

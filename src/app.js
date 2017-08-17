@@ -25,7 +25,6 @@ import { connect, Provider } from "react-redux";
 import { makeStore } from "./badlee__redux/store";
 import * as actionCreators from "./badlee__redux/action_creators";
 
-// Set initial screen as SplashScreen
 import Init from "./containers/Init";
 
 /**

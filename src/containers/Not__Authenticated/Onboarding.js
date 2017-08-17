@@ -20,7 +20,17 @@ import Swiper from "react-native-swiper";
 
 import Login from "./Login";
 import Icon from "../../components/Icon";
-import BackgroundImage from "../../components/BackgroundImage";
+
+class BackgroundImage extends Component {
+  render() {
+    let image = require("../../images/welcome__bg.png");
+    return (
+      <Image source={image} style={styles.backgroundImage}>
+        {this.props.children}
+      </Image>
+    );
+  }
+}
 
 class Onboarding extends Component {
   handleLogin() {
@@ -207,6 +217,13 @@ class Onboarding extends Component {
 }
 
 const styles = {
+  backgroundImage: {
+    display: "flex",
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: "cover"
+  },
   container: {
     flex: 1,
     alignItems: "center",

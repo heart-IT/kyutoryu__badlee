@@ -26,17 +26,18 @@ import {
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Main from "../static/Main";
-import User from "../account/User";
+// import Main from "../Authenticated/Main";
+import Welcome from "./Welcome";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {
   render() {
+    let image = require("../../images/login__bg.png");
     return (
-      <Image
-        source={require("../../images/login__bg.png")}
-        style={styles.backgroundImage}
-      >
+      <Image source={image} style={styles.backgroundImage}>
+        <Text>
+          {this.props.src}
+        </Text>
         {this.props.children}
       </Image>
     );
@@ -48,54 +49,25 @@ class Login extends Component {
     super(props);
     this.state = {
       email: null,
-      username: null,
-      password: null,
-      screenType: "Login"
+      password: null
     };
   }
 
   formSubmit() {
-    if (this.state.screenType === "Login") {
-      requestAnimationFrame(() => {
-        this.props.login(this.state.username, this.state.password, {
-          navigator: this.props.navigator,
-          component: Main,
-          reset: true
-        });
-      });
-    } else {
-      requestAnimationFrame(() => {
-        this.props.register(
-          this.state.email,
-          this.state.username,
-          this.state.password,
-          {
-            navigator: this.props.navigator,
-            component: Main,
-            params: {
-              registered: true
-            },
-            reset: true
-          }
-        );
-      });
-    }
+    // requestAnimationFrame(() => {
+    //   this.props.login(this.state.username, this.state.password, {
+    //     navigator: this.props.navigator,
+    //     component: Main,
+    //     reset: true
+    //   });
+    // });
   }
 
-  switchPage = () => {
-    if (this.state.screenType === "Login") {
-      this.setState({ screenType: "Sign Up" });
-    } else {
-      this.setState({ screenType: "Login" });
-    }
-  };
-
   render() {
-    const screenType = this.state.screenType;
     return (
       <StyleProvider style={getTheme()}>
         <BackgroundImage>
-          <Content>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Image
               source={require("../../images/badlee.png")}
               style={{
@@ -140,20 +112,6 @@ class Login extends Component {
                   />
                 </Item>
               </View>
-              {screenType === "Sign Up" &&
-                <View style={styles.inputWrapper}>
-                  <Icon name="settings" style={styles.inputIcon} />
-                  <Item style={styles.boxWrapper}>
-                    <Input
-                      onChangeText={email => this.setState({ email })}
-                      value={this.state.email}
-                      placeholder="Email"
-                      placeholderTextColor="#7d5c85"
-                      fontFamily="PoiretOne-Regular"
-                      style={styles.inputBox}
-                    />
-                  </Item>
-                </View>}
               <View style={styles.inputWrapper}>
                 <Icon name="settings" style={styles.inputIcon} />
                 <Item style={styles.boxWrapper}>
@@ -175,23 +133,14 @@ class Login extends Component {
                   onPress={this.formSubmit.bind(this)}
                   style={styles.submitButton}
                 >
-                  <Text style={styles.submitButtonText}>
-                    {screenType}
-                  </Text>
+                  <Text style={styles.submitButtonText}>Login</Text>
                 </Button>
               </View>
             </Form>
-            {screenType === "Login" &&
-              <Text style={styles.forgotPasswordText}>Forgot password?</Text>}
+            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
             <View style={styles.pageSwitcher}>
-              <Text style={styles.switcherText}>
-                {screenType === "Login"
-                  ? "New to the community?"
-                  : "Already have an account"}
-              </Text>
-              <Text style={styles.switcherTextLink} onPress={this.switchPage}>
-                {screenType === "Login" ? "Sign Up" : "Login"}
-              </Text>
+              <Text style={styles.switcherText}>New to the community?</Text>
+              <Text style={styles.switcherTextLink}>Sign Up</Text>
             </View>
           </Content>
         </BackgroundImage>
@@ -205,7 +154,7 @@ const styles = {
     flex: 1,
     width: null,
     height: null,
-    resizeMode: "cover"
+    resizeMode: "stretch"
   },
   inputWrapper: {
     display: "flex",

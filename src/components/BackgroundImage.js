@@ -1,15 +1,16 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, Text } from "react-native";
 
 class BackgroundImage extends Component {
   render() {
+    let image = require("../images/" + this.props.backgroundName + ".png");
     return (
-      <Image
-        source={require("../images/welcome__bg.png")}
-        style={styles.backgroundImage}
-      >
+      <Image source={image} style={styles.backgroundImage}>
+        <Text>
+          {this.props.src}
+        </Text>
         {this.props.children}
       </Image>
     );

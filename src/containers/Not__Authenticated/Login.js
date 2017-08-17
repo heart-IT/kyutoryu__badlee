@@ -68,16 +68,13 @@ class Login extends Component {
       <StyleProvider style={getTheme()}>
         <BackgroundImage>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <Image
-              source={require("../../images/badlee.png")}
-              style={{
-                height: 48,
-                width: 48,
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: 6
-              }}
-            />
+            <View style={styles.logoWrapper}>
+              <Image
+                source={require("../../images/badlee__landscape.png")}
+                style={styles.badleeLogo}
+              />
+            </View>
+
             <Text
               style={{
                 marginTop: 30,
@@ -155,6 +152,14 @@ const styles = {
     width: null,
     height: null,
     resizeMode: "stretch"
+  },
+  logoWrapper: { display: "flex", flexDirection: "row" },
+  badleeLogo: {
+    height: 60,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 6,
+    resizeMode: "contain"
   },
   inputWrapper: {
     display: "flex",

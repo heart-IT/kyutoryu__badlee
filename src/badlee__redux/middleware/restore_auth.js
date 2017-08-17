@@ -27,7 +27,6 @@ function getNextRoute(route, isAuthanticated) {
 async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    console.log(store.getState());
     NetInfo.isConnected.addEventListener("change", async function(isConnected) {
       await store.dispatch(
         actionCreators.changeInternetConnectionStatus(isConnected)

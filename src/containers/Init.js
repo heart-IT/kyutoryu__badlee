@@ -14,7 +14,7 @@ import { StyleProvider, Content } from "native-base";
 import * as actionCreators from "../badlee__redux/action_creators";
 import getTheme from "../theme/components";
 
-import Welcome from "./Not__Authenticated/Welcome";
+import Onboarding from "./Not__Authenticated/Onboarding";
 import Main from "./Authenticated/Main";
 import Loading from "./../components/LoadingView";
 
@@ -28,7 +28,7 @@ class Init extends Component {
           component: Main
         },
         not__authenticated: {
-          component: Welcome
+          component: Onboarding
         }
       }
     };

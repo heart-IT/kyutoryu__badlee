@@ -27,7 +27,7 @@ import {
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Main from "../static/Main";
-import User from "./User";
+import User from "../account/User";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {

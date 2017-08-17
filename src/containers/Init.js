@@ -1,6 +1,7 @@
 /**
  * @chill- Two monks were arguing about a flag. One said, "The flag is moving." The other said, "The wind is moving." Their teacher happened to be passing by. He told them, "Not the wind, not the flag; It is your mind that is moving." - Mumon Ekai
  * 
+ * @name- Init.js
  * @description- This file is starting point of react components. Here, we define the initial calm steps needed to start the app
  * @author- heartit pirates
  */
@@ -14,7 +15,7 @@ import * as actionCreators from "../badlee__redux/action_creators";
 import getTheme from "../theme/components";
 
 import Welcome from "./Not__Authenticated/Welcome";
-// import Main from "./Authenticated/Main";
+import Main from "./Authenticated/Main";
 import Loading from "./../components/LoadingView";
 
 class Init extends Component {
@@ -24,7 +25,7 @@ class Init extends Component {
       navigator: this.props.navigator,
       component: {
         authenticated: {
-          component: Welcome
+          component: Main
         },
         not__authenticated: {
           component: Welcome

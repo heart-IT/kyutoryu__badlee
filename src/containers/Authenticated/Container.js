@@ -2,14 +2,16 @@
  * Chill of the day -
  * There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
  * 
- * @author - heartit pirates
+ * @name- Container.JS
+ * @description- This file is the starting point of the badlee Authenticated section. Here, we are loading other modules and make main tab structures. We can also do things like Websocket here.
+ * @author- heartit pirates
  */
 
 "use strict";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actionCreators from "../badlee__redux/action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 
 import {
   StyleProvider,
@@ -19,14 +21,14 @@ import {
   Tab,
   Text
 } from "native-base";
-import getTheme from "../theme/components";
+import getTheme from "../../theme/components";
 
-import Icon from "../components/Icon";
+import Icon from "../../components/Icon";
 
-import Badlees from "./main/Badlees";
-import UserProfile from "./account/User";
+// import Badlees from "./main/Badlees";
+// import UserProfile from "./account/User";
 
-class Main extends Component {
+class AuthContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -54,7 +56,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <Badlees />
+              <Text>Petrificious Totalus</Text>
             </Tab>
             <Tab
               heading={
@@ -97,7 +99,7 @@ class Main extends Component {
                 </TabHeading>
               }
             >
-              <UserProfile />
+              <Text>Userrr profile</Text>
             </Tab>
           </Tabs>
         </Content>
@@ -111,6 +113,6 @@ var styles = {};
 const _Wrapped = connect(
   state => ({ user: state.get("user") }),
   actionCreators
-)(Main);
+)(AuthContainer);
 
 export default _Wrapped;

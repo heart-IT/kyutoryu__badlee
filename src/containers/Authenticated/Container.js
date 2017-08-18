@@ -26,6 +26,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 
 // import Badlees from "./main/Badlees";
+import Chat from "./Chat";
 import UserProfile from "./User";
 
 class AuthContainer extends Component {
@@ -70,7 +71,7 @@ class AuthContainer extends Component {
                 </TabHeading>
               }
             >
-              <Text>Wingardium Leviousa</Text>
+              <Chat />
             </Tab>
 
             <Tab

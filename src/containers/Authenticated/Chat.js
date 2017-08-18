@@ -4,9 +4,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StyleProvider, Content, Text } from "native-base";
-import * as actionCreators from "../badlee__redux/action_creators";
+import * as actionCreators from "../../badlee__redux/action_creators";
 
-import getTheme from "../theme/components";
+import getTheme from "../../theme/components";
 import { GiftedChat } from "react-native-gifted-chat";
 
 class MessageThread extends Component {
@@ -37,7 +37,7 @@ class MessageThread extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <GiftedChat
             messages={this.state.messages}
             onSend={messages => this.onSend(messages)}

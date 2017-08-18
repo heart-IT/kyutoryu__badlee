@@ -226,10 +226,12 @@ const styles = {
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    // alignItems: "center",
+    justifyContent: "center",
+    display: "flex"
   },
   view: {
+    flex: 1,
     paddingLeft: 42,
     paddingRight: 42,
     paddingTop: 60

@@ -7,7 +7,8 @@ import Settings from "../../settings";
 import type { Action, LOGOUT } from "../types";
 
 async function removeStore(store, next: Function, action: LOGOUT) {
-  await AsyncStorage.removeItem(Settings.session_key);
+  await AsyncStorage.removeItem("user");
+  await AsyncStorage.removeItem("jollyroger");
 
   let route = action.route;
 

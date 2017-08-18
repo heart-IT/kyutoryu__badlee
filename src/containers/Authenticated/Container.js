@@ -26,7 +26,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 
 // import Badlees from "./main/Badlees";
-// import UserProfile from "./account/User";
+import UserProfile from "./User";
 
 class AuthContainer extends Component {
   constructor() {
@@ -99,7 +99,7 @@ class AuthContainer extends Component {
                 </TabHeading>
               }
             >
-              <Text>Userrr profile</Text>
+              <UserProfile />
             </Tab>
           </Tabs>
         </Content>

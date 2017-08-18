@@ -1,3 +1,11 @@
+/**
+ * @chill- We open our mind so the light of concentration will reveal what is there and liberate what is there. It is the same as untying knots in thread. We have to be calm, and we need to take time.
+ *
+ * @name- User.js
+ * @description- This file contains User Profile page of the App
+ * @author- heartit pirates
+ */
+
 "use strict";
 
 import React, { Component } from "react";
@@ -19,7 +27,7 @@ import {
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Welcome from "../static/Welcome";
+import Login from "../Not__Authenticated/Login";
 
 var exchange__icon = require("../../images/exchange.png");
 var showoff__icon = require("../../images/show off 2.png");
@@ -29,7 +37,7 @@ class User extends Component {
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,
-      component: Welcome,
+      component: Login,
       reset: true
     });
   }
@@ -213,8 +221,7 @@ const styles = {
   },
   user__badleetory: {
     marginTop: 18,
-    paddingBottom: 12,
-    tabBarUnderlineStyle: { backgroundColor: "#f65857" }
+    paddingBottom: 12
   },
   inventory__type: {
     width: 90

@@ -26,7 +26,7 @@ import {
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Main from "../Authenticated/Main";
+import AuthContainer from "../Authenticated/Container";
 import Welcome from "./Welcome";
 import type { State } from "../../types";
 
@@ -57,7 +57,7 @@ class Login extends Component {
     requestAnimationFrame(() => {
       this.props.login(this.state.username, this.state.password, {
         navigator: this.props.navigator,
-        component: Main,
+        component: AuthContainer,
         reset: true
       });
     });

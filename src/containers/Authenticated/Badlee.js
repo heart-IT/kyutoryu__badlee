@@ -3,8 +3,6 @@
 import React, { Component } from "react";
 import { Image, StyleSheet, ListView } from "react-native";
 import moment from "moment";
-// import TimeAgo from "react-native-timeago";
-// import Moment from "react-moment";
 
 import {
   StyleProvider,

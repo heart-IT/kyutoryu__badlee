@@ -25,7 +25,7 @@ import getTheme from "../../theme/components";
 
 import Icon from "../../components/Icon";
 
-// import Badlees from "./main/Badlees";
+import Badlee from "./Badlee";
 import Chat from "./Chat";
 import UserProfile from "./User";
 
@@ -57,7 +57,7 @@ class AuthContainer extends Component {
                 </TabHeading>
               }
             >
-              <Text>Petrificious Totalus</Text>
+              <Badlee />
             </Tab>
             <Tab
               heading={

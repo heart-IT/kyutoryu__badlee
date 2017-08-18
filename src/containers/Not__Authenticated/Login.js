@@ -66,8 +66,8 @@ class Login extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <BackgroundImage>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <BackgroundImage>
             <View style={styles.logoWrapper}>
               <Image
                 source={require("../../images/badlee__landscape.png")}
@@ -139,8 +139,8 @@ class Login extends Component {
               <Text style={styles.switcherText}>New to the community?</Text>
               <Text style={styles.switcherTextLink}>Sign Up</Text>
             </View>
-          </Content>
-        </BackgroundImage>
+          </BackgroundImage>
+        </Content>
       </StyleProvider>
     );
   }

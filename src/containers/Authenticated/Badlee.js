@@ -50,7 +50,8 @@ class Store extends Component {
       loaded: false,
       isLoading: false,
       badlees: dummy__badleeList,
-      dataSource: ds.cloneWithRows(dummy__badleeList)
+      dataSource: ds.cloneWithRows(dummy__badleeList),
+      active: "true"
     };
   }
 
@@ -154,9 +155,14 @@ class Store extends Component {
     }
     return (
       <StyleProvider style={getTheme()}>
-        <Content style={{ display: "flex" }}>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <Fab direction="up" style={styles.fab} position="bottomRight">
+            <Fab
+              active={this.state.active}
+              direction="up"
+              position="bottomRight"
+              onPress={() => this.setState({ active: !this.state.active })}
+            >
               <Icon name="ios-people" />
               <Button style={{ backgroundColor: "#34A34F" }}>
                 <Icon name="logo-whatsapp" />
@@ -168,7 +174,7 @@ class Store extends Component {
                 <Icon name="mail" />
               </Button>
             </Fab>
-            <Tabs class="secondary" style={styles.tabs}>
+            <Tabs class="secondary">
               <Tab
                 heading={
                   <TabHeading style={{ backgroundColor: "#fff" }}>

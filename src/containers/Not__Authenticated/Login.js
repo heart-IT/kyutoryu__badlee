@@ -26,7 +26,7 @@ import {
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-// import Main from "../Authenticated/Main";
+import Main from "../Authenticated/Main";
 import Welcome from "./Welcome";
 import type { State } from "../../types";
 
@@ -54,13 +54,13 @@ class Login extends Component {
   }
 
   formSubmit() {
-    // requestAnimationFrame(() => {
-    //   this.props.login(this.state.username, this.state.password, {
-    //     navigator: this.props.navigator,
-    //     component: Main,
-    //     reset: true
-    //   });
-    // });
+    requestAnimationFrame(() => {
+      this.props.login(this.state.username, this.state.password, {
+        navigator: this.props.navigator,
+        component: Main,
+        reset: true
+      });
+    });
   }
 
   render() {

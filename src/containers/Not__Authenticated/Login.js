@@ -97,7 +97,10 @@ class Login extends Component {
               }}
             >
               <View style={styles.inputWrapper}>
-                <Icon name="contact" style={styles.inputIcon} />
+                <Image
+                  source={require("../../images/auth/login__user-icon.png")}
+                  style={styles.inputIcon}
+                />
                 <Item style={styles.boxWrapper}>
                   <Input
                     onChangeText={username => this.setState({ username })}
@@ -110,7 +113,10 @@ class Login extends Component {
                 </Item>
               </View>
               <View style={styles.inputWrapper}>
-                <Icon name="settings" style={styles.inputIcon} />
+                <Image
+                  source={require("../../images/auth/login__password-icon.png")}
+                  style={styles.inputIcon}
+                />
                 <Item style={styles.boxWrapper}>
                   <Input
                     secureTextEntry={true}
@@ -167,15 +173,14 @@ const styles = {
     alignItems: "center"
   },
   inputIcon: {
-    color: "#fff",
-    flex: 3,
-    textAlign: "center",
-    borderRightWidth: 1,
-    borderColor: "#fff"
+    flex: 2,
+    width: 60,
+    height: 60,
+    borderRightWidth: 1
   },
   boxWrapper: {
-    flex: 12,
-    paddingLeft: 15,
+    flex: 9,
+    paddingLeft: 0,
     borderBottomWidth: 0
   },
   inputBox: {

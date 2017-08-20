@@ -24,6 +24,7 @@ import { connectStyle } from "native-base";
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
+import NewBadlee from "./NewBadlee";
 
 import { dummy__badleeList } from "../../fixtures";
 import Icon from "../../components/Icon";
@@ -69,6 +70,22 @@ class Store extends Component {
         var json = response.text();
       }
     });
+  }
+
+  letsExchange() {
+    console.log("who am i?");
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: NewBadlee
+      });
+    });
+    // requestAnimationFrame(() => {
+    //   this.props.navigate({
+    //     navigator: this.props.navigator,
+    //     component: Login
+    //   });
+    // });
   }
 
   render() {
@@ -171,8 +188,10 @@ class Store extends Component {
               style={{
                 backgroundColor: "#94c655",
                 width: 40,
-                height: 40
+                height: 40,
+                zIndex: 9999
               }}
+              onPress={this.letsExchange.bind(this)}
             >
               <Icon
                 name="exchange"
@@ -180,22 +199,32 @@ class Store extends Component {
                 width="25"
                 height="25"
               />
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  backgroundColor: "#fff"
-                }}
-              >
-                <Text>Lend & Borrow</Text>
-              </View>
             </Button>
-            <Button style={{ backgroundColor: "#3B5998" }}>
-              <Image source={require("../../images/show off 2.png")} />
+            <Button
+              style={{
+                backgroundColor: "#3B5998",
+                width: 40,
+                height: 40
+              }}
+            >
+              <Image
+                source={require("../../images/show off 2.png")}
+                style={{ width: 40, height: 40 }}
+              />
             </Button>
-            <Button disabled style={{ backgroundColor: "#DD5144" }}>
-              <Icon name="shoutout" />
+            <Button
+              style={{
+                backgroundColor: "#428ee2",
+                width: 40,
+                height: 40
+              }}
+            >
+              <Icon
+                name="shoutout"
+                viewBox="0 0 60 60"
+                width="25"
+                height="25"
+              />
             </Button>
           </Fab>
           <View style={{ flex: 1 }}>

@@ -57,19 +57,24 @@ class Store extends Component {
   }
 
   componentDidMount() {
-    var myInit = {
-      method: "GET",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+    this.fetchBadlees();
+  }
 
-    fetch(request_url, myInit).then(response => {
-      if (response.status === 200) {
-        var json = response.text();
-      }
+  fetchBadlees() {
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
     });
+    fetch(request_url)
+      .then(response => response.json())
+      .then(dataSource => {
+        console.log(dataSource);
+        this.setState({
+          dataSource: ds.cloneWithRows(dataSource),
+          paused: true
+        });
+      })
+      .catch(err => console.log(err))
+      .done();
   }
 
   letsExchange() {
@@ -125,7 +130,7 @@ class Store extends Component {
             <Left>
               <Thumbnail
                 source={{
-                  uri: data["photo"]
+                  uri: data["media"]
                 }}
                 style={{ height: 32, width: 32, marginLeft: 12 }}
               />
@@ -147,7 +152,7 @@ class Store extends Component {
           <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
             <Image
               source={{
-                uri: data["photo"]
+                uri: data["media"]
               }}
               style={{ height: 200, width: "100%", flex: 1 }}
             />
@@ -160,7 +165,7 @@ class Store extends Component {
                   fontSize: 12
                 }}
               >
-                {data["place"]}
+                {data["location"]}
               </Text>
               <Text
                 style={{

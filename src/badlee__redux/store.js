@@ -25,6 +25,7 @@ import loginMiddleware from "./middleware/login";
 import registerMiddleware from "./middleware/register";
 import restoreAuthMiddleware from "./middleware/restore_auth";
 import logoutMiddleware from "./middleware/logout";
+import BadleeMiddleware from "./middleware/badlee";
 
 // List of middleware we are using.
 const middleware = [
@@ -32,7 +33,8 @@ const middleware = [
   loginMiddleware,
   registerMiddleware,
   restoreAuthMiddleware,
-  logoutMiddleware
+  logoutMiddleware,
+  BadleeMiddleware
 ];
 
 // In dev enivorement, add logger for redux.

@@ -81,3 +81,21 @@ export const changeInternetConnectionStatus = (
   type: "INTERNET_CONNECTION",
   status: status
 });
+
+// badlee section
+export const saveBadlee = (
+  media: string,
+  description: string,
+  ip: string,
+  location: string,
+  purpose: string,
+  category: string
+) => ({
+  type: "SAVE_BADLEE",
+  media: media,
+  description: description,
+  ip: ip,
+  location: location,
+  purpose: purpose,
+  category: category
+});

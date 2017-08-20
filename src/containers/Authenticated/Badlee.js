@@ -12,7 +12,6 @@ import {
   Tabs,
   Tab,
   TabHeading,
-  Icon,
   Card,
   CardItem,
   Body,
@@ -27,6 +26,7 @@ import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
 import { dummy__badleeList } from "../../fixtures";
+import Icon from "../../components/Icon";
 
 let request_url = "http://mri2189.badlee.com/posts.php";
 
@@ -51,7 +51,7 @@ class Store extends Component {
       isLoading: false,
       badlees: dummy__badleeList,
       dataSource: ds.cloneWithRows(dummy__badleeList),
-      active: "true"
+      fabActive: "false"
     };
   }
 
@@ -156,29 +156,37 @@ class Store extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <Fab
+            active={this.state.fabActive}
+            direction="up"
+            position="bottomRight"
+            style={{ zIndex: 9999 }}
+            onPress={() => this.setState({ fabActive: !this.state.fabActive })}
+          >
+            <Image source={require("../../images/badlee.png")} />
+            <View style={{ backgroundColor: "#94c655" }}>
+              <Icon name="exchange" viewBox="0 0 40 40" width="40" />
+            </View>
+            <Button style={{ backgroundColor: "#3B5998" }}>
+              <Image source={require("../../images/show off 2.png")} />
+            </Button>
+            <Button disabled style={{ backgroundColor: "#DD5144" }}>
+              <Icon name="shoutout" />
+            </Button>
+          </Fab>
           <View style={{ flex: 1 }}>
-            <Fab
-              active={this.state.active}
-              direction="up"
-              position="bottomRight"
-              onPress={() => this.setState({ active: !this.state.active })}
-            >
-              <Icon name="ios-people" />
-              <Button style={{ backgroundColor: "#34A34F" }}>
-                <Icon name="logo-whatsapp" />
-              </Button>
-              <Button style={{ backgroundColor: "#3B5998" }}>
-                <Icon name="logo-facebook" />
-              </Button>
-              <Button disabled style={{ backgroundColor: "#DD5144" }}>
-                <Icon name="mail" />
-              </Button>
-            </Fab>
             <Tabs class="secondary">
               <Tab
                 heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
-                    <Icon name="ios-people" style={{ color: "#4b4b4b" }} />
+                  <TabHeading
+                    style={{ backgroundColor: "#fff", paddingLeft: "12%" }}
+                  >
+                    <Icon
+                      name="community"
+                      viewBox="0 0 60 60"
+                      height="30"
+                      width="30"
+                    />
                   </TabHeading>
                 }
               >
@@ -196,18 +204,24 @@ class Store extends Component {
                 heading={
                   <TabHeading style={{ backgroundColor: "#fff" }}>
                     <Icon
-                      name="ios-locate-outline"
-                      style={{ color: "#4b4b4b" }}
+                      name="location"
+                      viewBox="0 0 60 60"
+                      height="27"
+                      width="27"
                     />
                   </TabHeading>
                 }
               />
               <Tab
                 heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <TabHeading
+                    style={{ backgroundColor: "#fff", paddingRight: "12%" }}
+                  >
                     <Icon
-                      name="ios-globe-outline"
-                      style={{ color: "#4b4b4b" }}
+                      name="globe"
+                      viewBox="0 0 485.215 485.215"
+                      height="27"
+                      width="27"
                     />
                   </TabHeading>
                 }

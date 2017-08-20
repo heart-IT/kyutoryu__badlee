@@ -38,6 +38,8 @@ async function checkLogin(store, next: Function, action: LOGIN) {
       });
     }
     next(action);
+  } catch (e) {
+    console.log(e);
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

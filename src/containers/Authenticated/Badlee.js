@@ -73,19 +73,39 @@ class Store extends Component {
   }
 
   letsExchange() {
-    console.log("who am i?");
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
-        component: NewBadlee
+        component: NewBadlee,
+        params: {
+          type: "exchange"
+        }
       });
     });
-    // requestAnimationFrame(() => {
-    //   this.props.navigate({
-    //     navigator: this.props.navigator,
-    //     component: Login
-    //   });
-    // });
+  }
+
+  showOff() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: NewBadlee,
+        params: {
+          type: "showOff"
+        }
+      });
+    });
+  }
+
+  shoutOut() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: NewBadlee,
+        params: {
+          type: "shoutOut"
+        }
+      });
+    });
   }
 
   render() {
@@ -204,8 +224,10 @@ class Store extends Component {
               style={{
                 backgroundColor: "#3B5998",
                 width: 40,
-                height: 40
+                height: 40,
+                zIndex: 9999
               }}
+              onPress={this.showOff.bind(this)}
             >
               <Image
                 source={require("../../images/show off 2.png")}
@@ -216,8 +238,10 @@ class Store extends Component {
               style={{
                 backgroundColor: "#428ee2",
                 width: 40,
-                height: 40
+                height: 40,
+                zIndex: 9999
               }}
+              onPress={this.shoutOut.bind(this)}
             >
               <Icon
                 name="shoutout"

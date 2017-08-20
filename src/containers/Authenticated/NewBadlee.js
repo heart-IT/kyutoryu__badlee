@@ -35,11 +35,19 @@ class NewBadlee extends Component {
       description: null,
       ip: "11.12.13.14",
       location: null,
-      purpose: null,
+      purpose: this.props.params.type ? this.props.params.type : null,
       category: null
     };
   }
   componentDidMount() {}
+  backPress() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Main
+      });
+    });
+  }
   selectPhotoTapped() {
     const options = {
       quality: "1.0",
@@ -88,7 +96,7 @@ class NewBadlee extends Component {
         <Container style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Header>
             <Left>
-              <Button transparent>
+              <Button transparent onPress={this.backPress.bind(this)}>
                 <Icon name="arrow-back" />
               </Button>
             </Left>
@@ -129,6 +137,13 @@ class NewBadlee extends Component {
                   placeholder="Where is it?"
                   value={this.state.location}
                   onChangeText={location => this.setState({ location })}
+                />
+              </Item>
+              <Item>
+                <Input
+                  placeholder="Purpose"
+                  disabled
+                  value={this.state.purpose}
                 />
               </Item>
               <Item>

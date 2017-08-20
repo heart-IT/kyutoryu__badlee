@@ -27,7 +27,7 @@ import {
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import AuthContainer from "../Authenticated/Container";
-import Welcome from "./Welcome";
+import Register from "./Register";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {
@@ -59,6 +59,15 @@ class Login extends Component {
         navigator: this.props.navigator,
         component: AuthContainer,
         reset: true
+      });
+    });
+  }
+
+  goToSignup() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Register
       });
     });
   }
@@ -143,7 +152,12 @@ class Login extends Component {
             <Text style={styles.forgotPasswordText}>Forgot password?</Text>
             <View style={styles.pageSwitcher}>
               <Text style={styles.switcherText}>New to the community?</Text>
-              <Text style={styles.switcherTextLink}>Sign Up</Text>
+              <Text
+                style={styles.switcherTextLink}
+                onPress={this.goToSignup.bind(this)}
+              >
+                Sign Up
+              </Text>
             </View>
           </BackgroundImage>
         </Content>

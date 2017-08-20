@@ -3,7 +3,7 @@
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
  * 
- * @description- This file is the login page. WiP here
+ * @description- This file is the Register Page
  * @author- heartit pirates
  */
 
@@ -26,15 +26,28 @@ import {
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import BackgroundImage from "../../components/BackgroundImage";
-import Main from "../Authenticated/Main";
-import Welcome from "./Welcome";
+import Main from "../Authenticated/Container";
 import type { State } from "../../types";
 
-class Login extends Component {
+class BackgroundImage extends Component {
+  render() {
+    let image = require("../../images/login__bg.png");
+    return (
+      <Image source={image} style={styles.backgroundImage}>
+        <Text>
+          {this.props.src}
+        </Text>
+        {this.props.children}
+      </Image>
+    );
+  }
+}
+
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: null,
       email: null,
       password: null
     };
@@ -42,42 +55,23 @@ class Login extends Component {
 
   formSubmit() {
     requestAnimationFrame(() => {
-      this.props.login(this.state.username, this.state.password, {
-        navigator: this.props.navigator,
-        component: Main,
-        reset: true
-      });
+      this.props.register(
+        this.state.email,
+        this.state.username,
+        this.state.password,
+        {
+          navigator: this.props.navigator,
+          component: Main,
+          params: {
+            registered: true
+          },
+          reset: true
+        }
+      );
     });
-    if (this.state.screenType === "Login") {
-    } else {
-      requestAnimationFrame(() => {
-        this.props.register(
-          this.state.email,
-          this.state.username,
-          this.state.password,
-          {
-            navigator: this.props.navigator,
-            component: Main,
-            params: {
-              registered: true
-            },
-            reset: true
-          }
-        );
-      });
-    }
   }
 
-  switchPage = () => {
-    if (this.state.screenType === "Login") {
-      this.setState({ screenType: "Sign Up" });
-    } else {
-      this.setState({ screenType: "Login" });
-    }
-  };
-
   render() {
-    const screenType = this.state.screenType;
     return (
       <StyleProvider style={getTheme()}>
         <BackgroundImage>
@@ -126,20 +120,19 @@ class Login extends Component {
                   />
                 </Item>
               </View>
-              {screenType === "Sign Up" &&
-                <View style={styles.inputWrapper}>
-                  <Icon name="settings" style={styles.inputIcon} />
-                  <Item style={styles.boxWrapper}>
-                    <Input
-                      onChangeText={email => this.setState({ email })}
-                      value={this.state.email}
-                      placeholder="Email"
-                      placeholderTextColor="#7d5c85"
-                      fontFamily="PoiretOne-Regular"
-                      style={styles.inputBox}
-                    />
-                  </Item>
-                </View>}
+              <View style={styles.inputWrapper}>
+                <Icon name="settings" style={styles.inputIcon} />
+                <Item style={styles.boxWrapper}>
+                  <Input
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.email}
+                    placeholder="Email"
+                    placeholderTextColor="#7d5c85"
+                    fontFamily="PoiretOne-Regular"
+                    style={styles.inputBox}
+                  />
+                </Item>
+              </View>
               <View style={styles.inputWrapper}>
                 <Icon name="settings" style={styles.inputIcon} />
                 <Item style={styles.boxWrapper}>
@@ -161,22 +154,15 @@ class Login extends Component {
                   onPress={this.formSubmit.bind(this)}
                   style={styles.submitButton}
                 >
-                  <Text style={styles.submitButtonText}>
-                    {screenType}
-                  </Text>
+                  <Text style={styles.submitButtonText}>Sign Up</Text>
                 </Button>
               </View>
             </Form>
-            {screenType === "Login" &&
-              <Text style={styles.forgotPasswordText}>Forgot password?</Text>}
+
             <View style={styles.pageSwitcher}>
-              <Text style={styles.switcherText}>
-                {screenType === "Login"
-                  ? "New to the community?"
-                  : "Already have an account"}
-              </Text>
+              <Text style={styles.switcherText}>Already have an account</Text>
               <Text style={styles.switcherTextLink} onPress={this.switchPage}>
-                {screenType === "Login" ? "Sign Up" : "Login"}
+                Login
               </Text>
             </View>
           </Content>
@@ -267,6 +253,6 @@ const _Wrapped = connect(
     loading: state.get("loading")
   }),
   actionCreators
-)(Login);
+)(Register);
 
 export default _Wrapped;

@@ -1,3 +1,19 @@
+@chill- In the meditation hall, A monk's robe hangs by the door. But outside the window, There's no one. Only birds over the water- Meng Hao-Jan
+
+Baratie Arc work:
+1. sniper usopp-> badlee app icon
+2. meeting sanji-> make register page, fix login background css issue
+3. meeting kreig -> forgot password page
+4. fighting mihawk -> file picker
+5. don kreig -> messaging
+
+reward :
+1. we get sanjiii -> user can now register
+2. mihawk zoro fight -> vow to serve him the pirate king
+
+
+
+
 @chill- Whatever you do, act always in full presence of mind: be mindful in eating and drinking, in walking or standing, in sleeping or waking, while talking or while being silent. - Buddha
 
 syrup village work:

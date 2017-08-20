@@ -160,13 +160,37 @@ class Store extends Component {
             active={this.state.fabActive}
             direction="up"
             position="bottomRight"
-            style={{ zIndex: 9999 }}
+            style={{ zIndex: 9999, backgroundColor: "none" }}
             onPress={() => this.setState({ fabActive: !this.state.fabActive })}
           >
-            <Image source={require("../../images/badlee.png")} />
-            <View style={{ backgroundColor: "#94c655" }}>
-              <Icon name="exchange" viewBox="0 0 40 40" width="40" />
-            </View>
+            <Image
+              source={require("../../images/badlee.png")}
+              style={{ width: 56, height: 56 }}
+            />
+            <Button
+              style={{
+                backgroundColor: "#94c655",
+                width: 40,
+                height: 40
+              }}
+            >
+              <Icon
+                name="exchange"
+                viewBox="0 0 60 60"
+                width="25"
+                height="25"
+              />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  backgroundColor: "#fff"
+                }}
+              >
+                <Text>Lend & Borrow</Text>
+              </View>
+            </Button>
             <Button style={{ backgroundColor: "#3B5998" }}>
               <Image source={require("../../images/show off 2.png")} />
             </Button>

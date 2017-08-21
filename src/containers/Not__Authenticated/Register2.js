@@ -32,6 +32,7 @@ var ImagePicker = require("react-native-image-picker");
 
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
+import DatePicker from "react-native-datepicker";
 import Main from "../Authenticated/Container";
 import type { State } from "../../types";
 
@@ -54,6 +55,7 @@ class BackgroundImage extends Component {
 class Register2 extends Component {
   constructor(props) {
     super(props);
+    this.datePicker = null;
     this.state = {
       avatarSource: null
     };
@@ -89,6 +91,13 @@ class Register2 extends Component {
         });
       }
     });
+  }
+
+  onDateChange(date) {
+    console.log(date);
+  }
+  crazyBtnClicked() {
+    this.datePicker.onPressDate();
   }
 
   render() {
@@ -130,7 +139,23 @@ class Register2 extends Component {
                   <Text style={{ marginLeft: 3, color: "#4f0554" }}>Ze</Text>
                 </View>
                 <View>
-                  <Text>X mark the spot</Text>
+                  <Button onPress={this.crazyBtnClicked.bind(this)}>
+                    <Text>Buton</Text>
+                  </Button>
+                  <DatePicker
+                    date={this.state.date}
+                    style={{ width: 0 }}
+                    ref={d => {
+                      this.datePicker = d;
+                    }}
+                    mode="date"
+                    placeholder="select date"
+                    format="YYYY-MM-DD"
+                    maxDate={new Date()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onDateChange={this.onDateChange.bind(this)}
+                  />
                 </View>
               </Form>
 

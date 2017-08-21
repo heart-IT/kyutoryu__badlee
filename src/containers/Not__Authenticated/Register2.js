@@ -22,10 +22,11 @@ import {
   Content,
   Form,
   View,
-  Item,
   Button,
   Input,
-  Thumbnail
+  Thumbnail,
+  Radio,
+  Picker
 } from "native-base";
 var ImagePicker = require("react-native-image-picker");
 
@@ -33,6 +34,8 @@ import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Main from "../Authenticated/Container";
 import type { State } from "../../types";
+
+const Item = Picker.Item;
 
 class BackgroundImage extends Component {
   render() {
@@ -104,7 +107,32 @@ class Register2 extends Component {
             <BackgroundImage>
               <Form
                 style={{ paddingLeft: "27%", paddingTop: 45, paddingRight: 15 }}
-              />
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row"
+                  }}
+                >
+                  <Radio selected={true} />
+                  <Text
+                    style={{ marginRight: 30, marginLeft: 3, color: "#4f0554" }}
+                  >
+                    He
+                  </Text>
+                  <Radio selected={false} />
+                  <Text
+                    style={{ marginRight: 30, marginLeft: 3, color: "#4f0554" }}
+                  >
+                    She
+                  </Text>
+                  <Radio selected={false} />
+                  <Text style={{ marginLeft: 3, color: "#4f0554" }}>Ze</Text>
+                </View>
+                <View>
+                  <Text>X mark the spot</Text>
+                </View>
+              </Form>
 
               <Button
                 style={{

@@ -33,7 +33,7 @@ import type { State } from "../../types";
 
 class BackgroundImage extends Component {
   render() {
-    let image = require("../../images/Register page 2 BG.png");
+    let image = require("../../images/Register page 1 BG.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
         <Text>
@@ -45,73 +45,138 @@ class BackgroundImage extends Component {
   }
 }
 
-class Register extends Component {
+class Register2 extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      firstName: null,
-      lastName: null,
-      uniqueName: null,
-      email: null,
-      password: null
-    };
-  }
-
-  formSubmit() {
-    requestAnimationFrame(() => {
-      this.props.register(
-        this.state.email,
-        this.state.username,
-        this.state.password,
-        {
-          navigator: this.props.navigator,
-          component: Main,
-          params: {
-            registered: true
-          }
-        }
-      );
-    });
+    console.log(this.props.params.userInfo);
   }
 
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+        <Container>
           <Header style={{ backgroundColor: "#611265" }}>
             <Left>
               <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
             </Left>
             <Right>
-              <Text style={{ color: "#fff", fontSize: 15 }}>1 of 2</Text>
+              <Text style={{ color: "#fff", fontSize: 15 }}>2 of 2</Text>
             </Right>
           </Header>
-          <BackgroundImage>
-            <Form>
-              <Item>
-                <Input placeholder="First Name" />
-              </Item>
-              <Item>
-                <Input placeholder="Last Name" />
-              </Item>
-              <Item>
-                <Input placeholder="Your unique name on badlee" />
-              </Item>
-              <Item>
-                <Input placeholder="Your email address" />
-              </Item>
-              <Item>
-                <Input placeholder="Create a password" />
-              </Item>
-              <Item last>
-                <Input placeholder="Re-enter password" />
-              </Item>
-              <Button>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <BackgroundImage>
+              <Form
+                style={{ paddingLeft: "27%", paddingTop: 45, paddingRight: 15 }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginBottom: 24
+                  }}
+                >
+                  <Item
+                    style={{
+                      flex: 1,
+                      marginLeft: 6,
+                      marginRight: 6,
+                      height: 42
+                    }}
+                  >
+                    <Input
+                      placeholder="First Name"
+                      fontSize="15px"
+                      placeholderStyle={{ fontSize: 12, textColor: "#fff" }}
+                      placeholderTextColor="#fff"
+                      color="#fff"
+                      value={this.state.firstName}
+                    />
+                  </Item>
+                  <Item
+                    style={{
+                      flex: 1,
+                      marginLeft: 6,
+                      marginRight: 6,
+                      height: 42
+                    }}
+                  >
+                    <Input
+                      placeholder="Last Name"
+                      placeholderTextColor="#fff"
+                      value={this.state.lastName}
+                    />
+                  </Item>
+                </View>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
+                  <Input
+                    placeholder="Your unique name on badlee"
+                    placeholderTextColor="#fff"
+                    value={this.state.uniqueName}
+                  />
+                </Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
+                  <Input
+                    placeholder="Your email address"
+                    placeholderTextColor="#fff"
+                    value={this.state.email}
+                  />
+                </Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
+                  <Input
+                    placeholder="Create a password"
+                    placeholderTextColor="#fff"
+                    value={this.state.password}
+                  />
+                </Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
+                  <Input
+                    placeholder="Re-enter password"
+                    placeholderTextColor="#fff"
+                  />
+                </Item>
+              </Form>
+              <Button
+                style={{
+                  position: "absolute",
+                  bottom: "10%",
+                  right: "10%",
+                  borderRadius: 9
+                }}
+                onPress={this.goToPageTwo.bind(this)}
+              >
                 <Text>Next</Text>
               </Button>
-            </Form>
-          </BackgroundImage>
-        </Content>
+            </BackgroundImage>
+          </Content>
+        </Container>
       </StyleProvider>
     );
   }
@@ -123,73 +188,6 @@ const styles = {
     width: null,
     height: null,
     resizeMode: "cover"
-  },
-  inputWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  inputIcon: {
-    color: "#fff",
-    flex: 3,
-    textAlign: "center",
-    borderRightWidth: 1,
-    borderColor: "#fff"
-  },
-  boxWrapper: {
-    flex: 12,
-    paddingLeft: 15,
-    borderBottomWidth: 0
-  },
-  inputBox: {
-    color: "#fff",
-    fontSize: 21,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
-    height: 36,
-    padding: 0,
-    marginBottom: 12
-  },
-  submitButton: {
-    backgroundColor: "#fff",
-    padding: 0,
-    paddingTop: 0,
-    height: 42,
-    margin: 0,
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-  submitButtonText: {
-    color: "#611265",
-    fontFamily: "PoiretOne-Regular",
-    fontSize: 18
-  },
-  forgotPasswordText: {
-    color: "#fff",
-    textDecorationLine: "underline",
-    fontFamily: "PoiretOne-Regular",
-    textAlign: "center",
-    fontSize: 16,
-    marginTop: 9
-  },
-  pageSwitcher: {
-    marginTop: 36,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  switcherText: {
-    textAlign: "center",
-    color: "#fff",
-    fontFamily: "PoiretOne-Regular",
-    fontSize: 16
-  },
-  switcherTextLink: {
-    marginLeft: 6,
-    textDecorationLine: "underline",
-    color: "#fff",
-    fontFamily: "PoiretOne-Regular",
-    fontSize: 18
   }
 };
 
@@ -198,6 +196,6 @@ const _Wrapped = connect(
     loading: state.get("loading")
   }),
   actionCreators
-)(Register);
+)(Register2);
 
 export default _Wrapped;

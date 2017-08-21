@@ -57,7 +57,7 @@ class Register extends Component {
     };
   }
 
-  formSubmit() {
+  goToPageTwo() {
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
@@ -86,51 +86,112 @@ class Register extends Component {
               <Form
                 style={{ paddingRight: "27%", paddingTop: 45, paddingLeft: 15 }}
               >
-                <View style={{ display: "flex", flexDirection: "row" }}>
-                  <Item style={{ flex: 1, marginLeft: 6, marginRight: 6 }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginBottom: 24
+                  }}
+                >
+                  <Item
+                    style={{
+                      flex: 1,
+                      marginLeft: 6,
+                      marginRight: 6,
+                      height: 42
+                    }}
+                  >
                     <Input
                       placeholder="First Name"
                       fontSize="15px"
                       placeholderStyle={{ fontSize: 12, textColor: "#fff" }}
                       placeholderTextColor="#fff"
                       color="#fff"
+                      value={this.state.firstName}
                     />
                   </Item>
-                  <Item style={{ flex: 1, marginLeft: 6, marginRight: 6 }}>
+                  <Item
+                    style={{
+                      flex: 1,
+                      marginLeft: 6,
+                      marginRight: 6,
+                      height: 42
+                    }}
+                  >
                     <Input
                       placeholder="Last Name"
                       placeholderTextColor="#fff"
+                      value={this.state.lastName}
                     />
                   </Item>
                 </View>
-                <Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
                   <Input
                     placeholder="Your unique name on badlee"
                     placeholderTextColor="#fff"
+                    value={this.state.uniqueName}
                   />
                 </Item>
-                <Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
                   <Input
                     placeholder="Your email address"
                     placeholderTextColor="#fff"
+                    value={this.state.email}
                   />
                 </Item>
-                <Item>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
                   <Input
                     placeholder="Create a password"
                     placeholderTextColor="#fff"
+                    value={this.state.password}
                   />
                 </Item>
-                <Item last>
+                <Item
+                  style={{
+                    marginLeft: 6,
+                    marginRight: 6,
+                    height: 42,
+                    marginBottom: 24
+                  }}
+                >
                   <Input
                     placeholder="Re-enter password"
                     placeholderTextColor="#fff"
                   />
                 </Item>
-                <Button>
-                  <Text>Next</Text>
-                </Button>
               </Form>
+              <Button
+                style={{
+                  position: "absolute",
+                  bottom: "10%",
+                  right: "10%",
+                  borderRadius: 9
+                }}
+                onPress={this.goToPageTwo.bind(this)}
+              >
+                <Text>Next</Text>
+              </Button>
             </BackgroundImage>
           </Content>
         </Container>

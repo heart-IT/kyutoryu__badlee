@@ -2,13 +2,13 @@
 
 Baratie Arc work:
 1. sniper usopp-> badlee app icon
-2. meeting sanji-> make register page, fix login background css issue
+2. meeting sanji-> make register page, fix login background css issue + welcome screen
 3. meeting kreig -> forgot password page
 4. fighting mihawk -> file picker
 5. don kreig -> messaging
 
 reward :
-1. we get sanjiii -> user can now register
+1. we get sanjiii -> user can now register, weelcome sanjiii
 2. mihawk zoro fight -> vow to serve him the pirate king
 
 

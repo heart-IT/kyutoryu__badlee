@@ -28,7 +28,7 @@ import {
 } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Register2 from "./Register2";
+import Main from "../Authenticated/Container";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {
@@ -59,20 +59,25 @@ class Register extends Component {
 
   formSubmit() {
     requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: Register2,
-        params: {
-          userInfo: this.state
+      this.props.register(
+        this.state.email,
+        this.state.username,
+        this.state.password,
+        {
+          navigator: this.props.navigator,
+          component: Main,
+          params: {
+            registered: true
+          }
         }
-      });
+      );
     });
   }
 
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#611265" }}>
             <Left>
               <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
@@ -81,59 +86,32 @@ class Register extends Component {
               <Text style={{ color: "#fff", fontSize: 15 }}>1 of 2</Text>
             </Right>
           </Header>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <BackgroundImage>
-              <Form
-                style={{ paddingRight: "27%", paddingTop: 45, paddingLeft: 15 }}
-              >
-                <View style={{ display: "flex", flexDirection: "row" }}>
-                  <Item style={{ flex: 1, marginLeft: 6, marginRight: 6 }}>
-                    <Input
-                      placeholder="First Name"
-                      fontSize="15px"
-                      placeholderStyle={{ fontSize: 12, textColor: "#fff" }}
-                      placeholderTextColor="#fff"
-                      color="#fff"
-                    />
-                  </Item>
-                  <Item style={{ flex: 1, marginLeft: 6, marginRight: 6 }}>
-                    <Input
-                      placeholder="Last Name"
-                      placeholderTextColor="#fff"
-                    />
-                  </Item>
-                </View>
-                <Item>
-                  <Input
-                    placeholder="Your unique name on badlee"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
-                <Item>
-                  <Input
-                    placeholder="Your email address"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
-                <Item>
-                  <Input
-                    placeholder="Create a password"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
-                <Item last>
-                  <Input
-                    placeholder="Re-enter password"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
-                <Button>
-                  <Text>Next</Text>
-                </Button>
-              </Form>
-            </BackgroundImage>
-          </Content>
-        </Container>
+          <BackgroundImage>
+            <Form>
+              <Item>
+                <Input placeholder="First Name" />
+              </Item>
+              <Item>
+                <Input placeholder="Last Name" />
+              </Item>
+              <Item>
+                <Input placeholder="Your unique name on badlee" />
+              </Item>
+              <Item>
+                <Input placeholder="Your email address" />
+              </Item>
+              <Item>
+                <Input placeholder="Create a password" />
+              </Item>
+              <Item last>
+                <Input placeholder="Re-enter password" />
+              </Item>
+              <Button>
+                <Text>Next</Text>
+              </Button>
+            </Form>
+          </BackgroundImage>
+        </Content>
       </StyleProvider>
     );
   }

@@ -26,11 +26,13 @@ import {
   Input,
   Thumbnail,
   Radio,
-  Picker
+  Picker,
+  Icon as IconX
 } from "native-base";
 var ImagePicker = require("react-native-image-picker");
 
 import getTheme from "../../theme/components";
+import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import DatePicker from "react-native-datepicker";
 import Main from "../Authenticated/Container";
@@ -115,33 +117,148 @@ class Register2 extends Component {
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <BackgroundImage>
               <Form
-                style={{ paddingLeft: "27%", paddingTop: 45, paddingRight: 15 }}
+                style={{ paddingLeft: "24%", paddingTop: 30, paddingRight: 15 }}
               >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row"
-                  }}
-                >
+                <View style={styles.specialRow}>
+                  <Image
+                    style={styles.avatar}
+                    source={this.state.avatarSource}
+                  />
+                  <Icon
+                    name="userPlaceholder"
+                    width="120"
+                    height="120"
+                    onPress={this.selectPhotoTapped.bind(this)}
+                  />
+                  <Text
+                    style={{
+                      color: "#4f0554",
+                      fontSize: 13,
+                      marginTop: 3,
+                      borderBottomColor: "#4f0554",
+                      borderBottomWidth: 1,
+                      paddingLeft: 6,
+                      paddingRight: 6
+                    }}
+                    onPress={this.selectPhotoTapped.bind(this)}
+                  >
+                    Upload Avatar
+                  </Text>
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="gender"
+                    width="28"
+                    height="28"
+                    style={{ marginRight: 18 }}
+                  />
                   <Radio selected={true} />
                   <Text
-                    style={{ marginRight: 30, marginLeft: 3, color: "#4f0554" }}
+                    style={{
+                      marginRight: 18,
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 14,
+                      lineHeight: 18
+                    }}
                   >
                     He
                   </Text>
                   <Radio selected={false} />
                   <Text
-                    style={{ marginRight: 30, marginLeft: 3, color: "#4f0554" }}
+                    style={{
+                      marginRight: 18,
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 14
+                    }}
                   >
                     She
                   </Text>
                   <Radio selected={false} />
-                  <Text style={{ marginLeft: 3, color: "#4f0554" }}>Ze</Text>
+                  <Text
+                    style={{
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 14
+                    }}
+                  >
+                    Ze
+                  </Text>
                 </View>
-                <View>
-                  <Button onPress={this.crazyBtnClicked.bind(this)}>
-                    <Text>Buton</Text>
-                  </Button>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="cake"
+                    width="28"
+                    height="28"
+                    style={{ marginRight: 18 }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <IconX
+                      name="ios-arrow-down"
+                      style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 14
+                      }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    >
+                      01
+                    </Text>
+                    <IconX
+                      name="ios-arrow-down"
+                      style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 14
+                      }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    >
+                      JAN
+                    </Text>
+                    <IconX
+                      name="ios-arrow-down"
+                      style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        fontSize: 14
+                      }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    >
+                      1990
+                    </Text>
+                  </View>
                   <DatePicker
                     date={this.state.date}
                     style={{ width: 0 }}
@@ -156,6 +273,73 @@ class Register2 extends Component {
                     cancelBtnText="Cancel"
                     onDateChange={this.onDateChange.bind(this)}
                   />
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="locationBadlee"
+                    width="28"
+                    height="28"
+                    style={{ marginRight: 18 }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <IconX
+                      name="ios-arrow-down"
+                      style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
+                      onPress={this.crazyBtnClicked.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 14
+                      }}
+                    >
+                      Your Location
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="wishBadlee"
+                    width="28"
+                    height="28"
+                    style={{ marginRight: 18 }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <IconX
+                      name="ios-arrow-down"
+                      style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 14
+                      }}
+                    >
+                      (Fashion, Gaming, Cameras, etc)
+                    </Text>
+                  </View>
                 </View>
               </Form>
 
@@ -194,6 +378,18 @@ const styles = {
     borderRadius: 75,
     width: 150,
     height: 150
+  },
+  specialRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 18
+  },
+  formRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 18
   }
 };
 

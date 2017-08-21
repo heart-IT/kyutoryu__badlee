@@ -11,7 +11,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image } from "react-native";
+import { Image, PixelRatio } from "react-native";
 import {
   StyleProvider,
   Container,
@@ -24,8 +24,11 @@ import {
   View,
   Item,
   Button,
-  Input
+  Input,
+  Thumbnail
 } from "native-base";
+var ImagePicker = require("react-native-image-picker");
+
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Main from "../Authenticated/Container";
@@ -48,7 +51,41 @@ class BackgroundImage extends Component {
 class Register2 extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.params.userInfo);
+    this.state = {
+      avatarSource: null
+    };
+  }
+
+  selectPhotoTapped() {
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    ImagePicker.showImagePicker(options, response => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled photo picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
   }
 
   render() {
@@ -67,102 +104,8 @@ class Register2 extends Component {
             <BackgroundImage>
               <Form
                 style={{ paddingLeft: "27%", paddingTop: 45, paddingRight: 15 }}
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginBottom: 24
-                  }}
-                >
-                  <Item
-                    style={{
-                      flex: 1,
-                      marginLeft: 6,
-                      marginRight: 6,
-                      height: 42
-                    }}
-                  >
-                    <Input
-                      placeholder="First Name"
-                      fontSize="15px"
-                      placeholderStyle={{ fontSize: 12, textColor: "#fff" }}
-                      placeholderTextColor="#fff"
-                      color="#fff"
-                      value={this.state.firstName}
-                    />
-                  </Item>
-                  <Item
-                    style={{
-                      flex: 1,
-                      marginLeft: 6,
-                      marginRight: 6,
-                      height: 42
-                    }}
-                  >
-                    <Input
-                      placeholder="Last Name"
-                      placeholderTextColor="#fff"
-                      value={this.state.lastName}
-                    />
-                  </Item>
-                </View>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Your unique name on badlee"
-                    placeholderTextColor="#fff"
-                    value={this.state.uniqueName}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Your email address"
-                    placeholderTextColor="#fff"
-                    value={this.state.email}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Create a password"
-                    placeholderTextColor="#fff"
-                    value={this.state.password}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Re-enter password"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
-              </Form>
+              />
+
               <Button
                 style={{
                   position: "absolute",
@@ -170,9 +113,8 @@ class Register2 extends Component {
                   right: "10%",
                   borderRadius: 9
                 }}
-                onPress={this.goToPageTwo.bind(this)}
               >
-                <Text>Next</Text>
+                <Text>Submit</Text>
               </Button>
             </BackgroundImage>
           </Content>
@@ -188,6 +130,17 @@ const styles = {
     width: null,
     height: null,
     resizeMode: "cover"
+  },
+  avatarContainer: {
+    borderColor: "#9B9B9B",
+    borderWidth: 1 / PixelRatio.get(),
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  avatar: {
+    borderRadius: 75,
+    width: 150,
+    height: 150
   }
 };
 

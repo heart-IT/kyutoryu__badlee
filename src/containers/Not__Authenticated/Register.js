@@ -83,41 +83,16 @@ class Register extends Component {
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <BackgroundImage>
-              <Form
-                style={{ paddingRight: "27%", paddingTop: 45, paddingLeft: 15 }}
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginBottom: 24
-                  }}
-                >
-                  <Item
-                    style={{
-                      flex: 1,
-                      marginLeft: 6,
-                      marginRight: 6,
-                      height: 42
-                    }}
-                  >
+              <Form style={styles.formLeftSpace}>
+                <View style={styles.inputRow}>
+                  <Item style={styles.inputBox}>
                     <Input
                       placeholder="First Name"
-                      fontSize="15px"
-                      placeholderStyle={{ fontSize: 12, textColor: "#fff" }}
                       placeholderTextColor="#fff"
-                      color="#fff"
                       value={this.state.firstName}
                     />
                   </Item>
-                  <Item
-                    style={{
-                      flex: 1,
-                      marginLeft: 6,
-                      marginRight: 6,
-                      height: 42
-                    }}
-                  >
+                  <Item style={styles.inputBox}>
                     <Input
                       placeholder="Last Name"
                       placeholderTextColor="#fff"
@@ -125,61 +100,41 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Your unique name on badlee"
-                    placeholderTextColor="#fff"
-                    value={this.state.uniqueName}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Your email address"
-                    placeholderTextColor="#fff"
-                    value={this.state.email}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Create a password"
-                    placeholderTextColor="#fff"
-                    value={this.state.password}
-                  />
-                </Item>
-                <Item
-                  style={{
-                    marginLeft: 6,
-                    marginRight: 6,
-                    height: 42,
-                    marginBottom: 24
-                  }}
-                >
-                  <Input
-                    placeholder="Re-enter password"
-                    placeholderTextColor="#fff"
-                  />
-                </Item>
+                <View style={styles.inputRow}>
+                  <Item style={styles.inputBox}>
+                    <Input
+                      placeholder="Your unique name on badlee"
+                      placeholderTextColor="#fff"
+                      value={this.state.uniqueName}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.inputRow}>
+                  <Item style={styles.inputBox}>
+                    <Input
+                      placeholder="Your email address"
+                      placeholderTextColor="#fff"
+                      value={this.state.email}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.inputRow}>
+                  <Item style={styles.inputBox}>
+                    <Input
+                      placeholder="Create a password"
+                      placeholderTextColor="#fff"
+                      value={this.state.password}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.inputRow}>
+                  <Item style={styles.inputBox}>
+                    <Input
+                      placeholder="Re-enter password"
+                      placeholderTextColor="#fff"
+                    />
+                  </Item>
+                </View>
               </Form>
               <Button
                 style={{
@@ -205,7 +160,18 @@ const styles = {
     flex: 1,
     width: null,
     height: null,
-    resizeMode: "cover"
+    resizeMode: "stretch"
+  },
+  formLeftSpace: { paddingRight: "27%", paddingTop: 45, paddingLeft: 15 },
+  inputRow: { display: "flex", flexDirection: "row", marginBottom: 24 },
+  inputBox: {
+    flex: 1,
+    borderBottomWidth: 2,
+    borderColor: "#fff",
+    height: 36,
+    marginLeft: 9,
+    marginRight: 9,
+    padding: 0
   },
   inputWrapper: {
     display: "flex",
@@ -224,15 +190,7 @@ const styles = {
     paddingLeft: 15,
     borderBottomWidth: 0
   },
-  inputBox: {
-    color: "#fff",
-    fontSize: 21,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
-    height: 36,
-    padding: 0,
-    marginBottom: 12
-  },
+
   submitButton: {
     backgroundColor: "#fff",
     padding: 0,

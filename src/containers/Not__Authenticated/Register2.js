@@ -307,7 +307,8 @@ class Register2 extends Component {
                   <Icon
                     name="locationBadlee"
                     width="28"
-                    height="40"
+                    height="28"
+                    fill="#9625b1"
                     style={{ marginRight: 18 }}
                   />
                   <View

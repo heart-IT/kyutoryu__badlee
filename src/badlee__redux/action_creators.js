@@ -28,6 +28,11 @@ export const navigate = (route: ?Object) => ({
   route: route
 });
 
+export const saveMedia = (uri: string): SAVEMEDIA => ({
+  type: "SAVEMEDIA",
+  uri: uri
+});
+
 export const register = (
   email: string,
   username: string,

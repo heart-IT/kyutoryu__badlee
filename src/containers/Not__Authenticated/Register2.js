@@ -59,7 +59,9 @@ class Register2 extends Component {
     super(props);
     this.datePicker = null;
     this.state = {
-      avatarSource: null
+      avatarSource: null,
+      gender: "He",
+      date: "01-01-1990"
     };
   }
 
@@ -96,13 +98,27 @@ class Register2 extends Component {
   }
 
   onDateChange(date) {
-    console.log(date);
+    this.setState({ date: date });
   }
   crazyBtnClicked() {
     this.datePicker.onPressDate();
   }
 
   render() {
+    const months = {
+      0: "JAN",
+      1: "FEB",
+      2: "MAR",
+      3: "APR",
+      4: "MAY",
+      5: "JUN",
+      6: "JUL",
+      7: "AUG",
+      8: "SEP",
+      9: "OCT",
+      10: "NOV",
+      11: "DEC"
+    };
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -124,12 +140,13 @@ class Register2 extends Component {
                     style={styles.avatar}
                     source={this.state.avatarSource}
                   />
-                  <Icon
-                    name="userPlaceholder"
-                    width="120"
-                    height="120"
-                    onPress={this.selectPhotoTapped.bind(this)}
-                  />
+                  {!this.state.avatarSource &&
+                    <Icon
+                      name="userPlaceholder"
+                      width="120"
+                      height="120"
+                      onPress={this.selectPhotoTapped.bind(this)}
+                    />}
                   <Text
                     style={{
                       color: "#4f0554",
@@ -148,11 +165,14 @@ class Register2 extends Component {
                 <View style={styles.formRow}>
                   <Icon
                     name="gender"
+                    style={styles.formLabel}
                     width="28"
                     height="28"
-                    style={{ marginRight: 18 }}
                   />
-                  <Radio selected={true} />
+                  <Radio
+                    selected={this.state.gender === "He" ? true : false}
+                    onPress={text => this.setState({ gender: "He" })}
+                  />
                   <Text
                     style={{
                       marginRight: 18,
@@ -161,10 +181,14 @@ class Register2 extends Component {
                       fontSize: 14,
                       lineHeight: 18
                     }}
+                    onPress={text => this.setState({ gender: "He" })}
                   >
                     He
                   </Text>
-                  <Radio selected={false} />
+                  <Radio
+                    selected={this.state.gender === "She" ? true : false}
+                    onPress={text => this.setState({ gender: "She" })}
+                  />
                   <Text
                     style={{
                       marginRight: 18,
@@ -172,16 +196,21 @@ class Register2 extends Component {
                       color: "#4f0554",
                       fontSize: 14
                     }}
+                    onPress={text => this.setState({ gender: "She" })}
                   >
                     She
                   </Text>
-                  <Radio selected={false} />
+                  <Radio
+                    selected={this.state.gender === "Ze" ? true : false}
+                    onPress={text => this.setState({ gender: "Ze" })}
+                  />
                   <Text
                     style={{
                       marginLeft: 3,
                       color: "#4f0554",
                       fontSize: 14
                     }}
+                    onPress={text => this.setState({ gender: "Ze" })}
                   >
                     Ze
                   </Text>
@@ -191,7 +220,7 @@ class Register2 extends Component {
                     name="cake"
                     width="28"
                     height="28"
-                    style={{ marginRight: 18 }}
+                    style={styles.formLabel}
                   />
                   <View
                     style={{
@@ -217,7 +246,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      01
+                      {new Date(this.state.date).getDate()}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
@@ -236,7 +265,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      JAN
+                      {months[new Date(this.state.date).getMonth()]}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
@@ -256,7 +285,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      1990
+                      {new Date(this.state.date).getFullYear()}
                     </Text>
                   </View>
                   <DatePicker
@@ -267,7 +296,7 @@ class Register2 extends Component {
                     }}
                     mode="date"
                     placeholder="select date"
-                    format="YYYY-MM-DD"
+                    format="MM-DD-YYYY"
                     maxDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
@@ -375,9 +404,9 @@ const styles = {
     alignItems: "center"
   },
   avatar: {
-    borderRadius: 75,
-    width: 150,
-    height: 150
+    borderRadius: 120,
+    width: 120,
+    height: 120
   },
   specialRow: {
     display: "flex",
@@ -390,7 +419,8 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 18
-  }
+  },
+  formLabel: { marginRight: 18 }
 };
 
 const _Wrapped = connect(

@@ -60,7 +60,16 @@ class Register extends Component {
     };
   }
 
+  onPasswordEnter(text) {
+    this.setState({ password: text });
+    if (text !== this.state.rePassword) {
+      this.setState({ passwordMatch: false });
+    } else {
+      this.setState({ passwordMatch: true });
+    }
+  }
   onPasswordReenter(text) {
+    this.setState({ rePassword: text });
     if (text !== this.state.password) {
       this.setState({ passwordMatch: false });
     } else {
@@ -81,14 +90,6 @@ class Register extends Component {
   }
 
   render() {
-    console.log(
-      this.state.passwordMatch,
-      this.state.firstName,
-      this.state.lastName,
-      this.state.uniqueName,
-      this.state.password,
-      this.state.email
-    );
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -143,8 +144,8 @@ class Register extends Component {
                     <Input
                       placeholder="Create a password"
                       placeholderTextColor="#fff"
-                      onChangeText={password => this.setState({ password })}
                       secureTextEntry={true}
+                      onChangeText={this.onPasswordEnter.bind(this)}
                     />
                   </Item>
                 </View>

@@ -2,6 +2,8 @@
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
+ * https://maps.googleapis.com/maps/api/place/autocomplete/json?input=noi&types=(cities)&components=country:in&key=AIzaSyBoSsuv06OviFbbxKNv0droa4S-Lehk8DA
+ * 
  * 
  * @description- This file is the Register Page
  * @author- heartit pirates
@@ -61,7 +63,8 @@ class Register2 extends Component {
     this.state = {
       avatarSource: null,
       gender: "He",
-      date: "01-01-1990"
+      date: "01-01-1990",
+      location: null
     };
   }
 
@@ -102,6 +105,19 @@ class Register2 extends Component {
   }
   crazyBtnClicked() {
     this.datePicker.onPressDate();
+  }
+
+  setWishes(wish) {
+    var wishes = wish.split(",");
+    var trimmedWishes = wishes.map(function(wish) {
+      return wish.trim();
+    });
+    this.setState({ wish: trimmedWishes });
+  }
+
+  submittingUser() {
+    console.log(this.state);
+    console.log(this.props.params);
   }
 
   render() {
@@ -321,9 +337,8 @@ class Register2 extends Component {
                     <IconX
                       name="ios-arrow-down"
                       style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
-                      onPress={this.crazyBtnClicked.bind(this)}
                     />
-                    <Text
+                    <Input
                       style={{
                         color: "#4f0554",
                         borderBottomWidth: 2,
@@ -331,11 +346,15 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14
+                        fontSize: 14,
+                        height: 20,
+                        lineHeight: 20,
+                        paddingBottom: 3,
+                        paddingTop: 0
                       }}
-                    >
-                      Your Location
-                    </Text>
+                      placeholder="Your Location"
+                      onChangeText={location => this.setState({ location })}
+                    />
                   </View>
                 </View>
                 <View style={styles.formRow}>
@@ -343,6 +362,7 @@ class Register2 extends Component {
                     name="wishBadlee"
                     width="28"
                     height="28"
+                    fill="#9625b1"
                     style={{ marginRight: 18 }}
                   />
                   <View
@@ -356,7 +376,7 @@ class Register2 extends Component {
                       name="ios-arrow-down"
                       style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
                     />
-                    <Text
+                    <Input
                       style={{
                         color: "#4f0554",
                         borderBottomWidth: 2,
@@ -364,11 +384,15 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14
+                        fontSize: 14,
+                        height: 20,
+                        lineHeight: 20,
+                        paddingBottom: 3,
+                        paddingTop: 0
                       }}
-                    >
-                      (Fashion, Gaming, Cameras, etc)
-                    </Text>
+                      placeholder="(Fashion, Gaming, Cameras, etc)"
+                      onChangeText={this.setWishes.bind(this)}
+                    />
                   </View>
                 </View>
               </Form>
@@ -381,7 +405,7 @@ class Register2 extends Component {
                   borderRadius: 9
                 }}
               >
-                <Text>Submit</Text>
+                <Text onPress={this.submittingUser.bind(this)}>Submit</Text>
               </Button>
             </BackgroundImage>
           </Content>
@@ -419,7 +443,8 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 18
+    marginBottom: 18,
+    paddingRight: 18
   },
   formLabel: { marginRight: 18 }
 };

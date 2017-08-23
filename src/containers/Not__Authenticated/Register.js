@@ -26,6 +26,7 @@ import {
   Button,
   Input
 } from "native-base";
+
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Register2 from "./Register2";
@@ -53,8 +54,18 @@ class Register extends Component {
       lastName: null,
       uniqueName: null,
       email: null,
-      password: null
+      password: null,
+
+      passwordMatch: false
     };
+  }
+
+  onPasswordReenter(text) {
+    if (text !== this.state.password) {
+      this.setState({ passwordMatch: false });
+    } else {
+      this.setState({ passwordMatch: true });
+    }
   }
 
   goToPageTwo() {
@@ -70,6 +81,14 @@ class Register extends Component {
   }
 
   render() {
+    console.log(
+      this.state.passwordMatch,
+      this.state.firstName,
+      this.state.lastName,
+      this.state.uniqueName,
+      this.state.password,
+      this.state.email
+    );
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -89,14 +108,14 @@ class Register extends Component {
                     <Input
                       placeholder="First Name"
                       placeholderTextColor="#fff"
-                      value={this.state.firstName}
+                      onChangeText={firstName => this.setState({ firstName })}
                     />
                   </Item>
                   <Item style={styles.inputBox}>
                     <Input
                       placeholder="Last Name"
                       placeholderTextColor="#fff"
-                      value={this.state.lastName}
+                      onChangeText={lastName => this.setState({ lastName })}
                     />
                   </Item>
                 </View>
@@ -105,7 +124,7 @@ class Register extends Component {
                     <Input
                       placeholder="Your unique name on badlee"
                       placeholderTextColor="#fff"
-                      value={this.state.uniqueName}
+                      onChangeText={uniqueName => this.setState({ uniqueName })}
                     />
                   </Item>
                 </View>
@@ -114,7 +133,8 @@ class Register extends Component {
                     <Input
                       placeholder="Your email address"
                       placeholderTextColor="#fff"
-                      value={this.state.email}
+                      onChangeText={email => this.setState({ email })}
+                      keyboardType={"email-address"}
                     />
                   </Item>
                 </View>
@@ -123,7 +143,8 @@ class Register extends Component {
                     <Input
                       placeholder="Create a password"
                       placeholderTextColor="#fff"
-                      value={this.state.password}
+                      onChangeText={password => this.setState({ password })}
+                      secureTextEntry={true}
                     />
                   </Item>
                 </View>
@@ -132,6 +153,9 @@ class Register extends Component {
                     <Input
                       placeholder="Re-enter password"
                       placeholderTextColor="#fff"
+                      secureTextEntry={true}
+                      error={this.state.passwordMatch ? true : false}
+                      onChangeText={this.onPasswordReenter.bind(this)}
                     />
                   </Item>
                 </View>
@@ -143,6 +167,16 @@ class Register extends Component {
                   right: "10%",
                   borderRadius: 9
                 }}
+                disabled={
+                  this.state.passwordMatch &&
+                  this.state.firstName &&
+                  this.state.lastName &&
+                  this.state.uniqueName &&
+                  this.state.password &&
+                  this.state.email
+                    ? false
+                    : true
+                }
                 onPress={this.goToPageTwo.bind(this)}
               >
                 <Text>Next</Text>

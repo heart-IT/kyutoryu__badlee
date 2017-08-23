@@ -106,18 +106,18 @@ class Register2 extends Component {
 
   render() {
     const months = {
-      0: "JAN",
-      1: "FEB",
-      2: "MAR",
-      3: "APR",
-      4: "MAY",
-      5: "JUN",
-      6: "JUL",
-      7: "AUG",
-      8: "SEP",
-      9: "OCT",
-      10: "NOV",
-      11: "DEC"
+      "01": "JAN",
+      "02": "FEB",
+      "03": "MAR",
+      "04": "APR",
+      "05": "MAY",
+      "06": "JUN",
+      "07": "JUL",
+      "08": "AUG",
+      "09": "SEP",
+      "10": "OCT",
+      "11": "NOV",
+      "12": "DEC"
     };
     return (
       <StyleProvider style={getTheme()}>
@@ -246,7 +246,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      {new Date(this.state.date).getDate()}
+                      {this.state.date.split("-")[0]}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
@@ -265,7 +265,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      {months[new Date(this.state.date).getMonth()]}
+                      {months[this.state.date.split("-")[1]]}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
@@ -285,7 +285,7 @@ class Register2 extends Component {
                       }}
                       onPress={this.crazyBtnClicked.bind(this)}
                     >
-                      {new Date(this.state.date).getFullYear()}
+                      {this.state.date.split("-")[2]}
                     </Text>
                   </View>
                   <DatePicker
@@ -296,7 +296,7 @@ class Register2 extends Component {
                     }}
                     mode="date"
                     placeholder="select date"
-                    format="MM-DD-YYYY"
+                    format="DD-MM-YYYY"
                     maxDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
@@ -307,7 +307,7 @@ class Register2 extends Component {
                   <Icon
                     name="locationBadlee"
                     width="28"
-                    height="28"
+                    height="40"
                     style={{ marginRight: 18 }}
                   />
                   <View

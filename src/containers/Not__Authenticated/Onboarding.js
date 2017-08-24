@@ -270,7 +270,7 @@ const styles = {
     color: "#611265"
   },
   lendBorrowColor: {
-    color: "#8CD790"
+    color: "#94c655"
   },
   showoffColor: {
     color: "#f3e309"

@@ -28,9 +28,15 @@ export const navigate = (route: ?Object) => ({
   route: route
 });
 
-export const saveMedia = (uri: string): SAVEMEDIA => ({
+export const saveMedia = (
+  uri: string,
+  type: string,
+  name: string
+): SAVEMEDIA => ({
   type: "SAVEMEDIA",
-  uri: uri
+  uri: uri,
+  imageType: type,
+  fileName: name
 });
 
 export const register = (

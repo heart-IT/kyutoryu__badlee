@@ -32,7 +32,6 @@ import {
   Icon as IconX
 } from "native-base";
 var ImagePicker = require("react-native-image-picker");
-import FileUploader from "react-native-file-uploader";
 
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
@@ -95,7 +94,9 @@ class Register2 extends Component {
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          avatarSource: source
+          avatarSource: source,
+          avatarType: response.type,
+          avatarName: response.fileName
         });
       }
     });
@@ -117,9 +118,11 @@ class Register2 extends Component {
   }
 
   submittingUser() {
-    this.props.saveMedia(this.state, avatarSource.uri);
-    console.log(this.state);
-    console.log(this.props.params);
+    this.props.saveMedia(
+      this.state.avatarSource.uri,
+      this.state.avatarType,
+      this.state.avatarName
+    );
   }
 
   render() {

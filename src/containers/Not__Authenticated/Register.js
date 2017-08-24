@@ -168,16 +168,6 @@ class Register extends Component {
                   right: "10%",
                   borderRadius: 9
                 }}
-                disabled={
-                  this.state.passwordMatch &&
-                  this.state.firstName &&
-                  this.state.lastName &&
-                  this.state.uniqueName &&
-                  this.state.password &&
-                  this.state.email
-                    ? false
-                    : true
-                }
                 onPress={this.goToPageTwo.bind(this)}
               >
                 <Text>Next</Text>

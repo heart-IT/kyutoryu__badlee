@@ -35,7 +35,8 @@ const middleware = [
   registerMiddleware,
   restoreAuthMiddleware,
   logoutMiddleware,
-  BadleeMiddleware
+  BadleeMiddleware,
+  MediaMiddleware
 ];
 
 // In dev enivorement, add logger for redux.

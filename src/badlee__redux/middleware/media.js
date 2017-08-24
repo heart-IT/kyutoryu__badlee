@@ -19,6 +19,7 @@ async function saveMedia(store, next: Function, action) {
     name: action.fileName
   };
   const jolly_roger = await AsyncStorage.getItem("jollyroger");
+
   var body = new FormData();
   body.append("media", file);
   body.append("application_id", "xYqBgc1Xcf2Ufyhir5ab");
@@ -26,12 +27,13 @@ async function saveMedia(store, next: Function, action) {
   const response = await fetch("http://mri2189.badlee.com/media.php", {
     method: "POST",
     headers: {
+      Accept: "application/json",
       "Content-Type": "multipart/form-data",
       Authorization: jolly_roger
     },
     body: body
   });
-  const responseData = await response.json();
+  const responseData = await response.text();
   console.log(response);
   next(action);
 }

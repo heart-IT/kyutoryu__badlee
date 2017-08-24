@@ -165,12 +165,18 @@ class Register2 extends Component {
                     source={this.state.avatarSource}
                   />
                   {!this.state.avatarSource &&
-                    <Icon
-                      name="userPlaceholder"
-                      width="120"
-                      height="120"
+                    <Button
+                      transparent
                       onPress={this.selectPhotoTapped.bind(this)}
-                    />}
+                      style={{
+                        width: 160,
+                        height: 120,
+                        marginLeft: "auto",
+                        marginRight: "auto"
+                      }}
+                    >
+                      <Icon name="userPlaceholder" width="120" height="120" />
+                    </Button>}
                   <Text
                     style={{
                       color: "#4f0554",

@@ -1,11 +1,10 @@
 /**
- * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
- * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
+ * You must live in the present launch yourself on every wave, find your eternity in each moment- There is no other life but this. Henry David Thoreau
  * 
  * https://maps.googleapis.com/maps/api/place/autocomplete/json?input=noi&types=(cities)&components=country:in&key=AIzaSyBoSsuv06OviFbbxKNv0droa4S-Lehk8DA
  * 
- * 
- * @description- This file is the Register Page
+ * @name- Register2.js
+ * @description- This file is the second part of Register Screen.
  * @author- heartit pirates
  */
 
@@ -13,7 +12,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image, PixelRatio } from "react-native";
+import { Image } from "react-native";
 import {
   StyleProvider,
   Container,
@@ -62,12 +61,16 @@ class Register2 extends Component {
     this.datePicker = null;
     this.state = {
       avatarSource: null,
+      avatarName: null,
+      avatarType: null,
       gender: "He",
-      date: "01-01-1990",
-      location: null
+      date: "01-01-1990", //dd-mm-yyyy
+      location: null,
+      wish: []
     };
   }
 
+  // Function for Opening Image Picker
   selectPhotoTapped() {
     const options = {
       quality: 1.0,
@@ -89,8 +92,6 @@ class Register2 extends Component {
         console.log("User tapped custom button: ", response.customButton);
       } else {
         let source = { uri: response.uri };
-
-        // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
@@ -101,14 +102,11 @@ class Register2 extends Component {
       }
     });
   }
-
-  onDateChange(date) {
-    this.setState({ date: date });
-  }
-  crazyBtnClicked() {
+  // Function to open Date Picker
+  openDatePicker() {
     this.datePicker.onPressDate();
   }
-
+  // Event to set user wishes. Convert wish csv to array format here.
   setWishes(wish) {
     var wishes = wish.split(",");
     var trimmedWishes = wishes.map(function(wish) {
@@ -116,13 +114,18 @@ class Register2 extends Component {
     });
     this.setState({ wish: trimmedWishes });
   }
-
+  // Event triggered when User submits the form.
   submittingUser() {
-    this.props.saveMedia(
-      this.state.avatarSource.uri,
-      this.state.avatarType,
-      this.state.avatarName
-    );
+    console.log(this.state);
+    console.log(this.props);
+    // var data= {
+    //   avatar: {
+    //     uri: this.state.avatarSource,
+    //     type: this.state.avatarType,
+    //     name: this.state.avatarName
+    //   },
+    //   username: this.props.userInfo.username
+    // }
   }
 
   render() {
@@ -253,7 +256,7 @@ class Register2 extends Component {
                     <IconX
                       name="ios-arrow-down"
                       style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     />
                     <Text
                       style={{
@@ -265,14 +268,14 @@ class Register2 extends Component {
                         marginRight: 12,
                         fontSize: 14
                       }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     >
                       {this.state.date.split("-")[0]}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
                       style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     />
                     <Text
                       style={{
@@ -284,14 +287,14 @@ class Register2 extends Component {
                         marginRight: 12,
                         fontSize: 14
                       }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     >
                       {months[this.state.date.split("-")[1]]}
                     </Text>
                     <IconX
                       name="ios-arrow-down"
                       style={{ fontSize: 20, color: "#4f0554", marginRight: 3 }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     />
                     <Text
                       style={{
@@ -304,7 +307,7 @@ class Register2 extends Component {
                         paddingRight: 6,
                         fontSize: 14
                       }}
-                      onPress={this.crazyBtnClicked.bind(this)}
+                      onPress={this.openDatePicker.bind(this)}
                     >
                       {this.state.date.split("-")[2]}
                     </Text>
@@ -321,7 +324,7 @@ class Register2 extends Component {
                     maxDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
-                    onDateChange={this.onDateChange.bind(this)}
+                    onDateChange={date => this.setState({ date: date })}
                   />
                 </View>
                 <View style={styles.formRow}>
@@ -426,12 +429,6 @@ const styles = {
     width: null,
     height: null,
     resizeMode: "cover"
-  },
-  avatarContainer: {
-    borderColor: "#9B9B9B",
-    borderWidth: 1 / PixelRatio.get(),
-    justifyContent: "center",
-    alignItems: "center"
   },
   avatar: {
     borderRadius: 120,

@@ -13,6 +13,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Image } from "react-native";
+import LoadingView from "../../components/LoadingView";
 import {
   StyleProvider,
   Container,
@@ -36,7 +37,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import DatePicker from "react-native-datepicker";
-import Main from "../Authenticated/Container";
+import AuthContainer from "../Authenticated/Container";
 import type { State } from "../../types";
 
 const Item = Picker.Item;
@@ -116,16 +117,26 @@ class Register2 extends Component {
   }
   // Event triggered when User submits the form.
   submittingUser() {
-    console.log(this.state);
-    console.log(this.props);
-    // var data= {
-    //   avatar: {
-    //     uri: this.state.avatarSource,
-    //     type: this.state.avatarType,
-    //     name: this.state.avatarName
-    //   },
-    //   username: this.props.userInfo.username
-    // }
+    var userInfo = this.props.params.userInfo;
+    var data = {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      password: userInfo.password,
+      uniqueName: userInfo.uniqueName,
+      email: userInfo.email,
+      avatarName: this.state.avatarName,
+      avatarSource: this.state.avatarSource.uri,
+      avatarType: this.state.avatarType,
+      date: this.state.date,
+      gender: this.state.gender,
+      location: this.state.location,
+      wish: this.state.wish
+    };
+    this.props.register(data, {
+      navigator: this.props.navigator,
+      component: AuthContainer,
+      reset: true
+    });
   }
 
   render() {
@@ -146,6 +157,7 @@ class Register2 extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container>
+          {this.props.loading && <LoadingView />}
           <Header style={{ backgroundColor: "#611265" }}>
             <Left>
               <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
@@ -180,7 +192,7 @@ class Register2 extends Component {
                   <Text
                     style={{
                       color: "#4f0554",
-                      fontSize: 13,
+                      fontSize: 15,
                       marginTop: 3,
                       borderBottomColor: "#4f0554",
                       borderBottomWidth: 1,
@@ -208,7 +220,7 @@ class Register2 extends Component {
                       marginRight: 18,
                       marginLeft: 3,
                       color: "#4f0554",
-                      fontSize: 14,
+                      fontSize: 15,
                       lineHeight: 18
                     }}
                     onPress={text => this.setState({ gender: "He" })}
@@ -224,7 +236,7 @@ class Register2 extends Component {
                       marginRight: 18,
                       marginLeft: 3,
                       color: "#4f0554",
-                      fontSize: 14
+                      fontSize: 15
                     }}
                     onPress={text => this.setState({ gender: "She" })}
                   >
@@ -238,7 +250,7 @@ class Register2 extends Component {
                     style={{
                       marginLeft: 3,
                       color: "#4f0554",
-                      fontSize: 14
+                      fontSize: 15
                     }}
                     onPress={text => this.setState({ gender: "Ze" })}
                   >
@@ -272,7 +284,7 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14
+                        fontSize: 15
                       }}
                       onPress={this.openDatePicker.bind(this)}
                     >
@@ -291,7 +303,7 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14
+                        fontSize: 15
                       }}
                       onPress={this.openDatePicker.bind(this)}
                     >
@@ -311,7 +323,7 @@ class Register2 extends Component {
                         borderBottomColor: "#4f0554",
                         paddingLeft: 6,
                         paddingRight: 6,
-                        fontSize: 14
+                        fontSize: 15
                       }}
                       onPress={this.openDatePicker.bind(this)}
                     >
@@ -360,7 +372,7 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14,
+                        fontSize: 15,
                         height: 20,
                         lineHeight: 20,
                         paddingBottom: 3,
@@ -398,7 +410,7 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6,
                         marginRight: 12,
-                        fontSize: 14,
+                        fontSize: 15,
                         height: 20,
                         lineHeight: 20,
                         paddingBottom: 3,
@@ -459,7 +471,7 @@ const styles = {
 
 const _Wrapped = connect(
   (state: State) => ({
-    loading: state.get("loading")
+    loading: state.get("isLoading")
   }),
   actionCreators
 )(Register2);

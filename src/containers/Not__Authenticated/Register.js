@@ -107,6 +107,7 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="First Name"
                       placeholderTextColor="#fff"
                       onChangeText={firstName => this.setState({ firstName })}
@@ -114,6 +115,7 @@ class Register extends Component {
                   </Item>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="Last Name"
                       placeholderTextColor="#fff"
                       onChangeText={lastName => this.setState({ lastName })}
@@ -123,6 +125,7 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="Your unique name on badlee"
                       placeholderTextColor="#fff"
                       onChangeText={uniqueName => this.setState({ uniqueName })}
@@ -132,6 +135,7 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="Your email address"
                       placeholderTextColor="#fff"
                       onChangeText={email => this.setState({ email })}
@@ -142,6 +146,7 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="Create a password"
                       placeholderTextColor="#fff"
                       secureTextEntry={true}
@@ -152,6 +157,7 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
+                      style={{ fontSize: 15 }}
                       placeholder="Re-enter password"
                       placeholderTextColor="#fff"
                       secureTextEntry={true}

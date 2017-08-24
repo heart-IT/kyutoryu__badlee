@@ -5,20 +5,14 @@
  */
 "use strict";
 
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../action_creators";
+import base64 from "base-64";
 
-async function saveMedia(store, next: Function, action) {
-  await store.dispatch(actionCreators.startLoading());
-  var data = {
-    uri: action.uri
-  };
+export default async function saveMedia(action) {
   var file = {
     uri: action.uri,
     type: action.imageType,
     name: action.fileName
   };
-  const jolly_roger = await AsyncStorage.getItem("jollyroger");
 
   var body = new FormData();
   body.append("media", file);
@@ -29,18 +23,14 @@ async function saveMedia(store, next: Function, action) {
     headers: {
       Accept: "application/json",
       "Content-Type": "multipart/form-data",
-      Authorization: jolly_roger
+      Authorization: `Basic ${base64.encode("yohohoho" + ":" + "jammy2")}`
     },
     body: body
   });
-  const responseData = await response.text();
-  console.log(response);
-  next(action);
-}
-
-export default store => (next: Function) => action => {
-  if (action.type === "SAVEMEDIA") {
-    return saveMedia(store, next, action);
+  if (response.ok && response.status === 200) {
+    const responseData = await response.json();
+    return responseData;
+  } else {
+    return { error: true };
   }
-  return next(action);
-};
+}

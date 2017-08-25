@@ -1,37 +1,43 @@
 /**
+ * @chill- Even as the dense and solid rock Cannot be stirred by either wind or storm: Even so the wise cannot be moved By voices of blame or voices of praise - Buddha
  * @name- NewBadlee
  */
 
 "use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Image } from "react-native";
 import {
   StyleProvider,
   Container,
-  Content,
-  View,
   Header,
   Left,
   Right,
   Text,
-  Button,
-  Icon,
+  Content,
   Form,
-  Item,
-  Input
+  View,
+  Button,
+  Input,
+  Icon as IconX,
+  Item
 } from "native-base";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-
 import ImagePicker from "react-native-image-picker";
 
+import getTheme from "../../theme/components";
+import Icon from "../../components/Icon";
+import * as actionCreators from "../../badlee__redux/action_creators";
+
 import Main from "./Container";
+import LoadingView from "../../components/LoadingView";
 
 class NewBadlee extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      badleePhoto: null,
+      badleePhotoSource: null,
+      badleePhotoName: null,
+      badleePhotoType: null,
       description: null,
       ip: "11.12.13.14",
       location: null,
@@ -39,7 +45,6 @@ class NewBadlee extends Component {
       category: null
     };
   }
-  componentDidMount() {}
   backPress() {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -68,7 +73,9 @@ class NewBadlee extends Component {
       } else {
         let source = { uri: response.uri };
         this.setState({
-          badleePhoto: source
+          badleePhotoSource: source,
+          badleePhotoName: response.fileName,
+          badleePhotoType: response.type
         });
       }
     });
@@ -93,31 +100,42 @@ class NewBadlee extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-          <Header>
+        <Container>
+          {this.props.loading && <LoadingView />}
+          <Header style={{ backgroundColor: "#611265" }}>
             <Left>
               <Button transparent onPress={this.backPress.bind(this)}>
-                <Icon name="arrow-back" />
+                <IconX name="arrow-back" />
               </Button>
             </Left>
             <Right>
               <Button transparent onPress={this.saveBadlee.bind(this)}>
-                <Text>POST</Text>
+                <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
               </Button>
             </Right>
           </Header>
-          <Content>
-            <Button
-              onPress={this.selectPhotoTapped.bind(this)}
-              style={styles.imagePicker}
-            >
-              <View>
-                {this.state.badleePhoto === null
-                  ? <Text>Select a photo</Text>
-                  : <Image source={this.state.badleePhoto} />}
-              </View>
-            </Button>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Form>
+              <View style={styles.badleePhotoWrapper}>
+                {this.state.badleePhotoSource &&
+                  <Image
+                    style={styles.avatar}
+                    source={this.state.badleePhotoSource}
+                  />}
+                {!this.state.badleePhotoSource &&
+                  <Button
+                    transparent
+                    onPress={this.selectPhotoTapped.bind(this)}
+                    style={{
+                      width: 160,
+                      height: 120,
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  >
+                    <Icon name="userPlaceholder" width="120" height="120" />
+                  </Button>}
+              </View>
               <Item>
                 <Input
                   placeholder="Title.."

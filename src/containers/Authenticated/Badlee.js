@@ -52,7 +52,7 @@ class Store extends Component {
       isLoading: false,
       badlees: dummy__badleeList,
       dataSource: ds.cloneWithRows(dummy__badleeList),
-      fabActive: "false"
+      fabActive: false
     };
   }
 

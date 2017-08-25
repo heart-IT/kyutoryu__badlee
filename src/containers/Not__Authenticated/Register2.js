@@ -449,7 +449,7 @@ const styles = {
     resizeMode: "cover"
   },
   avatar: {
-    borderRadius: 120,
+    borderRadius: 60,
     width: 120,
     height: 120
   },

@@ -43,6 +43,7 @@ class AuthContainer extends Component {
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Tabs
             initialPage={this.state.initial_tab}
+            locked={true}
             tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
           >
             <Tab

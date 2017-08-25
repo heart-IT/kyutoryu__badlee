@@ -1,25 +1,17 @@
 "use strict";
 import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
+import saveMedia from "./media";
 
-async function saveBadlee(store, next, action) {
+async function saveBadlee(badleeData, badleePhotoUrl) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    const randomImages = [
-      "https://s-media-cache-ak0.pinimg.com/originals/3b/07/6c/3b076c58a2428b5fa6352c3832198fd4.jpg",
-      "https://pbs.twimg.com/profile_images/684388992674996224/zYQDMpIo.png",
-      "http://pa1.narvii.com/5765/4e02a449452fa70fe41b29219d08c484a9e6c436_hq.gif",
-      "http://orig05.deviantart.net/0b1e/f/2011/220/5/8/grimmjow__rape_face_by_kittywillcutyou-d45x00w.jpg"
-    ];
     const data = {
-      media: action.media
-        ? action.media
-        : randomImages[Math.floor(Math.random() * 4)],
-      description: action.description,
-      ip: action.ip,
-      location: action.location,
-      purpose: action.purpose ? action.purpose : "Show Off",
-      category: action.category,
+      media: "http://mri2189.badlee.com/" + badleePhotoUrl,
+      description: badleeData.description,
+      ip: badleeData.ip,
+      location: badleeData.location,
+      purpose: badleeData.purpose,
+      category: badleeData.category,
       application_id: "xYqBgc1Xcf2Ufyhir5ab",
       application_secret: "vh4tyy74xAnNLtGagto4"
     };
@@ -31,7 +23,6 @@ async function saveBadlee(store, next, action) {
       formBody.push(`${encodedKey}=${encodedValue}`);
     }
     formBody = formBody.join("&");
-    console.log(data);
     let response = await fetch("http://mri2189.badlee.com/posts.php", {
       method: "POST",
       headers: {
@@ -41,9 +32,37 @@ async function saveBadlee(store, next, action) {
       },
       body: formBody
     });
-    console.log(response);
-    var respnseJson = await response.json();
-    console.log(respnseJson);
+    if (response.status === 200 && response.ok === true) {
+      var respnseJson = await response.json();
+      return respnseJson;
+    } else {
+      return { error: true };
+    }
+  } catch (err) {
+    return { error: true };
+  }
+}
+
+async function startSaveProcess(store, next, action) {
+  try {
+    await store.dispatch(actionCreators.startLoading());
+    var badleeData = action.data;
+    var uploadMedia = await saveMedia({
+      uri: badleeData.badleePhotoUrl.uri,
+      imageType: badleeData.badleePhotoType,
+      fileName: badleeData.badleePhotoName
+    });
+    if (uploadMedia.error) {
+      next(action);
+    } else {
+      var saveBadleeResponse = await saveBadlee(badleeData, uploadMedia.url);
+      if (saveBadleeResponse.error) {
+        next(action);
+      } else {
+        await store.dispatch(actionCreators.navigate(action.route));
+        next(action);
+      }
+    }
   } catch (err) {
     console.log(err);
   } finally {
@@ -53,7 +72,7 @@ async function saveBadlee(store, next, action) {
 
 export default store => next => action => {
   if (action.type === "SAVE_BADLEE") {
-    return saveBadlee(store, next, action);
+    return startSaveProcess(store, next, action);
   }
   return next(action);
 };

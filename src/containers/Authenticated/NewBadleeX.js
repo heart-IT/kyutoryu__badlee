@@ -2,8 +2,8 @@
  * @chill- Even as the dense and solid rock Cannot be stirred by either wind or storm: Even so the wise cannot be moved By voices of blame or voices of praise - Buddha
  * @name- NewBadlee
  */
-"use strict";
 
+"use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Image } from "react-native";
@@ -15,19 +15,19 @@ import {
   Right,
   Text,
   Content,
-  View,
   Form,
-  Icon as IconX,
-  Item,
+  View,
+  Button,
   Input,
-  Button
+  Icon as IconX,
+  Item
 } from "native-base";
-var ImagePicker = require("react-native-image-picker");
+import ImagePicker from "react-native-image-picker";
 
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import type { State } from "../../types";
+
 import Main from "./Container";
 import LoadingView from "../../components/LoadingView";
 
@@ -35,14 +35,14 @@ class NewBadlee extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      badleePhotoUrl: null,
+      badleePhotoSource: null,
       badleePhotoName: null,
       badleePhotoType: null,
-      title: null,
       description: null,
+      ip: "11.12.13.14",
+      location: null,
       purpose: this.props.params.type ? this.props.params.type : null,
-      category: null,
-      ip: "11.12.13.14"
+      category: null
     };
   }
   backPress() {
@@ -55,52 +55,50 @@ class NewBadlee extends Component {
   }
   selectPhotoTapped() {
     const options = {
-      quality: 1.0,
+      quality: "1.0",
       maxWidth: 500,
       maxHeight: 500,
       storageOptions: {
         skipBackup: true
       }
     };
-
     ImagePicker.showImagePicker(options, response => {
       console.log("Response = ", response);
-
+      console.log(response.didCancel);
+      console.log(response.error);
+      console.log(response.customButton);
       if (response.didCancel) {
-        console.log("User cancelled photo picker");
+        console.log("user cancelled photo picker");
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
+        console.log("Imagepicker error : ", response.error);
       } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
+        console.log("user tapped custom button : ", response.customButton);
       } else {
+        console.log(response);
         let source = { uri: response.uri };
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
-          badleePhotoUrl: source,
-          badleePhotoType: response.type,
-          badleePhotoName: response.fileName
+          badleePhotoSource: source,
+          badleePhotoName: response.fileName,
+          badleePhotoType: response.type
         });
       }
     });
   }
   saveBadlee() {
     requestAnimationFrame(() => {
-      var data = {
-        badleePhotoUrl: this.state.badleePhotoUrl,
-        badleePhotoType: this.state.badleePhotoType,
-        badleePhotoName: this.state.badleePhotoName,
-        description: this.state.description,
-        ip: this.state.ip,
-        location: this.state.location,
-        category: this.state.category,
-        purpose: this.state.purpose
-      };
-      this.props.saveBadlee(data, {
-        navigator: this.props.navigator,
-        component: Main,
-        reset: true
-      });
+      this.props.saveBadlee(
+        this.state.badleePhoto,
+        this.state.description,
+        this.state.ip,
+        this.state.location,
+        this.state.purpose,
+        this.state.category,
+        {
+          navigator: this.props.navigator,
+          component: Main,
+          reset: true
+        }
+      );
     });
   }
   render() {
@@ -121,13 +119,14 @@ class NewBadlee extends Component {
             </Right>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <Form>
+            <Form style={{ flex: 1, display: "flex" }}>
               <View style={styles.badleePhotoWrapper}>
-                <Image
-                  style={styles.avatar}
-                  source={this.state.badleePhotoUrl}
-                />
-                {!this.state.badleePhotoUrl &&
+                {this.state.badleePhotoSource &&
+                  <Image
+                    style={styles.avatar}
+                    source={this.state.badleePhotoSource}
+                  />}
+                {!this.state.badleePhotoSource &&
                   <Button
                     transparent
                     onPress={this.selectPhotoTapped.bind(this)}
@@ -140,6 +139,7 @@ class NewBadlee extends Component {
                   >
                     <Icon name="userPlaceholder" width="120" height="120" />
                   </Button>}
+                <Text>Hello</Text>
               </View>
               <Item>
                 <Input
@@ -164,6 +164,13 @@ class NewBadlee extends Component {
               </Item>
               <Item>
                 <Input
+                  placeholder="Purpose"
+                  disabled
+                  value={this.state.purpose}
+                />
+              </Item>
+              <Item>
+                <Input
                   placeholder="Where does it fits?"
                   value={this.state.category}
                   onChangeText={category => this.setState({ category })}
@@ -176,18 +183,21 @@ class NewBadlee extends Component {
     );
   }
 }
+
 var styles = {
   badleePhotoWrapper: {
-    paddingTop: 12,
-    paddingBottom: 12
+    paddingTop: 6,
+    paddingBottom: 6,
+    flex: 1
   },
   avatar: {
-    width: 180,
-    height: 120,
+    width: 160,
+    height: 160,
     marginLeft: "auto",
     marginRight: "auto"
   }
 };
+
 const _Wrapped = connect(
   state => ({ loading: state.get("isLoading") }),
   actionCreators

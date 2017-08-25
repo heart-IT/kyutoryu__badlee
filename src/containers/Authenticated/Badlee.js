@@ -37,6 +37,18 @@ const styles = StyleSheet.create({
   },
   fab: {
     backgroundColor: "#5067FF"
+  },
+  badleePurposeIcon: {
+    position: "absolute",
+    top: 30,
+    right: 6,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.8,
+    shadowRadius: 100,
+    width: 36,
+    height: 36
   }
 });
 
@@ -122,10 +134,33 @@ class Store extends Component {
             marginRight: 0,
             marginBottom: 6,
             marginTop: 3,
-            borderRadius: 0
+            borderRadius: 0,
+            position: "relative"
           }}
           key={data["id"]}
         >
+          {data["purpose"] === "shoutOut" &&
+            <Icon
+              name="shoutout"
+              viewBox="0 0 60 60"
+              width="36"
+              height="36"
+              style={styles.badleePurposeIcon}
+            />}
+          {data["purpose"] === "showOff" &&
+            <Image
+              source={require("../../images/show off 2.png")}
+              style={styles.badleePurposeIcon}
+            />}
+          {data["purpose"] === "exchange" &&
+            <Icon
+              name="exchange"
+              viewBox="0 0 60 60"
+              width="36"
+              height="36"
+              style={styles.badleePurposeIcon}
+            />}
+
           <CardItem header>
             <Left>
               <Thumbnail
@@ -136,13 +171,13 @@ class Store extends Component {
               />
               <Text>
                 <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                  {data["user"]}
+                  {data["user"].substring(0, 12)}
                 </Text>
                 <Text style={{ fontSize: 12 }}>'s</Text>
                 <Text style={{ fontSize: 12, fontWeight: "bold" }}>
                   {" "}Thingy
                 </Text>
-                <Text style={{ fontSize: 12 }}>
+                <Text style={{ fontSize: 12, color: "#616161" }}>
                   {" "}{moment(data["timestamp"]).fromNow()}
                 </Text>
               </Text>
@@ -154,7 +189,7 @@ class Store extends Component {
               source={{
                 uri: data["media"]
               }}
-              style={{ height: 200, width: "100%", flex: 1 }}
+              style={{ height: 200, width: "100%", flex: 1, zIndex: 1 }}
             />
             <Body>
               <Text
@@ -319,6 +354,7 @@ class Store extends Component {
     );
   }
 }
+
 const _Wrapped = connect(
   state => ({ user: state.get("user") }),
   actionCreators

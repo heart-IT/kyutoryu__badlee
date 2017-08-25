@@ -158,7 +158,7 @@ class Onboarding extends Component {
                     </Text>
                     <Text style={styles.content}>
                       Yes! You can post your demands under this badge, so that
-                      someone who sees your post.
+                      someone who sees your post can offer you what you want.
                     </Text>
                   </View>
                 </View>

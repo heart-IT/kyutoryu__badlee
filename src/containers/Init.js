@@ -29,7 +29,7 @@ class Init extends Component {
           component: AuthContainer
         },
         not__authenticated: {
-          component: Register
+          component: Onboarding
         }
       }
     };

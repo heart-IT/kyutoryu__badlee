@@ -27,6 +27,7 @@ import {
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import AuthContainer from "../Authenticated/Container";
+import Welcome from "./Welcome";
 import Register from "./Register";
 import type { State } from "../../types";
 
@@ -57,7 +58,10 @@ class Login extends Component {
     requestAnimationFrame(() => {
       this.props.login(this.state.username, this.state.password, {
         navigator: this.props.navigator,
-        component: AuthContainer,
+        component: {
+          verified: AuthContainer,
+          not_verified: Welcome
+        },
         reset: true
       });
     });

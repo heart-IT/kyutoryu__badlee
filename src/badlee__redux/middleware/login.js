@@ -9,6 +9,23 @@ import { dummyUser, dummyToken, dummyLogin } from "../../fixtures";
 import type { Action, LOGIN } from "../types";
 import base64 from "base-64";
 
+function getNextRoute(route, isVerified) {
+  let components = route.component;
+  let component;
+  if (isVerified) {
+    component = {
+      component: components.verified,
+      reset: true
+    };
+  } else {
+    component = {
+      component: components.not_verified,
+      reset: true
+    };
+  }
+  return Object.assign(route, component);
+}
+
 async function checkLogin(store, next: Function, action: LOGIN) {
   try {
     await store.dispatch(actionCreators.startLoading());
@@ -27,7 +44,16 @@ async function checkLogin(store, next: Function, action: LOGIN) {
       await AsyncStorage.setItem("user", JSON.stringify(user));
       await AsyncStorage.setItem("jollyroger", jollyroger);
       action.user = user;
-      await store.dispatch(actionCreators.navigate(action.route));
+      next(action);
+      if (user.verified) {
+        await store.dispatch(
+          actionCreators.navigate(getNextRoute(action.route, true))
+        );
+      } else {
+        await store.dispatch(
+          actionCreators.navigate(getNextRoute(action.route, false))
+        );
+      }
     } else {
       Toast.show({
         type: "danger",

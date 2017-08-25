@@ -37,7 +37,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import DatePicker from "react-native-datepicker";
-import AuthContainer from "../Authenticated/Container";
+import Welcome from "./Welcome";
 import type { State } from "../../types";
 
 const Item = Picker.Item;
@@ -134,7 +134,7 @@ class Register2 extends Component {
     };
     this.props.register(data, {
       navigator: this.props.navigator,
-      component: AuthContainer,
+      component: Welcome,
       reset: true
     });
   }

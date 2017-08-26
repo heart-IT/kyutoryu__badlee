@@ -1,4 +1,10 @@
 // @flow
+/**
+ * @chill- Let your heart be pure: This is the doctrine Buddhas teach- Buddha
+ * @name- navigate
+ * @description- This is the middleware for navigating page.
+ * @author- heartit pirates were here
+ */
 "use strict";
 
 import * as actionCreators from "../action_creators";

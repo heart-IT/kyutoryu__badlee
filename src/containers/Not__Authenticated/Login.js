@@ -2,9 +2,9 @@
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
- * 
- * @description- This file is the login page. WiP here
- * @author- heartit pirates
+ * @name- Login
+ * @description- This file handles Login Screen of Badlee App.
+ * @author- heartit pirates were here
  */
 
 "use strict";
@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { Image } from "react-native";
 import {
   StyleProvider,
+  Content,
   Form,
   Item,
   Input,
@@ -21,11 +22,10 @@ import {
   Button,
   Text,
   View,
-  Content,
   Icon
 } from "native-base";
-import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
 import AuthContainer from "../Authenticated/Container";
 import Welcome from "./Welcome";
 import Register from "./Register";

@@ -52,8 +52,6 @@ export type LOGOUT = {| type: "LOGOUT", route: ?Object |};
 
 export type RESTORE_AUTH = {|
   type: "RESTORE_AUTH",
-  token: string,
-  user: User,
   route: ?Object
 |};
 

@@ -10,9 +10,9 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, Text } from "react-native";
 import { connect } from "react-redux";
-import { StyleProvider, Content, View, Button } from "native-base";
+import { Image } from "react-native";
+import { StyleProvider, Content, View, Button, Text } from "native-base";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
@@ -81,7 +81,9 @@ class Onboarding extends Component {
                 }
               >
                 <View style={styles.view}>
-                  <Text style={[styles.head, styles.badleeColor]}>Badlee?</Text>
+                  <Text style={{ ...styles.head, ...styles.badleeColor }}>
+                    Badlee?
+                  </Text>
                   <Image
                     source={require("../../images/badlee.png")}
                     style={styles.image}
@@ -100,7 +102,7 @@ class Onboarding extends Component {
                   </View>
                 </View>
                 <View style={styles.view}>
-                  <Text style={[styles.head, styles.lendBorrowColor]}>
+                  <Text style={{ ...styles.head, ...styles.lendBorrowColor }}>
                     lend and borrow
                   </Text>
                   <Icon
@@ -125,7 +127,7 @@ class Onboarding extends Component {
                   </View>
                 </View>
                 <View style={styles.view}>
-                  <Text style={[styles.head, styles.showoffColor]}>
+                  <Text style={{ ...styles.head, ...styles.showoffColor }}>
                     show off
                   </Text>
                   <Image
@@ -143,7 +145,9 @@ class Onboarding extends Component {
                   </View>
                 </View>
                 <View style={styles.view}>
-                  <Text style={[styles.head, styles.shoutColor]}>shout</Text>
+                  <Text style={{ ...styles.head, ...styles.shoutColor }}>
+                    shout
+                  </Text>
                   <Icon
                     name="shoutout"
                     viewBox="0 0 60 60"
@@ -163,11 +167,11 @@ class Onboarding extends Component {
                   </View>
                 </View>
                 <View style={styles.view}>
-                  <Text style={[styles.head, styles.expressionColor]}>
+                  <Text style={{ ...styles.head, ...styles.expressionColor }}>
                     expressions
                   </Text>
                   <View>
-                    <Text style={[styles.semihead, styles.likeColor]}>
+                    <Text style={{ ...styles.semihead, ...styles.likeColor }}>
                       like
                     </Text>
                     <Icon
@@ -178,11 +182,11 @@ class Onboarding extends Component {
                       style={styles.image}
                     />
                     <Text
-                      style={[
-                        styles.semihead,
-                        styles.wishColor,
-                        styles.likeBorder
-                      ]}
+                      style={{
+                        ...styles.semihead,
+                        ...styles.wishColor,
+                        ...styles.likeBorder
+                      }}
                     >
                       wish
                     </Text>

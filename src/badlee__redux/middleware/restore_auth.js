@@ -1,10 +1,15 @@
 // @flow
+
+/**
+ * @chill- Happiness,,, not in another place, but this place- not for another hour, but this hour. Walt Whitman
+ * @name- restore_auth
+ * @description- This file handles initial authentication check. 
+ * @author- heartit pirates
+ */
 "use strict";
 
 import { AsyncStorage, NetInfo } from "react-native";
 import * as actionCreators from "../action_creators";
-import Settings from "../../settings";
-import { dummyUser } from "../../fixtures";
 import type { Action, RESTORE_AUTH } from "../types";
 
 function getNextRoute(route, isAuthanticated) {

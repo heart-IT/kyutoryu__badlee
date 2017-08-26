@@ -13,13 +13,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Image } from "react-native";
 import { StyleProvider, Content, View, Button, Text } from "native-base";
-import getTheme from "../../theme/components";
-import * as actionCreators from "../../badlee__redux/action_creators";
-
 import Swiper from "react-native-swiper";
 
-import Login from "./Login";
+import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
+import Login from "./Login";
 
 class BackgroundImage extends Component {
   render() {
@@ -53,31 +52,11 @@ class Onboarding extends Component {
                 showsButtons={false}
                 dot={
                   <View
-                    style={{
-                      backgroundColor: "#a763a7",
-                      width: 5,
-                      height: 5,
-                      borderRadius: 4,
-                      marginLeft: 3,
-                      marginRight: 3,
-                      marginTop: 3,
-                      marginBottom: 12
-                    }}
+                    style={{ ...styles.swiperDots, ...styles.inactiveDot }}
                   />
                 }
                 activeDot={
-                  <View
-                    style={{
-                      backgroundColor: "#93298f",
-                      width: 8,
-                      height: 8,
-                      borderRadius: 4,
-                      marginLeft: 3,
-                      marginRight: 3,
-                      marginTop: 3,
-                      marginBottom: 12
-                    }}
-                  />
+                  <View style={{ ...styles.swiperDots, ...styles.activeDot }} />
                 }
               >
                 <View style={styles.view}>
@@ -201,13 +180,14 @@ class Onboarding extends Component {
                     <Button
                       style={{
                         position: "absolute",
-                        bottom: -64,
+                        bottom: -30,
                         right: -24,
-                        backgroundColor: "#611265"
+                        backgroundColor: "#611265",
+                        borderRadius: 12
                       }}
                       onPress={this.handleLogin.bind(this)}
                     >
-                      <Text style={{ color: "#FFF" }}>Enter</Text>
+                      <Text style={{ color: "#FFF" }}>Proceed</Text>
                     </Button>
                   </View>
                 </View>
@@ -230,9 +210,25 @@ const styles = {
   },
   container: {
     flex: 1,
-    // alignItems: "center",
     justifyContent: "center",
     display: "flex"
+  },
+  swiperDots: {
+    width: 5,
+    height: 5,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: 12
+  },
+  inactiveDot: {
+    backgroundColor: "#a763a7"
+  },
+  activeDot: {
+    backgroundColor: "#93298f",
+    width: 8,
+    height: 8
   },
   view: {
     flex: 1,
@@ -258,7 +254,7 @@ const styles = {
     height: 135,
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 12
+    marginBottom: 24
   },
   content: {
     fontSize: 18,

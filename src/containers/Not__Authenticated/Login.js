@@ -18,18 +18,20 @@ import {
   Form,
   Item,
   Input,
-  Label,
   Button,
   Text,
-  View,
-  Icon
+  View
 } from "native-base";
 import * as actionCreators from "../../badlee__redux/action_creators";
+
 import getTheme from "../../theme/components";
-import AuthContainer from "../Authenticated/Container";
-import Welcome from "./Welcome";
+
 import Register from "./Register";
+import ForgotPassword from "./ForgotPassword";
+import Welcome from "./Welcome";
+import BadleeAuthApp from "../Authenticated/Container";
 import type { State } from "../../types";
+import Icon from "../../components/Icon";
 
 class BackgroundImage extends Component {
   render() {
@@ -54,20 +56,25 @@ class Login extends Component {
     };
   }
 
-  formSubmit() {
+  /**
+   * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
+   */
+  handleFormSubmit() {
     requestAnimationFrame(() => {
       this.props.login(this.state.username, this.state.password, {
         navigator: this.props.navigator,
         component: {
-          verified: AuthContainer,
+          verified: BadleeAuthApp,
           not_verified: Welcome
         },
         reset: true
       });
     });
   }
-
-  goToSignup() {
+  /**
+   * Called when user clicks on sign up link
+   */
+  handleGoToSignUpLink() {
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
@@ -87,33 +94,10 @@ class Login extends Component {
                 style={styles.badleeLogo}
               />
             </View>
-
-            <Text
-              style={{
-                marginTop: 30,
-                marginBottom: 30,
-                textAlign: "center",
-                fontFamily: "Righteous-Regular",
-                fontSize: 33,
-                color: "#fff"
-              }}
-            >
-              Login
-            </Text>
-            <Form
-              style={{
-                paddingLeft: 36,
-                paddingRight: 36,
-                width: 300,
-                marginLeft: "auto",
-                marginRight: "auto"
-              }}
-            >
+            <Text style={styles.pageTitle}>Login</Text>
+            <Form style={styles.loginForm}>
               <View style={styles.inputWrapper}>
-                <Image
-                  source={require("../../images/auth/login__user-icon.png")}
-                  style={styles.inputIcon}
-                />
+                <Icon name="login__user" width="33" height="33" />
                 <Item style={styles.boxWrapper}>
                   <Input
                     onChangeText={username => this.setState({ username })}
@@ -126,13 +110,11 @@ class Login extends Component {
                 </Item>
               </View>
               <View style={styles.inputWrapper}>
-                <Image
-                  source={require("../../images/auth/login__password-icon.png")}
-                  style={styles.inputIcon}
-                />
+                <Icon name="login__password" width="33" height="33" />
                 <Item style={styles.boxWrapper}>
                   <Input
                     secureTextEntry={true}
+                    last={true}
                     onChangeText={password => this.setState({ password })}
                     placeholder="Password"
                     placeholderTextColor="#7d5c85"
@@ -142,12 +124,12 @@ class Login extends Component {
                   />
                 </Item>
               </View>
-              <View style={{ marginBottom: 30 }} />
-              <View style={{ marginLeft: 10, marginRight: 10 }}>
+              <View style={styles.submitButtonWrapper}>
                 <Button
                   common
-                  onPress={this.formSubmit.bind(this)}
+                  action="submit"
                   style={styles.submitButton}
+                  onPress={this.handleFormSubmit.bind(this)}
                 >
                   <Text style={styles.submitButtonText}>Login</Text>
                 </Button>
@@ -158,7 +140,7 @@ class Login extends Component {
               <Text style={styles.switcherText}>New to the community?</Text>
               <Text
                 style={styles.switcherTextLink}
-                onPress={this.goToSignup.bind(this)}
+                onPress={this.handleGoToSignUpLink.bind(this)}
               >
                 Sign Up
               </Text>
@@ -185,36 +167,48 @@ const styles = {
     marginTop: 6,
     resizeMode: "contain"
   },
+  pageTitle: {
+    marginTop: 30,
+    marginBottom: 30,
+    textAlign: "center",
+    fontFamily: "Righteous-Regular",
+    fontSize: 33,
+    color: "#fff"
+  },
+  loginForm: {
+    paddingLeft: 42,
+    paddingRight: 42,
+    width: 300,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
   inputWrapper: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center"
   },
-  inputIcon: {
-    flex: 2,
-    width: 60,
-    height: 60,
-    borderRightWidth: 1
-  },
   boxWrapper: {
-    flex: 9,
-    paddingLeft: 0,
+    width: 180,
+    paddingLeft: 6,
     borderBottomWidth: 0
   },
   inputBox: {
     color: "#fff",
-    fontSize: 21,
+    fontSize: 18,
     borderBottomWidth: 2,
     borderColor: "#fff",
     height: 36,
     padding: 0,
     marginBottom: 12
   },
+  submitButtonWrapper: {
+    marginTop: 30
+  },
   submitButton: {
     backgroundColor: "#fff",
     padding: 0,
     paddingTop: 0,
-    height: 42,
+    height: 36,
     margin: 0,
     marginLeft: "auto",
     marginRight: "auto"
@@ -222,7 +216,8 @@ const styles = {
   submitButtonText: {
     color: "#611265",
     fontFamily: "PoiretOne-Regular",
-    fontSize: 18
+    fontSize: 18,
+    lineHeight: 30
   },
   forgotPasswordText: {
     color: "#fff",
@@ -230,10 +225,10 @@ const styles = {
     fontFamily: "PoiretOne-Regular",
     textAlign: "center",
     fontSize: 16,
-    marginTop: 9
+    marginTop: 12
   },
   pageSwitcher: {
-    marginTop: 36,
+    marginTop: 30,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
@@ -245,7 +240,7 @@ const styles = {
     fontSize: 16
   },
   switcherTextLink: {
-    marginLeft: 6,
+    marginLeft: 3,
     textDecorationLine: "underline",
     color: "#fff",
     fontFamily: "PoiretOne-Regular",

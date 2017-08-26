@@ -17,6 +17,7 @@ import {
   Body,
   Thumbnail,
   Left,
+  Right,
   Button,
   Fab
 } from "native-base";
@@ -206,8 +207,9 @@ class Store extends Component {
                 style={{
                   marginLeft: 12,
                   marginTop: 12,
+                  marginBottom: 6,
                   fontWeight: "bold",
-                  fontSize: 18,
+                  fontSize: 24,
                   fontStyle: "italic"
                 }}
               >
@@ -217,15 +219,34 @@ class Store extends Component {
           </CardItem>
 
           <CardItem footer>
-            <Button transparent>
-              <Icon active name="thumbs-up" />
-              {/*<Text>{data["photo"]}</Text>*/}
-            </Button>
-            <Button transparent>
-              <Icon active name="chatbubbles" />
-              {/*<Text>{data["comments"]} Comments</Text>*/}
-            </Button>
-            <Text>11h ago</Text>
+            <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
+              <View style={{ flexDirection: "row" }}>
+                <Icon
+                  name="postLiked"
+                  width="30"
+                  height="30"
+                  style={{ marginRight: 3 }}
+                />
+                <Icon
+                  name="postWished"
+                  width="30"
+                  height="30"
+                  fill="#EF5454"
+                  style={{ marginRight: 3 }}
+                />
+                <Icon name="postComment" width="30" height="30" fill="#fff" />
+              </View>
+              <View>
+                <Text style={{ fontSize: 12, marginLeft: 4 }}>
+                  View {Math.floor(Math.random() * 11)} comments{" "}
+                </Text>
+              </View>
+            </Left>
+            <Right>
+              <Button transparent>
+                <Icon name="postDelete" width="24" height="24" />
+              </Button>
+            </Right>
           </CardItem>
         </Card>
       );

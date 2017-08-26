@@ -15,8 +15,7 @@ import * as actionCreators from "../badlee__redux/action_creators";
 import getTheme from "../theme/components";
 
 import Onboarding from "./Not__Authenticated/Onboarding";
-import Register from "./Not__Authenticated/Register";
-import AuthContainer from "./Authenticated/Container";
+import BadleeAuthApp from "./Authenticated/Container";
 import Loading from "./../components/LoadingView";
 
 class Init extends Component {
@@ -26,7 +25,7 @@ class Init extends Component {
       navigator: this.props.navigator,
       component: {
         authenticated: {
-          component: AuthContainer
+          component: BadleeAuthApp
         },
         not__authenticated: {
           component: Onboarding

@@ -12,7 +12,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image } from "react-native";
+import { Image, Keyboard } from "react-native";
 import LoadingView from "../../components/LoadingView";
 import {
   StyleProvider,
@@ -38,6 +38,7 @@ import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import DatePicker from "react-native-datepicker";
 import Welcome from "./Welcome";
+import Locator from "../../components/Location";
 import type { State } from "../../types";
 
 const Item = Picker.Item;
@@ -115,6 +116,11 @@ class Register2 extends Component {
     });
     this.setState({ wish: trimmedWishes });
   }
+
+  locationInputFocussed() {
+    Keyboard.dismiss();
+    this.setState({ showLocator: true });
+  }
   // Event triggered when User submits the form.
   submittingUser() {
     var userInfo = this.props.params.userInfo;
@@ -139,6 +145,11 @@ class Register2 extends Component {
     });
   }
 
+  locationSelection(locatoin) {
+    this.setState({ location: locatoin });
+    this.setState({ showLocator: false });
+  }
+
   render() {
     const months = {
       "01": "JAN",
@@ -158,7 +169,9 @@ class Register2 extends Component {
       <StyleProvider style={getTheme()}>
         <Container>
           {this.props.loading && <LoadingView />}
-          <Header style={{ backgroundColor: "#611265" }}>
+          {this.state.showLocator &&
+            <Locator onSelection={this.locationSelection.bind(this)} />}
+          <Header style={{ backgroundColor: "#611265", zIndex: 99 }}>
             <Left>
               <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
             </Left>
@@ -380,6 +393,7 @@ class Register2 extends Component {
                       }}
                       placeholder="Your Location"
                       onChangeText={location => this.setState({ location })}
+                      onFocus={this.locationInputFocussed.bind(this)}
                     />
                   </View>
                 </View>

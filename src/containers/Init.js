@@ -55,7 +55,7 @@ class Init extends Component {
 }
 
 const _Wrapped = connect(
-  state => ({ loading: state.get("isLoading") }),
+  state => ({ loading: state.getIn(["application", "isLoading"]) }),
   actionCreators
 )(Init);
 export default _Wrapped;

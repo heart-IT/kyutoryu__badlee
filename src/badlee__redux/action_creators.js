@@ -34,14 +34,10 @@ export const register = (userObject: Object, route: Object): REGISTER => ({
   route: route
 });
 
-export const login = (
-  username: string,
-  password: string,
-  route: Object
-): LOGIN => ({
+export const login = (formData: Object, route: Object): LOGIN => ({
   type: "LOGIN",
-  username: username,
-  password: password,
+  username: formData.username,
+  password: formData.password,
   route: route
 });
 

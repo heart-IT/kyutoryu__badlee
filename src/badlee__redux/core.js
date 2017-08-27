@@ -8,7 +8,8 @@
  * 
  * 
  * As the name suggests, this file contains all the core function that updates the State.
- * 
+ * @name- core
+ * @description- Core Function that actually contains and change the application state.
  * @author - heartit pirates were here.
  */
 "use strict";
@@ -18,70 +19,67 @@
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import { Record } from "immutable";
+import { Record, Map, List } from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
-  isLoading: false,
-  isLoggedIn: false,
-  isOnline: true,
-  navigator: null,
-  user: undefined,
-  badlees: null,
-  badleeOrderIDS: {
-    followers: null,
-    nearby: null,
-    shoutouts: null
-  },
-  friends: null,
-  messages: null,
-  notifications: null
+  application: new Map({
+    isLoading: false,
+    isOnline: true,
+    errors: new List(),
+    navigator: null
+  }),
+  user: new Map({
+    isLoggedIn: false,
+    information: undefined,
+    followers: new List()
+  }),
+  badlees: new List(),
+  messages: new List(),
+  notifications: new List()
 });
 
-export const InitialState: State = new StateRecord({
-  user: {},
-  badlees: [],
-  badleeOrderIDS: {
-    followers: [],
-    nearby: [],
-    shoutouts: []
-  },
-  friends: [],
-  messages: [],
-  notifications: []
-});
+export const InitialState: State = new StateRecord();
 
 export function setNavigator(state: State, navigator: any): State {
-  return state.set("navigator", navigator);
+  return state.setIn(["application", "navigator"], navigator);
 }
 
 export function startLoading(state: State): State {
-  return state.set("isLoading", true);
+  return state.setIn(["application", "isLoading"], true);
 }
 
 export function finishLoading(state: State): State {
-  return state.set("isLoading", false);
+  return state.setIn(["application", "isLoading"], false);
 }
 
 export function changeInternetConnectionStatus(
   state: State,
   status: boolean
 ): State {
-  return state.set("isOnline", status);
-}
-
-export function login(state: State, user: User): State {
-  return state.set("isLoggedIn", true).set("user", user);
-}
-
-export function register(state: State, user: User): State {
-  return state.set("isLoggedIn", true).set("user", user);
+  return state.setIn(["application", "isOnline"], status);
 }
 
 export function restoreAuth(state: State, user: User): State {
-  return state.set("isLoggedIn", true).set("user", user);
+  return state
+    .setIn(["user", "isLoggedIn"], true)
+    .setIn(["user", "information"], user);
+}
+
+export function login(state: State, user: User): State {
+  return state
+    .setIn(["user", "isLoggedIn"], true)
+    .setIn(["user", "information"], user);
+}
+
+export function register(state: State, user: User): State {
+  return state
+    .setIn(["user", "isLoggedIn"], true)
+    .setIn(["user", "information"], user);
 }
 
 export function logout(state: State): State {
-  return state.set("isLoggedIn", false).set("user", {});
+  return state
+    .setIn(["user", "isLoggedIn"], false)
+    .setIn(["user", "information"], undefined);
 }

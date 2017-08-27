@@ -26,12 +26,13 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 
 import getTheme from "../../theme/components";
 
+import Loading from "../../components/LoadingView";
+import Icon from "../../components/Icon";
 import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 import Welcome from "./Welcome";
 import BadleeAuthApp from "../Authenticated/Container";
 import type { State } from "../../types";
-import Icon from "../../components/Icon";
 
 class BackgroundImage extends Component {
   render() {
@@ -60,8 +61,12 @@ class Login extends Component {
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
   handleFormSubmit() {
+    var formData = {
+      username: this.state.username,
+      password: this.state.password
+    };
     requestAnimationFrame(() => {
-      this.props.login(this.state.username, this.state.password, {
+      var meow = this.props.login(formData, {
         navigator: this.props.navigator,
         component: {
           verified: BadleeAuthApp,
@@ -87,6 +92,7 @@ class Login extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          {this.props.loading && <Loading />}
           <BackgroundImage>
             <View style={styles.logoWrapper}>
               <Image

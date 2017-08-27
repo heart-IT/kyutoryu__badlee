@@ -5,7 +5,7 @@ Baratie Arc work:
 2. meeting sanji-> make register page, fix login background css issue + welcome screen
 3. meeting kreig -> forgot password page
 4. fighting mihawk -> file picker
-5. don kreig -> messaging
+5. don kreig -> secondary badlee tab working
 
 reward :
 1. we get sanjiii -> user can now register, weelcome sanjiii

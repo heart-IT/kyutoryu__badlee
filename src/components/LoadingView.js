@@ -1,7 +1,9 @@
 /**
  * An enemy may do great harm to an enemy, but a wrongly-directed mind will do the greatest mischief unto itself -  Buddha
  * 
- * 
+ * @name- LoadingView
+ * @description- Component for showing loading
+ * @author- heartit pirates were here \m/
  */
 
 "use strict";
@@ -37,9 +39,9 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#fcfcfc",
+    backgroundColor: "#fff",
     opacity: 0.67,
-    zIndex: 9999
+    zIndex: 99
   },
   spinner: {
     flex: 1,

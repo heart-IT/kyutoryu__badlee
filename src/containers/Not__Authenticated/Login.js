@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { Image, Modal } from "react-native";
 import {
   StyleProvider,
+  Container,
   Content,
   Form,
   Item,
@@ -92,68 +93,70 @@ class Login extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-          <BackgroundImage>
-            {this.props.loading && <Loading />}
-            <View style={styles.logoWrapper}>
-              <Image
-                source={require("../../images/badlee__landscape.png")}
-                style={styles.badleeLogo}
-              />
-            </View>
-            <Text style={styles.pageTitle}>Login</Text>
-            <Form style={styles.loginForm}>
-              <View style={styles.inputWrapper}>
-                <Icon name="login__user" width="33" height="33" />
-                <Item style={styles.boxWrapper}>
-                  <Input
-                    onChangeText={username => this.setState({ username })}
-                    value={this.state.username}
-                    placeholder="User_Name"
-                    placeholderTextColor="#7d5c85"
-                    fontFamily="PoiretOne-Regular"
-                    style={styles.inputBox}
-                  />
-                </Item>
+        <Container>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <BackgroundImage>
+              <View style={styles.logoWrapper}>
+                <Image
+                  source={require("../../images/badlee__landscape.png")}
+                  style={styles.badleeLogo}
+                />
               </View>
-              <View style={styles.inputWrapper}>
-                <Icon name="login__password" width="33" height="33" />
-                <Item style={styles.boxWrapper}>
-                  <Input
-                    secureTextEntry={true}
-                    last={true}
-                    onChangeText={password => this.setState({ password })}
-                    placeholder="Password"
-                    placeholderTextColor="#7d5c85"
-                    fontFamily="PoiretOne-Regular"
-                    value={this.state.password}
-                    style={styles.inputBox}
-                  />
-                </Item>
-              </View>
-              <View style={styles.submitButtonWrapper}>
-                <Button
-                  common
-                  action="submit"
-                  style={styles.submitButton}
-                  onPress={this.handleFormSubmit.bind(this)}
+              <Text style={styles.pageTitle}>Login</Text>
+              <Form style={styles.loginForm}>
+                <View style={styles.inputWrapper}>
+                  <Icon name="login__user" width="33" height="33" />
+                  <Item style={styles.boxWrapper}>
+                    <Input
+                      onChangeText={username => this.setState({ username })}
+                      value={this.state.username}
+                      placeholder="User_Name"
+                      placeholderTextColor="#7d5c85"
+                      fontFamily="PoiretOne-Regular"
+                      style={styles.inputBox}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="login__password" width="33" height="33" />
+                  <Item style={styles.boxWrapper}>
+                    <Input
+                      secureTextEntry={true}
+                      last={true}
+                      onChangeText={password => this.setState({ password })}
+                      placeholder="Password"
+                      placeholderTextColor="#7d5c85"
+                      fontFamily="PoiretOne-Regular"
+                      value={this.state.password}
+                      style={styles.inputBox}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.submitButtonWrapper}>
+                  <Button
+                    common
+                    action="submit"
+                    style={styles.submitButton}
+                    onPress={this.handleFormSubmit.bind(this)}
+                  >
+                    <Text style={styles.submitButtonText}>Login</Text>
+                  </Button>
+                </View>
+              </Form>
+              <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+              <View style={styles.pageSwitcher}>
+                <Text style={styles.switcherText}>New to the community?</Text>
+                <Text
+                  style={styles.switcherTextLink}
+                  onPress={this.handleGoToSignUpLink.bind(this)}
                 >
-                  <Text style={styles.submitButtonText}>Login</Text>
-                </Button>
+                  Sign Up
+                </Text>
               </View>
-            </Form>
-            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-            <View style={styles.pageSwitcher}>
-              <Text style={styles.switcherText}>New to the community?</Text>
-              <Text
-                style={styles.switcherTextLink}
-                onPress={this.handleGoToSignUpLink.bind(this)}
-              >
-                Sign Up
-              </Text>
-            </View>
-          </BackgroundImage>
-        </Content>
+            </BackgroundImage>
+          </Content>
+          {this.props.loading && <Loading />}
+        </Container>
       </StyleProvider>
     );
   }

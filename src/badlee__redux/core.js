@@ -26,7 +26,7 @@ const StateRecord = Record({
   application: new Map({
     isLoading: false,
     isOnline: true,
-    errors: new List(),
+    error: null,
     navigator: null
   }),
   user: new Map({
@@ -43,6 +43,17 @@ export const InitialState: State = new StateRecord();
 
 export function setNavigator(state: State, navigator: any): State {
   return state.setIn(["application", "navigator"], navigator);
+}
+
+export function addError(state: State, error): State {
+  return state.setIn(["application", "error"], error);
+  // let currentErrorState = previousError.push(error);
+  // let distinctErrorState = currentErrorState.distinct;
+  // return state.setIn(["application", "errors"], distinctErrorState);
+}
+
+export function clearError(state: State): State {
+  return state.setIn(["application", "error"], null);
 }
 
 export function startLoading(state: State): State {
@@ -66,7 +77,7 @@ export function restoreAuth(state: State, user: User): State {
     .setIn(["user", "information"], user);
 }
 
-export function login(state: State, user: User): State {
+export function saveUser(state: State, user: User): State {
   return state
     .setIn(["user", "isLoggedIn"], true)
     .setIn(["user", "information"], user);

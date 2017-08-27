@@ -45,12 +45,21 @@ async function checkLogin(store, next: Function, action: LOGIN) {
     if (response.status === 200 && response.ok === true) {
       let user = await response.json();
       let jollyroger = `Basic ${base64.encode(username + ":" + password)}`;
+
       await AsyncStorage.setItem("user", JSON.stringify(user));
       await AsyncStorage.setItem("jollyroger", jollyroger);
+
       action.user = user;
       next(action);
+
+      await store.dispatch(
+        actionCreators.navigate(
+          getNextRoute(action.route, user.isVerified ? true : false)
+        )
+      );
     } else {
-      return "x-mark-the-spot";
+      var error = await response.json();
+      await store.dispatch(actionCreators.addError(error));
     }
   } catch (e) {
     console.log(e);

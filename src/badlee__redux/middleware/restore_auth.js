@@ -43,16 +43,11 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
     if (user) {
       action.user = JSON.parse(user);
       next(action);
-      route &&
-        (await store.dispatch(
-          actionCreators.navigate(getNextRoute(route, true))
-        ));
-    } else {
-      route &&
-        (await store.dispatch(
-          actionCreators.navigate(getNextRoute(route, false))
-        ));
     }
+    route &&
+      (await store.dispatch(
+        actionCreators.navigate(getNextRoute(route, user ? true : false))
+      ));
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

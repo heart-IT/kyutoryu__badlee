@@ -11,7 +11,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image } from "react-native";
+import { Image, Modal } from "react-native";
 import {
   StyleProvider,
   Content,
@@ -20,7 +20,8 @@ import {
   Input,
   Button,
   Text,
-  View
+  View,
+  Toast
 } from "native-base";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
@@ -66,7 +67,7 @@ class Login extends Component {
       password: this.state.password
     };
     requestAnimationFrame(() => {
-      var meow = this.props.login(formData, {
+      this.props.login(formData, {
         navigator: this.props.navigator,
         component: {
           verified: BadleeAuthApp,
@@ -92,8 +93,8 @@ class Login extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-          {this.props.loading && <Loading />}
           <BackgroundImage>
+            {this.props.loading && <Loading />}
             <View style={styles.logoWrapper}>
               <Image
                 source={require("../../images/badlee__landscape.png")}
@@ -256,7 +257,8 @@ const styles = {
 
 const _Wrapped = connect(
   (state: State) => ({
-    loading: state.get("loading")
+    loading: state.getIn(["application", "isLoading"]),
+    error: state.getIn(["application", "error"])
   }),
   actionCreators
 )(Login);

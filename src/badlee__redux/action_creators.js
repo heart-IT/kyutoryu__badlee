@@ -62,6 +62,14 @@ export const changeInternetConnectionStatus = (
   status: status
 });
 
+export const addError = (error: String) => ({
+  type: "ADD_ERROR",
+  error: error
+});
+export const clearError = () => ({
+  type: "CLEAR_ERROR"
+});
+
 // badlee section
 export const saveBadlee = (data: Object, route: Object) => ({
   type: "SAVE_BADLEE",

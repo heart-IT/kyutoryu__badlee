@@ -294,7 +294,7 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  state => ({ loading: state.get("isLoading") }),
+  state => ({ loading: state.getIn(["application", "isLoading"]) }),
   actionCreators
 )(Onboarding);
 

@@ -20,6 +20,7 @@
  */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
+import { Root } from "native-base";
 import { Navigator } from "react-native-deprecated-custom-components";
 import { connect, Provider } from "react-redux";
 import { makeStore } from "./badlee__redux/store";
@@ -72,21 +73,23 @@ class BadleeApp extends Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          <StatusBar backgroundColor="#4f0554" barStyle="light-content" />
-          <Navigator
-            ref={nav => {
-              scopeNavigator = nav;
-            }}
-            initialRoute={{ component: Init }}
-            configureScene={() => {
-              return Navigator.SceneConfigs.FloatFromRight;
-            }}
-            renderScene={this.renderScene.bind(this)}
-          />
-        </View>
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <View style={{ flex: 1 }}>
+            <StatusBar backgroundColor="#4f0554" barStyle="light-content" />
+            <Navigator
+              ref={nav => {
+                scopeNavigator = nav;
+              }}
+              initialRoute={{ component: Init }}
+              configureScene={() => {
+                return Navigator.SceneConfigs.FloatFromRight;
+              }}
+              renderScene={this.renderScene.bind(this)}
+            />
+          </View>
+        </Provider>
+      </Root>
     );
   }
 }

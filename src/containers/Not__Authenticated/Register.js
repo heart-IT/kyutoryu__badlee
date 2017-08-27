@@ -55,25 +55,51 @@ class Register extends Component {
       uniqueName: null,
       email: null,
       password: null,
+      rePassword: null,
 
-      passwordMatch: false
+      passwordMatch: false,
+      error: []
     };
   }
 
-  onPasswordEnter(text) {
-    this.setState({ password: text });
-    if (text !== this.state.rePassword) {
-      this.setState({ passwordMatch: false });
-    } else {
-      this.setState({ passwordMatch: true });
+  removeError(error) {
+    var currentErrors = this.state.error;
+    if (currentErrors.indexOf(error) > -1) {
+      var index = currentErrors.indexOf(error);
+      currentErrors.splice(index, 1);
+      this.setState({ error: currentErrors });
     }
   }
-  onPasswordReenter(text) {
-    this.setState({ rePassword: text });
-    if (text !== this.state.password) {
-      this.setState({ passwordMatch: false });
+  addError(error) {
+    var currentErrors = this.state.error;
+    if (currentErrors.indexOf(error) === -1) {
+      var errorCopy = this.state.error.map(function(err) {
+        return err;
+      });
+      errorCopy.push(error);
+      this.setState({ error: errorCopy });
+    }
+  }
+
+  validateEmail() {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var valid = re.test(this.state.email);
+    if (valid) {
+      this.removeError("Invalid Email");
     } else {
-      this.setState({ passwordMatch: true });
+      this.addError("Invalid Email");
+    }
+  }
+
+  validatePassword() {
+    if (this.state.password && this.state.rePassword) {
+      if (this.state.password !== this.state.rePassword) {
+        this.setState({ passwordMatch: false });
+        this.addError("Password does not match");
+      } else {
+        this.setState({ passwordMatch: true });
+        this.removeError("Password does not match");
+      }
     }
   }
 
@@ -107,17 +133,20 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{
+                        fontSize: 15,
+                        color: "#fff"
+                      }}
                       placeholder="First Name"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       onChangeText={firstName => this.setState({ firstName })}
                     />
                   </Item>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{ fontSize: 15, color: "#fff" }}
                       placeholder="Last Name"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       onChangeText={lastName => this.setState({ lastName })}
                     />
                   </Item>
@@ -125,9 +154,9 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{ fontSize: 15, color: "#fff" }}
                       placeholder="Your unique name on badlee"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       onChangeText={uniqueName => this.setState({ uniqueName })}
                     />
                   </Item>
@@ -135,37 +164,67 @@ class Register extends Component {
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{ fontSize: 15, color: "#fff" }}
                       placeholder="Your email address"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       onChangeText={email => this.setState({ email })}
+                      onEndEditing={this.validateEmail.bind(this)}
                       keyboardType={"email-address"}
                     />
                   </Item>
                 </View>
+                {this.state.error.indexOf("Invalid Email") > -1
+                  ? <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Text style={styles.errorMsg}>Invalid Email</Text>
+                    </View>
+                  : <Text />}
+
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{ fontSize: 15, color: "#fff" }}
                       placeholder="Create a password"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       secureTextEntry={true}
-                      onChangeText={this.onPasswordEnter.bind(this)}
+                      onChangeText={password => this.setState({ password })}
+                      onEndEditing={this.validatePassword.bind(this)}
                     />
                   </Item>
                 </View>
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
-                      style={{ fontSize: 15 }}
+                      style={{ fontSize: 15, color: "#fff" }}
                       placeholder="Re-enter password"
-                      placeholderTextColor="#fff"
+                      placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       secureTextEntry={true}
                       error={this.state.passwordMatch ? true : false}
-                      onChangeText={this.onPasswordReenter.bind(this)}
+                      onChangeText={rePassword => this.setState({ rePassword })}
+                      onEndEditing={this.validatePassword.bind(this)}
                     />
                   </Item>
                 </View>
+                {this.state.error.indexOf("Password does not match") > -1
+                  ? <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Text style={styles.errorMsg}>
+                        Password does not match
+                      </Text>
+                    </View>
+                  : <Text />}
               </Form>
               <Button
                 style={{
@@ -174,6 +233,15 @@ class Register extends Component {
                   right: "10%",
                   borderRadius: 9
                 }}
+                disabled={
+                  !this.state.firstName ||
+                  !this.state.lastName ||
+                  !this.state.uniqueName ||
+                  !this.state.email ||
+                  !this.state.password ||
+                  !this.state.rePassword ||
+                  !(this.state.error.length === 0)
+                }
                 onPress={this.goToPageTwo.bind(this)}
               >
                 <Text>Next</Text>
@@ -193,12 +261,12 @@ const styles = {
     height: null,
     resizeMode: "stretch"
   },
-  formLeftSpace: { paddingRight: "27%", paddingTop: 45, paddingLeft: 15 },
-  inputRow: { display: "flex", flexDirection: "row", marginBottom: 24 },
+  formLeftSpace: { paddingRight: "27%", paddingTop: 9, paddingLeft: 15 },
+  inputRow: { display: "flex", flexDirection: "row", marginTop: 36 },
   inputBox: {
     flex: 1,
-    borderBottomWidth: 2,
-    borderColor: "#fff",
+    borderBottomWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.67)",
     height: 36,
     marginLeft: 9,
     marginRight: 9,
@@ -262,6 +330,12 @@ const styles = {
     color: "#fff",
     fontFamily: "PoiretOne-Regular",
     fontSize: 18
+  },
+  errorMsg: {
+    color: "#eb9ce1",
+    fontSize: 13,
+    marginLeft: 3,
+    marginRight: 9
   }
 };
 

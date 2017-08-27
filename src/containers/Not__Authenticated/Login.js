@@ -117,6 +117,27 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
+                {this.props.error === "User Does Not Exist"
+                  ? <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Icon
+                        name="errorTriangle"
+                        width="12"
+                        height="12"
+                        fill="#fff"
+                      />
+                      <Text style={styles.errorMsg}>
+                        {this.props.error}
+                      </Text>
+                    </View>
+                  : <Text />}
+
                 <View style={styles.inputWrapper}>
                   <Icon name="login__password" width="33" height="33" />
                   <Item style={styles.boxWrapper}>
@@ -132,6 +153,26 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
+                {this.props.error === "Wrong Password"
+                  ? <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Icon
+                        name="errorTriangle"
+                        width="12"
+                        height="12"
+                        fill="#fff"
+                      />
+                      <Text style={styles.errorMsg}>
+                        {this.props.error}
+                      </Text>
+                    </View>
+                  : <Text />}
                 <View style={styles.submitButtonWrapper}>
                   <Button
                     common
@@ -209,7 +250,13 @@ const styles = {
     borderColor: "#fff",
     height: 36,
     padding: 0,
-    marginBottom: 12
+    marginBottom: 6
+  },
+  errorMsg: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+    marginLeft: 3
   },
   submitButtonWrapper: {
     marginTop: 30

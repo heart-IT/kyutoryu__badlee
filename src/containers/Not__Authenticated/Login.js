@@ -126,12 +126,6 @@ class Login extends Component {
                         alignItems: "center"
                       }}
                     >
-                      <Icon
-                        name="errorTriangle"
-                        width="12"
-                        height="12"
-                        fill="#fff"
-                      />
                       <Text style={styles.errorMsg}>
                         {this.props.error}
                       </Text>
@@ -162,12 +156,6 @@ class Login extends Component {
                         alignItems: "center"
                       }}
                     >
-                      <Icon
-                        name="errorTriangle"
-                        width="12"
-                        height="12"
-                        fill="#fff"
-                      />
                       <Text style={styles.errorMsg}>
                         {this.props.error}
                       </Text>
@@ -196,7 +184,7 @@ class Login extends Component {
               </View>
             </BackgroundImage>
           </Content>
-          {this.props.loading && <Loading />}
+          {this.props.loading && <Loading message="Logging in.." />}
         </Container>
       </StyleProvider>
     );
@@ -220,7 +208,7 @@ const styles = {
   },
   pageTitle: {
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 60,
     textAlign: "center",
     fontFamily: "Righteous-Regular",
     fontSize: 33,
@@ -239,9 +227,11 @@ const styles = {
     alignItems: "center"
   },
   boxWrapper: {
+    borderLeftWidth: 1,
     width: 180,
-    paddingLeft: 6,
-    borderBottomWidth: 0
+    paddingLeft: 12,
+    borderBottomWidth: 0,
+    height: 30
   },
   inputBox: {
     color: "#fff",
@@ -253,9 +243,8 @@ const styles = {
     marginBottom: 6
   },
   errorMsg: {
-    color: "#fff",
+    color: "#b27fe7",
     fontSize: 13,
-    fontWeight: "bold",
     marginLeft: 3
   },
   submitButtonWrapper: {
@@ -265,16 +254,19 @@ const styles = {
     backgroundColor: "#fff",
     padding: 0,
     paddingTop: 0,
-    height: 36,
+    height: 30,
     margin: 0,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 6
   },
   submitButtonText: {
     color: "#611265",
     fontFamily: "PoiretOne-Regular",
-    fontSize: 18,
-    lineHeight: 30
+    fontSize: 15,
+    lineHeight: 24
   },
   forgotPasswordText: {
     color: "#fff",
@@ -285,7 +277,7 @@ const styles = {
     marginTop: 12
   },
   pageSwitcher: {
-    marginTop: 30,
+    marginTop: 60,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"

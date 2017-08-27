@@ -24,7 +24,7 @@ class LoadingView extends Component {
               fontWeight: "bold"
             }}
           >
-            Loading badlee
+            {this.props.message ? this.props.message : "Loading badlee"}
           </Text>
         </View>
       </View>

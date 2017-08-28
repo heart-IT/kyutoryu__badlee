@@ -50,7 +50,6 @@ async function doRegistration(store, next: Function, action: REGISTER) {
       },
       body: formBody
     });
-    console.log(response);
     if (response.status === 200 && response.ok === true) {
       let user = await response.json();
       let jollyroger = `Basic ${base64.encode(

@@ -25,6 +25,7 @@ import loginMiddleware from "./middleware/login";
 import registerMiddleware from "./middleware/register";
 import restoreAuthMiddleware from "./middleware/restore_auth";
 import logoutMiddleware from "./middleware/logout";
+import forgotPasswordMiddleware from "./middleware/forgotPassword";
 import BadleeMiddleware from "./middleware/badlee";
 
 // List of middleware we are using.
@@ -34,6 +35,7 @@ const middleware = [
   registerMiddleware,
   restoreAuthMiddleware,
   logoutMiddleware,
+  forgotPasswordMiddleware,
   BadleeMiddleware
 ];
 

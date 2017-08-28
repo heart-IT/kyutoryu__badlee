@@ -62,6 +62,13 @@ export const changeInternetConnectionStatus = (
   status: status
 });
 
+export const addNotification = (notification: String) => ({
+  type: "ADD_ERROR",
+  notification: notification
+});
+export const clearNotification = () => ({
+  type: "CLEAR_ERROR"
+});
 export const addError = (error: String) => ({
   type: "ADD_ERROR",
   error: error
@@ -75,4 +82,9 @@ export const saveBadlee = (data: Object, route: Object) => ({
   type: "SAVE_BADLEE",
   data: data,
   route: route
+});
+
+export const forgotPassword = (email: String) => ({
+  type: "FORGOT_PASSWORD",
+  email: email
 });

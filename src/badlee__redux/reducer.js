@@ -35,6 +35,10 @@ export function reducer(
       return core.addError(state, action.error);
     case "CLEAR_ERROR":
       return core.clearError(state);
+    case "ADD_NOTIFICATION":
+      return core.addAppNotification(state, action.notification);
+    case "CLEAR_NOTIFICATION":
+      return core.clearAppNotification(state);
     case "START_LOADING":
       return core.startLoading(state);
     case "FINISH_LOADING":

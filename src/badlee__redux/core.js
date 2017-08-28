@@ -27,7 +27,8 @@ const StateRecord = Record({
     isLoading: false,
     isOnline: true,
     error: null,
-    navigator: null
+    navigator: null,
+    notification: null
   }),
   user: new Map({
     isLoggedIn: false,
@@ -45,6 +46,12 @@ export function setNavigator(state: State, navigator: any): State {
   return state.setIn(["application", "navigator"], navigator);
 }
 
+export function addAppNotification(state: State, notification: String): State {
+  return state.setIn(["application", "notification"], notification);
+}
+export function clearAppNotification(state: State): State {
+  return state.setIn(["application", "notification"], null);
+}
 export function addError(state: State, error): State {
   return state.setIn(["application", "error"], error);
   // let currentErrorState = previousError.push(error);

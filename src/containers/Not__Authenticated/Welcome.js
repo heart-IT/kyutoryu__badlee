@@ -41,6 +41,7 @@ class Welcome extends Component {
   }
   render() {
     const user = this.props.user;
+    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -81,9 +82,16 @@ class Welcome extends Component {
                 </Button>
               </View>
               <View style={styles.footer}>
-                <Text style={styles.footerText}>
-                  Note: we recommend you to read these tips for better and safer
-                  transaction.
+                <Text style={{ textAlign: "center" }}>
+                  <Text style={styles.footerText}>
+                    Note: we recommend you to read these{" "}
+                  </Text>
+                  <Text style={{ ...styles.footerText, ...styles.footerLink }}>
+                    tips
+                  </Text>
+                  <Text style={styles.footerText}>
+                    {" "}for better and safer transaction.
+                  </Text>
                 </Text>
               </View>
             </View>
@@ -161,16 +169,17 @@ const styles = {
     paddingTop: 3
   },
   footerText: {
-    textAlign: "center",
-    fontSize: 13,
+    fontSize: 12,
     color: "#616161"
+  },
+  footerLink: {
+    color: "#9331ac"
   }
 };
 
 const _Wrapped = connect(
   state => ({
-    loading: state.get("isLoading"),
-    user: state.get("user")
+    user: state.getIn(["user", "information"])
   }),
   actionCreators
 )(Welcome);

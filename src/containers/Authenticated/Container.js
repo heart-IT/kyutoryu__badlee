@@ -33,10 +33,13 @@ class AuthContainer extends Component {
   constructor() {
     super();
     this.state = {
-      initial_tab: 0
+      initial_tab: 0,
+      current__tab: 0
     };
   }
-  componentDidMount() {}
+  tabChange(i) {
+    console.log(this.state.current__tab);
+  }
   render() {
     return (
       <StyleProvider style={getTheme()}>
@@ -45,13 +48,14 @@ class AuthContainer extends Component {
             initialPage={this.state.initial_tab}
             locked={true}
             tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
+            onChangeTab={(i, ref) => this.setState({ current__tab: i.i })}
           >
             <Tab
               heading={
                 <TabHeading>
                   <Icon
                     name="home"
-                    viewBox="0 0 60 60"
+                    fill={this.state.current__tab === 0 ? "#fff" : "#A071A3"}
                     width="22"
                     height="22"
                   />
@@ -65,9 +69,9 @@ class AuthContainer extends Component {
                 <TabHeading>
                   <Icon
                     name="messages"
-                    viewBox="0 0 60 60"
                     width="22"
                     height="22"
+                    fill={this.state.current__tab === 1 ? "#fff" : "#A071A3"}
                   />
                 </TabHeading>
               }
@@ -80,9 +84,10 @@ class AuthContainer extends Component {
                 <TabHeading>
                   <Icon
                     name="notifications"
-                    viewBox="0 0 60 60"
                     width="22"
                     height="22"
+                    fill={this.state.current__tab === 2 ? "#fff" : "#A071A3"}
+                    stroke={this.state.current__tab === 2 ? "#fff" : "#A071A3"}
                   />
                 </TabHeading>
               }
@@ -94,9 +99,9 @@ class AuthContainer extends Component {
                 <TabHeading>
                   <Icon
                     name="user"
-                    viewBox="0 0 60 60"
                     width="22"
                     height="22"
+                    fill={this.state.current__tab === 3 ? "#fff" : "#A071A3"}
                   />
                 </TabHeading>
               }

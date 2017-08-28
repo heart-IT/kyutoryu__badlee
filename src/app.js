@@ -76,7 +76,7 @@ class BadleeApp extends Component {
       <Root>
         <Provider store={store}>
           <View style={{ flex: 1 }}>
-            <StatusBar backgroundColor="#4f0554" barStyle="light-content" />
+            <StatusBar backgroundColor="#500655" barStyle="light-content" />
             <Navigator
               ref={nav => {
                 scopeNavigator = nav;

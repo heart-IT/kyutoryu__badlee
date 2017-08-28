@@ -140,10 +140,10 @@ export default {
   activeTab: platform === "ios" ? "#007aff" : "#fff",
   sTabBarActiveTextColor: "#007aff",
   tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
-  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#4f0554",
+  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#611265",
 
   // Tab
-  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#500655",
+  tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
   topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#a072a2",
   topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
   topTabActiveBgColor: platform === "ios" ? "#cde1f9" : undefined,

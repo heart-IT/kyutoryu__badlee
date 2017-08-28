@@ -23,14 +23,13 @@ class GooglePlacesInput extends Component {
           right: 0,
           bottom: 0,
           zIndex: 999,
-          paddingTop: 56,
           backgroundColor: "#fff"
         }}
       >
         <GooglePlacesAutocomplete
           placeholder="Search"
           minLength={2} // minimum length of text to search
-          autoFocus={false}
+          autoFocus={true}
           returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
           listViewDisplayed="auto" // true/false/undefined
           fetchDetails={true}
@@ -38,15 +37,16 @@ class GooglePlacesInput extends Component {
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
             this.setState({ selectedPlace: data.description });
+            this.props.onSelection(data.description);
           }}
           getDefaultValue={() => {
-            return ""; // text input default value
+            return this.props.defaultValue ? this.props.defaultValue : ""; // text input default value
           }}
           query={{
             // available options: https://developers.google.com/places/web-service/autocomplete
             key: "AIzaSyCdtqQtZKEecWHLVMeXegFx5NiJ75U8cNM",
             language: "en", // language of the results
-            types: "(cities)" // default: 'geocode'
+            components: "country:in"
           }}
           styles={{
             description: {

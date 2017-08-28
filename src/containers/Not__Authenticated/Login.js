@@ -89,6 +89,14 @@ class Login extends Component {
       });
     });
   }
+  forgotPassPage() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: ForgotPassword
+      });
+    });
+  }
 
   render() {
     return (
@@ -172,7 +180,12 @@ class Login extends Component {
                   </Button>
                 </View>
               </Form>
-              <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+              <Text
+                style={styles.forgotPasswordText}
+                onPress={this.forgotPassPage.bind(this)}
+              >
+                Forgot password?
+              </Text>
               <View style={styles.pageSwitcher}>
                 <Text style={styles.switcherText}>New to the community?</Text>
                 <Text

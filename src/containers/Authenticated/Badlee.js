@@ -63,8 +63,7 @@ class Store extends Component {
       offset: 0,
       loaded: false,
       isLoading: false,
-      badlees: dummy__badleeList,
-      dataSource: ds.cloneWithRows(dummy__badleeList),
+      dataSource: ds.cloneWithRows([]),
       fabActive: false
     };
   }
@@ -80,7 +79,6 @@ class Store extends Component {
     fetch(request_url)
       .then(response => response.json())
       .then(dataSource => {
-        console.log(dataSource);
         this.setState({
           dataSource: ds.cloneWithRows(dataSource),
           paused: true
@@ -377,7 +375,7 @@ class Store extends Component {
 }
 
 const _Wrapped = connect(
-  state => ({ user: state.get("user") }),
+  state => ({ user: state.getIn(["user", "information"]) }),
   actionCreators
 )(Store);
 

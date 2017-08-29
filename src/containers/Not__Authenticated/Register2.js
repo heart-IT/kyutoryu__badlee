@@ -532,7 +532,7 @@ const styles = {
 
 const _Wrapped = connect(
   (state: State) => ({
-    loading: state.get("isLoading")
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Register2);

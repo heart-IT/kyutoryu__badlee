@@ -49,14 +49,24 @@ export default class BadleeFab extends Component {
         <Button
           title="lend and borrow"
           onPress={this.onlendAndBorrowClick.bind(this)}
-          style={{ backgroundColor: "#94C655", width: 40, height: 40 }}
+          style={{
+            backgroundColor: "#94C655",
+            width: 40,
+            height: 40,
+            zIndex: 1001
+          }}
         >
           <Icon name="exchange" width="40" height="40" />
         </Button>
         <Button
           title="show off"
           onPress={this.onshowOffClick.bind(this)}
-          style={{ backgroundColor: "transparent", width: 40, height: 40 }}
+          style={{
+            backgroundColor: "transparent",
+            width: 40,
+            height: 40,
+            zIndex: 1001
+          }}
         >
           <Image
             source={require("../images/show off 2.png")}
@@ -66,7 +76,12 @@ export default class BadleeFab extends Component {
         <Button
           title="shout out"
           onPress={this.onshoutOutClick.bind(this)}
-          style={{ backgroundColor: "#418EE2", width: 40, height: 40 }}
+          style={{
+            backgroundColor: "#418EE2",
+            width: 40,
+            height: 40,
+            zIndex: 1001
+          }}
         >
           <Icon name="shoutout" width="40" height="40" />
         </Button>

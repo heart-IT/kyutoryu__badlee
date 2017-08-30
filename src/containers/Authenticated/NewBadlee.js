@@ -6,6 +6,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Locator from "../../components/Location";
 import { Image } from "react-native";
 import {
   StyleProvider,
@@ -84,6 +85,16 @@ class NewBadlee extends Component {
       }
     });
   }
+  locationInputFocussed() {
+    this.setState({ showLocator: true });
+  }
+  locationSelection(locatoin) {
+    this.setState({ location: locatoin });
+    this.setState({ showLocator: false });
+  }
+  closeLocation() {
+    this.setState({ showLocator: false });
+  }
   saveBadlee() {
     requestAnimationFrame(() => {
       var data = {
@@ -109,68 +120,96 @@ class NewBadlee extends Component {
         <Container>
           {this.props.loading && <LoadingView />}
           <Header style={{ backgroundColor: "#611265" }}>
-            <Left>
-              <Button transparent onPress={this.backPress.bind(this)}>
-                <IconX name="arrow-back" />
-              </Button>
+            <Left
+              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            >
+              {!this.state.showLocator && (
+                <Button transparent onPress={this.backPress.bind(this)}>
+                  <IconX name="arrow-back" />
+                </Button>
+              )}
+              {this.state.showLocator && (
+                <Text style={{ color: "#fff", fontSize: 18 }}>
+                  Select a Location
+                </Text>
+              )}
             </Left>
             <Right>
-              <Button transparent onPress={this.saveBadlee.bind(this)}>
-                <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
-              </Button>
+              {!this.state.showLocator && (
+                <Button transparent onPress={this.saveBadlee.bind(this)}>
+                  <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
+                </Button>
+              )}
+              {this.state.showLocator && (
+                <Button transparent onPress={this.closeLocation.bind(this)}>
+                  <Icon name="menuCloseIcon" width="15" height="15" />
+                </Button>
+              )}
             </Right>
           </Header>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <Form>
-              <View style={styles.badleePhotoWrapper}>
-                <Image
-                  style={styles.avatar}
-                  source={this.state.badleePhotoUrl}
-                />
-                {!this.state.badleePhotoUrl &&
-                  <Button
-                    transparent
-                    onPress={this.selectPhotoTapped.bind(this)}
-                    style={{
-                      width: 160,
-                      height: 120,
-                      marginLeft: "auto",
-                      marginRight: "auto"
-                    }}
-                  >
-                    <Icon name="userPlaceholder" width="120" height="120" />
-                  </Button>}
-              </View>
-              <Item>
-                <Input
-                  placeholder="Title.."
-                  value={this.state.title}
-                  onChangeText={title => this.setState({ title })}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Write a Caption"
-                  value={this.state.description}
-                  onChangeText={description => this.setState({ description })}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Where is it?"
-                  value={this.state.location}
-                  onChangeText={location => this.setState({ location })}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Where does it fits?"
-                  value={this.state.category}
-                  onChangeText={category => this.setState({ category })}
-                />
-              </Item>
-            </Form>
-          </Content>
+          {this.state.showLocator && (
+            <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+              <Locator
+                defaultValue={this.state.location}
+                onSelection={this.locationSelection.bind(this)}
+              />
+            </Content>
+          )}
+          {!this.state.showLocator && (
+            <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+              <Form>
+                <View style={styles.badleePhotoWrapper}>
+                  <Image
+                    style={styles.avatar}
+                    source={this.state.badleePhotoUrl}
+                  />
+                  {!this.state.badleePhotoUrl && (
+                    <Button
+                      transparent
+                      onPress={this.selectPhotoTapped.bind(this)}
+                      style={{
+                        width: 160,
+                        height: 120,
+                        marginLeft: "auto",
+                        marginRight: "auto"
+                      }}
+                    >
+                      <Icon name="userPlaceholder" width="120" height="120" />
+                    </Button>
+                  )}
+                </View>
+                <Item>
+                  <Input
+                    placeholder="Title.."
+                    value={this.state.title}
+                    onChangeText={title => this.setState({ title })}
+                  />
+                </Item>
+                <Item>
+                  <Input
+                    placeholder="Write a Caption"
+                    value={this.state.description}
+                    onChangeText={description => this.setState({ description })}
+                  />
+                </Item>
+                <Item>
+                  <Input
+                    placeholder="Where is it?"
+                    value={this.state.location}
+                    onChangeText={location => this.setState({ location })}
+                    onFocus={this.locationInputFocussed.bind(this)}
+                  />
+                </Item>
+                <Item>
+                  <Input
+                    placeholder="Where does it fits?"
+                    value={this.state.category}
+                    onChangeText={category => this.setState({ category })}
+                  />
+                </Item>
+              </Form>
+            </Content>
+          )}
         </Container>
       </StyleProvider>
     );

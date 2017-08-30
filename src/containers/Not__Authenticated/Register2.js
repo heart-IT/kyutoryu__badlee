@@ -48,9 +48,7 @@ class BackgroundImage extends Component {
     let image = require("../../images/Register page 1 BG.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
-        <Text>
-          {this.props.src}
-        </Text>
+        <Text>{this.props.src}</Text>
         {this.props.children}
       </Image>
     );
@@ -145,12 +143,10 @@ class Register2 extends Component {
   }
 
   locationSelection(locatoin) {
-    console.log(locatoin);
     this.setState({ location: locatoin });
     this.setState({ showLocator: false });
   }
   closeLocation() {
-    console.log("gg");
     this.setState({ showLocator: false });
   }
 
@@ -177,31 +173,36 @@ class Register2 extends Component {
             <Left
               style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
             >
-              {!this.state.showLocator &&
-                <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>}
-              {this.state.showLocator &&
+              {!this.state.showLocator && (
+                <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
+              )}
+              {this.state.showLocator && (
                 <Text style={{ color: "#fff", fontSize: 18 }}>
                   Select a Location
-                </Text>}
+                </Text>
+              )}
             </Left>
             <Right>
-              {!this.state.showLocator &&
-                <Text style={{ color: "#fff", fontSize: 15 }}>2 of 2</Text>}
-              {this.state.showLocator &&
+              {!this.state.showLocator && (
+                <Text style={{ color: "#fff", fontSize: 15 }}>2 of 2</Text>
+              )}
+              {this.state.showLocator && (
                 <Button transparent onPress={this.closeLocation.bind(this)}>
                   <Icon name="menuCloseIcon" width="15" height="15" />
-                </Button>}
+                </Button>
+              )}
             </Right>
           </Header>
 
-          {this.state.showLocator &&
+          {this.state.showLocator && (
             <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
               <Locator
                 defaultValue={this.state.location}
                 onSelection={this.locationSelection.bind(this)}
               />
-            </Content>}
-          {!this.state.showLocator &&
+            </Content>
+          )}
+          {!this.state.showLocator && (
             <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
               <BackgroundImage>
                 <Form
@@ -216,7 +217,7 @@ class Register2 extends Component {
                       style={styles.avatar}
                       source={this.state.avatarSource}
                     />
-                    {!this.state.avatarSource &&
+                    {!this.state.avatarSource && (
                       <Button
                         transparent
                         onPress={this.selectPhotoTapped.bind(this)}
@@ -228,7 +229,8 @@ class Register2 extends Component {
                         }}
                       >
                         <Icon name="userPlaceholder" width="120" height="120" />
-                      </Button>}
+                      </Button>
+                    )}
                     <Text
                       style={{
                         color: "#4f0554",
@@ -495,7 +497,8 @@ class Register2 extends Component {
                   <Text onPress={this.submittingUser.bind(this)}>Submit</Text>
                 </Button>
               </BackgroundImage>
-            </Content>}
+            </Content>
+          )}
         </Container>
       </StyleProvider>
     );

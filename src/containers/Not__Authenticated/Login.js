@@ -11,18 +11,17 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image, Modal } from "react-native";
+import { Image } from "react-native";
 import {
   StyleProvider,
   Container,
   Content,
+  View,
   Form,
   Item,
   Input,
   Button,
-  Text,
-  View,
-  Toast
+  Text
 } from "native-base";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
@@ -41,9 +40,7 @@ class BackgroundImage extends Component {
     let image = require("../../images/login__bg.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
-        <Text>
-          {this.props.src}
-        </Text>
+        <Text>{this.props.src}</Text>
         {this.props.children}
       </Image>
     );
@@ -79,7 +76,7 @@ class Login extends Component {
     });
   }
   /**
-   * Called when user clicks on sign up link
+   * Called when sign up is clicked
    */
   handleGoToSignUpLink() {
     requestAnimationFrame(() => {
@@ -89,6 +86,9 @@ class Login extends Component {
       });
     });
   }
+  /**
+   * Called when forgot password is clicked
+   */
   forgotPassPage() {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -125,20 +125,20 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-                {this.props.error === "User Does Not Exist"
-                  ? <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={styles.errorMsg}>
-                        {this.props.error}
-                      </Text>
-                    </View>
-                  : <Text />}
+                {this.props.error === "User Does Not Exist" ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>{this.props.error}</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
 
                 <View style={styles.inputWrapper}>
                   <Icon name="login__password" width="33" height="33" />
@@ -155,20 +155,20 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-                {this.props.error === "Wrong Password"
-                  ? <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={styles.errorMsg}>
-                        {this.props.error}
-                      </Text>
-                    </View>
-                  : <Text />}
+                {this.props.error === "Wrong Password" ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>{this.props.error}</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
                 <View style={styles.submitButtonWrapper}>
                   <Button
                     common

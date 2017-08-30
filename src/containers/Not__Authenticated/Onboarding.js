@@ -116,7 +116,7 @@ class Onboarding extends Component {
                   <View>
                     <Text style={styles.content}>
                       Got something 'premium'? Here's Badlee giving you an
-                      exclusive platform to show your premium possession off.
+                      exclusive platform to show your premium possessions off.
                     </Text>
                     <Text style={styles.content}>
                       Got Something? Brag about it!

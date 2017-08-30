@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Image, StyleSheet, ListView } from "react-native";
-import moment from "moment";
+import BadleeCard from "../../components/BadleeCard";
 
 import {
   StyleProvider,
@@ -18,19 +18,24 @@ import {
   Thumbnail,
   Left,
   Right,
-  Button,
-  Fab
+  Button
 } from "native-base";
 import { connectStyle } from "native-base";
 import { connect } from "react-redux";
 import getTheme from "../../theme/components";
+
+import base64 from "base-64";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import NewBadlee from "./NewBadlee";
 
 import { dummy__badleeList } from "../../fixtures";
+import BadleeFab from "../../components/Fab";
 import Icon from "../../components/Icon";
 
 let request_url = "http://mri2189.badlee.com/posts.php";
+let follower_url =
+  "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30";
+let location_url = "http://mri2189.badlee.com/posts.php?location=jaipur";
 
 const styles = StyleSheet.create({
   tabs: {
@@ -64,21 +69,32 @@ class Store extends Component {
       loaded: false,
       isLoading: false,
       dataSource: ds.cloneWithRows([]),
-      fabActive: false
+      fabState: false,
+      current__tab: 1
     };
   }
 
   componentDidMount() {
-    this.fetchBadlees();
+    this.fetchBadlees(location_url);
   }
 
-  fetchBadlees() {
+  fetchBadlees(request_url) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    fetch(request_url)
-      .then(response => response.json())
+    console.log(request_url);
+    fetch(request_url, {
+      headers: {
+        Authorization: `Basic ${base64.encode(
+          this.props.user.username + ":" + this.props.user.password
+        )}`
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(dataSource => {
+        console.log(dataSource);
         this.setState({
           dataSource: ds.cloneWithRows(dataSource),
           paused: true
@@ -88,238 +104,58 @@ class Store extends Component {
       .done();
   }
 
-  letsExchange() {
+  onFabToggle(fabState) {
+    this.state.fabState = fabState;
+  }
+  onFabSelect(type) {
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
         component: NewBadlee,
-        params: {
-          type: "exchange"
-        }
+        params: { type }
       });
     });
   }
-
-  showOff() {
-    requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: NewBadlee,
-        params: {
-          type: "showOff"
-        }
-      });
-    });
-  }
-
-  shoutOut() {
-    requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: NewBadlee,
-        params: {
-          type: "shoutOut"
-        }
-      });
-    });
+  onTabChange(i, ref) {
+    this.setState({ current__tab: i.i });
+    if (i.i === 1) {
+      this.fetchBadlees(location_url);
+    } else if (i.i === 0) {
+      this.fetchBadlees(follower_url);
+    } else {
+      this.fetchBadlees(request_url);
+    }
   }
 
   render() {
-    function badlee(data) {
-      return (
-        <Card
-          style={{
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 6,
-            marginTop: 3,
-            borderRadius: 0,
-            position: "relative"
-          }}
-          key={data["id"]}
-        >
-          {data["purpose"] === "shoutOut" &&
-            <Icon
-              name="shoutout"
-              viewBox="0 0 60 60"
-              width="36"
-              height="36"
-              style={styles.badleePurposeIcon}
-            />}
-          {data["purpose"] === "showOff" &&
-            <Image
-              source={require("../../images/show off 2.png")}
-              style={styles.badleePurposeIcon}
-            />}
-          {data["purpose"] === "exchange" &&
-            <Icon
-              name="exchange"
-              viewBox="0 0 60 60"
-              width="36"
-              height="36"
-              style={styles.badleePurposeIcon}
-            />}
-
-          <CardItem header>
-            <Left>
-              <Thumbnail
-                source={{
-                  uri: data["media"]
-                }}
-                style={{ height: 32, width: 32, marginLeft: 12 }}
-              />
-              <Text>
-                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                  {data["user"].substring(0, 12)}
-                </Text>
-                <Text style={{ fontSize: 12 }}>'s</Text>
-                <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                  {" "}Thingy
-                </Text>
-                <Text style={{ fontSize: 12, color: "#616161" }}>
-                  {" "}{moment(data["timestamp"]).fromNow()}
-                </Text>
-              </Text>
-            </Left>
-          </CardItem>
-
-          <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
-            <Image
-              source={{
-                uri: data["media"]
-              }}
-              style={{ height: 200, width: "100%", flex: 1, zIndex: 1 }}
-            />
-            <Body>
-              <Text
-                style={{
-                  marginLeft: 12,
-                  marginTop: 2,
-                  fontWeight: "bold",
-                  fontSize: 12
-                }}
-              >
-                {data["location"]}
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 12,
-                  marginTop: 12,
-                  marginBottom: 6,
-                  fontWeight: "bold",
-                  fontSize: 24,
-                  fontStyle: "italic"
-                }}
-              >
-                {data["description"]}
-              </Text>
-            </Body>
-          </CardItem>
-
-          <CardItem footer>
-            <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
-              <View style={{ flexDirection: "row" }}>
-                <Icon
-                  name="postLiked"
-                  width="30"
-                  height="30"
-                  style={{ marginRight: 3 }}
-                />
-                <Icon
-                  name="postWished"
-                  width="30"
-                  height="30"
-                  fill="#EF5454"
-                  style={{ marginRight: 3 }}
-                />
-                <Icon name="postComment" width="30" height="30" fill="#fff" />
-              </View>
-              <View>
-                <Text style={{ fontSize: 12, marginLeft: 4 }}>
-                  View {Math.floor(Math.random() * 11)} comments{" "}
-                </Text>
-              </View>
-            </Left>
-            <Right>
-              <Button transparent>
-                <Icon name="postDelete" width="24" height="24" />
-              </Button>
-            </Right>
-          </CardItem>
-        </Card>
-      );
-    }
+    console.log(this.props.user);
     return (
       <StyleProvider style={getTheme()}>
-        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-          <Fab
-            active={this.state.fabActive}
-            direction="up"
-            position="bottomRight"
-            style={{ zIndex: 9999, backgroundColor: "none" }}
-            onPress={() => this.setState({ fabActive: !this.state.fabActive })}
-          >
-            <Image
-              source={require("../../images/badlee.png")}
-              style={{ width: 56, height: 56 }}
-            />
-            <Button
-              style={{
-                backgroundColor: "#94c655",
-                width: 40,
-                height: 40,
-                zIndex: 9999
-              }}
-              onPress={this.letsExchange.bind(this)}
-            >
-              <Icon
-                name="exchange"
-                viewBox="0 0 60 60"
-                width="25"
-                height="25"
-              />
-            </Button>
-            <Button
-              style={{
-                backgroundColor: "#3B5998",
-                width: 40,
-                height: 40,
-                zIndex: 9999
-              }}
-              onPress={this.showOff.bind(this)}
-            >
-              <Image
-                source={require("../../images/show off 2.png")}
-                style={{ width: 40, height: 40 }}
-              />
-            </Button>
-            <Button
-              style={{
-                backgroundColor: "#428ee2",
-                width: 40,
-                height: 40,
-                zIndex: 9999
-              }}
-              onPress={this.shoutOut.bind(this)}
-            >
-              <Icon
-                name="shoutout"
-                viewBox="0 0 60 60"
-                width="25"
-                height="25"
-              />
-            </Button>
-          </Fab>
+        <Content
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flex: 1, position: "relative" }}
+        >
+          <BadleeFab
+            isActive={this.state.fabState}
+            onToggle={this.onFabToggle.bind(this)}
+            onSelection={this.onFabSelect.bind(this)}
+          />
           <View style={{ flex: 1 }}>
-            <Tabs class="secondary">
+            <Tabs
+              secondary
+              tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
+              onChangeTab={this.onTabChange.bind(this)}
+            >
               <Tab
                 heading={
                   <TabHeading
-                    style={{ backgroundColor: "#fff", paddingLeft: "12%" }}
+                    style={{ backgroundColor: "#fff", paddingLeft: "12.5%" }}
                   >
                     <Icon
+                      fill={
+                        this.state.current__tab === 0 ? "#611265" : "#4D4D4D"
+                      }
                       name="community"
-                      viewBox="0 0 60 60"
                       height="30"
                       width="30"
                     />
@@ -333,39 +169,59 @@ class Store extends Component {
                     overflow: "scroll"
                   }}
                   dataSource={this.state.dataSource}
-                  renderRow={data => badlee(data)}
+                  renderRow={data => <BadleeCard cardData={data} />}
                 />
               </Tab>
               <Tab
                 heading={
                   <TabHeading style={{ backgroundColor: "#fff" }}>
                     <Icon
+                      fill={
+                        this.state.current__tab === 1 ? "#611265" : "#4D4D4D"
+                      }
                       name="location"
-                      viewBox="0 0 60 60"
-                      height="27"
-                      width="27"
+                      height="24"
+                      width="24"
                     />
                   </TabHeading>
                 }
-              />
+              >
+                <ListView
+                  style={{
+                    paddingTop: 4,
+                    backgroundColor: "#bdbdbd",
+                    overflow: "scroll"
+                  }}
+                  dataSource={this.state.dataSource}
+                  renderRow={data => <BadleeCard cardData={data} />}
+                />
+              </Tab>
               <Tab
                 heading={
                   <TabHeading
-                    style={{ backgroundColor: "#fff", paddingRight: "12%" }}
+                    style={{ backgroundColor: "#fff", paddingRight: "12.5%" }}
                   >
                     <Icon
+                      fill={
+                        this.state.current__tab === 2 ? "#611265" : "#4D4D4D"
+                      }
                       name="globe"
-                      viewBox="0 0 485.215 485.215"
-                      height="27"
-                      width="27"
+                      height="24"
+                      width="24"
                     />
                   </TabHeading>
                 }
-                tabStyle={{ backgroundColor: "red" }}
-                textStyle={{ color: "#fff" }}
-                activeTabStyle={{ backgroundColor: "red" }}
-                activeTextStyle={{ color: "#fff", fontWeight: "normal" }}
-              />
+              >
+                <ListView
+                  style={{
+                    paddingTop: 4,
+                    backgroundColor: "#bdbdbd",
+                    overflow: "scroll"
+                  }}
+                  dataSource={this.state.dataSource}
+                  renderRow={data => <BadleeCard cardData={data} />}
+                />
+              </Tab>
             </Tabs>
           </View>
         </Content>

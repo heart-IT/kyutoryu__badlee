@@ -33,19 +33,15 @@ class AuthContainer extends Component {
   constructor() {
     super();
     this.state = {
-      initial_tab: 0,
       current__tab: 0
     };
-  }
-  tabChange(i) {
-    console.log(this.state.current__tab);
   }
   render() {
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Tabs
-            initialPage={this.state.initial_tab}
+            initialPage={this.state.current__tab}
             locked={true}
             tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
             onChangeTab={(i, ref) => this.setState({ current__tab: i.i })}
@@ -118,7 +114,7 @@ class AuthContainer extends Component {
 var styles = {};
 
 const _Wrapped = connect(
-  state => ({ user: state.get("user") }),
+  state => ({ user: state.getIn(["user", "information"]) }),
   actionCreators
 )(AuthContainer);
 

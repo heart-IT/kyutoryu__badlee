@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, StyleSheet, ListView } from "react-native";
+import { Image, StyleSheet, ListView, AsyncStorage } from "react-native";
 import BadleeCard from "../../components/BadleeCard";
 
 import {
@@ -12,12 +12,6 @@ import {
   Tabs,
   Tab,
   TabHeading,
-  Card,
-  CardItem,
-  Body,
-  Thumbnail,
-  Left,
-  Right,
   Button
 } from "native-base";
 import { connectStyle } from "native-base";
@@ -28,7 +22,6 @@ import base64 from "base-64";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import NewBadlee from "./NewBadlee";
 
-import { dummy__badleeList } from "../../fixtures";
 import BadleeFab from "../../components/Fab";
 import Icon from "../../components/Icon";
 
@@ -36,27 +29,6 @@ let request_url = "http://mri2189.badlee.com/posts.php";
 let follower_url =
   "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30";
 let location_url = "http://mri2189.badlee.com/posts.php?location=jaipur";
-
-const styles = StyleSheet.create({
-  tabs: {
-    backgroundColor: "#fff"
-  },
-  fab: {
-    backgroundColor: "#5067FF"
-  },
-  badleePurposeIcon: {
-    position: "absolute",
-    top: 30,
-    right: 6,
-    zIndex: 9,
-    shadowColor: "#000",
-    shadowOffset: { width: 10, height: 10 },
-    shadowOpacity: 0.8,
-    shadowRadius: 100,
-    width: 36,
-    height: 36
-  }
-});
 
 class Store extends Component {
   constructor() {
@@ -229,6 +201,27 @@ class Store extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  tabs: {
+    backgroundColor: "#fff"
+  },
+  fab: {
+    backgroundColor: "#5067FF"
+  },
+  badleePurposeIcon: {
+    position: "absolute",
+    top: 30,
+    right: 6,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.8,
+    shadowRadius: 100,
+    width: 36,
+    height: 36
+  }
+});
 
 const _Wrapped = connect(
   state => ({ user: state.getIn(["user", "information"]) }),

@@ -31,9 +31,7 @@ class BackgroundImage extends Component {
     let image = require("../../images/reset-password-phone.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
-        <Text>
-          {this.props.src}
-        </Text>
+        <Text>{this.props.src}</Text>
         {this.props.children}
       </Image>
     );
@@ -44,7 +42,8 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null
+      email: null,
+      error: null
     };
   }
   handleFormSubmit() {
@@ -52,6 +51,15 @@ class ForgotPassword extends Component {
       requestAnimationFrame(() => {
         this.props.forgotPassword(this.state.email);
       });
+    }
+  }
+  validateEmail() {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var valid = re.test(this.state.email);
+    if (valid) {
+      this.setState({ error: null });
+    } else {
+      this.setState({ error: "Invalid Email" });
     }
   }
   render() {
@@ -68,24 +76,53 @@ class ForgotPassword extends Component {
                 <Item style={styles.boxWrapper}>
                   <Input
                     onChangeText={email => this.setState({ email })}
+                    onEndEditing={this.validateEmail.bind(this)}
+                    keyboardType={"email-address"}
                     value={this.state.email}
                     placeholderTextColor="#7d5c85"
                     fontFamily="PoiretOne-Regular"
                     style={styles.inputBox}
                   />
                 </Item>
+                {this.state.error === "Invalid Email" ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#b27fe7",
+                        fontSize: 13,
+                        marginLeft: 3,
+                        marginRight: 18
+                      }}
+                    >
+                      Invalid Email
+                    </Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
                 <View style={styles.submitButtonWrapper}>
                   <Button
                     common
                     action="submit"
                     style={styles.submitButton}
                     onPress={this.handleFormSubmit.bind(this)}
+                    disabled={!this.state.email || !!this.state.error}
                   >
                     <Text style={styles.submitButtonText}>Submit</Text>
                   </Button>
                 </View>
-                {this.props.notification === "Email sent" &&
-                  <Text>Check your inbox. We must have send you email.</Text>}
+                {this.props.notification === "Email sent" && (
+                  <Text style={styles.successMessage}>
+                    Check your inbox. We must have send you email.
+                  </Text>
+                )}
               </Form>
             </BackgroundImage>
           </Content>
@@ -134,6 +171,15 @@ const styles = {
   },
   submitButton: {
     borderRadius: 6
+  },
+  successMessage: {
+    marginTop: 60,
+    textAlign: "center",
+    color: "#500655",
+    fontSize: 14,
+    fontWeight: "bold",
+    paddingLeft: "12.5%",
+    paddingRight: "12.5%"
   }
 };
 const _Wrapped = connect(

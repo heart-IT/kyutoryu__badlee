@@ -1,3 +1,7 @@
+/**
+ * @chill- Tension is who you think you should be. Relaxation is who you are.- Chinese Proverb.
+ */
+
 "use strict";
 
 import type { Action } from "../types";
@@ -5,11 +9,11 @@ import * as actionCreators from "../action_creators";
 
 async function forgotPassword(store, next: Function, action) {
   try {
-    let email = action.email;
     await store.dispatch(actionCreators.startLoading());
-
+    let { email } = action;
+    if (!email) throw "No Email provided";
     var data = {
-      email: action.email,
+      email,
       application_id: "xYqBgc1Xcf2Ufyhir5ab",
       application_secret: "vh4tyy74xAnNLtGagto4"
     };
@@ -30,12 +34,11 @@ async function forgotPassword(store, next: Function, action) {
     });
     if (response.status === 200 && response.ok === true) {
       await store.dispatch(actionCreators.addNotification("Email sent"));
-      setTimeout(function() {
-        store.dispatch(actionCreators.clearNotification());
-      }, 15000);
+    } else {
+      throw "Error in Requesting";
     }
-    console.log(response);
   } catch (e) {
+    await store.dispatch(actionCreators.addError(e));
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

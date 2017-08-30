@@ -63,7 +63,7 @@ export const changeInternetConnectionStatus = (
 });
 
 export const addNotification = (notification: String) => ({
-  type: "ADD_ERROR",
+  type: "ADD_NOTIFICATION",
   notification: notification
 });
 export const clearNotification = () => ({

@@ -1,90 +1,61 @@
 "use strict";
 
 import React, { Component } from "react";
-import {
-  Image,
-  StyleSheet,
-  ListView,
-  AsyncStorage,
-  FlatList
-} from "react-native";
-import BadleeCard from "../../components/BadleeCard";
+import { Image, StyleSheet } from "react-native";
+import { connect } from "react-redux";
 
 import {
   StyleProvider,
+  Container,
   Content,
   View,
-  Text,
   Tabs,
   Tab,
   TabHeading,
+  Text,
   Button
 } from "native-base";
-import { connectStyle } from "native-base";
-import { connect } from "react-redux";
 import getTheme from "../../theme/components";
 
-import base64 from "base-64";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import NewBadlee from "./NewBadlee";
-
 import BadleeFab from "../../components/Fab";
 import Icon from "../../components/Icon";
+import BadleesList from "../../components/BadleesList";
+import NewBadlee from "./NewBadlee";
 
-let request_url = "http://mri2189.badlee.com/posts.php";
+let request_url = "http://mri2189.badlee.com/posts.php?offset=0&limit=10";
 let follower_url =
   "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30";
 let location_url = "http://mri2189.badlee.com/posts.php?location=jaipur";
 
 class Store extends Component {
-  constructor() {
-    super();
-    // const ds = new ListView.DataSource({
-    //   rowHasChanged: (r1, r2) => r1 !== r2
-    // });
+  constructor(props) {
+    super(props);
     this.state = {
-      offset: 0,
-      loaded: false,
-      isLoading: false,
-      // dataSource: ds.cloneWithRows([]),
-      fabState: false,
       current__tab: 1,
-      data: []
+      data: [],
+      page: 1,
+      offset: 10,
+      request_url: "http://mri2189.badlee.com/posts.php?offset=0&limit=10",
+      follower_url:
+        "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30",
+      location_url: "http://mri2189.badlee.com/posts.php?location=jaipur"
     };
   }
-
   componentDidMount() {
-    this.fetchBadlees(location_url);
+    if (this.state.current__tab === 1) {
+      this.makeBadleesFetchRequest(location_url);
+    }
   }
-
-  fetchBadlees(request_url) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    console.log(request_url);
-    fetch(request_url, {
-      headers: {
-        Authorization: `Basic ${base64.encode(
-          this.props.user.username + ":" + this.props.user.password
-        )}`
-      }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(dataSource => {
-        console.log(dataSource);
-        this.setState({
-          data: dataSource
-        });
-      })
-      .catch(err => console.log(err))
-      .done();
-  }
-
-  onFabToggle(fabState) {
-    this.state.fabState = fabState;
-  }
+  makeBadleesFetchRequest = url => {
+    console.log(url);
+    const { page, offset } = this.state;
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({ data: res });
+      });
+  };
   onFabSelect(type) {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -96,144 +67,104 @@ class Store extends Component {
   }
   onTabChange(i, ref) {
     this.setState({ current__tab: i.i });
-    // if (i.i === 1) {
-    //   this.fetchBadlees(location_url);
-    // } else if (i.i === 0) {
-    //   this.fetchBadlees(follower_url);
-    // } else {
-    //   this.fetchBadlees(request_url);
-    // }
+    if (i.i === 1) {
+      this.makeBadleesFetchRequest(location_url);
+    } else if (i.i === 0) {
+      this.makeBadleesFetchRequest(follower_url);
+    } else {
+      this.makeBadleesFetchRequest(request_url);
+    }
   }
 
   render() {
-    var x = [
-      { key: "One" },
-      { key: "Two" },
-      { key: "Three" },
-      { key: "Four" },
-      { key: "Five" },
-      { key: "Six" },
-      { key: "Seven" },
-      { key: "Eight" },
-      { key: "Nine" },
-      { key: "Ten" },
-      { key: "Eleven" },
-      { key: "Twelve" }
-    ];
     return (
       <StyleProvider style={getTheme()}>
-        <Content
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flex: 1, position: "relative" }}
-        >
-          <BadleeFab
-            isActive={this.state.fabState}
-            onToggle={this.onFabToggle.bind(this)}
-            onSelection={this.onFabSelect.bind(this)}
-          />
-          <View style={{ flex: 1 }}>
-            <Tabs
-              secondary
-              tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
-              onChangeTab={this.onTabChange.bind(this)}
-            >
-              <Tab
-                heading={
-                  <TabHeading
-                    style={{ backgroundColor: "#fff", paddingLeft: "12.5%" }}
+        <Container>
+          <Content style={styles.content} contentContainerStyle={{ flex: 1 }}>
+            <BadleeFab
+              isActive={false}
+              onSelection={this.onFabSelect.bind(this)}
+            />
+            <View style={styles.content}>
+              <Tabs
+                tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
+                onChangeTab={this.onTabChange.bind(this)}
+              >
+                <Tab
+                  heading={
+                    <TabHeading
+                      style={{ ...styles.tabHead, ...styles.firstTab }}
+                    >
+                      <Icon
+                        fill={
+                          this.state.current__tab === 0 ? "#611265" : "#4D4D4D"
+                        }
+                        name="community"
+                        height="30"
+                        width="30"
+                      />
+                    </TabHeading>
+                  }
+                >
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
                   >
-                    <Icon
-                      fill={
-                        this.state.current__tab === 0 ? "#611265" : "#4D4D4D"
-                      }
-                      name="community"
-                      height="30"
-                      width="30"
-                    />
-                  </TabHeading>
-                }
-              >
-                {this.state.current__tab === 0 && (
-                  <FlatList
-                    data={this.state.data}
-                    renderItem={({ item }) => <BadleeCard cardData={item} />}
-                  />
-                )}
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
-                    <Icon
-                      fill={
-                        this.state.current__tab === 1 ? "#611265" : "#4D4D4D"
-                      }
-                      name="location"
-                      height="24"
-                      width="24"
-                    />
-                  </TabHeading>
-                }
-              >
-                {this.state.current__tab === 1 && (
-                  <FlatList
-                    data={this.state.data}
-                    renderItem={({ data }) => <BadleeCard cardData={data} />}
-                  />
-                )}
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading
-                    style={{ backgroundColor: "#fff", paddingRight: "12.5%" }}
-                  >
-                    <Icon
-                      fill={
-                        this.state.current__tab === 2 ? "#611265" : "#4D4D4D"
-                      }
-                      name="globe"
-                      height="24"
-                      width="24"
-                    />
-                  </TabHeading>
-                }
-              >
-                {this.state.current__tab === 2 && (
-                  <FlatList
-                    data={x}
-                    renderItem={({ item }) => (
-                      <Text style={styles.item}> {item.key} </Text>
-                    )}
-                  />
-                )}
-              </Tab>
-            </Tabs>
-          </View>
-        </Content>
+                    <Text>No item present yet</Text>
+                  </View>
+                </Tab>
+                <Tab
+                  heading={
+                    <TabHeading style={styles.tabHead}>
+                      <Icon
+                        fill={
+                          this.state.current__tab === 1 ? "#611265" : "#4D4D4D"
+                        }
+                        name="location"
+                        height="24"
+                        width="24"
+                      />
+                    </TabHeading>
+                  }
+                >
+                  <BadleesList data={this.state.data} />
+                </Tab>
+                <Tab
+                  heading={
+                    <TabHeading
+                      style={{ ...styles.tabHead, ...styles.lastTab }}
+                    >
+                      <Icon
+                        fill={
+                          this.state.current__tab === 2 ? "#611265" : "#4D4D4D"
+                        }
+                        name="globe"
+                        height="24"
+                        width="24"
+                      />
+                    </TabHeading>
+                  }
+                >
+                  <BadleesList data={this.state.data} />
+                </Tab>
+              </Tabs>
+            </View>
+          </Content>
+        </Container>
       </StyleProvider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  tabs: {
-    backgroundColor: "#fff"
-  },
-  fab: {
-    backgroundColor: "#5067FF"
-  },
-  badleePurposeIcon: {
-    position: "absolute",
-    top: 30,
-    right: 6,
-    zIndex: 9,
-    shadowColor: "#000",
-    shadowOffset: { width: 10, height: 10 },
-    shadowOpacity: 0.8,
-    shadowRadius: 100,
-    width: 36,
-    height: 36
-  }
-});
+const styles = {
+  content: { flex: 1 },
+  tabHead: { backgroundColor: "#fff" },
+  firstTab: { paddingLeft: "12.5%" },
+  lastTab: { paddingRight: "12.5%" }
+};
 
 const _Wrapped = connect(
   state => ({ user: state.getIn(["user", "information"]) }),

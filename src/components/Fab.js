@@ -22,7 +22,7 @@ export default class BadleeFab extends Component {
   }
   fabClicked() {
     this.setState({ isActive: !this.state.isActive });
-    this.props.onToggle(this.state.isActive);
+    // this.props.onToggle(this.state.isActive);
   }
   onlendAndBorrowClick() {
     this.props.onSelection("exchange");

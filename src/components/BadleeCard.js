@@ -22,7 +22,10 @@ import {
 import moment from "moment";
 
 import Icon from "./Icon";
-class BadleeCard extends Component {
+class BadleeCard extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
   render() {
     var cardData = this.props.cardData;
     console.log(this.props);
@@ -31,29 +34,42 @@ class BadleeCard extends Component {
         style={{
           marginLeft: 0,
           marginRight: 0,
-          marginBottom: 6,
-          marginTop: 3,
+          marginBottom: 3,
+          marginTop: 6,
           borderRadius: 0,
           position: "relative"
         }}
       >
-        <Icon
-          name="shoutOut"
-          width="36"
-          height="36"
-          style={{
-            position: "absolute",
-            top: 30,
-            right: 6,
-            zIndex: 9,
-            shadowColor: "#000",
-            shadowOffset: { width: 10, height: 10 },
-            shadowOpacity: 0.8,
-            shadowRadius: 100,
-            width: 36,
-            height: 36
-          }}
-        />
+        {cardData.purpose === "give away" && (
+          <Icon
+            name="exchange"
+            width="36"
+            height="36"
+            style={styles.purposeIcon}
+          />
+        )}
+        {cardData.purpose === "Show off" && (
+          <Image
+            source={require("../images/show off 2.png")}
+            style={styles.purposeIcon}
+          />
+        )}
+        {cardData.purpose === "shoutOut" && (
+          <Icon
+            name="shoutout"
+            width="36"
+            height="36"
+            style={styles.purposeIcon}
+          />
+        )}
+        {cardData.purpose === "exchange" && (
+          <Icon
+            name="exchange"
+            width="36"
+            height="36"
+            style={styles.purposeIcon}
+          />
+        )}
         <CardItem header>
           <Thumbnail
             source={{
@@ -61,19 +77,19 @@ class BadleeCard extends Component {
                 ? cardData.user_info.avatar
                 : cardData.media
             }}
-            style={{ height: 32, width: 32, marginLeft: 12 }}
+            style={{ height: 32, width: 32, marginLeft: 12, marginRight: 3 }}
           />
-          <Text style={{ fontSize: 12 }}>
-            <Text style={{ fontWeight: "bold" }}>
+          <Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
               {cardData.user_info ? (
-                cardData.user_info.First_name
+                cardData.user_info.username
               ) : (
                 cardData.user.substring(0, 12)
               )}
             </Text>
-            <Text>'s</Text>
-            <Text style={{ fontWeight: "bold" }}> Thingy</Text>
-            <Text style={{ color: "#616161" }}>
+            <Text style={{ fontSize: 15 }}>'s</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 14 }}> Thingy</Text>
+            <Text style={{ color: "#616161", fontSize: 15 }}>
               {" "}
               {moment(cardData.timestamp).fromNow()}
             </Text>
@@ -89,8 +105,8 @@ class BadleeCard extends Component {
               style={{
                 marginLeft: 12,
                 marginTop: 2,
-                fontWeight: "bold",
-                fontSize: 12
+                fontSize: 12,
+                fontWeight: "bold"
               }}
             >
               {cardData.location}
@@ -98,19 +114,17 @@ class BadleeCard extends Component {
             <Text
               style={{
                 marginLeft: 12,
-                marginTop: 12,
-                marginBottom: 6,
-                fontWeight: "bold",
+                marginTop: 6,
+                marginBottom: 5,
                 fontSize: 24,
-                lineHeight: 36,
-                fontStyle: "italic"
+                lineHeight: 36
               }}
             >
               {cardData.description}
             </Text>
           </Body>
         </CardItem>
-        <CardItem footer>
+        <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
               <Icon
@@ -128,15 +142,19 @@ class BadleeCard extends Component {
               />
               <Icon name="postComment" width="30" height="30" fill="#fff" />
             </View>
-            <View>
-              <Text style={{ fontSize: 12, marginLeft: 4 }}>
+            <View
+              style={{
+                marginTop: 3
+              }}
+            >
+              <Text style={{ fontSize: 12, marginLeft: 4, fontWeight: "bold" }}>
                 View {cardData.comment_count} comments{" "}
               </Text>
             </View>
           </Left>
           <Right>
             <Button transparent>
-              <Icon name="postDelete" width="24" height="24" />
+              <Icon name="postDelete" width="30" height="30" />
             </Button>
           </Right>
         </CardItem>
@@ -144,5 +162,20 @@ class BadleeCard extends Component {
     );
   }
 }
+
+var styles = {
+  purposeIcon: {
+    position: "absolute",
+    top: 30,
+    right: 18,
+    zIndex: 9,
+    shadowColor: "#000",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.8,
+    shadowRadius: 100,
+    width: 36,
+    height: 36
+  }
+};
 
 export default BadleeCard;

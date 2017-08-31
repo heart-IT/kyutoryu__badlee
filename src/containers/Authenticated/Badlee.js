@@ -26,7 +26,8 @@ import NewBadlee from "./NewBadlee";
 let request_url = "http://mri2189.badlee.com/posts.php?offset=0&limit=10";
 let follower_url =
   "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30";
-let location_url = "http://mri2189.badlee.com/posts.php?location=jaipur";
+let location_url =
+  "http://mri2189.badlee.com/posts.php?location=jaipur, rajasthan, india";
 
 class Store extends Component {
   constructor(props) {
@@ -39,7 +40,8 @@ class Store extends Component {
       request_url: "http://mri2189.badlee.com/posts.php?offset=0&limit=10",
       follower_url:
         "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30",
-      location_url: "http://mri2189.badlee.com/posts.php?location=jaipur"
+      location_url:
+        "http://mri2189.badlee.com/posts.php?location=jaipur, rajasthan, india"
     };
   }
   componentDidMount() {

@@ -26,9 +26,9 @@ class BadleeCard extends React.PureComponent {
   _onPress = () => {
     this.props.onPressItem(this.props.id);
   };
+  _onLikePress = () => {};
   render() {
     var cardData = this.props.cardData;
-    console.log(this.props);
     return (
       <Card
         style={{
@@ -106,7 +106,8 @@ class BadleeCard extends React.PureComponent {
                 marginLeft: 12,
                 marginTop: 2,
                 fontSize: 12,
-                fontWeight: "bold"
+                fontWeight: "bold",
+                color: "rgba(0, 0, 0, 0.87)"
               }}
             >
               {cardData.location}
@@ -117,7 +118,9 @@ class BadleeCard extends React.PureComponent {
                 marginTop: 6,
                 marginBottom: 5,
                 fontSize: 24,
-                lineHeight: 36
+                lineHeight: 36,
+                fontFamily: "Ubuntu-Regular",
+                color: "rgba(0, 0, 0, 0.87)"
               }}
             >
               {cardData.description}
@@ -128,10 +131,13 @@ class BadleeCard extends React.PureComponent {
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
               <Icon
-                name="postLiked"
+                name="postUnliked"
                 width="30"
                 height="30"
                 style={{ marginRight: 3 }}
+                fill="none"
+                stroke="#000"
+                strokeWidth="17"
               />
               <Icon
                 name="postWished"
@@ -147,7 +153,14 @@ class BadleeCard extends React.PureComponent {
                 marginTop: 3
               }}
             >
-              <Text style={{ fontSize: 12, marginLeft: 4, fontWeight: "bold" }}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  marginLeft: 4,
+                  fontWeight: "bold",
+                  color: "rgba(0, 0, 0, 0.87)"
+                }}
+              >
                 View {cardData.comment_count} comments{" "}
               </Text>
             </View>

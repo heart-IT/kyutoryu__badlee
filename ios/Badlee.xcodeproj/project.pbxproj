@@ -74,6 +74,8 @@
 		B4C57180093B4F649EE0533A /* Righteous-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0E994A5C92E4F9FA8181088 /* Righteous-Regular.ttf */; };
 		6AF069FDFE114BD0A364EDAB /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F2796CFE4641BDBE7B5B6B /* libRNImagePicker.a */; };
 		7D947F9BD65E4EFE9D007497 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD2801FF2CD4050818FBC29 /* libRNSVG.a */; };
+		E92432E061AF49B7B6D41757 /* Ubuntu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D76D53498274375985F385F /* Ubuntu-Bold.ttf */; };
+		7DEDB702F59F4C91A2F745BC /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5750B0C0383042F9A0725AC3 /* Ubuntu-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +336,8 @@
 		B6F2796CFE4641BDBE7B5B6B /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		9DD58D62207E42E28186D131 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; name = "RNSVG.xcodeproj"; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		EDD2801FF2CD4050818FBC29 /* libRNSVG.a */ = {isa = PBXFileReference; name = "libRNSVG.a"; path = "libRNSVG.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		7D76D53498274375985F385F /* Ubuntu-Bold.ttf */ = {isa = PBXFileReference; name = "Ubuntu-Bold.ttf"; path = "../assets/Ubuntu-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5750B0C0383042F9A0725AC3 /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; name = "Ubuntu-Regular.ttf"; path = "../assets/Ubuntu-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -607,6 +611,8 @@
 				561F25525ECB4CC894AC238A /* Zocial.ttf */,
 				FED2669E7CAC415C91417BE4 /* PoiretOne-Regular.ttf */,
 				F0E994A5C92E4F9FA8181088 /* Righteous-Regular.ttf */,
+				7D76D53498274375985F385F /* Ubuntu-Bold.ttf */,
+				5750B0C0383042F9A0725AC3 /* Ubuntu-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1007,6 +1013,8 @@
 				14447A309FC9400FB08FE06E /* Zocial.ttf in Resources */,
 				8CD0167B0CDF41B39607B2C6 /* PoiretOne-Regular.ttf in Resources */,
 				B4C57180093B4F649EE0533A /* Righteous-Regular.ttf in Resources */,
+				E92432E061AF49B7B6D41757 /* Ubuntu-Bold.ttf in Resources */,
+				7DEDB702F59F4C91A2F745BC /* Ubuntu-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

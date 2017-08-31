@@ -32,7 +32,7 @@ class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current__tab: 1,
+      current__tab: 0,
       data: [],
       page: 1,
       offset: 10,
@@ -45,6 +45,10 @@ class Store extends Component {
   componentDidMount() {
     if (this.state.current__tab === 1) {
       this.makeBadleesFetchRequest(location_url);
+    } else if (this.state.current__tab === 0) {
+      this.makeBadleesFetchRequest(follower_url);
+    } else {
+      this.makeBadleesFetchRequest(request_url);
     }
   }
   makeBadleesFetchRequest = url => {

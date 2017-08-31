@@ -34,6 +34,7 @@ var showoff__icon = require("../../images/show off 2.png");
 var shout__icon = require("../../images/shout badge.png");
 
 class User extends Component {
+  componentDidMount() {}
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,
@@ -43,43 +44,45 @@ class User extends Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Content>
           <View style={styles.user__info}>
             <Image
               source={{
-                uri: "http://dkcoin8.com/images/luffy-hd-clipart-9.png"
+                uri: user.avatar
               }}
               style={styles.user__photo}
             />
 
             <View style={styles.user__knowledge}>
               <Text style={styles.user__name}>
-                {this.props.user.fname} {this.props.user.lname} -
+                {user.fname} {user.lname} -
               </Text>
-              <Text style={styles.user__gender}>
-                {this.props.user.gender}
-              </Text>
+              <Text style={styles.user__gender}>{user.gender}</Text>
               <Text style={styles.user__location}>
-                {this.props.user.location} Jaipur, India
+                {this.props.user.location}
               </Text>
             </View>
             <View style={styles.user__supporters}>
               <View style={styles.user__following}>
                 <Text style={styles.supporters__label}>Following</Text>
-                <Text style={styles.supporters__value}>34</Text>
+                <Text style={styles.supporters__value}>
+                  {user.following ? user.following : 0}
+                </Text>
               </View>
               <View style={styles.user__follower}>
                 <Text style={styles.supporters__label}>Follower</Text>
-                <Text style={styles.supporters__value}>34</Text>
+                <Text style={styles.supporters__value}>
+                  {user.follower ? user.follower : 0}
+                </Text>
               </View>
             </View>
             <View style={styles.user__interestedin}>
               <Text style={styles.interestedin__label}>Interested in : </Text>
               <Text style={styles.user__interests}>
                 {this.props.user.interests}
-                electronics, book, video games, computer accessories
               </Text>
             </View>
           </View>
@@ -146,8 +149,9 @@ const styles = {
     marginTop: 24
   },
   user__photo: {
-    width: 84,
-    height: 84
+    width: 96,
+    height: 96,
+    borderRadius: 48
   },
   user__knowledge: {
     marginTop: 12,
@@ -236,7 +240,7 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  state => ({ user: state.get("user") }),
+  state => ({ user: state.getIn(["user", "information"]) }),
   actionCreators
 )(User);
 

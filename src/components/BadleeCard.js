@@ -1,7 +1,7 @@
 /**
  * @chill- Suffering is only one face of life. Life has another face, the face of wonder. If we can see that face of life, we will have happiness, peace and joy. When our hearts are unfettered, we can make direct contact with the wonders of life. - Thich Nhat Hanh
  * @name- BadleeCard
- * @description- Component for displaying in Badlees List
+ * @description- Component for displaying in Badlees List. 
  * @author- heartit pirates
  */
 "use strict";
@@ -25,6 +25,7 @@ import Icon from "./Icon";
 class BadleeCard extends Component {
   render() {
     var cardData = this.props.cardData;
+    console.log(this.props);
     return (
       <Card
         style={{

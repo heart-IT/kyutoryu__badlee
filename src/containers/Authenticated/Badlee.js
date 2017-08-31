@@ -1,7 +1,13 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, StyleSheet, ListView, AsyncStorage } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  ListView,
+  AsyncStorage,
+  FlatList
+} from "react-native";
 import BadleeCard from "../../components/BadleeCard";
 
 import {
@@ -33,16 +39,17 @@ let location_url = "http://mri2189.badlee.com/posts.php?location=jaipur";
 class Store extends Component {
   constructor() {
     super();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    // const ds = new ListView.DataSource({
+    //   rowHasChanged: (r1, r2) => r1 !== r2
+    // });
     this.state = {
       offset: 0,
       loaded: false,
       isLoading: false,
-      dataSource: ds.cloneWithRows([]),
+      // dataSource: ds.cloneWithRows([]),
       fabState: false,
-      current__tab: 1
+      current__tab: 1,
+      data: []
     };
   }
 
@@ -68,8 +75,7 @@ class Store extends Component {
       .then(dataSource => {
         console.log(dataSource);
         this.setState({
-          dataSource: ds.cloneWithRows(dataSource),
-          paused: true
+          data: dataSource
         });
       })
       .catch(err => console.log(err))
@@ -90,17 +96,30 @@ class Store extends Component {
   }
   onTabChange(i, ref) {
     this.setState({ current__tab: i.i });
-    if (i.i === 1) {
-      this.fetchBadlees(location_url);
-    } else if (i.i === 0) {
-      this.fetchBadlees(follower_url);
-    } else {
-      this.fetchBadlees(request_url);
-    }
+    // if (i.i === 1) {
+    //   this.fetchBadlees(location_url);
+    // } else if (i.i === 0) {
+    //   this.fetchBadlees(follower_url);
+    // } else {
+    //   this.fetchBadlees(request_url);
+    // }
   }
 
   render() {
-    console.log(this.props.user);
+    var x = [
+      { key: "One" },
+      { key: "Two" },
+      { key: "Three" },
+      { key: "Four" },
+      { key: "Five" },
+      { key: "Six" },
+      { key: "Seven" },
+      { key: "Eight" },
+      { key: "Nine" },
+      { key: "Ten" },
+      { key: "Eleven" },
+      { key: "Twelve" }
+    ];
     return (
       <StyleProvider style={getTheme()}>
         <Content
@@ -134,15 +153,12 @@ class Store extends Component {
                   </TabHeading>
                 }
               >
-                <ListView
-                  style={{
-                    paddingTop: 4,
-                    backgroundColor: "#bdbdbd",
-                    overflow: "scroll"
-                  }}
-                  dataSource={this.state.dataSource}
-                  renderRow={data => <BadleeCard cardData={data} />}
-                />
+                {this.state.current__tab === 0 && (
+                  <FlatList
+                    data={this.state.data}
+                    renderItem={({ item }) => <BadleeCard cardData={item} />}
+                  />
+                )}
               </Tab>
               <Tab
                 heading={
@@ -158,15 +174,12 @@ class Store extends Component {
                   </TabHeading>
                 }
               >
-                <ListView
-                  style={{
-                    paddingTop: 4,
-                    backgroundColor: "#bdbdbd",
-                    overflow: "scroll"
-                  }}
-                  dataSource={this.state.dataSource}
-                  renderRow={data => <BadleeCard cardData={data} />}
-                />
+                {this.state.current__tab === 1 && (
+                  <FlatList
+                    data={this.state.data}
+                    renderItem={({ data }) => <BadleeCard cardData={data} />}
+                  />
+                )}
               </Tab>
               <Tab
                 heading={
@@ -184,15 +197,14 @@ class Store extends Component {
                   </TabHeading>
                 }
               >
-                <ListView
-                  style={{
-                    paddingTop: 4,
-                    backgroundColor: "#bdbdbd",
-                    overflow: "scroll"
-                  }}
-                  dataSource={this.state.dataSource}
-                  renderRow={data => <BadleeCard cardData={data} />}
-                />
+                {this.state.current__tab === 2 && (
+                  <FlatList
+                    data={x}
+                    renderItem={({ item }) => (
+                      <Text style={styles.item}> {item.key} </Text>
+                    )}
+                  />
+                )}
               </Tab>
             </Tabs>
           </View>

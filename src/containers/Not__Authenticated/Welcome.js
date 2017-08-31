@@ -54,17 +54,17 @@ class Welcome extends Component {
                 />
               </View>
               <View style={styles.userWrapper}>
-                <Text style={styles.welcomeText}>
-                  Welcome {user.fname}!
-                </Text>
+                <Text style={styles.welcomeText}>Welcome {user.fname}!</Text>
                 <View style={styles.userAvatar}>
-                  {user.avatar &&
+                  {user.avatar && (
                     <Image
                       source={{ uri: user.avatar }}
                       style={{ width: 120, height: 120, borderRadius: 60 }}
-                    />}
-                  {!user.avatar &&
-                    <Icon name="userPlaceholder" width="120" height="120" />}
+                    />
+                  )}
+                  {!user.avatar && (
+                    <Icon name="userPlaceholder" width="120" height="120" />
+                  )}
                 </View>
                 <Text style={styles.verificationText}>
                   Please verify your account to enjoy an unmatched experience of
@@ -78,7 +78,7 @@ class Welcome extends Component {
                   style={styles.enterButton}
                   onPress={this.onEnterBtnPress.bind(this)}
                 >
-                  <Text style={styles.enterBtnText}>Enter the Dragon</Text>
+                  <Text style={styles.enterBtnText}>Enter badlee</Text>
                 </Button>
               </View>
               <View style={styles.footer}>
@@ -90,7 +90,8 @@ class Welcome extends Component {
                     tips
                   </Text>
                   <Text style={styles.footerText}>
-                    {" "}for better and safer transaction.
+                    {" "}
+                    for better and safer transaction.
                   </Text>
                 </Text>
               </View>

@@ -202,7 +202,7 @@ class NewBadlee extends Component {
                 </Item>
                 <Item>
                   <Input
-                    placeholder="Where does it fits?"
+                    placeholder="Where does it fit?"
                     value={this.state.category}
                     onChangeText={category => this.setState({ category })}
                   />

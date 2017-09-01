@@ -110,21 +110,21 @@ export function logout(state: State): State {
  * Badlee Core Section
  */
 export function getBadlees(state, badlees, category, badleesIDS) {
-  var currentBadleeState = state.get("allBadlees");
-  var updatedBadleeState = currentBadleeState
-    .push(...badlees)
-    .toSet()
-    .toList();
+  var currentBadlees = state.get("allBadlees").toArray();
+  var updatedBadlees = currentBadlees.concat(badlees);
+  var updatedBadleeState = List(updatedBadlees);
   var distinctBadleesState = updatedBadleeState
     .groupBy(x => x.id)
     .map(x => x.first())
     .toList();
-  var currentBadleeCategoryState = state.getIn(["badleesByCategory", category]);
-  var updatedBadleeCategoryState = currentBadleeCategoryState
-    .push(...badleesIDS)
-    .toSet()
-    .toList();
+
+  var currentBadleeCategory = state
+    .getIn(["badleesByCategory", category])
+    .toArray();
+  var updatedBadleeCategory = currentBadleeCategory.concat(badleesIDS);
+  console.log(updatedBadleeCategory);
+  var updatedBadleeCategoryList = List(updatedBadleeCategory);
   return state
     .set("allBadlees", distinctBadleesState)
-    .setIn(["badleesByCategory", category], updatedBadleeCategoryState);
+    .setIn(["badleesByCategory", category], updatedBadleeCategoryList);
 }

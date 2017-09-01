@@ -15,7 +15,6 @@ export default async function getBadlees(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let { category, page, limit, globeCategory, searchString } = action.params;
-    console.log(action.params);
     let url;
     if (category === "location") {
       url = `http://mri2189.badlee.com/posts.php?location=jaipur, rajasthan, india&page=${page}&limit=${limit}`;

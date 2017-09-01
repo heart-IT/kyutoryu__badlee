@@ -41,7 +41,6 @@ class Welcome extends Component {
   }
   render() {
     const user = this.props.user;
-    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>

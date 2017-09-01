@@ -3,6 +3,8 @@ import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
 import saveMedia from "./media";
 
+import getBadlees from "./badlees/get";
+
 async function saveBadlee(badleeData, badleePhotoUrl) {
   try {
     const data = {
@@ -73,6 +75,8 @@ async function startSaveProcess(store, next, action) {
 export default store => next => action => {
   if (action.type === "SAVE_BADLEE") {
     return startSaveProcess(store, next, action);
+  } else if (action.type === "GET__BADLEES") {
+    return getBadlees(store, next, action);
   }
   return next(action);
 };

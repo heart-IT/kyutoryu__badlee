@@ -35,7 +35,11 @@ const StateRecord = Record({
     information: undefined,
     followers: new List()
   }),
-  badlees: new List(),
+  allBadlees: new List(),
+  badleesByCategory: new Map({
+    location: new List(),
+    globe: new List()
+  }),
   messages: new List(),
   notifications: new List()
 });
@@ -100,4 +104,27 @@ export function logout(state: State): State {
   return state
     .setIn(["user", "isLoggedIn"], false)
     .setIn(["user", "information"], undefined);
+}
+
+/**
+ * Badlee Core Section
+ */
+export function getBadlees(state, badlees, category, badleesIDS) {
+  var currentBadleeState = state.get("allBadlees");
+  var updatedBadleeState = currentBadleeState
+    .push(...badlees)
+    .toSet()
+    .toList();
+  var distinctBadleesState = updatedBadleeState
+    .groupBy(x => x.id)
+    .map(x => x.first())
+    .toList();
+  var currentBadleeCategoryState = state.getIn(["badleesByCategory", category]);
+  var updatedBadleeCategoryState = currentBadleeCategoryState
+    .push(...badleesIDS)
+    .toSet()
+    .toList();
+  return state
+    .set("allBadlees", distinctBadleesState)
+    .setIn(["badleesByCategory", category], updatedBadleeCategoryState);
 }

@@ -47,6 +47,13 @@ export function reducer(
       return core.changeInternetConnectionStatus(state, action.status);
     case "SET_NAVIGATOR":
       return core.setNavigator(state, action.navigator);
+    case "GET__BADLEES":
+      return core.getBadlees(
+        state,
+        action.badlees,
+        action.category,
+        action.IDS
+      );
   }
 
   return state;

@@ -78,6 +78,10 @@ export const clearError = () => ({
 });
 
 // badlee section
+export const getBadlees = (params: Object) => ({
+  type: "GET__BADLEES",
+  params: params
+});
 export const saveBadlee = (data: Object, route: Object) => ({
   type: "SAVE_BADLEE",
   data: data,

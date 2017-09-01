@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image } from "react-native";
 import { connect } from "react-redux";
 
 import {
@@ -21,56 +21,54 @@ import {
 import getTheme from "../../theme/components";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
-import BadleeFab from "../../components/Fab";
 import Icon from "../../components/Icon";
+import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
 import NewBadlee from "./NewBadlee";
-
-let request_url = "http://mri2189.badlee.com/posts.php";
-let search_url = "http://mri2189.badlee.com/search.php?";
-let follower_url =
-  "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30";
-let location_url =
-  "http://mri2189.badlee.com/posts.php?location=jaipur, rajasthan, india";
 
 class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {
       current__tab: 0,
-      data: [],
       page: 1,
-      offset: 10,
-      request_url: "http://mri2189.badlee.com/posts.php",
-      follower_url:
-        "http://mri2189.badlee.com/postbyfollow.php?offset=0&limit=30",
-      location_url:
-        "http://mri2189.badlee.com/posts.php?location=jaipur, rajasthan, india",
-      globe_category: null,
+      limit: 10,
+      globeCategory: null,
       searchString: null
     };
   }
   componentDidMount() {
-    if (this.state.current__tab === 1) {
-      this.makeBadleesFetchRequest(location_url);
-    } else if (this.state.current__tab === 0) {
+    if (this.state.current__tab === 0) {
       // this.makeBadleesFetchRequest(follower_url);
-    } else {
-      this.makeBadleesFetchRequest(request_url);
+    } else if (this.state.current__tab === 1) {
+      this.getBadleeByLocation();
     }
   }
-  makeBadleesFetchRequest = url => {
-    const { page, offset } = this.state;
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        if (res) {
-          if (res && res.length) {
-            this.setState({ data: res });
-          }
-        }
-      });
-  };
+  onTabChange(i, ref) {
+    this.setState({ current__tab: i.i });
+    if (i.i === 1) {
+      this.getBadleeByLocation();
+    } else if (i.i === 0) {
+    } else {
+      this.getBadleeByGlobe();
+    }
+  }
+  getBadleeByLocation() {
+    this.props.getBadlees({
+      category: "location",
+      page: this.state.page,
+      limit: this.state.limit
+    });
+  }
+  getBadleeByGlobe() {
+    this.props.getBadlees({
+      category: "globe",
+      page: this.state.page,
+      limit: this.state.limit,
+      globeCategory: this.state.globeCategory,
+      searchString: this.state.searchString
+    });
+  }
   onFabSelect(type) {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -80,27 +78,16 @@ class Store extends Component {
       });
     });
   }
-  onTabChange(i, ref) {
-    this.setState({ current__tab: i.i });
-    if (i.i === 1) {
-      this.makeBadleesFetchRequest(location_url);
-    } else if (i.i === 0) {
-      // this.makeBadleesFetchRequest(follower_url);
-    } else {
-      this.makeBadleesFetchRequest(request_url);
-    }
-  }
+
   onUserClick() {}
   onLocationPress() {}
-  onRadioSelect(type) {
-    // this.setState({ globe_category: type });
-  }
+  onRadioSelect(type) {}
   letsSearchSuper() {
     var xString = this.state.searchString
       ? "sp=" + this.state.searchString
       : "";
-    var yString = this.state.globe_category
-      ? "spp=" + this.state.globe_category
+    var yString = this.state.globeCategory
+      ? "spp=" + this.state.globeCategory
       : "";
     var zString = "";
     if (xString && yString) {
@@ -166,7 +153,7 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={this.state.data} />
+                  <BadleesList data={this.props.allBadlees} />
                 </Tab>
                 <Tab
                   heading={
@@ -227,7 +214,7 @@ class Store extends Component {
                         />
                         <Radio
                           selected={
-                            this.state.globe_category === "exchange" ? (
+                            this.state.globeCategory === "exchange" ? (
                               true
                             ) : (
                               false
@@ -242,7 +229,7 @@ class Store extends Component {
                         />
                         <Radio
                           selected={
-                            this.state.globe_category === "showOff" ? (
+                            this.state.globeCategory === "showOff" ? (
                               true
                             ) : (
                               false
@@ -288,7 +275,7 @@ class Store extends Component {
                         />
                       </View>
                     </View>
-                    <BadleesList data={this.state.data} />
+                    <BadleesList data={this.props.allBadlees} />
                   </View>
                 </Tab>
               </Tabs>
@@ -308,7 +295,11 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  state => ({ user: state.getIn(["user", "information"]) }),
+  state => ({
+    user: state.getIn(["user", "information"]),
+    allBadlees: state.get("allBadlees").toJS(),
+    badleesIDLocation: state.getIn(["badleesByCategory", "location"]).toJS()
+  }),
   actionCreators
 )(Store);
 

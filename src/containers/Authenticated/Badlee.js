@@ -153,7 +153,12 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={this.props.allBadlees} />
+                  <BadleesList
+                    data={this.props.allBadlees.filter(
+                      badlee =>
+                        this.props.badleesIDLocation.indexOf(badlee.id) > -1
+                    )}
+                  />
                 </Tab>
                 <Tab
                   heading={
@@ -275,7 +280,12 @@ class Store extends Component {
                         />
                       </View>
                     </View>
-                    <BadleesList data={this.props.allBadlees} />
+                    <BadleesList
+                      data={this.props.allBadlees.filter(
+                        badlee =>
+                          this.props.badleesIDGlobe.indexOf(badlee.id) > -1
+                      )}
+                    />
                   </View>
                 </Tab>
               </Tabs>
@@ -298,7 +308,8 @@ const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
     allBadlees: state.get("allBadlees").toJS(),
-    badleesIDLocation: state.getIn(["badleesByCategory", "location"]).toJS()
+    badleesIDLocation: state.getIn(["badleesByCategory", "location"]).toJS(),
+    badleesIDGlobe: state.getIn(["badleesByCategory", "globe"]).toJS()
   }),
   actionCreators
 )(Store);

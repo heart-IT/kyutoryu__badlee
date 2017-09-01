@@ -28,7 +28,6 @@ export default async function getBadlees(store, next, action) {
         url += "&sp=" + searchString;
       }
     }
-    console.log(url);
     let badlees = await fetchBadlees(url, page, limit);
     action.badlees = badlees;
     action.category = category;

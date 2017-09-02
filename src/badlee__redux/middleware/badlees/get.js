@@ -37,6 +37,7 @@ async function getBadleesByGlobe(
   limit
 ) {
   let url;
+  console.log(arguments);
   if (search) {
     url = urls[1] + `?sp=${search}`;
     purpose ? (url += `&spp=${purpose}`) : "";
@@ -44,6 +45,7 @@ async function getBadleesByGlobe(
     location ? (url += `&spl=${location}`) : "";
     url += `&offset=${page}&limit=${limit}`;
   } else {
+    url = `${urls[0]}?page=${page}&limit=${limit}`;
   }
   let badleeFetch = await fetch(url);
   if (badleeFetch.ok && badleeFetch.status === 200) {
@@ -68,6 +70,7 @@ export default async function getBadlees(store, next, action) {
       category
     } = action.params;
     let url;
+    var badlees;
     var state = store.getState();
     // console.log(state.getIn(["user", "information"]));
     if (tabName === "following") {
@@ -76,8 +79,23 @@ export default async function getBadlees(store, next, action) {
         page * limit >
         state.getIn(["badleesByCategory", "location", "total"])
       ) {
-        var badlees = await getBadleesByLocation(
+        badlees = await getBadleesByLocation(current__location, page, limit);
+        action.badlees = badlees;
+        action.tabName = tabName;
+        action.page__upper__count = page * limit;
+        action.badleesInIDS = badlees.map(badlee => badlee.id);
+        next(action);
+      }
+    } else {
+      if (
+        page * limit >
+        state.getIn(["badleesByCategory", "location", "total"])
+      ) {
+        badlees = await getBadleesByGlobe(
+          searchString,
+          globeCategory,
           current__location,
+          category,
           page,
           limit
         );
@@ -87,15 +105,6 @@ export default async function getBadlees(store, next, action) {
         action.badleesInIDS = badlees.map(badlee => badlee.id);
         next(action);
       }
-    } else {
-      // var globeBadlees = await getBadleesByGlobe(
-      //   search,
-      //   purpose,
-      //   location,
-      //   category,
-      //   page,
-      //   limit
-      // );
     }
   } catch (e) {
     console.log(e);

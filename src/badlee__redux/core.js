@@ -41,7 +41,10 @@ const StateRecord = Record({
       ids: new OrderedSet(),
       total: 0
     }),
-    globe: new List()
+    globe: new Map({
+      ids: new OrderedSet(),
+      total: 0
+    })
   }),
   messages: new List(),
   notifications: new List()
@@ -119,6 +122,7 @@ export function getBadlees(
   badleesIDS,
   pageUpperLimit
 ) {
+  console.log("got values here", badlees, tabName, badleesIDS);
   var updatedBadlees = state.get("allBadlees").merge(badlees);
   var updatedIDS = state
     .getIn(["badleesByCategory", tabName, "ids"])
@@ -127,7 +131,7 @@ export function getBadlees(
     .groupBy(x => x.id)
     .map(x => x.first())
     .toList();
-  console.log("got values here");
+  console.log("got values here", updatedBadlees.toJS(), updatedIDS.toJS());
   return state
     .set("allBadlees", updatedBadlees)
     .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);

@@ -21,6 +21,7 @@ import {
 import getTheme from "../../theme/components";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
+
 import Icon from "../../components/Icon";
 import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
@@ -34,7 +35,8 @@ class Store extends Component {
       page: 1,
       limit: 10,
       globeCategory: null,
-      searchString: null
+      searchString: null,
+      data: []
     };
   }
   componentDidMount() {
@@ -53,6 +55,7 @@ class Store extends Component {
     } else if (this.state.current__tab === 1) {
       this.getBadleeByLocation();
     } else {
+      console.log("getting badlees glove");
       this.getBadleeByGlobe();
     }
   }
@@ -83,7 +86,6 @@ class Store extends Component {
     });
   }
   onTabChange(i, ref) {
-    console.log("on tab change", i.i);
     this.setState({ current__tab: i.i, page: 1, limit: 10 }, () => {
       this.getBadlees();
     });
@@ -101,9 +103,17 @@ class Store extends Component {
   onUserClick() {}
   onLocationPress() {}
   onRadioSelect(type) {}
+  getTabBadlees() {
+    this.setState({ data: tabBadlees });
+  }
   render() {
-    var x = this.props.allBadlees.filter(badlee => badlee.id);
-    console.log(x);
+    let { allBadlees, badleesIDLocation } = this.props;
+    var tabBadlees = badleesIDLocation.map(function(id) {
+      var x = allBadlees.find(function(obj) {
+        return obj.get("id") === id;
+      });
+      return x.toJS();
+    });
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -158,7 +168,7 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={this.props.allBadlees.toJS()} />
+                  <BadleesList data={tabBadlees.toJS()} />
                 </Tab>
                 <Tab
                   heading={
@@ -279,6 +289,9 @@ class Store extends Component {
                         />
                       </View>
                     </View>
+                  </View>
+                  <View>
+                    <BadleesList data={tabBadlees.toJS()} />
                   </View>
                 </Tab>
               </Tabs>

@@ -68,10 +68,7 @@ export default class BadleeFab extends Component {
             zIndex: 1001
           }}
         >
-          <Image
-            source={require("../images/show off 2.png")}
-            style={{ width: 40, height: 40 }}
-          />
+          <Icon name="showoff" width="40" height="40" />
         </Button>
         <Button
           title="shout out"

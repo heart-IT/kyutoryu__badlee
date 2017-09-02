@@ -119,9 +119,11 @@ class Onboarding extends Component {
                     <Text style={{ ...styles.head, ...styles.showoffColor }}>
                       show off
                     </Text>
-                    <Image
-                      source={require("../../images/show off 2.png")}
+                    <Icon
+                      name="showoff"
                       style={styles.image}
+                      width="150"
+                      height="150"
                     />
                     <View>
                       <Text style={styles.content}>

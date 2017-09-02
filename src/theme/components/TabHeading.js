@@ -19,21 +19,16 @@ export default (variables = variable) => {
       minWidth: platform === "android" ? undefined : 60
     },
     "NativeBase.Text": {
-      color: variables.topTabBarTextColor,
       marginHorizontal: 7
     },
     "NativeBase.Icon": {
-      color: variables.topTabBarTextColor,
       fontSize: platform === "ios" ? 26 : undefined
     },
     ".active": {
       "NativeBase.Text": {
-        color: variables.topTabBarActiveTextColor,
         fontWeight: "600"
       },
-      "NativeBase.Icon": {
-        color: variables.topTabBarActiveTextColor
-      }
+      "NativeBase.Icon": {}
     }
   };
 

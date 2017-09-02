@@ -1,5 +1,5 @@
 /**
- * app.js
+ * @name- app.js
  * 
  * @chill- High are the mountains, thick are the shade trees, and under an old pine I sit quietly and contentedly in my monkish home:
  * Perfect tranquility and rustic simplicity rules here. - Yoka Daishi
@@ -14,15 +14,11 @@
 
 "use strict";
 
-/**
- * Imp[o]rts Guide :-
- * 1. Backhandler : Detect hardware button presses for back navigation
- */
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler, StatusBar } from "react-native";
-import { Root } from "native-base";
-import { Navigator } from "react-native-deprecated-custom-components";
 import { connect, Provider } from "react-redux";
+import { Navigator } from "react-native-deprecated-custom-components";
+import { Root } from "native-base";
 import { makeStore } from "./badlee__redux/store";
 import * as actionCreators from "./badlee__redux/action_creators";
 

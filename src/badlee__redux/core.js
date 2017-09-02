@@ -1,17 +1,17 @@
-/**
- * @flow
- */
+// @flow
 
 /**
- * The source of true happiness is living in ease and freedom, fully experiencing the wonders of life--
+ * @name- core.js
+ * 
+ * @chill- The source of true happiness is living in ease and freedom, fully experiencing the wonders of life--
  * Being aware of what is going on in the present moment, free from both clinging and aversion - Thich Nhat Hanh
  * 
  * 
- * As the name suggests, this file contains all the core function that updates the State.
- * @name- core
- * @description- Core Function that actually contains and change the application state.
+ * @description- Core function that actually updates Application State
+ * 
  * @author - heartit pirates were here.
  */
+
 "use strict";
 
 /**
@@ -19,7 +19,7 @@
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import { Record, Map, List, Set, OrderedSet } from "immutable";
+import { fromJS, Record, Map, List, Set, OrderedSet } from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
@@ -35,7 +35,7 @@ const StateRecord = Record({
     information: undefined,
     followers: new List()
   }),
-  allBadlees: new List(),
+  allBadlees: new Set(),
   badleesByCategory: new Map({
     location: new Map({
       ids: new OrderedSet(),
@@ -45,9 +45,7 @@ const StateRecord = Record({
       ids: new OrderedSet(),
       total: 0
     })
-  }),
-  messages: new List(),
-  notifications: new List()
+  })
 });
 
 export const InitialState: State = new StateRecord();
@@ -94,10 +92,15 @@ export function restoreAuth(state: State, user: User): State {
     .setIn(["user", "information"], user);
 }
 
-export function saveUser(state: State, user: User): State {
+/**
+ * Auth Functions
+ */
+
+//  Function called when user logs in app. Add user to the app
+export function addUser(state: State, user: User): State {
   return state
     .setIn(["user", "isLoggedIn"], true)
-    .setIn(["user", "information"], user);
+    .setIn(["user", "information"], fromJS(user));
 }
 
 export function register(state: State, user: User): State {

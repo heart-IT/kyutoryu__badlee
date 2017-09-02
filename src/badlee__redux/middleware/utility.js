@@ -20,3 +20,20 @@ export function createFormData(formData) {
   formBody = formBody.join("&");
   return formBody;
 }
+
+export function getNextRoute(route, isVerified) {
+  let components = route.component;
+  let component;
+  if (isVerified) {
+    component = {
+      component: components.verified,
+      reset: true
+    };
+  } else {
+    component = {
+      component: components.not_verified,
+      reset: true
+    };
+  }
+  return Object.assign(route, component);
+}

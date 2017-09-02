@@ -23,10 +23,10 @@ export function reducer(
   switch (action.type) {
     // user was already logged in
     case "RESTORE_AUTH":
-      return core.saveUser(state, action.user);
+      return core.addUser(state, action.user);
     // user entering from login screen
     case "LOGIN":
-      return core.saveUser(state, action.user);
+      return core.addUser(state, action.user);
     case "REGISTER":
       return core.register(state, action.user);
     case "LOGOUT":

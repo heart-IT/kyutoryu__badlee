@@ -102,8 +102,7 @@ export type RESTORE_AUTH = {|
 
 export type FORGOT_PASSWORD = {|
   type: "FORGOT__PASSWORD",
-  email: string,
-  route: ?Object
+  email: string
 |};
 
 export type Action =

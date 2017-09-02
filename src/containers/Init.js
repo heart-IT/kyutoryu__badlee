@@ -1,22 +1,29 @@
 /**
- * @chill- Two monks were arguing about a flag. One said, "The flag is moving." The other said, "The wind is moving." Their teacher happened to be passing by. He told them, "Not the wind, not the flag; It is your mind that is moving." - Mumon Ekai
+ * @name- init.js
  * 
- * @name- Init.js
- * @description- This file is starting point of react components. Here, we define the initial calm steps needed to start the app
- * @author- heartit pirates
+ * @chill- Two monks were arguing about a flag. One said, "The flag is moving." The other said, "The wind is moving."
+ * Their teacher happened to be passing by. He told them, "Not the wind, not the flag; It is your mind that is moving." - Mumon Ekai
+ * 
+ * 
+ * @description- This file is starting point of Badlee App. Here, we take initial calm steps needed to start the app like cheking auth,
+ * redirecting user to right place.
+ * 
+ * @author- heartit pirates were here.
+ * 
+ * @todo- 1. Onboarding only comes first time.
  */
 
 "use strict";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleProvider, Content } from "native-base";
+import { StyleProvider, Container, Content } from "native-base";
 import * as actionCreators from "../badlee__redux/action_creators";
 import getTheme from "../theme/components";
 
+import Loading from "./../components/LoadingView";
 import Onboarding from "./Not__Authenticated/Onboarding";
 import BadleeAuthApp from "./Authenticated/Container";
-import Loading from "./../components/LoadingView";
 
 class Init extends Component {
   componentDidMount() {
@@ -39,16 +46,18 @@ class Init extends Component {
     const { loading } = this.props;
     return (
       <StyleProvider style={getTheme()}>
-        <Content
-          style={{ flex: 1 }}
-          contentContainerStyle={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          {loading && <Loading />}
-        </Content>
+        <Container style={{ flex: 1 }}>
+          <Content
+            style={{ flex: 1 }}
+            contentContainerStyle={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            {loading && <Loading />}
+          </Content>
+        </Container>
       </StyleProvider>
     );
   }

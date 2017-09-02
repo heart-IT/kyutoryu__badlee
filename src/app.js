@@ -22,7 +22,7 @@ import { Root } from "native-base";
 import { makeStore } from "./badlee__redux/store";
 import * as actionCreators from "./badlee__redux/action_creators";
 
-import Init from "./containers/Init";
+import Init from "./containers/init";
 
 /**
  * Navigator handles the transition between different scenes in your app.

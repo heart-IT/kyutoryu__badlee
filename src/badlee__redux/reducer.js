@@ -51,8 +51,9 @@ export function reducer(
       return core.getBadlees(
         state,
         action.badlees,
-        action.category,
-        action.IDS
+        action.tabName,
+        action.badleesInIDS,
+        action.page__upper__count
       );
   }
 

@@ -19,7 +19,7 @@
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import { Record, Map, List } from "immutable";
+import { Record, Map, List, Set, OrderedSet } from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
@@ -37,7 +37,10 @@ const StateRecord = Record({
   }),
   allBadlees: new List(),
   badleesByCategory: new Map({
-    location: new List(),
+    location: new Map({
+      ids: new OrderedSet(),
+      total: 0
+    }),
     globe: new List()
   }),
   messages: new List(),
@@ -109,22 +112,23 @@ export function logout(state: State): State {
 /**
  * Badlee Core Section
  */
-export function getBadlees(state, badlees, category, badleesIDS) {
-  var currentBadlees = state.get("allBadlees").toArray();
-  var updatedBadlees = currentBadlees.concat(badlees);
-  var updatedBadleeState = List(updatedBadlees);
-  var distinctBadleesState = updatedBadleeState
+export function getBadlees(
+  state,
+  badlees,
+  tabName,
+  badleesIDS,
+  pageUpperLimit
+) {
+  var updatedBadlees = state.get("allBadlees").merge(badlees);
+  var updatedIDS = state
+    .getIn(["badleesByCategory", tabName, "ids"])
+    .union(badleesIDS);
+  var distinctBadlees = updatedBadlees
     .groupBy(x => x.id)
     .map(x => x.first())
     .toList();
-
-  var currentBadleeCategory = state
-    .getIn(["badleesByCategory", category])
-    .toArray();
-  var updatedBadleeCategory = currentBadleeCategory.concat(badleesIDS);
-  console.log(updatedBadleeCategory);
-  var updatedBadleeCategoryList = List(updatedBadleeCategory);
+  console.log("got values here");
   return state
-    .set("allBadlees", distinctBadleesState)
-    .setIn(["badleesByCategory", category], updatedBadleeCategoryList);
+    .set("allBadlees", updatedBadlees)
+    .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);
 }

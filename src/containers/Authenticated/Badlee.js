@@ -38,35 +38,54 @@ class Store extends Component {
     };
   }
   componentDidMount() {
+    var { user } = this.props;
+    user.following
+      ? this.setState({ current__tab: 0 }, () => {
+          this.getBadlees();
+        })
+      : this.setState({ current__tab: 1 }, () => {
+          this.getBadlees();
+        });
+  }
+  getBadlees() {
     if (this.state.current__tab === 0) {
-      // this.makeBadleesFetchRequest(follower_url);
+      this.getBadleeByFollowing();
     } else if (this.state.current__tab === 1) {
       this.getBadleeByLocation();
-    }
-  }
-  onTabChange(i, ref) {
-    this.setState({ current__tab: i.i });
-    if (i.i === 1) {
-      this.getBadleeByLocation();
-    } else if (i.i === 0) {
     } else {
       this.getBadleeByGlobe();
     }
   }
+  getBadleeByFollowing() {
+    this.props.getBadlees({
+      tabName: "following",
+      userID: this.props.user.user_id,
+      page: this.state.page,
+      limit: this.state.limit
+    });
+  }
   getBadleeByLocation() {
     this.props.getBadlees({
-      category: "location",
+      tabName: "location",
+      current__location: "Jaipur, Rajasthan, India",
       page: this.state.page,
       limit: this.state.limit
     });
   }
   getBadleeByGlobe() {
     this.props.getBadlees({
-      category: "globe",
+      tabName: "globe",
       page: this.state.page,
       limit: this.state.limit,
       globeCategory: this.state.globeCategory,
-      searchString: this.state.searchString
+      searchString: this.state.searchString,
+      category: null
+    });
+  }
+  onTabChange(i, ref) {
+    console.log("on tab change", i.i);
+    this.setState({ current__tab: i.i, page: 1, limit: 10 }, () => {
+      this.getBadlees();
     });
   }
   onFabSelect(type) {
@@ -82,24 +101,9 @@ class Store extends Component {
   onUserClick() {}
   onLocationPress() {}
   onRadioSelect(type) {}
-  letsSearchSuper() {
-    var xString = this.state.searchString
-      ? "sp=" + this.state.searchString
-      : "";
-    var yString = this.state.globeCategory
-      ? "spp=" + this.state.globeCategory
-      : "";
-    var zString = "";
-    if (xString && yString) {
-      zString = xString + "&" + yString;
-    } else if (xString) {
-      zString = xString;
-    } else if (yString) {
-      zString = yString;
-    }
-    this.makeBadleesFetchRequest(search_url + zString);
-  }
   render() {
+    var x = this.props.allBadlees.filter(badlee => badlee.id);
+    console.log(x);
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -112,6 +116,7 @@ class Store extends Component {
               <Tabs
                 tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
                 onChangeTab={this.onTabChange.bind(this)}
+                initialPage={this.state.current__tab}
               >
                 <Tab
                   heading={
@@ -153,12 +158,7 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList
-                    data={this.props.allBadlees.filter(
-                      badlee =>
-                        this.props.badleesIDLocation.indexOf(badlee.id) > -1
-                    )}
-                  />
+                  <BadleesList data={this.props.allBadlees.toJS()} />
                 </Tab>
                 <Tab
                   heading={
@@ -188,7 +188,6 @@ class Store extends Component {
                         <Input
                           placeholder="Search for folks or thingies.."
                           style={{ height: 40, lineHeight: 40 }}
-                          onEndEditing={this.letsSearchSuper.bind(this)}
                           onChangeText={searchString =>
                             this.setState({ searchString: searchString })}
                         />
@@ -280,12 +279,6 @@ class Store extends Component {
                         />
                       </View>
                     </View>
-                    <BadleesList
-                      data={this.props.allBadlees.filter(
-                        badlee =>
-                          this.props.badleesIDGlobe.indexOf(badlee.id) > -1
-                      )}
-                    />
                   </View>
                 </Tab>
               </Tabs>
@@ -307,9 +300,8 @@ const styles = {
 const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
-    allBadlees: state.get("allBadlees").toJS(),
-    badleesIDLocation: state.getIn(["badleesByCategory", "location"]).toJS(),
-    badleesIDGlobe: state.getIn(["badleesByCategory", "globe"]).toJS()
+    allBadlees: state.get("allBadlees"),
+    badleesIDLocation: state.getIn(["badleesByCategory", "location", "ids"])
   }),
   actionCreators
 )(Store);

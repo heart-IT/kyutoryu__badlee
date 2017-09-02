@@ -29,6 +29,7 @@ class MyList extends React.PureComponent {
     />
   );
   render() {
+    console.log("getting render with ", this.props.data);
     return (
       <FlatList
         data={this.props.data}

@@ -12,6 +12,13 @@
  * @author- heartit pirates were here
  */
 
+"use strict";
+
+/**
+ * Imp[o]rts Definition :-
+ * 
+ * Record - A record is similar to JS object, but enforce a specific set of allowed string keys, and have default value
+ */
 import type { Record as RecordType } from "immutable";
 
 export type Dispatch = Function;

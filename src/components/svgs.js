@@ -9,10 +9,87 @@ import {
   Mask,
   feFlood,
   feBlend,
-  Image
+  Image,
+  LinearGradient,
+  Stop
 } from "react-native-svg";
 
 export default {
+  // badlee icon svg
+  badleeLogo: {
+    svg: (
+      <G>
+        <LinearGradient
+          id="a"
+          gradientUnits="userSpaceOnUse"
+          x1="-1283.106"
+          y1="41.098"
+          x2="-585.964"
+          y2="-507.474"
+          gradientTransform="translate(988.17 550.047) scale(.6548)"
+        >
+          <Stop offset="0" stopColor="#6F156C" />
+          <Stop offset="1" stopColor="#432B54" />
+        </LinearGradient>
+
+        <Path
+          fill="url(#a)"
+          d="M376.235 112.978c-157.06 0-284.378 127.32-284.378 284.378s127.32 284.378 284.378 284.378c157.06 0 284.377-127.318 284.377-284.378 0-26.062-3.502-51.306-10.068-75.284l-.184.368-199.21-199.21.124-.246c-23.908-6.524-49.064-10.006-75.04-10.006z"
+        />
+        <Image
+          overflow="visible"
+          opacity=".41"
+          width="179"
+          height="217"
+          xlink:href="A9CC5BDCE8FB23DD.png"
+          transform="translate(-7963.523 -7889.98) scale(.8662)"
+        />
+        <Path
+          fill="#FFF"
+          d="M286.3 185.924l.166 316.177c.885 95.172 69.802 91.846 104.703 137.768l-.27-360.648c0-23.627-2.544-24.312-7.967-29.734l-74.104-63.56c-9.766-7.79-22.53-19.945-22.53-.002z"
+        />
+        <Path
+          fill="#FFF"
+          d="M439.997 358.217c-17.39 0-34.104 2.89-49.69 8.214-60.462 20.656-103.94 77.96-103.94 145.417 0 84.85 68.783 153.63 153.63 153.63 84.848 0 153.63-68.78 153.63-153.63 0-84.848-68.783-153.63-153.63-153.63zm0 103.77c27.535 0 49.86 22.325 49.86 49.86 0 27.534-22.325 49.86-49.86 49.86-27.533 0-48.92-22.525-48.92-50.06 0-27.533 21.386-49.66 48.92-49.66z"
+        />
+        <Image
+          overflow="visible"
+          width="145"
+          height="194"
+          xlink:href="A9CC5BDCE8FB23DF.png"
+          transform="translate(-7983.39 -7926.297) scale(1.3433)"
+          opacity=".3"
+        />
+        <Image
+          overflow="visible"
+          opacity=".39"
+          width="145"
+          height="194"
+          xlink:href="A9CC5BDCE8FB23DB.png"
+          transform="translate(303.547 323.682)"
+        />
+        <Path
+          fill="#FFF"
+          d="M422.52 487.064l-84.83-41.628c-10.407-5.106-15.52-14.243-9.237-27.043l41.627-84.828c3.438-7.005 11.156-9.076 17.48-5.972 20.217 59.174 34.082 99.763 52.44 153.5-3.235 6.594-9.535 9.872-17.48 5.97"
+        />
+        <G>
+          <Image
+            overflow="visible"
+            opacity=".4"
+            width="230"
+            height="230"
+            xlink:href="A9CC5BDCE8FB23D9.png"
+            transform="translate(432.547 114.682)"
+          />
+          <Path
+            fill="#FFF"
+            d="M451.274 122.984l199.27 199.088s-178.542-7.786-199.27-199.088z"
+          />
+        </G>
+      </G>
+    ),
+    viewBox: "0 0 744.094 1052.363"
+  },
   errorTriangle: {
     svg: (
       <Path

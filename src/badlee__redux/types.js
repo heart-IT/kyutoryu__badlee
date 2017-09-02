@@ -1,65 +1,42 @@
-/**
- * @flow
- */
+// @flow
 
 /**
- * The Master detaches herself from all things: Therefore she is united with all things.
+ * @name- types.js
+ * 
+ * @chill- The Master detaches herself from all things: Therefore she is united with all things.
  * She gives no thoughts to self. Therefore she is perfectly fulfilled - Lao Tzu
  * 
  * 
- * This file contains Flow object types definition used in the App.
+ * @description- This file contains Flow object types definition used in the App.
+ * 
+ * @author- heartit pirates were here
  */
 
 import type { Record as RecordType } from "immutable";
 
 export type Dispatch = Function;
 
-export type applicationSecrets = String;
-
+/**
+ * Application Objects
+ */
 export type User = {|
   username: string,
-  password: string,
-  email: string,
   fname: string,
   lname: string,
-  gender: string,
-  avatar: string
-|};
-
-export type LOGIN = {|
-  type: "LOGIN",
-  user: User,
-  username: string,
-  password: string,
-  route: ?Object
-|};
-
-export type REGISTER = {|
-  type: "REGISTER",
-  username: string,
-  password: string,
   email: string,
-  application_id: string,
-  application_secret: string,
-  lname: string,
-  fname: string,
-  gender: string,
+  password: string,
   avatar: string,
-  route: ?Object
+  dob: string,
+  location: string,
+  interests: string,
+  gender: string
 |};
 
-export type LOGOUT = {| type: "LOGOUT", route: ?Object |};
+export type User = User;
 
-export type RESTORE_AUTH = {|
-  type: "RESTORE_AUTH",
-  route: ?Object
-|};
-
-export type START_LOADING = {| type: "START_LOADING" |};
-
-export type FINISH_LOADING = {| type: "FINISH_LOADING" |};
-
-export type NAVIGATE_TO = {| type: "NAVIGATE_TO", route: ?Object |};
+/**
+ * Action Objects
+ */
 
 export type CHANGE_CONNECTION_STATUS = {|
   type: "INTERNET_CONNECTION",
@@ -71,33 +48,77 @@ export type SET_NAVIGATOR = {|
   navigator: any
 |};
 
+export type NAVIGATE_TO = {|
+  type: "NAVIGATE_TO",
+  route: ?Object
+|};
+
+export type START_LOADING = {|
+  type: "START_LOADING"
+|};
+
+export type FINISH_LOADING = {|
+  type: "FINISH_LOADING"
+|};
+
+export type LOGIN = {|
+  type: "LOGIN",
+  username: string,
+  password: string,
+  route: ?Object
+|};
+
+export type REGISTER = {|
+  type: "REGISTER",
+  username: string,
+  fname: string,
+  lname: string,
+  email: string,
+  password: string,
+  avatar: string,
+  dob: string,
+  gender: string,
+  location: string,
+  interests: string,
+  route: ?Object
+|};
+
+export type LOGOUT = {|
+  type: "LOGOUT",
+  route: ?Object
+|};
+
+export type RESTORE_AUTH = {|
+  type: "RESTORE_AUTH",
+  route: ?Object
+|};
+
 export type Action =
+  | CHANGE_CONNECTION_STATUS
+  | SET_NAVIGATOR
+  | NAVIGATE_TO
+  | START_LOADING
+  | FINISH_LOADING
   | LOGIN
   | LOGOUT
   | REGISTER
-  | RESTORE_AUTH
-  | START_LOADING
-  | FINISH_LOADING
-  | NAVIGATE_TO
-  | CHANGE_CONNECTION_STATUS
-  | SET_NAVIGATOR;
+  | RESTORE_AUTH;
 
 /**
- * Application State Record. It contains :
- * 1. loading -> Is app loading {Boolean}
- * 2. accessToken -> App access token
- * 3. user -> User object
- * 4. isOnline -> is App Online?
- * 5. loggedIn -> is User Logged In?
- * 6. navigator -> App Navigation
+ * Application State Type. It contains :
+ * 1. application -> Contains application related state
+   like [isLoading, isOnline, navigator, notification]
+ * 2. user -> Contains user related state
+   like [isLoggedIn, information, followers]
+ * 3. allBadlees -> Contains Main Badlee State which is shown
+ * 4. badleesByCategory -> Contains badlee meta information 
+   like which badlee from allList needs to show, or order + pagination
  */
 export type AppState = {|
-  loading: boolean,
-  accessToken: ?string,
+  application: ?Object,
   user: ?Object,
-  isOnline: boolean,
-  loggedIn: boolean,
-  navigator: any
+  allBadlees: ?Array,
+  badleesByCategory: ?Object
 |};
 
 export type State = RecordType<AppState>;

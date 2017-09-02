@@ -2,13 +2,16 @@
 "use strict";
 
 import { AsyncStorage } from "react-native";
-import * as actionCreators from "../action_creators";
-import Settings from "../../settings";
-import type { Action, REGISTER } from "../types";
+import * as actionCreators from "../../action_creators";
+import type { Action, REGISTER } from "../../types";
 import base64 from "base-64";
-import saveMedia from "./media";
+import saveMedia from "./../media";
 
-async function doRegistration(store, next: Function, action: REGISTER) {
+export default async function register(
+  store,
+  next: Function,
+  action: REGISTER
+) {
   try {
     var userObject = action.userObject;
     await store.dispatch(actionCreators.startLoading());
@@ -67,10 +70,3 @@ async function doRegistration(store, next: Function, action: REGISTER) {
     await store.dispatch(actionCreators.finishLoading());
   }
 }
-
-export default store => next => (action: Action) => {
-  if (action.type === "REGISTER") {
-    return doRegistration(store, next, action);
-  }
-  return next(action);
-};

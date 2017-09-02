@@ -4,10 +4,10 @@
 
 "use strict";
 
-import type { Action } from "../types";
-import * as actionCreators from "../action_creators";
+import type { Action } from "../../types";
+import * as actionCreators from "../../action_creators";
 
-async function forgotPassword(store, next: Function, action) {
+export default async function forgot_password(store, next: Function, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let { email } = action;
@@ -43,10 +43,3 @@ async function forgotPassword(store, next: Function, action) {
     await store.dispatch(actionCreators.finishLoading());
   }
 }
-
-export default store => (next: Function) => (action: Action) => {
-  if (action.type === "FORGOT_PASSWORD") {
-    return forgotPassword(store, next, action);
-  }
-  return next(action);
-};

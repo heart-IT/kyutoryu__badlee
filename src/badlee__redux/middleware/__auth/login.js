@@ -9,8 +9,8 @@
 "use strict";
 
 import { AsyncStorage } from "react-native";
-import * as actionCreators from "../action_creators";
-import type { Action, LOGIN } from "../types";
+import * as actionCreators from "../../action_creators";
+import type { Action, LOGIN } from "../../types";
 import base64 from "base-64";
 
 function getNextRoute(route, isVerified) {
@@ -30,7 +30,7 @@ function getNextRoute(route, isVerified) {
   return Object.assign(route, component);
 }
 
-async function checkLogin(store, next: Function, action: LOGIN) {
+export default async function login(store, next: Function, action: LOGIN) {
   try {
     await store.dispatch(actionCreators.startLoading());
     const username: string = action.username;
@@ -67,10 +67,3 @@ async function checkLogin(store, next: Function, action: LOGIN) {
     await store.dispatch(actionCreators.finishLoading());
   }
 }
-
-export default store => next => (action: Action) => {
-  if (action.type === "LOGIN") {
-    return checkLogin(store, next, action);
-  }
-  return next(action);
-};

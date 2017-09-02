@@ -96,7 +96,12 @@ export type LOGOUT = {|
 |};
 
 export type RESTORE_AUTH = {|
-  type: "RESTORE_AUTH",
+  type: "RESTORE__AUTH",
+  route: ?Object
+|};
+
+export type FORGOT_PASSWORD = {|
+  type: "FORGOT__PASSWORD",
   route: ?Object
 |};
 
@@ -109,7 +114,8 @@ export type Action =
   | LOGIN
   | LOGOUT
   | REGISTER
-  | RESTORE_AUTH;
+  | RESTORE_AUTH
+  | FORGOT_PASSWORD;
 
 /**
  * Application State Type. It contains :

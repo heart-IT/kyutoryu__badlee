@@ -9,8 +9,8 @@
 "use strict";
 
 import { AsyncStorage, NetInfo } from "react-native";
-import * as actionCreators from "../action_creators";
-import type { Action, RESTORE_AUTH } from "../types";
+import * as actionCreators from "../../action_creators";
+import type { Action, RESTORE_AUTH } from "../../types";
 
 function getNextRoute(route, isAuthanticated) {
   let components = route.component;
@@ -29,7 +29,7 @@ function getNextRoute(route, isAuthanticated) {
   return Object.assign(route, component);
 }
 
-async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
+export default async function restore_auth(store, next, action: RESTORE_AUTH) {
   try {
     await store.dispatch(actionCreators.startLoading());
     NetInfo.isConnected.addEventListener("change", async function(isConnected) {
@@ -52,10 +52,3 @@ async function doRestoreAuth(store, next, action: RESTORE_AUTH) {
     await store.dispatch(actionCreators.finishLoading());
   }
 }
-
-export default store => (next: Function) => (action: Action) => {
-  if (action.type === "RESTORE_AUTH") {
-    return doRestoreAuth(store, next, action);
-  }
-  return next(action);
-};

@@ -32,7 +32,7 @@ const StateRecord = Record({
   }),
   user: new Map({
     isLoggedIn: false,
-    information: undefined,
+    information: new Map(),
     followers: new List()
   }),
   allBadlees: new Set(),
@@ -109,10 +109,11 @@ export function register(state: State, user: User): State {
     .setIn(["user", "information"], user);
 }
 
+// Function called when user logsout of app. Remove user from the app
 export function logout(state: State): State {
   return state
     .setIn(["user", "isLoggedIn"], false)
-    .setIn(["user", "information"], undefined);
+    .setIn(["user", "information"], new Map());
 }
 
 /**

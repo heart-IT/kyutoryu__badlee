@@ -7,6 +7,8 @@
  * @description- Utility Reusable Functions for Middleware
  */
 
+import { AsyncStorage } from "react-native";
+
 export const application_id = "xYqBgc1Xcf2Ufyhir5ab";
 export const application_secret = "vh4tyy74xAnNLtGagto4";
 
@@ -19,6 +21,23 @@ export function createFormData(formData) {
   }
   formBody = formBody.join("&");
   return formBody;
+}
+
+function getNextRoute(route, isAuthanticated) {
+  let components = route.component;
+  let component;
+  if (isAuthanticated) {
+    component = {
+      component: components.authenticated.component,
+      reset: true
+    };
+  } else {
+    component = {
+      component: components.not__authenticated.component,
+      reset: true
+    };
+  }
+  return Object.assign(route, component);
 }
 
 export function getNextRoute(route, isVerified) {
@@ -36,4 +55,10 @@ export function getNextRoute(route, isVerified) {
     };
   }
   return Object.assign(route, component);
+}
+
+export async function saveUserInStorage(user, jollyroger) {
+  await AsyncStorage.setItem("user", JSON.stringify(user));
+  await AsyncStorage.setItem("jollyroger", jollyroger);
+  return;
 }

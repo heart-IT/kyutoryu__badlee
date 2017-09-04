@@ -1,10 +1,22 @@
 // @flow
+
+/**
+ * @name- register.js
+ * 
+ * @chill- Tension is who you think you should be. Relaxation is who you are.- Chinese Proverb
+ * 
+ * 
+ * @description- Calls server to register user with the given credentials.
+ * 
+ * @author- hearit pirates were here
+ */
+
 "use strict";
 
-import { AsyncStorage } from "react-native";
 import * as actionCreators from "../../action_creators";
 import type { Action, REGISTER } from "../../types";
 import base64 from "base-64";
+import { saveUserInStorage } from "../utility";
 import saveMedia from "./../media";
 
 export default async function register(
@@ -58,13 +70,11 @@ export default async function register(
       let jollyroger = `Basic ${base64.encode(
         data.username + ":" + data.password
       )}`;
-      await AsyncStorage.setItem("user", JSON.stringify(user));
-      await AsyncStorage.setItem("jollyroger", jollyroger);
+      await saveUserInStorage(user, jollyroger);
+
       action.user = user;
+      next(action);
       await store.dispatch(actionCreators.navigate(action.route));
-      next(action);
-    } else {
-      next(action);
     }
   } finally {
     await store.dispatch(actionCreators.finishLoading());

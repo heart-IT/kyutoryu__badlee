@@ -128,16 +128,15 @@ export function getBadlees(
 ) {
   console.log("got values here", badlees, tabName, badleesIDS);
   var updatedBadlees = state.get("allBadlees").merge(badlees);
-  var updatedIDS = state
-    .getIn(["badleesByCategory", tabName, "ids"])
-    .union(badleesIDS);
   var distinctBadlees = updatedBadlees
     .groupBy(x => x.id)
     .map(x => x.first())
-    .toList();
-  console.log("got values here", updatedBadlees.toJS(), updatedIDS.toJS());
+    .toSet();
+  var updatedIDS = state
+    .getIn(["badleesByCategory", tabName, "ids"])
+    .union(badleesIDS);
   return state
-    .set("allBadlees", updatedBadlees)
+    .set("allBadlees", distinctBadlees)
     .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);
 }
 

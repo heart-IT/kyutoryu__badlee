@@ -41,28 +41,29 @@ class Store extends Component {
   }
   componentDidMount() {
     var { user } = this.props;
-    user.following
-      ? this.setState({ current__tab: 0 }, () => {
-          this.getBadlees();
-        })
-      : this.setState({ current__tab: 1 }, () => {
-          this.getBadlees();
-        });
+    // if user following >= 1, show following tab, else show location tab
+    this.setState({ current__tab: +!user.following }, () => {
+      this.getBadlees();
+    });
   }
   getBadlees() {
-    if (this.state.current__tab === 0) {
-      this.getBadleeByFollowing();
-    } else if (this.state.current__tab === 1) {
-      this.getBadleeByLocation();
-    } else {
-      console.log("getting badlees glove");
-      this.getBadleeByGlobe();
+    switch (this.state.current__tab) {
+      case 0:
+        this.getBadleeByFollowing();
+        break;
+      case 1:
+        this.getBadleeByLocation();
+        break;
+      case 2:
+        this.getBadleeByGlobe();
+      default:
+        this.getBadleeByGlobe();
     }
   }
   getBadleeByFollowing() {
     this.props.getBadlees({
       tabName: "following",
-      userID: this.props.user.user_id,
+      userID: this.props.user.get("user_id"),
       page: this.state.page,
       limit: this.state.limit
     });
@@ -103,17 +104,14 @@ class Store extends Component {
   onUserClick() {}
   onLocationPress() {}
   onRadioSelect(type) {}
-  getTabBadlees() {
-    this.setState({ data: tabBadlees });
-  }
   render() {
     let { allBadlees, badleesIDLocation } = this.props;
-    var tabBadlees = badleesIDLocation.map(function(id) {
-      var x = allBadlees.find(function(obj) {
-        return obj.get("id") === id;
-      });
-      return x.toJS();
-    });
+    // var tabBadlees = badleesIDLocation.map(function(id) {
+    //   var x = allBadlees.find(function(obj) {
+    //     return obj.get("id") === id;
+    //   });
+    //   return x.toJS();
+    // });
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -168,7 +166,7 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={tabBadlees.toJS()} />
+                  <BadleesList data={allBadlees} />
                 </Tab>
                 <Tab
                   heading={
@@ -293,7 +291,7 @@ class Store extends Component {
                     </View>
                   </View>
                   <View>
-                    <BadleesList data={tabBadlees.toJS()} />
+                    <BadleesList data={allBadlees} />
                   </View>
                 </Tab>
               </Tabs>

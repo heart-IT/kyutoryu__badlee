@@ -59,6 +59,7 @@ async function getBadleesByGlobe(
 export default async function getBadlees(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
+    console.log(action);
     let {
       tabName,
       page,

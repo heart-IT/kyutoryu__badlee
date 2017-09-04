@@ -75,7 +75,7 @@ async function startSaveProcess(store, next, action) {
 export default store => next => action => {
   if (action.type === "SAVE_BADLEE") {
     return startSaveProcess(store, next, action);
-  } else if (action.type === "GET__BADLEES") {
+  } else if (action.type === "GET_BADLEES") {
     return getBadlees(store, next, action);
   }
   return next(action);

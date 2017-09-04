@@ -7,7 +7,7 @@
 "use strict";
 import React from "react";
 import { FlatList } from "react-native";
-import { Map } from "immutable";
+import { Map, toJS } from "immutable";
 
 import BadleeCard from "./BadleeCard";
 
@@ -29,10 +29,10 @@ class MyList extends React.PureComponent {
     />
   );
   render() {
-    console.log("getting render with ", this.props.data);
+    var data = this.props.data.toJS();
     return (
       <FlatList
-        data={this.props.data}
+        data={data}
         extraData={this.state}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}

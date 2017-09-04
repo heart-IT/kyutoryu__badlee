@@ -1,9 +1,11 @@
 /**
+ * @name- GoingMerry.js
+ * 
  * Chill of the day -
  * There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
  * 
- * @name- Container.JS
- * @description- This file is the starting point of the badlee Authenticated section. Here, we are loading other modules and make main tab structures. We can also do things like Websocket here.
+ * @description- This file is the parent container of Badlee App after logging in. Everything is loaded inside
+ * 
  * @author- heartit pirates
  */
 
@@ -35,7 +37,7 @@ class AuthContainer extends Component {
   constructor() {
     super();
     this.state = {
-      current__tab: 0
+      current__tab: 3
     };
   }
   render() {

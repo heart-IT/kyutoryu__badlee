@@ -54,23 +54,6 @@ export function setNavigator(state: State, navigator: any): State {
   return state.setIn(["application", "navigator"], navigator);
 }
 
-export function addAppNotification(state: State, notification: String): State {
-  return state.setIn(["application", "notification"], notification);
-}
-export function clearAppNotification(state: State): State {
-  return state.setIn(["application", "notification"], null);
-}
-export function addError(state: State, error): State {
-  return state.setIn(["application", "error"], error);
-  // let currentErrorState = previousError.push(error);
-  // let distinctErrorState = currentErrorState.distinct;
-  // return state.setIn(["application", "errors"], distinctErrorState);
-}
-
-export function clearError(state: State): State {
-  return state.setIn(["application", "error"], null);
-}
-
 export function startLoading(state: State): State {
   return state.setIn(["application", "isLoading"], true);
 }
@@ -89,7 +72,24 @@ export function changeInternetConnectionStatus(
 export function restoreAuth(state: State, user: User): State {
   return state
     .setIn(["user", "isLoggedIn"], true)
-    .setIn(["user", "information"], user);
+    .setIn(["user", "information"], fromJS(user));
+}
+
+export function addAppNotification(state: State, notification: String): State {
+  return state.setIn(["application", "notification"], notification);
+}
+export function clearAppNotification(state: State): State {
+  return state.setIn(["application", "notification"], null);
+}
+export function addError(state: State, error): State {
+  return state.setIn(["application", "error"], error);
+  // let currentErrorState = previousError.push(error);
+  // let distinctErrorState = currentErrorState.distinct;
+  // return state.setIn(["application", "errors"], distinctErrorState);
+}
+
+export function clearError(state: State): State {
+  return state.setIn(["application", "error"], null);
 }
 
 /**

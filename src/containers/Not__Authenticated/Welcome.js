@@ -14,7 +14,7 @@ import { StyleProvider, Content, View, Text, Button } from "native-base";
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import AuthContainer from "../Authenticated/Container";
+import AuthContainer from "../Authenticated/GoingMerry";
 
 class BackgroundImage extends Component {
   render() {

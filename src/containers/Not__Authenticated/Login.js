@@ -32,7 +32,7 @@ import Icon from "../../components/Icon";
 import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 import Welcome from "./Welcome";
-import BadleeAuthApp from "../Authenticated/Container";
+import BadleeAuthApp from "../Authenticated/GoingMerry";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {

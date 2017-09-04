@@ -23,7 +23,7 @@ import getTheme from "../theme/components";
 
 import Loading from "./../components/LoadingView";
 import Onboarding from "./Not__Authenticated/Onboarding";
-import BadleeAuthApp from "./Authenticated/Container";
+import BadleeAuthApp from "./Authenticated/GoingMerry";
 
 class Init extends Component {
   componentDidMount() {

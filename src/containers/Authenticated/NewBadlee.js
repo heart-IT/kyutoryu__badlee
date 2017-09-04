@@ -29,7 +29,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import type { State } from "../../types";
-import Main from "./Container";
+import Main from "./GoingMerry";
 import LoadingView from "../../components/LoadingView";
 
 class NewBadlee extends Component {

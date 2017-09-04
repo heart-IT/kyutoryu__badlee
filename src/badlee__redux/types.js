@@ -82,7 +82,9 @@ export type REGISTER = {|
   lname: string,
   email: string,
   password: string,
-  avatar: string,
+  avatarName: string,
+  avatarSource: string,
+  avatarType: string,
   dob: string,
   gender: string,
   location: string,
@@ -96,13 +98,42 @@ export type LOGOUT = {|
 |};
 
 export type RESTORE_AUTH = {|
-  type: "RESTORE__AUTH",
+  type: "RESTORE_AUTH",
   route: ?Object
 |};
 
 export type FORGOT_PASSWORD = {|
-  type: "FORGOT__PASSWORD",
+  type: "FORGOT_PASSWORD",
   email: string
+|};
+
+export type ADD_NOTIFICATION = {|
+  type: "ADD_NOTIFICATION",
+  notification: string
+|};
+
+export type CLEAR_NOTIFICATION = {|
+  type: "CLEAR_NOTIFICATION"
+|};
+
+export type ADD_ERROR = {|
+  type: "ADD_ERROR",
+  error: string
+|};
+
+export type CLEAR_ERROR = {|
+  type: "CLEAR_ERROR"
+|};
+
+export type GET_BADLEES = {|
+  type: "GET_BADLEES",
+  params: Object
+|};
+
+export type SAVE_BADLEE = {|
+  type: "SAVE_BADLEE",
+  data: Object,
+  route: ?Object
 |};
 
 export type Action =
@@ -115,7 +146,13 @@ export type Action =
   | LOGOUT
   | REGISTER
   | RESTORE_AUTH
-  | FORGOT_PASSWORD;
+  | FORGOT_PASSWORD
+  | ADD_NOTIFICATION
+  | CLEAR_NOTIFICATION
+  | ADD_ERROR
+  | CLEAR_ERROR
+  | GET_BADLEES
+  | SAVE_BADLEE;
 
 /**
  * Application State Type. It contains :

@@ -25,11 +25,11 @@ export default store => next => action => {
     return login(store, next, action);
   } else if (action.type === "REGISTER") {
     return register(store, next, action);
-  } else if (action.type === "RESTORE__AUTH") {
+  } else if (action.type === "RESTORE_AUTH") {
     return restore_auth(store, next, action);
   } else if (action.type === "LOGOUT") {
     return logout(store, next, action);
-  } else if (action.type === "FORGOT__PASSWORD") {
+  } else if (action.type === "FORGOT_PASSWORD") {
     return forgot_password(store, next, action);
   }
   return next(action);

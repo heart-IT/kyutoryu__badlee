@@ -49,8 +49,10 @@ class BadleeCard extends React.PureComponent {
           />
         )}
         {cardData.purpose === "Show off" && (
-          <Image
-            source={require("../images/show off 2.png")}
+          <Icon
+            name="showOff"
+            width="36"
+            height="36"
             style={styles.purposeIcon}
           />
         )}

@@ -23,7 +23,7 @@ export function createFormData(formData) {
   return formBody;
 }
 
-function getNextRoute(route, isAuthanticated) {
+export function getRestoreAuthNextRoute(route, isAuthanticated) {
   let components = route.component;
   let component;
   if (isAuthanticated) {

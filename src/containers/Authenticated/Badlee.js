@@ -237,9 +237,11 @@ class Store extends Component {
                           onPress={this.onRadioSelect("exchange")}
                           style={{ marginRight: 6 }}
                         />
-                        <Image
-                          source={require("../../images/show off 2.png")}
-                          style={{ width: 24, height: 24, marginRight: 6 }}
+                        <Icon
+                          name="showOff"
+                          width="24"
+                          height="24"
+                          style={{ marginRight: 6 }}
                         />
                         <Radio
                           selected={

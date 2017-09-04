@@ -18,7 +18,7 @@ import AuthContainer from "../Authenticated/Container";
 
 class BackgroundImage extends Component {
   render() {
-    let image = require("../../images/Welcome page 1 BG.png");
+    let image = require("../../images/welcome__bg.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
         {this.props.children}

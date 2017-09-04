@@ -41,7 +41,7 @@ export default {
           opacity=".41"
           width="179"
           height="217"
-          xlink:href="A9CC5BDCE8FB23DD.png"
+          href="A9CC5BDCE8FB23DD.png"
           transform="translate(-7963.523 -7889.98) scale(.8662)"
         />
         <Path
@@ -56,7 +56,7 @@ export default {
           overflow="visible"
           width="145"
           height="194"
-          xlink:href="A9CC5BDCE8FB23DF.png"
+          href="A9CC5BDCE8FB23DF.png"
           transform="translate(-7983.39 -7926.297) scale(1.3433)"
           opacity=".3"
         />
@@ -65,7 +65,7 @@ export default {
           opacity=".39"
           width="145"
           height="194"
-          xlink:href="A9CC5BDCE8FB23DB.png"
+          href="A9CC5BDCE8FB23DB.png"
           transform="translate(303.547 323.682)"
         />
         <Path
@@ -78,7 +78,7 @@ export default {
             opacity=".4"
             width="230"
             height="230"
-            xlink:href="A9CC5BDCE8FB23D9.png"
+            href="A9CC5BDCE8FB23D9.png"
             transform="translate(432.547 114.682)"
           />
           <Path

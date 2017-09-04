@@ -16,6 +16,7 @@
 import { AsyncStorage, NetInfo } from "react-native";
 import * as actionCreators from "../../action_creators";
 import type { Action, RESTORE_AUTH } from "../../types";
+import { getRestoreAuthNextRoute } from "./../utility";
 
 export default async function restore_auth(
   store,
@@ -38,7 +39,9 @@ export default async function restore_auth(
     }
     route &&
       (await store.dispatch(
-        actionCreators.navigate(getNextRoute(route, user ? true : false))
+        actionCreators.navigate(
+          getRestoreAuthNextRoute(route, user ? true : false)
+        )
       ));
   } finally {
     await store.dispatch(actionCreators.finishLoading());

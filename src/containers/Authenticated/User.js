@@ -28,10 +28,7 @@ import { connect } from "react-redux";
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Login from "../Not__Authenticated/Login";
-
-var exchange__icon = require("../../images/exchange.png");
-var showoff__icon = require("../../images/show off 2.png");
-var shout__icon = require("../../images/shout badge.png");
+import Icon from "../../components/Icon";
 
 class User extends Component {
   componentDidMount() {}
@@ -91,10 +88,7 @@ class User extends Component {
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Image
-                      source={exchange__icon}
-                      style={styles.inventorytype__icon}
-                    />
+                    <Icon name="exchange" width="30" height="30" />
                   </TabHeading>
                 }
                 style={styles.inventory__type}
@@ -102,28 +96,22 @@ class User extends Component {
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Image
-                      source={shout__icon}
-                      style={styles.inventorytype__icon}
-                    />
+                    <Icon name="shoutOut" width="30" height="30" />
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Image source={shout__icon} />
+                <Icon name="shoutOut" width="30" height="30" />
               </Tab>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Image
-                      source={showoff__icon}
-                      style={styles.inventorytype__icon}
-                    />
+                    <Icon name="showOff" width="30" height="30" />
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Image source={showoff__icon} />
+                <Icon name="showOff" width="30" height="30" />
               </Tab>
             </Tabs>
           </View>

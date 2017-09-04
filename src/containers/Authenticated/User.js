@@ -9,26 +9,25 @@
 "use strict";
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Image } from "react-native";
 import {
   StyleProvider,
+  Container,
   Content,
+  View,
   Text,
   Button,
-  ListItem,
-  Left,
-  Body,
-  View,
-  Header,
-  Tab,
   Tabs,
+  Tab,
   TabHeading
 } from "native-base";
-import { connect } from "react-redux";
+
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Login from "../Not__Authenticated/Login";
+
 import Icon from "../../components/Icon";
+import Login from "../Not__Authenticated/Login";
 
 class User extends Component {
   componentDidMount() {}
@@ -44,46 +43,46 @@ class User extends Component {
     const { user } = this.props;
     return (
       <StyleProvider style={getTheme()}>
-        <Content>
-          <View style={styles.user__info}>
-            <Image
-              source={{
-                uri: user.avatar
-              }}
-              style={styles.user__photo}
-            />
+        <Container style={{ flex: 1 }}>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <View style={styles.user__info}>
+              <Image
+                source={{
+                  uri: user.get("avatar")
+                }}
+                style={styles.user__photo}
+              />
 
-            <View style={styles.user__knowledge}>
-              <Text style={styles.user__name}>
-                {user.fname} {user.lname} -
-              </Text>
-              <Text style={styles.user__gender}>{user.gender}</Text>
-              <Text style={styles.user__location}>
-                {this.props.user.location}
-              </Text>
-            </View>
-            <View style={styles.user__supporters}>
-              <View style={styles.user__following}>
-                <Text style={styles.supporters__label}>Following</Text>
-                <Text style={styles.supporters__value}>
-                  {user.following ? user.following : 0}
+              <View style={styles.user__knowledge}>
+                <Text style={styles.user__name}>
+                  {user.get("fname")} {user.get("lname")} -
+                </Text>
+                <Text style={styles.user__gender}>{user.get("gender")}</Text>
+                <Text style={styles.user__location}>
+                  {user.get("location")}
                 </Text>
               </View>
-              <View style={styles.user__follower}>
-                <Text style={styles.supporters__label}>Follower</Text>
-                <Text style={styles.supporters__value}>
-                  {user.follower ? user.follower : 0}
+              <View style={styles.user__supporters}>
+                <View style={styles.user__following}>
+                  <Text style={styles.supporters__label}>Following</Text>
+                  <Text style={styles.supporters__value}>
+                    {user.get("following") ? user.get("following") : 0}
+                  </Text>
+                </View>
+                <View style={styles.user__follower}>
+                  <Text style={styles.supporters__label}>Follower</Text>
+                  <Text style={styles.supporters__value}>
+                    {user.get("follower") ? user.get("follower") : 0}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.user__interestedin}>
+                <Text style={styles.interestedin__label}>Interested in : </Text>
+                <Text style={styles.user__interests}>
+                  {user.get("interests")}
                 </Text>
               </View>
             </View>
-            <View style={styles.user__interestedin}>
-              <Text style={styles.interestedin__label}>Interested in : </Text>
-              <Text style={styles.user__interests}>
-                {this.props.user.interests}
-              </Text>
-            </View>
-          </View>
-          <View>
             <Tabs style={styles.user__badleetory}>
               <Tab
                 heading={
@@ -96,35 +95,35 @@ class User extends Component {
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Icon name="shoutOut" width="30" height="30" />
+                    <Icon name="shoutout" width="30" height="30" />
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Icon name="shoutOut" width="30" height="30" />
+                <Icon name="shoutout" width="30" height="30" />
               </Tab>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Icon name="showOff" width="30" height="30" />
+                    <Icon name="showoff" width="36" height="36" />
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Icon name="showOff" width="30" height="30" />
+                <Icon name="showoff" width="30" height="30" />
               </Tab>
             </Tabs>
-          </View>
 
-          <Button
-            red
-            block
-            marxFormElement
-            onPress={this.handleLogout.bind(this)}
-          >
-            <Text>Logout</Text>
-          </Button>
-        </Content>
+            <Button
+              red
+              block
+              marxFormElement
+              onPress={this.handleLogout.bind(this)}
+            >
+              <Text>Logout</Text>
+            </Button>
+          </Content>
+        </Container>
       </StyleProvider>
     );
   }

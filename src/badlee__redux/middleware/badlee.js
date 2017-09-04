@@ -3,7 +3,7 @@ import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
 import saveMedia from "./media";
 
-import getBadlees from "./badlees/get";
+import getBadlees from "./badleeFns/get";
 
 async function saveBadlee(badleeData, badleePhotoUrl) {
   try {

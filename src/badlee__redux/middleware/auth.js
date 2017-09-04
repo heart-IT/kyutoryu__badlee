@@ -14,11 +14,11 @@
 "use strict";
 
 import type { Action } from "../types";
-import login from "./__auth/login";
-import register from "./__auth/register";
-import restore_auth from "./__auth/restore_auth";
-import logout from "./__auth/logout";
-import forgot_password from "./__auth/forgot_password";
+import login from "./authFns/login";
+import register from "./authFns/register";
+import restore_auth from "./authFns/restore_auth";
+import logout from "./authFns/logout";
+import forgot_password from "./authFns/forgot_password";
 
 export default store => next => action => {
   if (action.type === "LOGIN") {

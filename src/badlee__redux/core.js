@@ -140,3 +140,5 @@ export function getBadlees(
     .set("allBadlees", updatedBadlees)
     .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);
 }
+
+export function saveBadlee() {}

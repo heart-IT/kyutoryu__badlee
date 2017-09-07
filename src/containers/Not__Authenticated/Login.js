@@ -1,9 +1,11 @@
 /**
+ * @name- login.js
+ * 
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
- * @name- Login
  * @description- This file handles Login Screen of Badlee App.
+ * 
  * @author- heartit pirates were here
  */
 
@@ -24,12 +26,11 @@ import {
   Text
 } from "native-base";
 
-import * as actionCreators from "../../badlee__redux/action_creators";
-
 import type { State } from "../../types";
+import * as actionCreators from "../../badlee__redux/action_creators";
 import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
 import Loading from "../../components/LoadingView";
+import Icon from "../../components/Icon";
 
 import Register from "./register";
 import ForgotPassword from "./forgotPassword";
@@ -63,7 +64,6 @@ class Login extends Component {
    */
   handleFormSubmit() {
     try {
-      console.log("is here");
       if (!this.state.username) {
         throw "Enter username..";
       }

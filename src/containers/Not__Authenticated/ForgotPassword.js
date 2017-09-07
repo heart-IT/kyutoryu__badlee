@@ -1,6 +1,6 @@
 /**
+ * @name- forgotPassword.js
  * @chill- A wandering monk asked, "Oh venerable Buddha, does a 'Self' exist?" And the Buddha was silent. "Then, oh venerable one, does a 'Self' not exist?" And again the Buddha was silent. - Buddha
- * @name- ForgotPassword
  * @description- Forgot Password screen
  * @author- heartit pirates were here
  */
@@ -20,11 +20,11 @@ import {
   Button,
   Text
 } from "native-base";
+
+import type { State } from "../../types";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import getTheme from "../../theme/components";
-
 import Loading from "../../components/LoadingView";
-import type { State } from "../../types";
 
 class BackgroundImage extends Component {
   render() {
@@ -51,6 +51,8 @@ class ForgotPassword extends Component {
       requestAnimationFrame(() => {
         this.props.forgotPassword(this.state.email);
       });
+    } else {
+      this.setState({ error: "Enter email.." });
     }
   }
   validateEmail() {
@@ -65,7 +67,7 @@ class ForgotPassword extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
+        <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <BackgroundImage>
               <Text style={styles.heading}>Don't worry!</Text>

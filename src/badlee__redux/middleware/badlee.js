@@ -1,7 +1,7 @@
 "use strict";
 import { AsyncStorage } from "react-native";
 import * as actionCreators from "../action_creators";
-import saveMedia from "./media";
+import { saveMedia } from "./utility";
 
 import getBadlees from "./badleeFns/get";
 

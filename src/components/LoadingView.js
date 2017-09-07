@@ -41,7 +41,7 @@ const styles = {
     right: 0,
     backgroundColor: "#fff",
     opacity: 0.67,
-    zIndex: 99
+    zIndex: 1040
   },
   spinner: {
     flex: 1,

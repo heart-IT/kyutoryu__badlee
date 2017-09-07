@@ -47,16 +47,8 @@ class Init extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          <Content
-            style={{ flex: 1 }}
-            contentContainerStyle={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            {loading && <Loading />}
-          </Content>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }} />
+          {loading && <Loading />}
         </Container>
       </StyleProvider>
     );

@@ -42,7 +42,6 @@ export default async function login(store, next: Function, action: LOGIN) {
     } else if (response.status === 200 && response.ok === true) {
       let user = responseJson;
       let jollyroger = authorizedCode;
-
       await saveUserInStorage(user, jollyroger);
 
       action.user = user;

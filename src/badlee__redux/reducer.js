@@ -56,7 +56,10 @@ export function reducer(
       return core.addError(state, action.error);
       break;
     case "CLEAR_ERROR":
-      return core.clearError(state);
+      return core.clearError(state, action.error);
+      break;
+    case "CLEAR_ALL_ERRORS":
+      return core.clearAllError(state);
       break;
     case "GET_BADLEES":
       return core.getBadlees(

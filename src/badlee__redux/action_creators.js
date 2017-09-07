@@ -106,8 +106,13 @@ export const addError = (error: String): ADD_ERROR => ({
   error: error
 });
 
-export const clearError = (): CLEAR_ERROR => ({
-  type: "CLEAR_ERROR"
+export const clearError = (error: String): CLEAR_ERROR => ({
+  type: "CLEAR_ERROR",
+  error: error
+});
+
+export const clearAllErrors = (): CLEAR_ALL_ERRORS => ({
+  type: "CLEAR_ALL_ERRORS"
 });
 
 // badlee section

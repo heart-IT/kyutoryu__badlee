@@ -35,6 +35,7 @@ import {
 import type { State } from "../../types";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import getTheme from "../../theme/components";
+import Loading from "../../components/LoadingView";
 
 import Register2 from "./register2";
 
@@ -254,6 +255,7 @@ class Register extends Component {
               </Button>
             </BackgroundImage>
           </Content>
+          {this.props.loading && <Loading message="Moving on.." />}
         </Container>
       </StyleProvider>
     );
@@ -347,7 +349,7 @@ const styles = {
 
 const _Wrapped = connect(
   (state: State) => ({
-    loading: state.get("loading")
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Register);

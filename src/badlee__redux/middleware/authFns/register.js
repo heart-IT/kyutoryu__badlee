@@ -32,27 +32,32 @@ export default async function register(
 ) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    let userObject = action.userObject;
-    let uploadMedia = await saveMedia({
-      uri: userObject.avatarSource,
-      imageType: userObject.avatarType,
-      fileName: userObject.avatarName
-    });
-    if (uploadMedia.error) {
-      throw "Image couldn't be uploaded..";
+    let uploadMedia;
+    if (action.avatarSource) {
+      uploadMedia = await saveMedia({
+        uri: userObject.avatarSource,
+        imageType: userObject.avatarType,
+        fileName: userObject.avatarName
+      });
+      if (uploadMedia.error) {
+        throw "Image couldn't be uploaded..";
+      }
     }
 
     let data = {
-      username: userObject.uniqueName,
-      fname: userObject.firstName,
-      lname: userObject.lastName,
-      email: userObject.email,
-      password: userObject.password,
-      avatar: "http://mri2189.badlee.com/" + uploadMedia.url,
-      dob: userObject.date,
-      location: userObject.location,
-      interests: userObject.wish,
-      gender: userObject.gender,
+      username: action.username,
+      fname: action.fname,
+      lname: action.lname,
+      email: action.email,
+      password: action.password,
+      avatar:
+        uploadMedia && uploadMedia.url
+          ? "http://mri2189.badlee.com/" + uploadMedia.url
+          : "",
+      dob: action.dob,
+      location: action.location,
+      interests: action.interests,
+      gender: action.gender,
       application_id,
       application_secret
     };

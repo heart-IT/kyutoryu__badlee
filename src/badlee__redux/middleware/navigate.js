@@ -21,6 +21,7 @@ function doNavigate(store, next, action: NAVIGATE_TO) {
   const navigator = state.getIn(["application", "navigator"]);
 
   if (navigator && route.component) {
+    store.dispatch(actionCreators.clearAllErrors());
     let context = {
       component: route.component,
       params: route.params

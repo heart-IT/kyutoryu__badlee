@@ -92,6 +92,13 @@ export function clearError(state: State, error: String): State {
   );
 }
 
+export function clearAllError(state: State): State {
+  return state.setIn(
+    ["application", "error"],
+    state.getIn(["application", "error"]).clear()
+  );
+}
+
 /**
  * Auth Functions
  */

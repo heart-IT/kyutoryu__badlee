@@ -57,9 +57,6 @@ class Login extends Component {
       password: null
     };
   }
-  componentDidMount() {
-    console.log(this.props.error);
-  }
   /**
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
@@ -117,7 +114,6 @@ class Login extends Component {
 
   render() {
     let { error } = this.props;
-    console.log(error);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -179,24 +175,25 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-
-                {this.props.error === "Wrong Password" ||
-                this.state.error === "Enter password.." ? (
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "flex-end",
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text style={styles.errorMsg}>
-                      {this.props.error ? this.props.error : this.state.error}
-                    </Text>
-                  </View>
-                ) : (
-                  <Text />
-                )}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "center"
+                  }}
+                >
+                  {error.includes("Wrong Password") ? (
+                    <Text style={styles.errorMsg}>Wrong Password</Text>
+                  ) : (
+                    <Text />
+                  )}
+                  {error.includes("Enter password..") ? (
+                    <Text style={styles.errorMsg}>Enter password..</Text>
+                  ) : (
+                    <Text />
+                  )}
+                </View>
                 <View style={styles.submitButtonWrapper}>
                   <Button
                     common

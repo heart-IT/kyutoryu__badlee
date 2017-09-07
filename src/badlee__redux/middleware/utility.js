@@ -17,7 +17,7 @@ import base64 from "base-64";
 export const application_id = "xYqBgc1Xcf2Ufyhir5ab";
 export const application_secret = "vh4tyy74xAnNLtGagto4";
 
-export function createFormData(formData) {
+export function createFormData(data) {
   var formBody = [];
   for (var property in data) {
     var encodedKey = encodeURIComponent(property);

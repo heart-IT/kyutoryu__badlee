@@ -1,19 +1,21 @@
 /**
- * You must live in the present launch yourself on every wave, find your eternity in each moment- There is no other life but this. Henry David Thoreau
+ * @name- register2.js
  * 
- * https://maps.googleapis.com/maps/api/place/autocomplete/json?input=noi&types=(cities)&components=country:in&key=AIzaSyBoSsuv06OviFbbxKNv0droa4S-Lehk8DA
+ * @chill- You must live in the present launch yourself on every wave, find your eternity in each moment- There is no other life but this. -Henry David Thoreau
  * 
- * @name- Register2.js
+ * 
  * @description- This file is the second part of Register Screen.
- * @author- heartit pirates
+ * 
+ * @author- heartit pirates were here
+ * 
+ * @todo- add error handling to register form.
  */
 
 "use strict";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image, Keyboard } from "react-native";
-import LoadingView from "../../components/LoadingView";
+import { Image } from "react-native";
 import {
   StyleProvider,
   Container,
@@ -28,18 +30,19 @@ import {
   Input,
   Thumbnail,
   Radio,
-  Picker,
-  Icon as IconX
+  Picker
 } from "native-base";
 var ImagePicker = require("react-native-image-picker");
-
-import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
-import * as actionCreators from "../../badlee__redux/action_creators";
 import DatePicker from "react-native-datepicker";
-import Welcome from "./welcome";
-import Locator from "../../components/Location";
+
 import type { State } from "../../types";
+import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
+import LoadingView from "../../components/LoadingView";
+import Icon from "../../components/Icon";
+import Locator from "../../components/Location";
+
+import Welcome from "./welcome";
 
 const Item = Picker.Item;
 
@@ -74,8 +77,8 @@ class Register2 extends Component {
   selectPhotoTapped() {
     const options = {
       quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
+      maxWidth: 800,
+      maxHeight: 800,
       storageOptions: {
         skipBackup: true
       }
@@ -120,7 +123,7 @@ class Register2 extends Component {
   }
   // Event triggered when User submits the form.
   submittingUser() {
-    var userInfo = this.props.params.userInfo;
+    let { userInfo } = this.props.params;
     var data = {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
@@ -142,8 +145,8 @@ class Register2 extends Component {
     });
   }
 
-  locationSelection(locatoin) {
-    this.setState({ location: locatoin });
+  locationSelection(location) {
+    this.setState({ location: location });
     this.setState({ showLocator: false });
   }
   closeLocation() {
@@ -167,8 +170,7 @@ class Register2 extends Component {
     };
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
-          {this.props.loading && <LoadingView />}
+        <Container style={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#611265" }}>
             <Left
               style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
@@ -499,6 +501,7 @@ class Register2 extends Component {
               </BackgroundImage>
             </Content>
           )}
+          {this.props.loading && <LoadingView message="Registering you.." />}
         </Container>
       </StyleProvider>
     );

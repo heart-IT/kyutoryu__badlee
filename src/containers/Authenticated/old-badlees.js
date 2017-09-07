@@ -2,6 +2,9 @@
  * Chill of the day -
  * There can be no comparison: nothing exists that is able to reverse itself as quickly as the mind.
  * - Buddha
+ * 
+ * https://maps.googleapis.com/maps/api/place/autocomplete/json?input=noi&types=(cities)&components=country:in&key=AIzaSyBoSsuv06OviFbbxKNv0droa4S-Lehk8DA
+ * 
  */
 
 "use strict";

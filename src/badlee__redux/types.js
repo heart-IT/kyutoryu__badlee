@@ -122,7 +122,12 @@ export type ADD_ERROR = {|
 |};
 
 export type CLEAR_ERROR = {|
-  type: "CLEAR_ERROR"
+  type: "CLEAR_ERROR",
+  error: string
+|};
+
+export type CLEAR_ALL_ERRORS = {|
+  type: "CLEAR_ALL_ERRORS"
 |};
 
 export type GET_BADLEES = {|

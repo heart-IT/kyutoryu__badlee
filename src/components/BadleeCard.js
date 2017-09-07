@@ -48,7 +48,7 @@ class BadleeCard extends React.PureComponent {
             style={styles.purposeIcon}
           />
         )}
-        {cardData.purpose === "Show off" && (
+        {cardData.purpose === "showOff" && (
           <Icon
             name="showOff"
             width="36"

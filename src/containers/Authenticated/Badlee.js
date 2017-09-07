@@ -60,11 +60,19 @@ class Store extends Component {
     // });
   }
   componentWillReceiveProps(nextProps) {
-    let { allBadlees, badleesIDLocation } = nextProps;
-    let badleesToShow = badleesIDLocation.map(id => {
-      return allBadlees.find(badlee => id === badlee.id);
-    });
-    this.setState({ currentData: badleesToShow });
+    let { allBadlees, badleesIDLocation, badleesIDGlobe } = nextProps;
+    if (this.state.current__tab === 0) {
+    } else if (this.state.current__tab === 1) {
+      let badleesToShow = badleesIDLocation.map(id => {
+        return allBadlees.find(badlee => id === badlee.id);
+      });
+      this.setState({ currentData: badleesToShow });
+    } else {
+      let badleesToShow = badleesIDGlobe.map(id => {
+        return allBadlees.find(badlee => id === badlee.id);
+      });
+      this.setState({ currentData: badleesToShow });
+    }
   }
   getBadlees() {
     switch (this.state.current__tab) {
@@ -330,7 +338,8 @@ const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
     allBadlees: state.get("allBadlees"),
-    badleesIDLocation: state.getIn(["badleesByCategory", "location", "ids"])
+    badleesIDLocation: state.getIn(["badleesByCategory", "location", "ids"]),
+    badleesIDGlobe: state.getIn(["badleesByCategory", "globe", "ids"])
   }),
   actionCreators
 )(Store);

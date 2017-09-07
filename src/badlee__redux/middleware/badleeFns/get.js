@@ -88,24 +88,19 @@ export default async function getBadlees(store, next, action) {
         next(action);
       }
     } else {
-      if (
-        page * limit >
-        state.getIn(["badleesByCategory", "location", "total"])
-      ) {
-        badlees = await getBadleesByGlobe(
-          searchString,
-          globeCategory,
-          current__location,
-          category,
-          page,
-          limit
-        );
-        action.badlees = badlees;
-        action.tabName = tabName;
-        action.page__upper__count = page * limit;
-        action.badleesInIDS = badlees.map(badlee => badlee.id);
-        next(action);
-      }
+      badlees = await getBadleesByGlobe(
+        searchString,
+        globeCategory,
+        current__location,
+        category,
+        page,
+        limit
+      );
+      action.badlees = badlees;
+      action.tabName = tabName;
+      action.page__upper__count = page * limit;
+      action.badleesInIDS = badlees.map(badlee => badlee.id);
+      next(action);
     }
   } catch (e) {
     console.log(e);

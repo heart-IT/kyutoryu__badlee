@@ -40,7 +40,8 @@ class Welcome extends Component {
     });
   }
   render() {
-    const user = this.props.user;
+    const { user } = this.props;
+    console.log(user.toJS());
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -53,15 +54,17 @@ class Welcome extends Component {
                 />
               </View>
               <View style={styles.userWrapper}>
-                <Text style={styles.welcomeText}>Welcome {user.fname}!</Text>
+                <Text style={styles.welcomeText}>
+                  Welcome {user.get("fname")}!
+                </Text>
                 <View style={styles.userAvatar}>
-                  {user.avatar && (
+                  {user.get("avatar") && (
                     <Image
-                      source={{ uri: user.avatar }}
+                      source={{ uri: user.get("avatar") }}
                       style={{ width: 120, height: 120, borderRadius: 60 }}
                     />
                   )}
-                  {!user.avatar && (
+                  {!user.get("avatar") && (
                     <Icon name="userPlaceholder" width="120" height="120" />
                   )}
                 </View>
@@ -71,7 +74,7 @@ class Welcome extends Component {
                 </Text>
                 <Text style={styles.verificationText2}>
                   We've mailed you the verification link to your registered
-                  e-mail id {user.email}
+                  e-mail id {user.get("email")}
                 </Text>
                 <Button
                   style={styles.enterButton}

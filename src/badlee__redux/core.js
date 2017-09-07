@@ -28,7 +28,7 @@ const StateRecord = Record({
     isOnline: true,
     error: new Set(),
     navigator: null,
-    notification: new Set()
+    notification: null
   }),
   user: new Map({
     isLoggedIn: false,
@@ -70,13 +70,13 @@ export function changeInternetConnectionStatus(
 }
 
 export function addAppNotification(state: State, notification: String): State {
-  return state.getIn(["application", "notification"]).add(notification);
+  return state.setIn(["application", "notification"], notification);
 }
 export function clearAppNotification(
   state: State,
   notification: String
 ): State {
-  return state.getIn(["application", "notification"]).delete(err);
+  return state.setIn(["application", "notification"], null);
 }
 
 export function addError(state: State, error: String): State {

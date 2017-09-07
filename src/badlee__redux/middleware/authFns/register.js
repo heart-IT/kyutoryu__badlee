@@ -35,9 +35,9 @@ export default async function register(
     let uploadMedia;
     if (action.avatarSource) {
       uploadMedia = await saveMedia({
-        uri: userObject.avatarSource,
-        imageType: userObject.avatarType,
-        fileName: userObject.avatarName
+        uri: action.avatarSource,
+        imageType: action.avatarType,
+        fileName: action.avatarName
       });
       if (uploadMedia.error) {
         throw "Image couldn't be uploaded..";

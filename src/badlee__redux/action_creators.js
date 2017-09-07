@@ -68,7 +68,7 @@ export const register = (userObject: Object, route: ?Object): REGISTER => ({
   email: userObject.email,
   password: userObject.password,
   avatarName: userObject.avatarName,
-  avatarSource: userObject.avatarSource.uri,
+  avatarSource: userObject.avatarSource,
   avatarType: userObject.avatarType,
   dob: userObject.date,
   gender: userObject.gender,

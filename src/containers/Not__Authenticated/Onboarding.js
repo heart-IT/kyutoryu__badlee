@@ -20,12 +20,13 @@ import {
   Button,
   Text
 } from "native-base";
-import Swiper from "react-native-swiper";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
+import Swiper from "react-native-swiper";
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
-import Login from "./Login";
+
+import Login from "./login";
 
 class BackgroundImage extends Component {
   render() {

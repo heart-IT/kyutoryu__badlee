@@ -23,17 +23,18 @@ import {
   Button,
   Text
 } from "native-base";
+
 import * as actionCreators from "../../badlee__redux/action_creators";
 
-import getTheme from "../../theme/components";
-
-import Loading from "../../components/LoadingView";
-import Icon from "../../components/Icon";
-import Register from "./Register";
-import ForgotPassword from "./ForgotPassword";
-import Welcome from "./Welcome";
-import BadleeAuthApp from "../Authenticated/GoingMerry";
 import type { State } from "../../types";
+import getTheme from "../../theme/components";
+import Icon from "../../components/Icon";
+import Loading from "../../components/LoadingView";
+
+import Register from "./register";
+import ForgotPassword from "./forgotPassword";
+import Welcome from "./welcome";
+import BadleeAuthApp from "../Authenticated/GoingMerry";
 
 class BackgroundImage extends Component {
   render() {
@@ -52,7 +53,8 @@ class Login extends Component {
     super(props);
     this.state = {
       email: null,
-      password: null
+      password: null,
+      error: null
     };
   }
 
@@ -60,20 +62,32 @@ class Login extends Component {
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
   handleFormSubmit() {
-    var formData = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    requestAnimationFrame(() => {
-      this.props.login(formData, {
-        navigator: this.props.navigator,
-        component: {
-          verified: BadleeAuthApp,
-          not_verified: Welcome
-        },
-        reset: true
+    try {
+      console.log("is here");
+      if (!this.state.username) {
+        throw "Enter username..";
+      }
+      if (!this.state.password) {
+        throw "Enter password..";
+      }
+      var formData = {
+        username: this.state.username,
+        password: this.state.password
+      };
+      requestAnimationFrame(() => {
+        this.props.login(formData, {
+          navigator: this.props.navigator,
+          component: {
+            verified: BadleeAuthApp,
+            not_verified: Welcome
+          },
+          reset: true
+        });
       });
-    });
+    } catch (err) {
+      console.log("error: " + err);
+      this.setState({ error: err });
+    }
   }
   /**
    * Called when sign up is clicked
@@ -101,7 +115,7 @@ class Login extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
+        <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <BackgroundImage>
               <View style={styles.logoWrapper}>
@@ -125,7 +139,8 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-                {this.props.error === "User Does Not Exist" ? (
+                {this.props.error === "User Does Not Exist" ||
+                this.state.error === "Enter username.." ? (
                   <View
                     style={{
                       display: "flex",
@@ -134,7 +149,9 @@ class Login extends Component {
                       alignItems: "center"
                     }}
                   >
-                    <Text style={styles.errorMsg}>{this.props.error}</Text>
+                    <Text style={styles.errorMsg}>
+                      {this.props.error ? this.props.error : this.state.error}
+                    </Text>
                   </View>
                 ) : (
                   <Text />
@@ -155,7 +172,8 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-                {this.props.error === "Wrong Password" ? (
+                {this.props.error === "Wrong Password" ||
+                this.state.error === "Enter password.." ? (
                   <View
                     style={{
                       display: "flex",
@@ -164,7 +182,9 @@ class Login extends Component {
                       alignItems: "center"
                     }}
                   >
-                    <Text style={styles.errorMsg}>{this.props.error}</Text>
+                    <Text style={styles.errorMsg}>
+                      {this.props.error ? this.props.error : this.state.error}
+                    </Text>
                   </View>
                 ) : (
                   <Text />

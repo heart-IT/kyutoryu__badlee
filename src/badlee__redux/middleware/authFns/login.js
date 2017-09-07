@@ -19,7 +19,7 @@ import base64 from "base-64";
 import type { Action, LOGIN } from "../../types";
 
 import * as actionCreators from "../../action_creators";
-import { getNextRoute } from "../utility";
+import { getNextRoute, saveUserInStorage } from "../utility";
 
 export default async function login(store, next: Function, action: LOGIN) {
   try {
@@ -42,8 +42,11 @@ export default async function login(store, next: Function, action: LOGIN) {
       },
       method: "POST"
     });
-    if (response.status === 200 && response.ok === true) {
-      let user = await response.json();
+    var responseJson = await response.json();
+    if (response.status === 403) {
+      throw responseJson;
+    } else if (response.status === 200 && response.ok === true) {
+      let user = responseJson;
       let jollyroger = authorizedCode;
 
       await saveUserInStorage(user, jollyroger);

@@ -27,7 +27,7 @@ import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Icon from "../../components/Icon";
-import Login from "../Not__Authenticated/Login";
+import Login from "../Not__Authenticated/login";
 
 class User extends Component {
   componentDidMount() {}

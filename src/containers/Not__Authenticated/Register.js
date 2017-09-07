@@ -29,7 +29,7 @@ import {
 
 import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
-import Register2 from "./Register2";
+import Register2 from "./register2";
 import type { State } from "../../types";
 
 class BackgroundImage extends Component {
@@ -37,9 +37,7 @@ class BackgroundImage extends Component {
     let image = require("../../images/Register page 2 BG.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
-        <Text>
-          {this.props.src}
-        </Text>
+        <Text>{this.props.src}</Text>
         {this.props.children}
       </Image>
     );
@@ -173,18 +171,20 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
-                {this.state.error.indexOf("Invalid Email") > -1
-                  ? <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={styles.errorMsg}>Invalid Email</Text>
-                    </View>
-                  : <Text />}
+                {this.state.error.indexOf("Invalid Email") > -1 ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>Invalid Email</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
 
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
@@ -211,20 +211,20 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
-                {this.state.error.indexOf("Password does not match") > -1
-                  ? <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={styles.errorMsg}>
-                        Password does not match
-                      </Text>
-                    </View>
-                  : <Text />}
+                {this.state.error.indexOf("Password does not match") > -1 ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>Password does not match</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
               </Form>
               <Button
                 style={{

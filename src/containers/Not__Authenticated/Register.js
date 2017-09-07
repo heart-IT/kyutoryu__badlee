@@ -1,10 +1,15 @@
 /**
- * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
+ * @name- register.js
+ * 
+ * @chill- All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
  * 
  * @description- This file is the Register Page
+ * 
  * @author- heartit pirates
+ * 
+ * @todo- 1. ask mridul to make a middleware api to check uniqueness of uniquename and email
  */
 
 "use strict";
@@ -27,10 +32,11 @@ import {
   Input
 } from "native-base";
 
-import getTheme from "../../theme/components";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import Register2 from "./register2";
 import type { State } from "../../types";
+import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
+
+import Register2 from "./register2";
 
 class BackgroundImage extends Component {
   render() {

@@ -54,11 +54,12 @@ class Login extends Component {
     super(props);
     this.state = {
       email: null,
-      password: null,
-      error: null
+      password: null
     };
   }
-
+  componentDidMount() {
+    console.log(this.props.error);
+  }
   /**
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
@@ -67,9 +68,12 @@ class Login extends Component {
       if (!this.state.username) {
         throw "Enter username..";
       }
+      this.props.clearError("Enter username..");
       if (!this.state.password) {
         throw "Enter password..";
       }
+      this.props.clearError("Enter password..");
+
       var formData = {
         username: this.state.username,
         password: this.state.password
@@ -85,8 +89,7 @@ class Login extends Component {
         });
       });
     } catch (err) {
-      console.log("error: " + err);
-      this.setState({ error: err });
+      this.props.addError(err);
     }
   }
   /**
@@ -113,6 +116,8 @@ class Login extends Component {
   }
 
   render() {
+    let { error } = this.props;
+    console.log(error);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -139,23 +144,25 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
-                {this.props.error === "User Does Not Exist" ||
-                this.state.error === "Enter username.." ? (
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "flex-end",
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text style={styles.errorMsg}>
-                      {this.props.error ? this.props.error : this.state.error}
-                    </Text>
-                  </View>
-                ) : (
-                  <Text />
-                )}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "center"
+                  }}
+                >
+                  {error.includes("User Does Not Exist") ? (
+                    <Text style={styles.errorMsg}>User Does Not Exist</Text>
+                  ) : (
+                    <Text />
+                  )}
+                  {error.includes("Enter username..") ? (
+                    <Text style={styles.errorMsg}>Enter username..</Text>
+                  ) : (
+                    <Text />
+                  )}
+                </View>
 
                 <View style={styles.inputWrapper}>
                   <Icon name="login__password" width="33" height="33" />
@@ -172,6 +179,7 @@ class Login extends Component {
                     />
                   </Item>
                 </View>
+
                 {this.props.error === "Wrong Password" ||
                 this.state.error === "Enter password.." ? (
                   <View

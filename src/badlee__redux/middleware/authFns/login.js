@@ -26,12 +26,6 @@ export default async function login(store, next: Function, action: LOGIN) {
     await store.dispatch(actionCreators.startLoading());
 
     let { username, password } = action;
-    if (!username) {
-      throw "Username not given";
-    }
-    if (!password) {
-      throw "Password not given";
-    }
 
     var authorizedCode = `Basic ${base64.encode(username + ":" + password)}`;
 

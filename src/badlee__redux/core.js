@@ -19,16 +19,16 @@
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import { fromJS, Record, Map, List, Set, OrderedSet } from "immutable";
+import { fromJS, Record, Map, List, Set, OrderedSet, toJS } from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
   application: new Map({
     isLoading: false,
     isOnline: true,
-    error: null,
+    error: new Set(),
     navigator: null,
-    notification: null
+    notification: new Set()
   }),
   user: new Map({
     isLoggedIn: false,
@@ -70,20 +70,26 @@ export function changeInternetConnectionStatus(
 }
 
 export function addAppNotification(state: State, notification: String): State {
-  return state.setIn(["application", "notification"], notification);
+  return state.getIn(["application", "notification"]).add(notification);
 }
-export function clearAppNotification(state: State): State {
-  return state.setIn(["application", "notification"], null);
-}
-export function addError(state: State, error): State {
-  return state.setIn(["application", "error"], error);
-  // let currentErrorState = previousError.push(error);
-  // let distinctErrorState = currentErrorState.distinct;
-  // return state.setIn(["application", "errors"], distinctErrorState);
+export function clearAppNotification(
+  state: State,
+  notification: String
+): State {
+  return state.getIn(["application", "notification"]).delete(err);
 }
 
-export function clearError(state: State): State {
-  return state.setIn(["application", "error"], null);
+export function addError(state: State, error: String): State {
+  return state.setIn(
+    ["application", "error"],
+    state.getIn(["application", "error"]).add(error)
+  );
+}
+export function clearError(state: State, error: String): State {
+  return state.setIn(
+    ["application", "error"],
+    state.getIn(["application", "error"]).delete(error)
+  );
 }
 
 /**

@@ -1,7 +1,10 @@
 /**
  * @name- forgotPassword.js
+ * 
  * @chill- A wandering monk asked, "Oh venerable Buddha, does a 'Self' exist?" And the Buddha was silent. "Then, oh venerable one, does a 'Self' not exist?" And again the Buddha was silent. - Buddha
+ * 
  * @description- Forgot Password screen
+ * 
  * @author- heartit pirates were here
  */
 "use strict";

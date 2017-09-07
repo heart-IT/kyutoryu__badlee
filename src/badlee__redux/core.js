@@ -127,7 +127,6 @@ export function getBadlees(
   badleesIDS,
   pageUpperLimit
 ) {
-  console.log("got values here", badlees, tabName, badleesIDS);
   var updatedBadlees = state.get("allBadlees").merge(badlees);
   var distinctBadlees = updatedBadlees
     .groupBy(x => x.id)

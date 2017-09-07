@@ -30,7 +30,6 @@ import Icon from "../../components/Icon";
 import Login from "../Not__Authenticated/login";
 
 class User extends Component {
-  componentDidMount() {}
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,

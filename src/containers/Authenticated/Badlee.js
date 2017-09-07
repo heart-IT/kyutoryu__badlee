@@ -1,8 +1,19 @@
+/**
+ * @name- Badlee.js
+ * 
+ * @chill- 
+ * 
+ * 
+ * @description- This displays badlees section with tabs
+ * 
+ * @author- heartit pirates were here
+ */
 "use strict";
 
 import React, { Component } from "react";
 import { Image } from "react-native";
 import { connect } from "react-redux";
+import { Set } from "immutable";
 
 import {
   StyleProvider,
@@ -18,13 +29,13 @@ import {
   Input,
   Radio
 } from "native-base";
-import getTheme from "../../theme/components";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
-
+import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
+
 import NewBadlee from "./NewBadlee";
 
 class Store extends Component {
@@ -36,15 +47,24 @@ class Store extends Component {
       limit: 10,
       globeCategory: null,
       searchString: null,
-      data: []
+      currentData: new Set()
     };
   }
   componentDidMount() {
     var { user } = this.props;
+    this.getBadlees();
     // if user following >= 1, show following tab, else show location tab
-    this.setState({ current__tab: +!user.following }, () => {
-      this.getBadlees();
+    // this.setState({ current__tab: +!user.following });
+    // this.setState({ current__tab: +!user.following }, () => {
+    //   this.getBadlees();
+    // });
+  }
+  componentWillReceiveProps(nextProps) {
+    let { allBadlees, badleesIDLocation } = nextProps;
+    let badleesToShow = badleesIDLocation.map(id => {
+      return allBadlees.find(badlee => id === badlee.id);
     });
+    this.setState({ currentData: badleesToShow });
   }
   getBadlees() {
     switch (this.state.current__tab) {
@@ -52,10 +72,12 @@ class Store extends Component {
         this.getBadleeByFollowing();
         break;
       case 1:
+        console.log("this badlee by location");
         this.getBadleeByLocation();
         break;
       case 2:
         this.getBadleeByGlobe();
+        break;
       default:
         this.getBadleeByGlobe();
     }
@@ -105,16 +127,10 @@ class Store extends Component {
   onLocationPress() {}
   onRadioSelect(type) {}
   render() {
-    let { allBadlees, badleesIDLocation } = this.props;
-    // var tabBadlees = badleesIDLocation.map(function(id) {
-    //   var x = allBadlees.find(function(obj) {
-    //     return obj.get("id") === id;
-    //   });
-    //   return x.toJS();
-    // });
+    var data = this.state.currentData;
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
+        <Container style={{ flex: 1 }}>
           <Content style={styles.content} contentContainerStyle={{ flex: 1 }}>
             <BadleeFab
               isActive={false}
@@ -166,7 +182,7 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={allBadlees} />
+                  <BadleesList data={data} />
                 </Tab>
                 <Tab
                   heading={
@@ -291,7 +307,7 @@ class Store extends Component {
                     </View>
                   </View>
                   <View>
-                    <BadleesList data={allBadlees} />
+                    <BadleesList data={this.state.currentData} />
                   </View>
                 </Tab>
               </Tabs>

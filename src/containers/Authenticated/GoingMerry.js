@@ -1,8 +1,8 @@
 /**
  * @name- GoingMerry.js
  * 
- * Chill of the day -
- * There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
+ * @chill -There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
+ * 
  * 
  * @description- This file is the parent container of Badlee App after logging in. Everything is loaded inside
  * 
@@ -13,8 +13,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actionCreators from "../../badlee__redux/action_creators";
-
 import {
   StyleProvider,
   Container,
@@ -24,8 +22,9 @@ import {
   Tab,
   Text
 } from "native-base";
-import getTheme from "../../theme/components";
 
+import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import Loading from "../../components/LoadingView";
 
@@ -124,7 +123,6 @@ var styles = {};
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn(["user", "information"]),
     loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators

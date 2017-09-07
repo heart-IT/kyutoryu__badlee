@@ -11,7 +11,7 @@ import { Map, toJS } from "immutable";
 
 import BadleeCard from "./BadleeCard";
 
-class MyList extends React.PureComponent {
+class MyList extends React.Component {
   state = { selected: (new Map(): Map<string, boolean>) };
   _keyExtractor = (item, index) => item.id;
   _onPressItem = (id: string) => {
@@ -29,10 +29,9 @@ class MyList extends React.PureComponent {
     />
   );
   render() {
-    var data = this.props.data.toJS();
     return (
       <FlatList
-        data={data}
+        data={this.props.data.toJS()}
         extraData={this.state}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}

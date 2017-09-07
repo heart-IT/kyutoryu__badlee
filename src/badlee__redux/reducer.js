@@ -24,28 +24,40 @@ export function reducer(
   switch (action.type) {
     case "INTERNET_CONNECTION":
       return core.changeInternetConnectionStatus(state, action.status);
+      break;
     case "SET_NAVIGATOR":
       return core.setNavigator(state, action.navigator);
+      break;
     case "START_LOADING":
       return core.startLoading(state);
+      break;
     case "FINISH_LOADING":
       return core.finishLoading(state);
+      break;
     case "LOGIN":
       return core.addUser(state, action.user);
+      break;
     case "REGISTER":
-      return core.register(state, action.user);
-    case "LOGOUT":
-      return core.logout(state);
+      return core.addUser(state, action.user);
+      break;
     case "RESTORE_AUTH":
       return core.addUser(state, action.user);
+      break;
+    case "LOGOUT":
+      return core.clearUser(state);
+      break;
     case "ADD_NOTIFICATION":
       return core.addAppNotification(state, action.notification);
+      break;
     case "CLEAR_NOTIFICATION":
       return core.clearAppNotification(state);
+      break;
     case "ADD_ERROR":
       return core.addError(state, action.error);
+      break;
     case "CLEAR_ERROR":
       return core.clearError(state);
+      break;
     case "GET_BADLEES":
       return core.getBadlees(
         state,
@@ -56,7 +68,8 @@ export function reducer(
       );
     case "SAVE_BADLEE":
       return core.saveBadlee();
+      break;
+    default:
+      return state;
   }
-
-  return state;
 }

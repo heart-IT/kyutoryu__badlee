@@ -13,11 +13,17 @@
 
 "use strict";
 
-import * as actionCreators from "../../action_creators";
-import type { Action, REGISTER } from "../../types";
 import base64 from "base-64";
-import { saveUserInStorage } from "../utility";
-import saveMedia from "./../media";
+
+import type { Action, REGISTER } from "../../types";
+import * as actionCreators from "../../action_creators";
+import {
+  application_id,
+  application_secret,
+  saveUserInStorage,
+  saveMedia,
+  createFormData
+} from "../utility";
 
 export default async function register(
   store,
@@ -25,18 +31,18 @@ export default async function register(
   action: REGISTER
 ) {
   try {
-    var userObject = action.userObject;
     await store.dispatch(actionCreators.startLoading());
-    var uploadMedia = await saveMedia({
+    let userObject = action.userObject;
+    let uploadMedia = await saveMedia({
       uri: userObject.avatarSource,
       imageType: userObject.avatarType,
       fileName: userObject.avatarName
     });
     if (uploadMedia.error) {
-      next(action);
+      throw "Image couldn't be uploaded..";
     }
 
-    var data = {
+    let data = {
       username: userObject.uniqueName,
       fname: userObject.firstName,
       lname: userObject.lastName,
@@ -47,16 +53,11 @@ export default async function register(
       location: userObject.location,
       interests: userObject.wish,
       gender: userObject.gender,
-      application_id: "xYqBgc1Xcf2Ufyhir5ab",
-      application_secret: "vh4tyy74xAnNLtGagto4"
+      application_id,
+      application_secret
     };
-    var formBody = [];
-    for (var property in data) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(data[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
+    let formBody = createFormData(data);
+
     let response = await fetch("http://mri2189.badlee.com/register.php", {
       method: "POST",
       headers: {
@@ -76,6 +77,8 @@ export default async function register(
       next(action);
       await store.dispatch(actionCreators.navigate(action.route));
     }
+  } catch (error) {
+    await store.dispatch(actionCreators.addError(error));
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

@@ -69,12 +69,6 @@ export function changeInternetConnectionStatus(
   return state.setIn(["application", "isOnline"], status);
 }
 
-export function restoreAuth(state: State, user: User): State {
-  return state
-    .setIn(["user", "isLoggedIn"], true)
-    .setIn(["user", "information"], fromJS(user));
-}
-
 export function addAppNotification(state: State, notification: String): State {
   return state.setIn(["application", "notification"], notification);
 }
@@ -103,14 +97,8 @@ export function addUser(state: State, user: User): State {
     .setIn(["user", "information"], fromJS(user));
 }
 
-export function register(state: State, user: User): State {
-  return state
-    .setIn(["user", "isLoggedIn"], true)
-    .setIn(["user", "information"], user);
-}
-
 // Function called when user logsout of app. Remove user from the app
-export function logout(state: State): State {
+export function clearUser(state: State): State {
   return state
     .setIn(["user", "isLoggedIn"], false)
     .setIn(["user", "information"], new Map());

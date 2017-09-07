@@ -15,9 +15,10 @@
 
 import { AsyncStorage } from "react-native";
 import base64 from "base-64";
-import * as actionCreators from "../../action_creators";
+
 import type { Action, LOGIN } from "../../types";
 
+import * as actionCreators from "../../action_creators";
 import { getNextRoute } from "../utility";
 
 export default async function login(store, next: Function, action: LOGIN) {
@@ -45,8 +46,7 @@ export default async function login(store, next: Function, action: LOGIN) {
       let user = await response.json();
       let jollyroger = authorizedCode;
 
-      await AsyncStorage.setItem("user", JSON.stringify(user));
-      await AsyncStorage.setItem("jollyroger", jollyroger);
+      await saveUserInStorage(user, jollyroger);
 
       action.user = user;
       next(action);

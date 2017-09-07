@@ -6,16 +6,17 @@
  * @chill- Happiness,,, not in another place, but this place- not for another hour, but this hour. - Walt Whitman
  * 
  * 
- * @description- This file checks User was logged in from before. If yes, auto login him.
+ * @description- This file checks if User was logged in from before. If yes, auto login him.
  * 
- * @author- heartit pirates
+ * @author- heartit pirates were here
  */
 
 "use strict";
 
 import { AsyncStorage, NetInfo } from "react-native";
-import * as actionCreators from "../../action_creators";
+
 import type { Action, RESTORE_AUTH } from "../../types";
+import * as actionCreators from "../../action_creators";
 import { getRestoreAuthNextRoute } from "./../utility";
 
 export default async function restore_auth(
@@ -25,6 +26,7 @@ export default async function restore_auth(
 ) {
   try {
     await store.dispatch(actionCreators.startLoading());
+
     NetInfo.isConnected.addEventListener("change", async function(isConnected) {
       await store.dispatch(
         actionCreators.changeInternetConnectionStatus(isConnected)

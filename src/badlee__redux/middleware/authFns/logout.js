@@ -14,8 +14,9 @@
 "use strict";
 
 import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
+
 import type { Action, LOGOUT } from "../../types";
+import * as actionCreators from "../../action_creators";
 
 export default async function removeStore(
   store,
@@ -26,7 +27,7 @@ export default async function removeStore(
   await AsyncStorage.removeItem("jollyroger");
 
   let route = action.route;
+  next(action);
 
   route && (await store.dispatch(actionCreators.navigate(route)));
-  next(action);
 }

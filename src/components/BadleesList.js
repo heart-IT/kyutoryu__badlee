@@ -21,10 +21,14 @@ class MyList extends React.Component {
       return selected;
     });
   };
+  _onClickUser = (id: string) => {
+    this.props.onClickUser(id);
+  };
   _renderItem = ({ item }) => (
     <BadleeCard
       cardData={item}
       onPressItem={this._onPressItem}
+      onClickUser={this._onClickUser}
       title={item.title}
     />
   );

@@ -26,6 +26,9 @@ class BadleeCard extends React.PureComponent {
   _onPress = () => {
     this.props.onPressItem(this.props.id);
   };
+  _onClickUser = () => {
+    this.props.onClickUser(this.props.cardData.id);
+  };
   _onLikePress = () => {};
   render() {
     var cardData = this.props.cardData;
@@ -82,7 +85,10 @@ class BadleeCard extends React.PureComponent {
             style={{ height: 32, width: 32, marginLeft: 12, marginRight: 3 }}
           />
           <Text>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 15 }}
+              onPress={this._onClickUser}
+            >
               {cardData.user_info ? (
                 cardData.user_info.username
               ) : (

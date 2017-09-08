@@ -131,7 +131,9 @@ class Store extends Component {
     });
   }
 
-  onUserClick() {}
+  onClickUser(id) {
+    console.log(id);
+  }
   onLocationPress() {}
   onRadioSelect(type) {}
   render() {
@@ -190,7 +192,10 @@ class Store extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleesList data={data} />
+                  <BadleesList
+                    data={data}
+                    onClickUser={this.onClickUser.bind(this)}
+                  />
                 </Tab>
                 <Tab
                   heading={

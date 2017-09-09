@@ -24,11 +24,15 @@ class MyList extends React.Component {
   _onClickUser = (id: string) => {
     this.props.onClickUser(id);
   };
+  _onClickLike = (id: string) => {
+    this.props.onClickLike(id);
+  };
   _renderItem = ({ item }) => (
     <BadleeCard
       cardData={item}
       onPressItem={this._onPressItem}
       onClickUser={this._onClickUser}
+      onClickLike={this._onClickLike.bind(this)}
       title={item.title}
     />
   );

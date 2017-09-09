@@ -148,6 +148,10 @@ class Store extends Component {
       });
     });
   }
+  onClickLike(id) {
+    console.log(id);
+    // this.props.onClickLike(id);
+  }
   onLocationPress() {}
   onRadioSelect(type) {}
   render() {
@@ -192,6 +196,7 @@ class Store extends Component {
                     <BadleesList
                       data={data}
                       onClickUser={this.onClickUser.bind(this)}
+                      onClickLike={this.onClickLike.bind(this)}
                     />
                   </View>
                 </Tab>

@@ -29,6 +29,10 @@ class BadleeCard extends React.PureComponent {
   _onClickUser = () => {
     this.props.onClickUser(this.props.cardData.user);
   };
+  _onClickLike = () => {
+    console.log(this.props.onClickLike);
+    this.props.onClickLike(this.props.cardData.user);
+  };
   _onLikePress = () => {};
   render() {
     var cardData = this.props.cardData;
@@ -138,15 +142,17 @@ class BadleeCard extends React.PureComponent {
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              <Icon
-                name="postUnliked"
-                width="30"
-                height="30"
-                style={{ marginRight: 3 }}
-                fill="none"
-                stroke="#000"
-                strokeWidth="17"
-              />
+              <Button transparent onPress={this._onClickLike.bind(this)}>
+                <Icon
+                  name="postUnliked"
+                  width="30"
+                  height="30"
+                  style={{ marginRight: 3 }}
+                  fill="none"
+                  stroke="#000"
+                  strokeWidth="17"
+                />
+              </Button>
               <Icon
                 name="postWished"
                 width="30"

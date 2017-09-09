@@ -117,7 +117,7 @@ class NewBadlee extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <Container>
+        <Container style={{ flex: 1 }}>
           {this.props.loading && <LoadingView />}
           <Header style={{ backgroundColor: "#611265" }}>
             <Left

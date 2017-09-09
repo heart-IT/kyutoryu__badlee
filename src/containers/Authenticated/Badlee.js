@@ -37,6 +37,7 @@ import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
 
 import NewBadlee from "./NewBadlee";
+import User from "./User";
 
 class Store extends Component {
   constructor(props) {
@@ -132,7 +133,12 @@ class Store extends Component {
   }
 
   onClickUser(id) {
-    console.log(id);
+    requestAnimationFrame(() => {
+      this.props.showUserPage(id, {
+        navigator: this.props.navigator,
+        component: User
+      });
+    });
   }
   onLocationPress() {}
   onRadioSelect(type) {}

@@ -27,7 +27,7 @@ class BadleeCard extends React.PureComponent {
     this.props.onPressItem(this.props.id);
   };
   _onClickUser = () => {
-    this.props.onClickUser(this.props.cardData.id);
+    this.props.onClickUser(this.props.cardData.user);
   };
   _onLikePress = () => {};
   render() {

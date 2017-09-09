@@ -14,6 +14,9 @@ import { Image } from "react-native";
 import {
   StyleProvider,
   Container,
+  Header,
+  Left,
+  Right,
   Content,
   View,
   Text,
@@ -27,9 +30,17 @@ import getTheme from "../../theme/components";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Icon from "../../components/Icon";
+import LoadingView from "../../components/LoadingView";
+
 import Login from "../Not__Authenticated/login";
 
 class User extends Component {
+  componentDidMount() {
+    this.setState({
+      isOtherUser: this.props.params && this.props.params.isOtherProfile,
+      otherUser: this.props.params && this.props.params.user
+    });
+  }
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,
@@ -38,47 +49,107 @@ class User extends Component {
     });
   }
 
+  followUser() {
+    this.props.followUser(this.props.params.user.user_id);
+  }
+  unFollowUser() {
+    console.log("ai");
+    this.props.unFollowUser(this.props.params.user.user_id);
+  }
+
   render() {
     const { user } = this.props;
+    const isOtherUser = this.state.isOtherProfile;
+    const otherUser = this.state.otherUser;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
+          {isOtherUser && (
+            <Header style={{ backgroundColor: "#fff" }}>
+              <Left>
+                <Button transparent>
+                  <Icon name="menuBackIcon" width="24" height="24" />
+                </Button>
+              </Left>
+              <Right>
+                {this.props.notification === "User Followed" ||
+                  (otherUser &&
+                  otherUser.follower &&
+                  otherUser.follower.indexOf(user.get("user_id")) > -1 && (
+                    <Button transparent onPress={this.unFollowUser.bind(this)}>
+                      <Icon name="following" width="24" height="24" />
+                    </Button>
+                  ))}
+                {this.props.notification === "User Unfollowed" ||
+                  (otherUser &&
+                  (!otherUser.follower ||
+                    (otherUser.follower &&
+                      otherUser.follower.indexOf(user.get("user_id")) ===
+                        -1)) && (
+                    <Button transparent onPress={this.followUser.bind(this)}>
+                      <Icon name="follow_add" width="24" height="24" />
+                    </Button>
+                  ))}
+
+                <Icon name="messages" width="24" height="24" />
+              </Right>
+            </Header>
+          )}
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <View style={styles.user__info}>
               <Image
                 source={{
-                  uri: user.get("avatar")
+                  uri: isOtherUser ? otherUser.avatar : user.get("avatar")
                 }}
                 style={styles.user__photo}
               />
 
               <View style={styles.user__knowledge}>
                 <Text style={styles.user__name}>
-                  {user.get("fname")} {user.get("lname")} -
+                  {isOtherUser ? otherUser.fname : user.get("fname")}{" "}
+                  {isOtherUser ? otherUser.lname : user.get("lname")} -
                 </Text>
-                <Text style={styles.user__gender}>{user.get("gender")}</Text>
+                <Text style={styles.user__gender}>
+                  {isOtherUser ? otherUser.gender : user.get("gender")}
+                </Text>
                 <Text style={styles.user__location}>
-                  {user.get("location")}
+                  {isOtherUser ? otherUser.location : user.get("location")}
                 </Text>
               </View>
               <View style={styles.user__supporters}>
                 <View style={styles.user__following}>
                   <Text style={styles.supporters__label}>Following</Text>
                   <Text style={styles.supporters__value}>
-                    {user.get("following") ? user.get("following") : 0}
+                    {isOtherUser ? otherUser.following ? (
+                      otherUser.following.length
+                    ) : (
+                      0
+                    ) : user.get("following") ? (
+                      user.get("following").length
+                    ) : (
+                      0
+                    )}
                   </Text>
                 </View>
                 <View style={styles.user__follower}>
                   <Text style={styles.supporters__label}>Follower</Text>
                   <Text style={styles.supporters__value}>
-                    {user.get("follower") ? user.get("follower") : 0}
+                    {isOtherUser ? otherUser.follower ? (
+                      otherUser.follower.length
+                    ) : (
+                      0
+                    ) : user.get("follower") ? (
+                      user.get("follower").length
+                    ) : (
+                      0
+                    )}
                   </Text>
                 </View>
               </View>
               <View style={styles.user__interestedin}>
                 <Text style={styles.interestedin__label}>Interested in : </Text>
                 <Text style={styles.user__interests}>
-                  {user.get("interests")}
+                  {isOtherUser ? otherUser.interests : user.get("interests")}
                 </Text>
               </View>
             </View>
@@ -122,6 +193,7 @@ class User extends Component {
               <Text>Logout</Text>
             </Button>
           </Content>
+          {this.props.loading && <LoadingView message="Doing action.." />}
         </Container>
       </StyleProvider>
     );
@@ -226,7 +298,11 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  state => ({ user: state.getIn(["user", "information"]) }),
+  state => ({
+    user: state.getIn(["user", "information"]),
+    loading: state.getIn(["application", "isLoading"]),
+    notification: state.getIn(["application", "notification"])
+  }),
   actionCreators
 )(User);
 

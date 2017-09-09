@@ -28,8 +28,14 @@ import { reducer } from "./reducer";
 import navigateMiddleware from "./middleware/navigate";
 import authMiddleWare from "./middleware/auth";
 import badleeMiddleware from "./middleware/badlee";
+import userMiddleware from "./middleware/user";
 
-const middleware = [navigateMiddleware, authMiddleWare, badleeMiddleware];
+const middleware = [
+  navigateMiddleware,
+  authMiddleWare,
+  badleeMiddleware,
+  userMiddleware
+];
 
 // In dev enivorement, add logger for redux.
 if (process.env.NODE_ENV === "development") {

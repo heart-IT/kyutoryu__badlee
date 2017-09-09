@@ -141,6 +141,12 @@ export type SAVE_BADLEE = {|
   route: ?Object
 |};
 
+export type SHOW_USER_PAGE = {|
+  type: "SHOW_USER_PAGE",
+  id: Number,
+  route: ?Object
+|};
+
 export type Action =
   | CHANGE_CONNECTION_STATUS
   | SET_NAVIGATOR

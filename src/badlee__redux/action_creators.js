@@ -126,3 +126,20 @@ export const saveBadlee = (data: Object, route: ?Object): SAVE_BADLEE => ({
   data: data,
   route: route
 });
+
+// user section
+export const showUserPage = (id: Number, route: ?Object): SHOW_USER_PAGE => ({
+  type: "SHOW_USER_PAGE",
+  id: id,
+  route: route
+});
+
+export const followUser = (id: Number) => ({
+  id: id,
+  type: "FOLLOW_USER"
+});
+
+export const unFollowUser = (id: Number) => ({
+  id: id,
+  type: "UNFOLLOW_USER"
+});

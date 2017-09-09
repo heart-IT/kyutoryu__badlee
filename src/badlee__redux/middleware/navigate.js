@@ -22,6 +22,7 @@ function doNavigate(store, next, action: NAVIGATE_TO) {
 
   if (navigator && route.component) {
     store.dispatch(actionCreators.clearAllErrors());
+    store.dispatch(actionCreators.clearNotification());
     let context = {
       component: route.component,
       params: route.params

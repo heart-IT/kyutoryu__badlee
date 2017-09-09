@@ -36,7 +36,7 @@ class AuthContainer extends Component {
   constructor() {
     super();
     this.state = {
-      current__tab: 3
+      current__tab: 0
     };
   }
   render() {

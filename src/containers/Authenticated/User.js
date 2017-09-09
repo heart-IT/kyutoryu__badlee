@@ -35,11 +35,57 @@ import LoadingView from "../../components/LoadingView";
 import Login from "../Not__Authenticated/login";
 
 class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      isOtherUser: false,
+      previousState: {}
+    };
+  }
   componentDidMount() {
-    this.setState({
-      isOtherUser: this.props.params && this.props.params.isOtherProfile,
-      otherUser: this.props.params && this.props.params.user
-    });
+    if (this.props.params && this.props.params.user) {
+      this.setState({
+        isOtherUser: true,
+        user: this.props.params.user
+      });
+    } else {
+      this.setState({ user: this.props.user.toJS() });
+    }
+  }
+  getUser() {
+    return this.state.user;
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (
+      nextProps.notification === "User Unfollowed" &&
+      this.state.previousState.notification !== "User Unfollowed"
+    ) {
+      var user = this.getUser();
+      var followers = user.follower ? user.follower : [];
+      var newUserState = Object.assign({}, user, {
+        follower: followers.splice(
+          user.follower.indexOf(this.props.user.get("user_id")),
+          1
+        )
+      });
+      this.setState({ user: newUserState });
+    }
+    if (
+      nextProps.notification === "User Followed" &&
+      this.state.previousState.notification !== "User Followed"
+    ) {
+      var user = this.getUser();
+      var followers = user.follower ? user.follower : [];
+      followers.push(this.props.user.get("user_id"));
+      console.log(followers);
+      var newUserState = Object.assign({}, user, {
+        follower: followers
+      });
+      this.setState({ user: newUserState });
+    }
+    this.setState({ previousState: nextProps });
   }
   handleLogout() {
     this.props.logout({
@@ -53,14 +99,14 @@ class User extends Component {
     this.props.followUser(this.props.params.user.user_id);
   }
   unFollowUser() {
-    console.log("ai");
     this.props.unFollowUser(this.props.params.user.user_id);
   }
 
   render() {
-    const { user } = this.props;
-    const isOtherUser = this.state.isOtherProfile;
-    const otherUser = this.state.otherUser;
+    const { user, isOtherUser } = this.state;
+    const loggedUser = this.props.user;
+
+    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -72,24 +118,20 @@ class User extends Component {
                 </Button>
               </Left>
               <Right>
-                {this.props.notification === "User Followed" ||
-                  (otherUser &&
-                  otherUser.follower &&
-                  otherUser.follower.indexOf(user.get("user_id")) > -1 && (
-                    <Button transparent onPress={this.unFollowUser.bind(this)}>
-                      <Icon name="following" width="24" height="24" />
-                    </Button>
-                  ))}
-                {this.props.notification === "User Unfollowed" ||
-                  (otherUser &&
-                  (!otherUser.follower ||
-                    (otherUser.follower &&
-                      otherUser.follower.indexOf(user.get("user_id")) ===
-                        -1)) && (
-                    <Button transparent onPress={this.followUser.bind(this)}>
-                      <Icon name="follow_add" width="24" height="24" />
-                    </Button>
-                  ))}
+                {user.follower &&
+                user.follower.indexOf(loggedUser.get("user_id")) > -1 && (
+                  <Button transparent onPress={this.unFollowUser.bind(this)}>
+                    <Icon name="following" width="24" height="24" />
+                  </Button>
+                )}
+                {(!user.follower ||
+                  (user.follower &&
+                    user.follower.indexOf(loggedUser.get("user_id")) ===
+                      -1)) && (
+                  <Button transparent onPress={this.followUser.bind(this)}>
+                    <Icon name="follow_add" width="24" height="24" />
+                  </Button>
+                )}
 
                 <Icon name="messages" width="24" height="24" />
               </Right>
@@ -99,58 +141,35 @@ class User extends Component {
             <View style={styles.user__info}>
               <Image
                 source={{
-                  uri: isOtherUser ? otherUser.avatar : user.get("avatar")
+                  uri: user.avatar
                 }}
                 style={styles.user__photo}
               />
 
               <View style={styles.user__knowledge}>
                 <Text style={styles.user__name}>
-                  {isOtherUser ? otherUser.fname : user.get("fname")}{" "}
-                  {isOtherUser ? otherUser.lname : user.get("lname")} -
+                  {user.fname} {user.lname} -
                 </Text>
-                <Text style={styles.user__gender}>
-                  {isOtherUser ? otherUser.gender : user.get("gender")}
-                </Text>
-                <Text style={styles.user__location}>
-                  {isOtherUser ? otherUser.location : user.get("location")}
-                </Text>
+                <Text style={styles.user__gender}>{user.gender}</Text>
+                <Text style={styles.user__location}>{user.location}</Text>
               </View>
               <View style={styles.user__supporters}>
                 <View style={styles.user__following}>
                   <Text style={styles.supporters__label}>Following</Text>
                   <Text style={styles.supporters__value}>
-                    {isOtherUser ? otherUser.following ? (
-                      otherUser.following.length
-                    ) : (
-                      0
-                    ) : user.get("following") ? (
-                      user.get("following").length
-                    ) : (
-                      0
-                    )}
+                    {user.following ? user.following.length : 0}
                   </Text>
                 </View>
                 <View style={styles.user__follower}>
                   <Text style={styles.supporters__label}>Follower</Text>
                   <Text style={styles.supporters__value}>
-                    {isOtherUser ? otherUser.follower ? (
-                      otherUser.follower.length
-                    ) : (
-                      0
-                    ) : user.get("follower") ? (
-                      user.get("follower").length
-                    ) : (
-                      0
-                    )}
+                    {user.follower ? user.follower.length : 0}
                   </Text>
                 </View>
               </View>
               <View style={styles.user__interestedin}>
                 <Text style={styles.interestedin__label}>Interested in : </Text>
-                <Text style={styles.user__interests}>
-                  {isOtherUser ? otherUser.interests : user.get("interests")}
-                </Text>
+                <Text style={styles.user__interests}>{user.interests}</Text>
               </View>
             </View>
             <Tabs style={styles.user__badleetory}>

@@ -1,4 +1,5 @@
 "use strict";
+import { AsyncStorage } from "react-native";
 import * as actionCreators from "../../action_creators";
 
 const urls = [
@@ -18,10 +19,12 @@ async function fetchBadlees(url, page, limit) {
 }
 
 async function getBadleesByFollowing(id, offset, limit) {
-  console.log(id);
-  let badleeFetch = await fetch(
-    urls[0] + `?userid=${id}&offset=${offset}&limit=${limit}`
-  );
+  let jollyroger = await AsyncStorage.getItem("jollyroger");
+  let badleeFetch = await fetch(urls[2] + `?offset=${offset}&limit=${limit}`, {
+    headers: {
+      Authorization: jollyroger
+    }
+  });
   console.log(badleeFetch);
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();

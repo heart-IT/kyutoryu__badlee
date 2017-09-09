@@ -16,6 +16,22 @@ async function fetchBadlees(url, page, limit) {
     throw "error happened in fetching";
   }
 }
+
+async function getBadleesByFollowing(id, offset, limit) {
+  console.log(id);
+  let badleeFetch = await fetch(
+    urls[0] + `?userid=${id}&offset=${offset}&limit=${limit}`
+  );
+  console.log(badleeFetch);
+  if (badleeFetch.ok && badleeFetch.status === 200) {
+    var badlees = await badleeFetch.json();
+    console.log(badlees);
+    return badlees;
+  } else {
+    throw "error happened in following";
+  }
+}
+
 async function getBadleesByLocation(location, offset, limit) {
   let badleeFetch = await fetch(
     urls[0] + `?location=${location}&offset=${offset}&limit=${limit}`
@@ -75,6 +91,12 @@ export default async function getBadlees(store, next, action) {
     var state = store.getState();
     // console.log(state.getIn(["user", "information"]));
     if (tabName === "following") {
+      badlees = await getBadleesByFollowing(userID, page, limit);
+      action.badlees = badlees;
+      action.tabName = tabName;
+      action.page__upper__count = page * limit;
+      action.badleesInIDS = badlees.map(badlee => badlee.id);
+      next(action);
     } else if (tabName === "location") {
       if (
         page * limit >

@@ -61,8 +61,17 @@ class Store extends Component {
     // });
   }
   componentWillReceiveProps(nextProps) {
-    let { allBadlees, badleesIDLocation, badleesIDGlobe } = nextProps;
+    let {
+      allBadlees,
+      badleesIDLocation,
+      badleesIDGlobe,
+      badleesIDFollower
+    } = nextProps;
     if (this.state.current__tab === 0) {
+      let badleesToShow = badleesIDFollower.map(id => {
+        return allBadlees.find(badlee => id === badlee.id);
+      });
+      this.setState({ currentData: badleesToShow });
     } else if (this.state.current__tab === 1) {
       let badleesToShow = badleesIDLocation.map(id => {
         return allBadlees.find(badlee => id === badlee.id);
@@ -81,7 +90,6 @@ class Store extends Component {
         this.getBadleeByFollowing();
         break;
       case 1:
-        console.log("this badlee by location");
         this.getBadleeByLocation();
         break;
       case 2:
@@ -181,7 +189,10 @@ class Store extends Component {
                       alignItems: "center"
                     }}
                   >
-                    <Text>No item present yet</Text>
+                    <BadleesList
+                      data={data}
+                      onClickUser={this.onClickUser.bind(this)}
+                    />
                   </View>
                 </Tab>
                 <Tab
@@ -349,6 +360,7 @@ const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
     allBadlees: state.get("allBadlees"),
+    badleesIDFollower: state.getIn(["badleesByCategory", "follower", "ids"]),
     badleesIDLocation: state.getIn(["badleesByCategory", "location", "ids"]),
     badleesIDGlobe: state.getIn(["badleesByCategory", "globe", "ids"])
   }),

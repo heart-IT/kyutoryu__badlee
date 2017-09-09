@@ -44,6 +44,10 @@ const StateRecord = Record({
     globe: new Map({
       ids: new OrderedSet(),
       total: 0
+    }),
+    following: new Map({
+      ids: new OrderedSet(),
+      total: 0
     })
   })
 });

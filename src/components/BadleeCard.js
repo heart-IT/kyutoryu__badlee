@@ -1,8 +1,12 @@
 /**
+ * @name- BadleeCard.js
+ * 
  * @chill- Suffering is only one face of life. Life has another face, the face of wonder. If we can see that face of life, we will have happiness, peace and joy. When our hearts are unfettered, we can make direct contact with the wonders of life. - Thich Nhat Hanh
- * @name- BadleeCard
- * @description- Component for displaying in Badlees List. Must be pure component
- * @author- heartit pirates
+ * 
+ * 
+ * @description- BadleeCard component
+ * 
+ * @author- heartit pirates were here
  */
 "use strict";
 
@@ -22,42 +26,30 @@ import {
 import moment from "moment";
 
 import Icon from "./Icon";
+
 class BadleeCard extends React.PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.id);
-  };
+  constructor(props) {
+    super(props);
+    this.onClickUser = this._onClickUser.bind(this);
+    this.onClickLike = this._onClickLike.bind(this);
+  }
   _onClickUser = () => {
     this.props.onClickUser(this.props.cardData.user);
   };
   _onClickLike = () => {
-    console.log(this.props.onClickLike);
     this.props.onClickLike(this.props.cardData.user);
   };
-  _onLikePress = () => {};
   render() {
-    var cardData = this.props.cardData;
+    let { cardData } = this.props;
+    console.log(cardData);
     return (
-      <Card
-        style={{
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 3,
-          marginTop: 6,
-          borderRadius: 0,
-          position: "relative"
-        }}
-      >
+      <Card style={styles.card}>
         {cardData.purpose === "give away" && (
-          <Icon
-            name="exchange"
-            width="36"
-            height="36"
-            style={styles.purposeIcon}
-          />
+          <Icon name="wish" width="36" height="36" style={styles.purposeIcon} />
         )}
         {cardData.purpose === "showOff" && (
           <Icon
-            name="showOff"
+            name="showoff"
             width="36"
             height="36"
             style={styles.purposeIcon}
@@ -80,69 +72,43 @@ class BadleeCard extends React.PureComponent {
           />
         )}
         <CardItem header>
-          <Thumbnail
-            source={{
-              uri: cardData.user_info
-                ? cardData.user_info.avatar
-                : cardData.media
-            }}
-            style={{ height: 32, width: 32, marginLeft: 12, marginRight: 3 }}
-          />
-          <Text>
-            <Text
-              style={{ fontWeight: "bold", fontSize: 15 }}
-              onPress={this._onClickUser}
-            >
+          <Button transparent onPress={this.onClickUser}>
+            <Thumbnail
+              source={{
+                uri: cardData.user_info
+                  ? cardData.user_info.avatar
+                  : cardData.media
+              }}
+              style={styles.userAvatar}
+            />
+            <Text style={styles.userName} onPress={this._onClickUser}>
               {cardData.user_info ? (
                 cardData.user_info.username
               ) : (
                 cardData.user.substring(0, 12)
               )}
             </Text>
-            <Text style={{ fontSize: 15 }}>'s</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 14 }}> Thingy</Text>
-            <Text style={{ color: "#616161", fontSize: 15 }}>
-              {" "}
-              {moment(cardData.timestamp).fromNow()}
-            </Text>
+          </Button>
+          <Text style={{ fontSize: 14 }}>
+            <Text>'s</Text>
+            <Text style={{ fontWeight: "bold" }}> Thingy</Text>
+          </Text>
+          <Text style={{ color: "#616161", fontSize: 15 }}>
+            {" "}
+            {moment(cardData.timestamp).fromNow()}
           </Text>
         </CardItem>
         <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
-          <Image
-            source={{ uri: cardData.media }}
-            style={{ height: 200, width: "100%", flex: 1, zIndex: 1 }}
-          />
+          <Image source={{ uri: cardData.media }} style={styles.badleeImage} />
           <Body>
-            <Text
-              style={{
-                marginLeft: 12,
-                marginTop: 2,
-                fontSize: 12,
-                fontWeight: "bold",
-                color: "rgba(0, 0, 0, 0.87)"
-              }}
-            >
-              {cardData.location}
-            </Text>
-            <Text
-              style={{
-                marginLeft: 12,
-                marginTop: 6,
-                marginBottom: 5,
-                fontSize: 24,
-                lineHeight: 36,
-                fontFamily: "Ubuntu-Regular",
-                color: "rgba(0, 0, 0, 0.87)"
-              }}
-            >
-              {cardData.description}
-            </Text>
+            <Text style={styles.badleeLocation}>{cardData.location}</Text>
+            <Text style={styles.badleeDescription}>{cardData.description}</Text>
           </Body>
         </CardItem>
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              <Button transparent onPress={this._onClickLike.bind(this)}>
+              <Button transparent onPress={this.onClickLike}>
                 <Icon
                   name="postUnliked"
                   width="30"
@@ -191,6 +157,12 @@ class BadleeCard extends React.PureComponent {
 }
 
 var styles = {
+  card: {
+    position: "relative",
+    marginBottom: 3,
+    marginTop: 6,
+    borderRadius: 0
+  },
   purposeIcon: {
     position: "absolute",
     top: 30,
@@ -202,6 +174,25 @@ var styles = {
     shadowRadius: 100,
     width: 36,
     height: 36
+  },
+  userAvatar: { height: 32, width: 32, marginLeft: 12, marginRight: 3 },
+  userName: { fontWeight: "bold", fontSize: 15 },
+  badleeImage: { height: 200, width: "100%", flex: 1, zIndex: 1 },
+  badleeLocation: {
+    marginLeft: 12,
+    marginTop: 2,
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "rgba(0, 0, 0, 0.87)"
+  },
+  badleeDescription: {
+    marginLeft: 12,
+    marginTop: 6,
+    marginBottom: 5,
+    fontSize: 24,
+    lineHeight: 36,
+    fontFamily: "Ubuntu-Regular",
+    color: "rgba(0, 0, 0, 0.87)"
   }
 };
 

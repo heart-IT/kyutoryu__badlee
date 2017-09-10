@@ -12,7 +12,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Set } from "immutable";
+import { Set, toJS } from "immutable";
 
 import {
   StyleProvider,
@@ -59,6 +59,7 @@ class Store extends Component {
     this.onClickLike = this.onClickLike.bind(this);
   }
 
+  // update state currentData according to the activeTab and store values
   componentWillReceiveProps(nextProps) {
     let {
       allBadlees,
@@ -84,6 +85,7 @@ class Store extends Component {
     }
   }
 
+  // load badlee on load of component
   componentDidMount() {
     this.getBadlees();
   }
@@ -145,9 +147,11 @@ class Store extends Component {
     });
   }
 
+  //
   onClickLike(id) {
     console.log(id);
   }
+
   onRadioSelect(type) {}
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
@@ -172,7 +176,7 @@ class Store extends Component {
   }
 
   render() {
-    var data = this.state.currentData;
+    var data = this.state.currentData.toJS();
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

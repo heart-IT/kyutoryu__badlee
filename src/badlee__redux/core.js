@@ -124,13 +124,7 @@ export function clearUser(state: State): State {
 /**
  * Badlee Core Section
  */
-export function getBadlees(
-  state,
-  badlees,
-  tabName,
-  badleesIDS,
-  pageUpperLimit
-) {
+export function getBadlees(state, badlees, tabName, badleesIDS) {
   var updatedBadlees = state.get("allBadlees").merge(badlees);
   var distinctBadlees = updatedBadlees
     .groupBy(x => x.id)

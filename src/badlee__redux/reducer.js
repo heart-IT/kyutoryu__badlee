@@ -66,8 +66,7 @@ export function reducer(
         state,
         action.badlees,
         action.tabName,
-        action.badleesInIDS,
-        action.page__upper__count
+        action.badleesInIDS
       );
     case "SAVE_BADLEE":
       return core.saveBadlee();

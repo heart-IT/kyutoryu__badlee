@@ -17,26 +17,25 @@ import {
   StyleProvider,
   Container,
   Content,
-  TabHeading,
   Tabs,
   Tab,
+  TabHeading,
   Text
 } from "native-base";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
-import Loading from "../../components/LoadingView";
 
 import Badlee from "./Badlee";
 import Chat from "./Chat";
 import UserProfile from "./User";
 
 class AuthContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      current__tab: 0
+      activeTabIndex: 0
     };
   }
   render() {
@@ -45,17 +44,18 @@ class AuthContainer extends Component {
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Tabs
-              initialPage={this.state.current__tab}
               locked={true}
               tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
-              onChangeTab={(i, ref) => this.setState({ current__tab: i.i })}
+              onChangeTab={(i, ref) => this.setState({ activeTabIndex: i.i })}
             >
               <Tab
                 heading={
                   <TabHeading>
                     <Icon
                       name="home"
-                      fill={this.state.current__tab === 0 ? "#fff" : "#A071A3"}
+                      fill={
+                        this.state.activeTabIndex === 0 ? "#fff" : "#A071A3"
+                      }
                       width="22"
                       height="22"
                     />
@@ -71,7 +71,9 @@ class AuthContainer extends Component {
                       name="messages"
                       width="22"
                       height="22"
-                      fill={this.state.current__tab === 1 ? "#fff" : "#A071A3"}
+                      fill={
+                        this.state.activeTabIndex === 1 ? "#fff" : "#A071A3"
+                      }
                     />
                   </TabHeading>
                 }
@@ -86,9 +88,11 @@ class AuthContainer extends Component {
                       name="notifications"
                       width="22"
                       height="22"
-                      fill={this.state.current__tab === 2 ? "#fff" : "#A071A3"}
+                      fill={
+                        this.state.activeTabIndex === 2 ? "#fff" : "#A071A3"
+                      }
                       stroke={
-                        this.state.current__tab === 2 ? "#fff" : "#A071A3"
+                        this.state.activeTabIndex === 2 ? "#fff" : "#A071A3"
                       }
                     />
                   </TabHeading>
@@ -103,7 +107,9 @@ class AuthContainer extends Component {
                       name="user"
                       width="22"
                       height="22"
-                      fill={this.state.current__tab === 3 ? "#fff" : "#A071A3"}
+                      fill={
+                        this.state.activeTabIndex === 3 ? "#fff" : "#A071A3"
+                      }
                     />
                   </TabHeading>
                 }
@@ -112,14 +118,11 @@ class AuthContainer extends Component {
               </Tab>
             </Tabs>
           </Content>
-          {this.props.loading && <Loading message="Loading badlee.." />}
         </Container>
       </StyleProvider>
     );
   }
 }
-
-var styles = {};
 
 const _Wrapped = connect(
   state => ({

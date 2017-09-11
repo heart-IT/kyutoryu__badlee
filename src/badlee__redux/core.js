@@ -19,7 +19,16 @@
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import { fromJS, Record, Map, List, Set, OrderedSet, toJS } from "immutable";
+import {
+  fromJS,
+  Record,
+  Map,
+  List,
+  Set,
+  OrderedSet,
+  toJS,
+  findIndex
+} from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
@@ -139,3 +148,19 @@ export function getBadlees(state, badlees, tabName, badleesIDS) {
 }
 
 export function saveBadlee() {}
+
+export function onClickLike(state: State, id: String) {
+  let user = state.getIn(["user", "information"]);
+  let allBadlees = state.get("allBadlees");
+  console.log(allBadlees);
+  var allBadleesJS = allBadlees.toJS();
+  var elementPos = allBadleesJS
+    .map(function(x) {
+      return x.id;
+    })
+    .indexOf(id);
+  let updatedBadlees = allBadlees.update(elementPos, function(badlee) {
+    return badlee["likes"].push(user.get("user_id"));
+  });
+  return state.set("allBadlees", updatedBadlees);
+}

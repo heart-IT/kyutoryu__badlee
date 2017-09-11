@@ -149,7 +149,7 @@ class Store extends Component {
 
   //
   onClickLike(id) {
-    console.log(id);
+    this.props.onClickLike(id);
   }
 
   onRadioSelect(type) {}
@@ -177,6 +177,7 @@ class Store extends Component {
 
   render() {
     var data = this.state.currentData.toJS();
+    console.log(data);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -212,6 +213,7 @@ class Store extends Component {
                     data={data}
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
+                    userId={this.props.user.get("user_id")}
                   />
                 </Tab>
                 <Tab
@@ -236,6 +238,7 @@ class Store extends Component {
                     data={data}
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
+                    userId={this.props.user.get("user_id")}
                   />
                 </Tab>
                 <Tab
@@ -369,6 +372,7 @@ class Store extends Component {
                       data={data}
                       onClickUser={this.onClickUser}
                       onClickLike={this.onClickLike}
+                      userId={this.props.user.get("user_id")}
                     />
                   </View>
                 </Tab>

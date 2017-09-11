@@ -71,6 +71,9 @@ export function reducer(
     case "SAVE_BADLEE":
       return core.saveBadlee();
       break;
+    case "ON_CLICK_LIKE":
+      return core.onClickLike(state, action.id);
+      break;
     default:
       return state;
   }

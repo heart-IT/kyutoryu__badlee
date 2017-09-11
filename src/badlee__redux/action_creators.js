@@ -127,6 +127,11 @@ export const saveBadlee = (data: Object, route: ?Object): SAVE_BADLEE => ({
   route: route
 });
 
+export const onClickLike = (id: Number) => ({
+  type: "ON_CLICK_LIKE",
+  id: id
+});
+
 // user section
 export const showUserPage = (id: Number, route: ?Object): SHOW_USER_PAGE => ({
   type: "SHOW_USER_PAGE",

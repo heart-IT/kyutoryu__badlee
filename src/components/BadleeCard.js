@@ -37,7 +37,7 @@ class BadleeCard extends React.PureComponent {
     this.props.onClickUser(this.props.cardData.user);
   };
   _onClickLike = () => {
-    this.props.onClickLike(this.props.cardData.user);
+    this.props.onClickLike(this.props.cardData.id);
   };
   render() {
     let { cardData } = this.props;
@@ -109,15 +109,29 @@ class BadleeCard extends React.PureComponent {
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
               <Button transparent onPress={this.onClickLike}>
-                <Icon
-                  name="postUnliked"
-                  width="30"
-                  height="30"
-                  style={{ marginRight: 3 }}
-                  fill="none"
-                  stroke="#000"
-                  strokeWidth="17"
-                />
+                {cardData.likes &&
+                cardData.likes.indexOf(this.props.userId) > -1 && (
+                  <Icon
+                    name="postLiked"
+                    width="30"
+                    height="30"
+                    style={{ marginRight: 3 }}
+                    strokeWidth="17"
+                  />
+                )}
+                {(!cardData.likes ||
+                  (cardData.likes &&
+                    cardData.likes.indexOf(this.props.userId) === -1)) && (
+                  <Icon
+                    name="postUnliked"
+                    width="30"
+                    height="30"
+                    style={{ marginRight: 3 }}
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="17"
+                  />
+                )}
               </Button>
               <Icon
                 name="postWished"

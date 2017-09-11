@@ -34,6 +34,7 @@ class MyList extends React.PureComponent {
       onClickUser={this.onClickUser}
       onClickLike={this.onClickLike}
       title={item.title}
+      userId={this.props.userId}
     />
   );
   render() {

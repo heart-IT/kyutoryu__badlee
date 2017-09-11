@@ -185,7 +185,6 @@ class Store extends Component {
             <BadleeFab isActive={false} onSelection={this.onFabSelect} />
             <View style={styles.content}>
               <Tabs
-                tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
                 onChangeTab={this.onTabChange}
                 initialPage={this.state.activeTabIndex}
               >

@@ -11,7 +11,7 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import {
   Card,
   CardItem,
@@ -44,14 +44,11 @@ class BadleeCard extends React.PureComponent {
     console.log(cardData);
     return (
       <Card style={styles.card}>
-        {cardData.purpose === "give away" && (
-          <Icon name="wish" width="36" height="36" style={styles.purposeIcon} />
-        )}
         {cardData.purpose === "showOff" && (
           <Icon
             name="showoff"
-            width="36"
-            height="36"
+            width="45"
+            height="45"
             style={styles.purposeIcon}
           />
         )}
@@ -72,7 +69,10 @@ class BadleeCard extends React.PureComponent {
           />
         )}
         <CardItem header>
-          <Button transparent onPress={this.onClickUser}>
+          <TouchableOpacity
+            onPress={this.onClickUser}
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
             <Thumbnail
               source={{
                 uri: cardData.user_info
@@ -80,15 +80,16 @@ class BadleeCard extends React.PureComponent {
                   : cardData.media
               }}
               style={styles.userAvatar}
+              onPress={this.onClickUser}
             />
-            <Text style={styles.userName} onPress={this._onClickUser}>
+            <Text style={styles.userName}>
               {cardData.user_info ? (
                 cardData.user_info.username
               ) : (
                 cardData.user.substring(0, 12)
               )}
             </Text>
-          </Button>
+          </TouchableOpacity>
           <Text style={{ fontSize: 14 }}>
             <Text>'s</Text>
             <Text style={{ fontWeight: "bold" }}> Thingy</Text>
@@ -108,7 +109,7 @@ class BadleeCard extends React.PureComponent {
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              <Button transparent onPress={this.onClickLike}>
+              <TouchableOpacity transparent onPress={this.onClickLike}>
                 {cardData.likes &&
                 cardData.likes.indexOf(this.props.userId) > -1 && (
                   <Icon
@@ -132,7 +133,7 @@ class BadleeCard extends React.PureComponent {
                     strokeWidth="17"
                   />
                 )}
-              </Button>
+              </TouchableOpacity>
               <Icon
                 name="postWished"
                 width="30"
@@ -160,9 +161,9 @@ class BadleeCard extends React.PureComponent {
             </View>
           </Left>
           <Right>
-            <Button transparent>
+            <TouchableOpacity transparent>
               <Icon name="postDelete" width="30" height="30" />
-            </Button>
+            </TouchableOpacity>
           </Right>
         </CardItem>
       </Card>
@@ -190,7 +191,7 @@ var styles = {
     height: 36
   },
   userAvatar: { height: 32, width: 32, marginLeft: 12, marginRight: 3 },
-  userName: { fontWeight: "bold", fontSize: 15 },
+  userName: { fontWeight: "bold", fontSize: 15, color: "rgba(0, 0, 0, 0.87)" },
   badleeImage: { height: 200, width: "100%", flex: 1, zIndex: 1 },
   badleeLocation: {
     marginLeft: 12,

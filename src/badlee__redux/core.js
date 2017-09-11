@@ -44,7 +44,7 @@ const StateRecord = Record({
     information: new Map(),
     followers: new List()
   }),
-  allBadlees: new Set(),
+  allBadlees: new Map(),
   badleesByCategory: new Map({
     location: new Map({
       ids: new OrderedSet(),
@@ -134,16 +134,16 @@ export function clearUser(state: State): State {
  * Badlee Core Section
  */
 export function getBadlees(state, badlees, tabName, badleesIDS) {
-  var updatedBadlees = state.get("allBadlees").merge(badlees);
-  var distinctBadlees = updatedBadlees
-    .groupBy(x => x.id)
-    .map(x => x.first())
-    .toSet();
+  let badleeObject = {};
+  badlees.map(badlee => {
+    badleeObject[badlee.id] = badlee;
+  });
+  var updatedBadlees = state.get("allBadlees").merge(badleeObject);
   var updatedIDS = state
     .getIn(["badleesByCategory", tabName, "ids"])
     .union(badleesIDS);
   return state
-    .set("allBadlees", distinctBadlees)
+    .set("allBadlees", updatedBadlees)
     .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);
 }
 
@@ -152,7 +152,6 @@ export function saveBadlee() {}
 export function onClickLike(state: State, id: String) {
   let user = state.getIn(["user", "information"]);
   let allBadlees = state.get("allBadlees");
-  console.log(allBadlees);
   var allBadleesJS = allBadlees.toJS();
   var elementPos = allBadleesJS
     .map(function(x) {

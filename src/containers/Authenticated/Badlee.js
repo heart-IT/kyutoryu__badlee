@@ -57,6 +57,7 @@ class Store extends Component {
     this.onTabChange = this.onTabChange.bind(this);
     this.onClickUser = this.onClickUser.bind(this);
     this.onClickLike = this.onClickLike.bind(this);
+    this.onClickUnlike = this.onClickUnlike.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -67,19 +68,20 @@ class Store extends Component {
       badleesIDGlobe,
       badleesIDFollowing
     } = nextProps;
+    let badleesJS = allBadlees.toJS();
     if (this.state.activeTabIndex === 0) {
       let badleesToShow = badleesIDFollowing.map(id => {
-        return allBadlees.find(badlee => id === badlee.id);
+        return badleesJS[id];
       });
       this.setState({ currentData: badleesToShow });
     } else if (this.state.activeTabIndex === 1) {
       let badleesToShow = badleesIDLocation.map(id => {
-        return allBadlees.find(badlee => id === badlee.id);
+        return badleesJS[id];
       });
       this.setState({ currentData: badleesToShow });
     } else {
       let badleesToShow = badleesIDGlobe.map(id => {
-        return allBadlees.find(badlee => id === badlee.id);
+        return badleesJS[id];
       });
       this.setState({ currentData: badleesToShow });
     }
@@ -151,6 +153,9 @@ class Store extends Component {
   onClickLike(id) {
     this.props.onClickLike(id);
   }
+  onClickUnlike(id) {
+    this.props.onClickUnlike(id);
+  }
 
   onRadioSelect(type) {}
 
@@ -177,7 +182,6 @@ class Store extends Component {
 
   render() {
     var data = this.state.currentData.toJS();
-    console.log(data);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -212,6 +216,7 @@ class Store extends Component {
                     data={data}
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
+                    onClickUnlike={this.onClickUnlike}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -237,6 +242,7 @@ class Store extends Component {
                     data={data}
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
+                    onClickUnlike={this.onClickUnlike}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -371,6 +377,7 @@ class Store extends Component {
                       data={data}
                       onClickUser={this.onClickUser}
                       onClickLike={this.onClickLike}
+                      onClickUnlike={this.onClickUnlike}
                       userId={this.props.user.get("user_id")}
                     />
                   </View>

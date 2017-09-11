@@ -13,7 +13,7 @@
 
 import getBadlees from "./badleeFns/get";
 import * as saveBadlee from "./badleeFns/save";
-import onClickLike from "./badleeFns/like";
+import { onClickLike, onClickUnlike } from "./badleeFns/like";
 
 export default store => next => action => {
   switch (action.type) {
@@ -25,6 +25,10 @@ export default store => next => action => {
       break;
     case "ON_CLICK_LIKE":
       return onClickLike(store, next, action);
+      break;
+    case "ON_CLICK_UNLIKE":
+      return onClickUnlike(store, next, action);
+      break;
     default:
       return next(action);
   }

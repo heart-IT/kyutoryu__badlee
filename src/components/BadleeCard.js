@@ -32,12 +32,16 @@ class BadleeCard extends React.PureComponent {
     super(props);
     this.onClickUser = this._onClickUser.bind(this);
     this.onClickLike = this._onClickLike.bind(this);
+    this.onClickUnlike = this._onClickUnlike.bind(this);
   }
   _onClickUser = () => {
     this.props.onClickUser(this.props.cardData.user);
   };
   _onClickLike = () => {
     this.props.onClickLike(this.props.cardData.id);
+  };
+  _onClickUnlike = () => {
+    this.props.onClickUnlike(this.props.cardData.id);
   };
   render() {
     let { cardData } = this.props;
@@ -109,9 +113,9 @@ class BadleeCard extends React.PureComponent {
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity transparent onPress={this.onClickLike}>
-                {cardData.likes &&
-                cardData.likes.indexOf(this.props.userId) > -1 && (
+              {cardData.likes &&
+              cardData.likes.indexOf(this.props.userId) > -1 && (
+                <TouchableOpacity transparent onPress={this.onClickUnlike}>
                   <Icon
                     name="postLiked"
                     width="30"
@@ -119,10 +123,12 @@ class BadleeCard extends React.PureComponent {
                     style={{ margin: 3 }}
                     strokeWidth="17"
                   />
-                )}
-                {(!cardData.likes ||
-                  (cardData.likes &&
-                    cardData.likes.indexOf(this.props.userId) === -1)) && (
+                </TouchableOpacity>
+              )}
+              {(!cardData.likes ||
+                (cardData.likes &&
+                  cardData.likes.indexOf(this.props.userId) === -1)) && (
+                <TouchableOpacity transparent onPress={this.onClickLike}>
                   <Icon
                     name="postUnliked"
                     width="30"
@@ -132,8 +138,9 @@ class BadleeCard extends React.PureComponent {
                     stroke="#000"
                     strokeWidth="17"
                   />
-                )}
-              </TouchableOpacity>
+                </TouchableOpacity>
+              )}
+
               <Icon
                 name="postWished"
                 width="30"

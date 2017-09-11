@@ -116,7 +116,7 @@ class BadleeCard extends React.PureComponent {
                     name="postLiked"
                     width="30"
                     height="30"
-                    style={{ marginRight: 3 }}
+                    style={{ margin: 3 }}
                     strokeWidth="17"
                   />
                 )}
@@ -127,7 +127,7 @@ class BadleeCard extends React.PureComponent {
                     name="postUnliked"
                     width="30"
                     height="30"
-                    style={{ marginRight: 3 }}
+                    style={{ margin: 3 }}
                     fill="none"
                     stroke="#000"
                     strokeWidth="17"
@@ -139,9 +139,15 @@ class BadleeCard extends React.PureComponent {
                 width="30"
                 height="30"
                 fill="#EF5454"
-                style={{ marginRight: 3 }}
+                style={{ margin: 3 }}
               />
-              <Icon name="postComment" width="30" height="30" fill="#fff" />
+              <Icon
+                name="postComment"
+                width="30"
+                height="30"
+                fill="#fff"
+                style={{ margin: 3 }}
+              />
             </View>
             <View
               style={{
@@ -162,7 +168,9 @@ class BadleeCard extends React.PureComponent {
           </Left>
           <Right>
             <TouchableOpacity transparent>
-              <Icon name="postDelete" width="30" height="30" />
+              {cardData.user === this.props.userId && (
+                <Icon name="postDelete" width="30" height="30" />
+              )}
             </TouchableOpacity>
           </Right>
         </CardItem>

@@ -44,7 +44,7 @@ const StateRecord = Record({
     information: new Map(),
     followers: new List()
   }),
-  allBadlees: new Map(),
+  allBadlees: fromJS({}),
   badleesByCategory: new Map({
     location: new Map({
       ids: new OrderedSet(),
@@ -138,7 +138,7 @@ export function getBadlees(state, badlees, tabName, badleesIDS) {
   badlees.map(badlee => {
     badleeObject[badlee.id] = badlee;
   });
-  var updatedBadlees = state.get("allBadlees").merge(badleeObject);
+  var updatedBadlees = state.get("allBadlees").merge(fromJS(badleeObject));
   var updatedIDS = state
     .getIn(["badleesByCategory", tabName, "ids"])
     .union(badleesIDS);
@@ -151,15 +151,16 @@ export function saveBadlee() {}
 
 export function onClickLike(state: State, id: String) {
   let user = state.getIn(["user", "information"]);
-  let allBadlees = state.get("allBadlees");
-  var allBadleesJS = allBadlees.toJS();
-  var elementPos = allBadleesJS
-    .map(function(x) {
-      return x.id;
-    })
-    .indexOf(id);
-  let updatedBadlees = allBadlees.update(elementPos, function(badlee) {
-    return badlee["likes"].push(user.get("user_id"));
-  });
-  return state.set("allBadlees", updatedBadlees);
+  let badlee = state.getIn(["allBadlees", id]);
+  console.log(badlee);
+  // var allBadleesJS = allBadlees.toJS();
+  // var elementPos = allBadleesJS
+  //   .map(function(x) {
+  //     return x.id;
+  //   })
+  //   .indexOf(id);
+  // let updatedBadlees = allBadlees.update(elementPos, function(badlee) {
+  //   return badlee["likes"].push(user.get("user_id"));
+  // });
+  return state;
 }

@@ -34,6 +34,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
+import LoadingView from "../../components/LoadingView";
 
 import NewBadlee from "./NewBadlee";
 import User from "./User";
@@ -385,6 +386,7 @@ class Store extends Component {
               </Tabs>
             </View>
           </Content>
+          {this.props.loading && <LoadingView message="Doing action.." />}
         </Container>
       </StyleProvider>
     );
@@ -400,6 +402,7 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
+    loading: state.getIn(["application", "isLoading"]),
     user: state.getIn(["user", "information"]),
     allBadlees: state.get("allBadlees"),
     badleesIDFollowing: state.getIn(["badleesByCategory", "following", "ids"]),

@@ -151,16 +151,18 @@ export function saveBadlee() {}
 
 export function onClickLike(state: State, id: String) {
   let user = state.getIn(["user", "information"]);
-  let badlee = state.getIn(["allBadlees", id]);
-  console.log(badlee);
-  // var allBadleesJS = allBadlees.toJS();
-  // var elementPos = allBadleesJS
-  //   .map(function(x) {
-  //     return x.id;
-  //   })
-  //   .indexOf(id);
-  // let updatedBadlees = allBadlees.update(elementPos, function(badlee) {
-  //   return badlee["likes"].push(user.get("user_id"));
-  // });
-  return state;
+  return state.updateIn(["allBadlees", String(id)], badlee => {
+    return badlee.set("likes", badlee.get("likes").push(user.get("user_id")));
+  });
+}
+export function onClickUnlike(state: State, id: String) {
+  let user = state.getIn(["user", "information"]);
+  return state.updateIn(["allBadlees", String(id)], badlee => {
+    return badlee.set(
+      "likes",
+      badlee
+        .get("likes")
+        .remove(badlee.get("likes").indexOf(user.get("user_id")))
+    );
+  });
 }

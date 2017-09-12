@@ -74,6 +74,9 @@ export function reducer(
     case "ON_CLICK_LIKE":
       return core.onClickLike(state, action.id);
       break;
+    case "ON_CLICK_UNLIKE":
+      return core.onClickUnlike(state, action.id);
+      break;
     default:
       return state;
   }

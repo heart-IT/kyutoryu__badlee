@@ -44,6 +44,7 @@ const StateRecord = Record({
     information: new Map(),
     followers: new List()
   }),
+  guestUser: fromJS({}),
   allBadlees: fromJS({}),
   badleesByCategory: new Map({
     location: new Map({
@@ -149,48 +150,64 @@ export function getBadlees(state, badlees, tabName, badleesIDS) {
 
 export function saveBadlee() {}
 
+export function saveGuestUser(state: State, user) {
+  return state.set("guestUser", fromJS(user));
+}
+export function followUser(state: State) {
+  let oldFollowers = state.getIn(["guestUser", "follower"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
+  return state.setIn(
+    ["guestUser", "follower"],
+    oldFollowers ? oldFollowers.push(loggedUser) : fromJS([loggedUser])
+  );
+}
+export function unfollowUser(state: State) {
+  let oldFollowers = state.getIn(["guestUser", "follower"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
+  return state.setIn(
+    ["guestUser", "follower"],
+    oldFollowers.remove(oldFollowers.indexOf(loggedUser))
+  );
+}
+
 export function onClickLike(state: State, id: String) {
-  let user = state.getIn(["user", "information"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
     return badlee.set(
       "likes",
       badlee.get("likes")
-        ? badlee.get("likes").push(user.get("user_id"))
-        : fromJS([user.get("user_id")])
+        ? badlee.get("likes").push(loggedUser)
+        : fromJS([loggedUser])
     );
   });
 }
 export function onClickUnlike(state: State, id: String) {
-  let user = state.getIn(["user", "information"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
     return badlee.set(
       "likes",
-      badlee
-        .get("likes")
-        .remove(badlee.get("likes").indexOf(user.get("user_id")))
+      badlee.get("likes").remove(badlee.get("likes").indexOf(loggedUser))
     );
   });
 }
 
 export function onClickWish(state: State, id: String) {
-  let user = state.getIn(["user", "information"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
     return badlee.set(
       "wishes",
       badlee.get("wishes")
-        ? badlee.get("wishes").push(user.get("user_id"))
-        : fromJS([user.get("user_id")])
+        ? badlee.get("wishes").push(loggedUser)
+        : fromJS([loggedUser])
     );
   });
 }
 export function onClickUnwish(state: State, id: String) {
-  let user = state.getIn(["user", "information"]);
+  let loggedUser = state.getIn(["user", "information", "user_id"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
     return badlee.set(
       "wishes",
-      badlee
-        .get("wishes")
-        .remove(badlee.get("wishes").indexOf(user.get("user_id")))
+      badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUser))
     );
   });
 }

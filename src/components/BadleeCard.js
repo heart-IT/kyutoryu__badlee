@@ -92,7 +92,6 @@ class BadleeCard extends React.PureComponent {
                   : cardData.media
               }}
               style={styles.userAvatar}
-              onPress={this.onClickUser}
             />
             <Text style={styles.userName}>
               {cardData.user_info ? (

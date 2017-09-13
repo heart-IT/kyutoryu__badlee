@@ -38,54 +38,15 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      isOtherUser: false,
-      previousState: {}
+      isOtherUser: false
     };
   }
   componentDidMount() {
-    if (this.props.params && this.props.params.user) {
+    if (this.props.params && this.props.params.isOtherProfile) {
       this.setState({
-        isOtherUser: true,
-        user: this.props.params.user
+        isOtherUser: true
       });
-    } else {
-      this.setState({ user: this.props.user.toJS() });
     }
-  }
-  getUser() {
-    return this.state.user;
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (
-      nextProps.notification === "User Unfollowed" &&
-      this.state.previousState.notification !== "User Unfollowed"
-    ) {
-      var user = this.getUser();
-      var followers = user.follower ? user.follower : [];
-      var newUserState = Object.assign({}, user, {
-        follower: followers.splice(
-          user.follower.indexOf(this.props.user.get("user_id")),
-          1
-        )
-      });
-      this.setState({ user: newUserState });
-    }
-    if (
-      nextProps.notification === "User Followed" &&
-      this.state.previousState.notification !== "User Followed"
-    ) {
-      var user = this.getUser();
-      var followers = user.follower ? user.follower : [];
-      followers.push(this.props.user.get("user_id"));
-      console.log(followers);
-      var newUserState = Object.assign({}, user, {
-        follower: followers
-      });
-      this.setState({ user: newUserState });
-    }
-    this.setState({ previousState: nextProps });
   }
   handleLogout() {
     this.props.logout({
@@ -96,17 +57,19 @@ class User extends Component {
   }
 
   followUser() {
-    this.props.followUser(this.props.params.user.user_id);
+    this.props.followUser(this.props.guestUser.get("user_id"));
   }
   unFollowUser() {
-    this.props.unFollowUser(this.props.params.user.user_id);
+    this.props.unFollowUser(this.props.guestUser.get("user_id"));
   }
 
   render() {
-    const { user, isOtherUser } = this.state;
+    console.log(this.props);
+    const user = this.state.isOtherUser
+      ? this.props.guestUser.toJS()
+      : this.props.user.toJS();
     const loggedUser = this.props.user;
-
-    console.log(user);
+    const { isOtherUser } = this.state;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -132,8 +95,6 @@ class User extends Component {
                     <Icon name="follow_add" width="24" height="24" />
                   </Button>
                 )}
-
-                <Icon name="messages" width="24" height="24" />
               </Right>
             </Header>
           )}
@@ -319,6 +280,7 @@ const styles = {
 const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
+    guestUser: state.get("guestUser"),
     loading: state.getIn(["application", "isLoading"]),
     notification: state.getIn(["application", "notification"])
   }),

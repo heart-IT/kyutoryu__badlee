@@ -71,6 +71,15 @@ export function reducer(
     case "SAVE_BADLEE":
       return core.saveBadlee();
       break;
+    case "SHOW_USER_PAGE":
+      return core.saveGuestUser(state, action.user);
+      break;
+    case "FOLLOW_USER":
+      return core.followUser(state);
+      break;
+    case "UNFOLLOW_USER":
+      return core.unfollowUser(state);
+      break;
     case "ON_CLICK_LIKE":
       return core.onClickLike(state, action.id);
       break;

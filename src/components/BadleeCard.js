@@ -148,8 +148,8 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
-              {cardData.wish &&
-              cardData.wish.indexOf(this.props.userId) > -1 && (
+              {cardData.wishes &&
+              cardData.wishes.indexOf(this.props.userId) > -1 && (
                 <TouchableOpacity transparent onPress={this.onClickUnwish}>
                   <Icon
                     name="postWished"
@@ -160,9 +160,9 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
-              {(!cardData.wish ||
-                (cardData.wish &&
-                  cardData.wish.indexOf(this.props.userId) === -1)) && (
+              {(!cardData.wishes ||
+                (cardData.wishes &&
+                  cardData.wishes.indexOf(this.props.userId) === -1)) && (
                 <TouchableOpacity transparent onPress={this.onClickWish}>
                   <Icon
                     name="postUnwished"

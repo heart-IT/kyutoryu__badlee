@@ -152,7 +152,12 @@ export function saveBadlee() {}
 export function onClickLike(state: State, id: String) {
   let user = state.getIn(["user", "information"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
-    return badlee.set("likes", badlee.get("likes").push(user.get("user_id")));
+    return badlee.set(
+      "likes",
+      badlee.get("likes")
+        ? badlee.get("likes").push(user.get("user_id"))
+        : fromJS([user.get("user_id")])
+    );
   });
 }
 export function onClickUnlike(state: State, id: String) {
@@ -170,7 +175,12 @@ export function onClickUnlike(state: State, id: String) {
 export function onClickWish(state: State, id: String) {
   let user = state.getIn(["user", "information"]);
   return state.updateIn(["allBadlees", String(id)], badlee => {
-    return badlee.set("wishes", badlee.get("wishes").push(user.get("user_id")));
+    return badlee.set(
+      "wishes",
+      badlee.get("wishes")
+        ? badlee.get("wishes").push(user.get("user_id"))
+        : fromJS([user.get("user_id")])
+    );
   });
 }
 export function onClickUnwish(state: State, id: String) {

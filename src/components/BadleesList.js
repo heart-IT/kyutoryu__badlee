@@ -21,6 +21,8 @@ class MyList extends React.PureComponent {
     this.onClickUser = this._onClickUser.bind(this);
     this.onClickLike = this._onClickLike.bind(this);
     this.onClickUnlike = this._onClickUnlike.bind(this);
+    this.onClickWish = this._onClickWish.bind(this);
+    this.onClickUnwish = this._onClickUnwish.bind(this);
   }
   _keyExtractor = (item, index) => item.id;
   _onClickUser = (id: string) => {
@@ -32,12 +34,20 @@ class MyList extends React.PureComponent {
   _onClickUnlike = (id: string) => {
     this.props.onClickUnlike(id);
   };
+  _onClickWish = (id: string) => {
+    this.props.onClickWish(id);
+  };
+  _onClickUnwish = (id: string) => {
+    this.props.onClickUnwish(id);
+  };
   _renderItem = ({ item }) => (
     <BadleeCard
       cardData={item}
       onClickUser={this.onClickUser}
       onClickLike={this.onClickLike}
       onClickUnlike={this.onClickUnlike}
+      onClickWish={this.onClickWish}
+      onClickUnwish={this.onClickUnwish}
       title={item.title}
       userId={this.props.userId}
     />

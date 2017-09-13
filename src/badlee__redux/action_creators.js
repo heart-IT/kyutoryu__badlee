@@ -137,6 +137,16 @@ export const onClickUnlike = (id: Number) => ({
   id: id
 });
 
+export const onClickWish = (id: Number) => ({
+  type: "ON_CLICK_WISH",
+  id: id
+});
+
+export const onClickUnwish = (id: Number) => ({
+  type: "ON_CLICK_UNWISH",
+  id: id
+});
+
 // user section
 export const showUserPage = (id: Number, route: ?Object): SHOW_USER_PAGE => ({
   type: "SHOW_USER_PAGE",

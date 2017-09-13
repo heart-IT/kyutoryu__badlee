@@ -166,3 +166,21 @@ export function onClickUnlike(state: State, id: String) {
     );
   });
 }
+
+export function onClickWish(state: State, id: String) {
+  let user = state.getIn(["user", "information"]);
+  return state.updateIn(["allBadlees", String(id)], badlee => {
+    return badlee.set("wishes", badlee.get("wishes").push(user.get("user_id")));
+  });
+}
+export function onClickUnwish(state: State, id: String) {
+  let user = state.getIn(["user", "information"]);
+  return state.updateIn(["allBadlees", String(id)], badlee => {
+    return badlee.set(
+      "wishes",
+      badlee
+        .get("wishes")
+        .remove(badlee.get("wishes").indexOf(user.get("user_id")))
+    );
+  });
+}

@@ -33,7 +33,10 @@ class BadleeCard extends React.PureComponent {
     this.onClickUser = this._onClickUser.bind(this);
     this.onClickLike = this._onClickLike.bind(this);
     this.onClickUnlike = this._onClickUnlike.bind(this);
+    this.onClickWish = this._onClickWish.bind(this);
+    this.onClickUnwish = this._onClickUnwish.bind(this);
   }
+
   _onClickUser = () => {
     this.props.onClickUser(this.props.cardData.user);
   };
@@ -43,9 +46,14 @@ class BadleeCard extends React.PureComponent {
   _onClickUnlike = () => {
     this.props.onClickUnlike(this.props.cardData.id);
   };
+  _onClickWish = () => {
+    this.props.onClickWish(this.props.cardData.id);
+  };
+  _onClickUnwish = () => {
+    this.props.onClickUnwish(this.props.cardData.id);
+  };
   render() {
     let { cardData } = this.props;
-    console.log(cardData);
     return (
       <Card style={styles.card}>
         {cardData.purpose === "showOff" && (
@@ -140,14 +148,34 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
+              {cardData.wish &&
+              cardData.wish.indexOf(this.props.userId) > -1 && (
+                <TouchableOpacity transparent onPress={this.onClickUnwish}>
+                  <Icon
+                    name="postWished"
+                    width="30"
+                    height="30"
+                    fill="#EF5454"
+                    style={{ margin: 3 }}
+                  />
+                </TouchableOpacity>
+              )}
+              {(!cardData.wish ||
+                (cardData.wish &&
+                  cardData.wish.indexOf(this.props.userId) === -1)) && (
+                <TouchableOpacity transparent onPress={this.onClickWish}>
+                  <Icon
+                    name="postUnwished"
+                    width="30"
+                    height="30"
+                    style={{ margin: 3 }}
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="10"
+                  />
+                </TouchableOpacity>
+              )}
 
-              <Icon
-                name="postWished"
-                width="30"
-                height="30"
-                fill="#EF5454"
-                style={{ margin: 3 }}
-              />
               <Icon
                 name="postComment"
                 width="30"

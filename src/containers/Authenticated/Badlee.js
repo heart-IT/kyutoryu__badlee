@@ -59,6 +59,8 @@ class Store extends Component {
     this.onClickUser = this.onClickUser.bind(this);
     this.onClickLike = this.onClickLike.bind(this);
     this.onClickUnlike = this.onClickUnlike.bind(this);
+    this.onClickWish = this.onClickWish.bind(this);
+    this.onClickUnwish = this.onClickUnwish.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -158,6 +160,14 @@ class Store extends Component {
     this.props.onClickUnlike(id);
   }
 
+  //
+  onClickWish(id) {
+    this.props.onClickWish(id);
+  }
+  onClickUnwish(id) {
+    this.props.onClickUnwish(id);
+  }
+
   onRadioSelect(type) {}
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
@@ -218,6 +228,8 @@ class Store extends Component {
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
                     onClickUnlike={this.onClickUnlike}
+                    onClickWish={this.onClickWish}
+                    onClickUnwish={this.onClickUnwish}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -244,6 +256,8 @@ class Store extends Component {
                     onClickUser={this.onClickUser}
                     onClickLike={this.onClickLike}
                     onClickUnlike={this.onClickUnlike}
+                    onClickWish={this.onClickWish}
+                    onClickUnwish={this.onClickUnwish}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -379,6 +393,8 @@ class Store extends Component {
                       onClickUser={this.onClickUser}
                       onClickLike={this.onClickLike}
                       onClickUnlike={this.onClickUnlike}
+                      onClickWish={this.onClickWish}
+                      onClickUnwish={this.onClickUnwish}
                       userId={this.props.user.get("user_id")}
                     />
                   </View>

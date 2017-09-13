@@ -45,7 +45,6 @@ class AuthContainer extends Component {
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Tabs
               locked={true}
-              tabBarUnderlineStyle={{ borderBottomWidth: 0 }}
               onChangeTab={(i, ref) => this.setState({ activeTabIndex: i.i })}
             >
               <Tab

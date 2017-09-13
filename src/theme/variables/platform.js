@@ -140,7 +140,7 @@ export default {
   activeTab: platform === "ios" ? "#007aff" : "#fff",
   sTabBarActiveTextColor: "#007aff",
   tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
-  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#611265",
+  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#000",
 
   // Tab
   tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#611265",
@@ -148,7 +148,7 @@ export default {
   topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
   topTabActiveBgColor: platform === "ios" ? "#cde1f9" : undefined,
   topTabBarBorderColor: platform === "ios" ? "#a7a6ab" : "#fff",
-  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#500655",
+  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "transparent",
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
@@ -163,7 +163,9 @@ export default {
   toolbarDefaultBorder: platform === "ios" ? "#a7a6ab" : "#4f0554",
   iosStatusbar: platform === "ios" ? "dark-content" : "light-content",
   get statusBarColor() {
-    return color(this.toolbarDefaultBg).darken(0.2).string();
+    return color(this.toolbarDefaultBg)
+      .darken(0.2)
+      .string();
   },
 
   // Icon
@@ -230,7 +232,9 @@ export default {
   radioColor: "#7e7e7e",
 
   get radioSelectedColor() {
-    return color(this.radioColor).darken(0.2).string();
+    return color(this.radioColor)
+      .darken(0.2)
+      .string();
   },
 
   // Spinner
@@ -262,7 +266,9 @@ export default {
   contentPadding: 10,
 
   get darkenHeader() {
-    return color(this.tabBgColor).darken(0.03).string();
+    return color(this.tabBgColor)
+      .darken(0.03)
+      .string();
   },
 
   dropdownBg: "#000",

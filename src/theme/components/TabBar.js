@@ -39,14 +39,12 @@ export default (variables = variable) => {
       alignSelf: "stretch",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: null,
-      borderBottomColor: "transparent",
-      backgroundColor: variables.tabBgColor
+      borderRadius: null
     },
     height: 45,
     flexDirection: "row",
     justifyContent: "space-around",
-    borderWidth: 1,
+    borderWidth: 0,
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,

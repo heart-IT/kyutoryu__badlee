@@ -10,10 +10,16 @@
  */
 
 "use strict";
-import React from "react";
+import React, { Component, PureComponent } from "react";
 import { FlatList } from "react-native";
 
 import BadleeCard from "./BadleeCard";
+
+class Error extends React.Component {
+  render() {
+    return <Text>Nothing to see here</Text>;
+  }
+}
 
 class MyList extends React.PureComponent {
   constructor(props) {
@@ -52,9 +58,13 @@ class MyList extends React.PureComponent {
       userId={this.props.userId}
     />
   );
+  noItemDisplay() {
+    return <Text>Nothing to see here</Text>;
+  }
   render() {
     return (
       <FlatList
+        ListEmptyComponent={Error}
         data={this.props.data}
         extraData={this.state}
         keyExtractor={this._keyExtractor}

@@ -12,16 +12,16 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Set, toJS } from "immutable";
+import { fromJS, toJS } from "immutable";
 
 import {
   StyleProvider,
   Container,
   Content,
-  View,
   Tabs,
   Tab,
   TabHeading,
+  View,
   Text,
   Button,
   Item,
@@ -34,8 +34,6 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
-import { BadleeGrid } from "../../components/BadleeGrid";
-import LoadingView from "../../components/LoadingView";
 
 import NewBadlee from "./NewBadlee";
 import User from "./User";
@@ -53,8 +51,9 @@ class Store extends Component {
         search: null,
         category: null
       },
-      currentData: new Set()
+      currentData: fromJS([])
     };
+
     this.onFabSelect = this.onFabSelect.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.onClickUser = this.onClickUser.bind(this);
@@ -73,22 +72,21 @@ class Store extends Component {
       badleesIDFollowing
     } = nextProps;
     let badleesJS = allBadlees.toJS();
-    if (this.state.activeTabIndex === 0) {
-      let badleesToShow = badleesIDFollowing.map(id => {
-        return badleesJS[id];
-      });
-      this.setState({ currentData: badleesToShow });
-    } else if (this.state.activeTabIndex === 1) {
-      let badleesToShow = badleesIDLocation.map(id => {
-        return badleesJS[id];
-      });
-      this.setState({ currentData: badleesToShow });
-    } else {
-      let badleesToShow = badleesIDGlobe.map(id => {
-        return badleesJS[id];
-      });
-      this.setState({ currentData: badleesToShow });
+    let badleesToShowIDS = "";
+    switch (this.state.activeTabIndex) {
+      case 0:
+        badleesToShowIDS = badleesIDFollowing;
+        break;
+      case 1:
+        badleesToShowIDS = badleesIDLocation;
+        break;
+      default:
+        badleesToShowIDS = badleesIDGlobe;
     }
+    let badleesToShow = badleesToShowIDS.map(id => {
+      return badleesJS[id];
+    });
+    this.setState({ currentData: badleesToShow });
   }
 
   // load badlee on load of component
@@ -104,9 +102,6 @@ class Store extends Component {
         break;
       case 1:
         this.getBadleeByLocation();
-        break;
-      case 2:
-        this.getBadleeByGlobe();
         break;
       default:
         this.getBadleeByGlobe();
@@ -218,8 +213,8 @@ class Store extends Component {
                           )
                         }
                         name="community"
-                        height="30"
-                        width="30"
+                        height="27"
+                        width="27"
                       />
                     </TabHeading>
                   }
@@ -246,8 +241,8 @@ class Store extends Component {
                           )
                         }
                         name="location"
-                        height="24"
-                        width="24"
+                        height="21"
+                        width="21"
                       />
                     </TabHeading>
                   }
@@ -276,8 +271,8 @@ class Store extends Component {
                           )
                         }
                         name="globe"
-                        height="24"
-                        width="24"
+                        height="21"
+                        width="21"
                       />
                     </TabHeading>
                   }
@@ -389,7 +384,7 @@ class Store extends Component {
                     </View>
                   </View>
                   <View>
-                    <BadleeGrid
+                    <BadleesList
                       data={data}
                       onClickUser={this.onClickUser}
                       onClickLike={this.onClickLike}
@@ -403,7 +398,6 @@ class Store extends Component {
               </Tabs>
             </View>
           </Content>
-          {this.props.loading && <LoadingView message="Doing action.." />}
         </Container>
       </StyleProvider>
     );
@@ -419,7 +413,6 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    loading: state.getIn(["application", "isLoading"]),
     user: state.getIn(["user", "information"]),
     allBadlees: state.get("allBadlees"),
     badleesIDFollowing: state.getIn(["badleesByCategory", "following", "ids"]),

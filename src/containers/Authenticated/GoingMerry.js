@@ -26,6 +26,7 @@ import {
 import * as actionCreators from "../../badlee__redux/action_creators";
 import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
+import Loading from "../../components/LoadingView";
 
 import Badlee from "./Badlee";
 import Chat from "./Chat";
@@ -117,6 +118,7 @@ class AuthContainer extends Component {
               </Tab>
             </Tabs>
           </Content>
+          {this.props.loading && <Loading message="Doing action.." />}
         </Container>
       </StyleProvider>
     );

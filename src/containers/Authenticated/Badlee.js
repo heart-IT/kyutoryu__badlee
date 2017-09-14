@@ -37,6 +37,7 @@ import BadleesList from "../../components/BadleesList";
 
 import NewBadlee from "./NewBadlee";
 import User from "./User";
+import Comments from "./Comments";
 
 class Store extends Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class Store extends Component {
     this.onClickUnlike = this.onClickUnlike.bind(this);
     this.onClickWish = this.onClickWish.bind(this);
     this.onClickUnwish = this.onClickUnwish.bind(this);
+    this.onClickComment = this.onClickComment.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -164,6 +166,18 @@ class Store extends Component {
     this.props.onClickUnwish(id);
   }
 
+  onClickComment(id) {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Comments,
+        params: {
+          badleeData: this.props.allBadlees.get(String(id)).toJS()
+        }
+      });
+    });
+  }
+
   onRadioSelect(type) {}
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
@@ -227,6 +241,7 @@ class Store extends Component {
                     onClickUnlike={this.onClickUnlike}
                     onClickWish={this.onClickWish}
                     onClickUnwish={this.onClickUnwish}
+                    onClickComment={this.onClickComment}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -255,6 +270,7 @@ class Store extends Component {
                     onClickUnlike={this.onClickUnlike}
                     onClickWish={this.onClickWish}
                     onClickUnwish={this.onClickUnwish}
+                    onClickComment={this.onClickComment}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -392,6 +408,7 @@ class Store extends Component {
                       onClickUnlike={this.onClickUnlike}
                       onClickWish={this.onClickWish}
                       onClickUnwish={this.onClickUnwish}
+                      onClickComment={this.onClickComment}
                       userId={this.props.user.get("user_id")}
                     />
                   </View>

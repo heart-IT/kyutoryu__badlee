@@ -35,6 +35,7 @@ class BadleeCard extends React.PureComponent {
     this.onClickUnlike = this._onClickUnlike.bind(this);
     this.onClickWish = this._onClickWish.bind(this);
     this.onClickUnwish = this._onClickUnwish.bind(this);
+    this.onClickComment = this._onClickComment.bind(this);
   }
 
   _onClickUser = () => {
@@ -51,6 +52,9 @@ class BadleeCard extends React.PureComponent {
   };
   _onClickUnwish = () => {
     this.props.onClickUnwish(this.props.cardData.id);
+  };
+  _onClickComment = () => {
+    this.props.onClickComment(this.props.cardData.id);
   };
   render() {
     let { cardData } = this.props;
@@ -174,30 +178,33 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
-
-              <Icon
-                name="postComment"
-                width="30"
-                height="30"
-                fill="#fff"
-                style={{ margin: 3 }}
-              />
+              <TouchableOpacity transparent onPress={this.onClickComment}>
+                <Icon
+                  name="postComment"
+                  width="30"
+                  height="30"
+                  fill="#fff"
+                  style={{ margin: 3 }}
+                />
+              </TouchableOpacity>
             </View>
             <View
               style={{
                 marginTop: 3
               }}
             >
-              <Text
-                style={{
-                  fontSize: 12,
-                  marginLeft: 4,
-                  fontWeight: "bold",
-                  color: "rgba(0, 0, 0, 0.87)"
-                }}
-              >
-                View {cardData.comment_count} comments{" "}
-              </Text>
+              <TouchableOpacity transparent onPress={this.onClickComment}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    marginLeft: 4,
+                    fontWeight: "bold",
+                    color: "rgba(0, 0, 0, 0.87)"
+                  }}
+                >
+                  View {cardData.comment_count} comments{" "}
+                </Text>
+              </TouchableOpacity>
             </View>
           </Left>
           <Right>

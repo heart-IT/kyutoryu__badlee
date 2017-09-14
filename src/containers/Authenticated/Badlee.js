@@ -34,6 +34,7 @@ import getTheme from "../../theme/components";
 import Icon from "../../components/Icon";
 import BadleeFab from "../../components/Fab";
 import BadleesList from "../../components/BadleesList";
+import { BadleeGrid } from "../../components/BadleeGrid";
 import LoadingView from "../../components/LoadingView";
 
 import NewBadlee from "./NewBadlee";
@@ -388,7 +389,7 @@ class Store extends Component {
                     </View>
                   </View>
                   <View>
-                    <BadleesList
+                    <BadleeGrid
                       data={data}
                       onClickUser={this.onClickUser}
                       onClickLike={this.onClickLike}

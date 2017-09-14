@@ -10,6 +10,9 @@ export default (variables = variable) => {
     elevation: 3,
     height: 50,
     flexDirection: "row",
+    ".secondary": {
+      height: 36
+    },
     shadowColor: platformStyle === "material" ? "#000" : undefined,
     shadowOffset:
       platformStyle === "material" ? { width: 0, height: 2 } : undefined,

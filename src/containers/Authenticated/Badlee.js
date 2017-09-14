@@ -200,6 +200,7 @@ class Store extends Component {
                 initialPage={this.state.activeTabIndex}
               >
                 <Tab
+                  tabHeaderStyle={{ height: 36 }}
                   heading={
                     <TabHeading
                       style={{ ...styles.tabHead, ...styles.firstTab }}

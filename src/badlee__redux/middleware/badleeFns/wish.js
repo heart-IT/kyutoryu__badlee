@@ -60,7 +60,6 @@ export async function onClickWish(store, next, action) {
     await store.dispatch(actionCreators.startLoading());
     let badleeID = action.id;
     let wishReqResponse = await doWish(badleeID);
-    console.log(wishReqResponse);
     if (wishReqResponse) {
       next(action);
     }

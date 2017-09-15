@@ -168,12 +168,9 @@ class Store extends Component {
 
   onClickComment(id) {
     requestAnimationFrame(() => {
-      this.props.navigate({
+      this.props.showCommentPage(id, {
         navigator: this.props.navigator,
-        component: Comments,
-        params: {
-          badleeData: this.props.allBadlees.get(String(id)).toJS()
-        }
+        component: Comments
       });
     });
   }

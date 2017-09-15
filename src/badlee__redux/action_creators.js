@@ -163,3 +163,20 @@ export const unFollowUser = (id: Number) => ({
   id: id,
   type: "UNFOLLOW_USER"
 });
+
+export const showCommentPage = (id: Number, route: ?Object) => ({
+  id: id,
+  route: route,
+  type: "SHOW_COMMENT_PAGE"
+});
+
+export const saveTempBadlee = (id: Number) => ({
+  id: id,
+  type: "SAVE_TEMP_BADLEE"
+});
+
+export const postComment = (id: Number, comment: String) => ({
+  id: id,
+  comment: comment,
+  type: "POST_COMMENT"
+});

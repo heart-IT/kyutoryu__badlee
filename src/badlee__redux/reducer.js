@@ -92,6 +92,12 @@ export function reducer(
     case "ON_CLICK_UNWISH":
       return core.onClickUnwish(state, action.id);
       break;
+    case "SAVE_TEMP_BADLEE":
+      return core.saveTempBadlee(state, action.id);
+      break;
+    case "POST_COMMENT":
+      return core.postComment(state, action.id, action.commentResponse);
+      break;
     default:
       return state;
   }

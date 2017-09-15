@@ -46,6 +46,7 @@ const StateRecord = Record({
   }),
   guestUser: fromJS({}),
   allBadlees: fromJS({}),
+  tempBadlee: fromJS({}),
   badleesByCategory: new Map({
     location: new Map({
       ids: new OrderedSet(),
@@ -210,4 +211,23 @@ export function onClickUnwish(state: State, id: String) {
       badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUser))
     );
   });
+}
+
+export function saveTempBadlee(state: State, id: String) {
+  return state.set("tempBadlee", state.getIn(["allBadlees", String(id)]));
+}
+
+export function postComment(state: State, id: String, comment: Object) {
+  let oldComments = state.getIn(["tempBadlee", "comments"]);
+  return state
+    .updateIn(["allBadlees", String(id)], badlee => {
+      return badlee.set(
+        "comments",
+        oldComments ? oldComments.push(comment) : fromJS([comment])
+      );
+    })
+    .setIn(
+      ["tempBadlee", "comments"],
+      oldComments ? oldComments.push(comment) : fromJS([comment])
+    );
 }

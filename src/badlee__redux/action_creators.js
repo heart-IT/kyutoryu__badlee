@@ -180,3 +180,9 @@ export const postComment = (id: Number, comment: String) => ({
   comment: comment,
   type: "POST_COMMENT"
 });
+
+export const showBadleePage = (id: Number, route: ?Object) => ({
+  id: id,
+  route: route,
+  type: "SHOW_BADLEE_PAGE"
+});

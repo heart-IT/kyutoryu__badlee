@@ -16,6 +16,7 @@ import * as saveBadlee from "./badleeFns/save";
 import { onClickLike, onClickUnlike } from "./badleeFns/like";
 import { onClickWish, onClickUnwish } from "./badleeFns/wish";
 import { showCommentPage, postComment } from "./badleeFns/comment";
+import { showBadleePage } from "./badleeFns/single";
 
 export default store => next => action => {
   switch (action.type) {
@@ -42,6 +43,9 @@ export default store => next => action => {
       break;
     case "POST_COMMENT":
       return postComment(store, next, action);
+      break;
+    case "SHOW_BADLEE_PAGE":
+      return showBadleePage(store, next, action);
       break;
     default:
       return next(action);

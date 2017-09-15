@@ -36,6 +36,7 @@ class BadleeCard extends React.PureComponent {
     this.onClickWish = this._onClickWish.bind(this);
     this.onClickUnwish = this._onClickUnwish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
+    this.onClickBadlee = this._onClickBadlee.bind(this);
   }
 
   _onClickUser = () => {
@@ -55,6 +56,9 @@ class BadleeCard extends React.PureComponent {
   };
   _onClickComment = () => {
     this.props.onClickComment(this.props.cardData.id);
+  };
+  _onClickBadlee = () => {
+    this.props.onClickBadlee(this.props.cardData.id);
   };
   render() {
     let { cardData } = this.props;
@@ -115,10 +119,21 @@ class BadleeCard extends React.PureComponent {
           </Text>
         </CardItem>
         <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
-          <Image source={{ uri: cardData.media }} style={styles.badleeImage} />
+          <TouchableOpacity
+            transparent
+            style={styles.badleeImage}
+            onPress={this.onClickBadlee}
+          >
+            <Image
+              source={{ uri: cardData.media }}
+              style={styles.badleeImage}
+            />
+          </TouchableOpacity>
           <Body>
             <Text style={styles.badleeLocation}>{cardData.location}</Text>
-            <Text style={styles.badleeDescription}>{cardData.description}</Text>
+            <Text style={styles.badleeDescription} onPress={this.onClickBadlee}>
+              {cardData.description}
+            </Text>
           </Body>
         </CardItem>
         <CardItem footer style={{ marginBottom: 12 }}>

@@ -38,6 +38,7 @@ import BadleesList from "../../components/BadleesList";
 import NewBadlee from "./NewBadlee";
 import User from "./User";
 import Comments from "./Comments";
+import SingleBadlee from "./SingleBadlee";
 
 class Store extends Component {
   constructor(props) {
@@ -63,6 +64,7 @@ class Store extends Component {
     this.onClickWish = this.onClickWish.bind(this);
     this.onClickUnwish = this.onClickUnwish.bind(this);
     this.onClickComment = this.onClickComment.bind(this);
+    this.onClickBadlee = this.onClickBadlee.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -175,6 +177,16 @@ class Store extends Component {
     });
   }
 
+  onClickBadlee(id) {
+    console.log(id);
+    requestAnimationFrame(() => {
+      this.props.showBadleePage(id, {
+        navigator: this.props.navigator,
+        component: SingleBadlee
+      });
+    });
+  }
+
   onRadioSelect(type) {}
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
@@ -239,6 +251,7 @@ class Store extends Component {
                     onClickWish={this.onClickWish}
                     onClickUnwish={this.onClickUnwish}
                     onClickComment={this.onClickComment}
+                    onClickBadlee={this.onClickBadlee}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -268,6 +281,7 @@ class Store extends Component {
                     onClickWish={this.onClickWish}
                     onClickUnwish={this.onClickUnwish}
                     onClickComment={this.onClickComment}
+                    onClickBadlee={this.onClickBadlee}
                     userId={this.props.user.get("user_id")}
                   />
                 </Tab>
@@ -406,6 +420,7 @@ class Store extends Component {
                       onClickWish={this.onClickWish}
                       onClickUnwish={this.onClickUnwish}
                       onClickComment={this.onClickComment}
+                      onClickBadlee={this.onClickBadlee}
                       userId={this.props.user.get("user_id")}
                     />
                   </View>

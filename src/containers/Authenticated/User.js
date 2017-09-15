@@ -10,7 +10,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import {
   StyleProvider,
   Container,
@@ -40,6 +40,7 @@ class User extends Component {
     this.state = {
       isOtherUser: false
     };
+    this.handleLogout = this.handleLogout.bind(this);
   }
   componentDidMount() {
     if (this.props.params && this.props.params.isOtherProfile) {
@@ -64,7 +65,6 @@ class User extends Component {
   }
 
   render() {
-    console.log(this.props);
     const user = this.state.isOtherUser
       ? this.props.guestUser.toJS()
       : this.props.user.toJS();
@@ -99,6 +99,15 @@ class User extends Component {
             </Header>
           )}
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            {!isOtherUser && (
+              <TouchableOpacity
+                transparent
+                onPress={this.handleLogout}
+                style={styles.logout}
+              >
+                <Icon name="logout" width="24" height="24" />
+              </TouchableOpacity>
+            )}
             <View style={styles.user__info}>
               <Image
                 source={{
@@ -163,15 +172,6 @@ class User extends Component {
                 <Icon name="showoff" width="30" height="30" />
               </Tab>
             </Tabs>
-
-            <Button
-              red
-              block
-              marxFormElement
-              onPress={this.handleLogout.bind(this)}
-            >
-              <Text>Logout</Text>
-            </Button>
           </Content>
           {this.props.loading && <LoadingView message="Doing action.." />}
         </Container>
@@ -181,6 +181,12 @@ class User extends Component {
 }
 
 const styles = {
+  logout: {
+    position: "absolute",
+    top: 6,
+    right: 15,
+    zIndex: 99
+  },
   user__info: {
     display: "flex",
     alignItems: "center",

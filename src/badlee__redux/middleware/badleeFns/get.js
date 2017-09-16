@@ -86,14 +86,21 @@ async function getBadleesByLocation(location, offset, limit) {
 // Calls server api with given search, purpose, offset limit, return list of badlees in case of success.. otherwise throw error
 async function getBadleesByGlobe(search, purpose, offset, limit) {
   let url;
+  let jollyroger = await AsyncStorage.getItem("jollyroger");
   if (search) {
     url = urls[2] + `?sp=${search}`;
     purpose ? (url += `&spp=${purpose}`) : "";
     url += `&offset=${offset}&limit=${limit}`;
   } else {
-    url = `${urls[1]}?page=${offset}&limit=${limit}`;
+    url = `${urls[1]}?offset=${offset}&limit=${limit}`;
   }
-  let badleeFetch = await fetch(url);
+  console.log(url);
+  let badleeFetch = await fetch(url, {
+    headers: {
+      Authorization: jollyroger
+    }
+  });
+  console.log(badleeFetch);
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();
     return badlees;

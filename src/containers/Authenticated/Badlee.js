@@ -49,10 +49,8 @@ class Store extends Component {
         offset: 0,
         limit: 10
       },
-      globeFilters: {
-        search: null,
-        category: null
-      },
+      searchString: null,
+      globecategory: null,
       currentData: fromJS([])
     };
 
@@ -65,6 +63,7 @@ class Store extends Component {
     this.onClickUnwish = this.onClickUnwish.bind(this);
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
+    this.triggerSearch = this.triggerSearch.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -135,8 +134,8 @@ class Store extends Component {
   getBadleeByGlobe() {
     this.props.getBadlees({
       tabName: "globe",
-      search: this.state.globeFilters.search,
-      category: this.state.globeFilters.category,
+      search: this.state.searchString,
+      category: this.state.globecategory,
       offset: this.state.currentPagination.offset,
       limit: this.state.currentPagination.limit
     });
@@ -178,7 +177,6 @@ class Store extends Component {
   }
 
   onClickBadlee(id) {
-    console.log(id);
     requestAnimationFrame(() => {
       this.props.showBadleePage(id, {
         navigator: this.props.navigator,
@@ -187,7 +185,14 @@ class Store extends Component {
     });
   }
 
-  onRadioSelect(type) {}
+  onRadioSelect(type) {
+    this.setState({ globecategory: type });
+    this.triggerSearch();
+  }
+
+  triggerSearch() {
+    this.getBadleeByGlobe();
+  }
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
@@ -313,12 +318,14 @@ class Store extends Component {
                         marginRight: 12
                       }}
                     >
-                      <Item rounded>
+                      <Item rounded style={{ height: 36, paddingLeft: 12 }}>
+                        <Icon name="search" width="21" height="21" />
                         <Input
                           placeholder="Search for folks or thingies.."
-                          style={{ height: 40, lineHeight: 40 }}
+                          style={{ height: 36, lineHeight: 36, fontSize: 14 }}
                           onChangeText={searchString =>
-                            console.log(searchString)}
+                            this.setState({ searchString })}
+                          onEndEditing={this.triggerSearch}
                         />
                       </Item>
                     </View>
@@ -341,36 +348,36 @@ class Store extends Component {
                       >
                         <Icon
                           name="exchange"
-                          width="24"
-                          height="24"
+                          width="21"
+                          height="21"
                           style={{ marginRight: 6 }}
                         />
                         <Radio
                           selected={
-                            this.state.globeFilters.category === "exchange" ? (
+                            this.state.globecategory === "exchange" ? (
                               true
                             ) : (
                               false
                             )
                           }
-                          onPress={this.onRadioSelect("exchange")}
-                          style={{ marginRight: 6 }}
+                          onPress={text => this.onRadioSelect("exchange")}
+                          style={{ marginRight: 12 }}
                         />
                         <Icon
-                          name="showOff"
-                          width="24"
-                          height="24"
+                          name="showoff"
+                          width="21"
+                          height="21"
                           style={{ marginRight: 6 }}
                         />
                         <Radio
                           selected={
-                            this.state.globeFilters.category === "showOff" ? (
+                            this.state.globecategory === "showOff" ? (
                               true
                             ) : (
                               false
                             )
                           }
-                          onPress={this.onRadioSelect("showOff")}
+                          onPress={text => this.onRadioSelect("showOff")}
                         />
                       </View>
                       <View
@@ -381,7 +388,7 @@ class Store extends Component {
                           marginLeft: 24
                         }}
                       >
-                        <Text>Location</Text>
+                        <Text style={{ fontSize: 14 }}>Location</Text>
                         <Icon
                           name="drop_arrow"
                           width="16"
@@ -399,7 +406,7 @@ class Store extends Component {
                           marginLeft: 24
                         }}
                       >
-                        <Text>Category</Text>
+                        <Text style={{ fontSize: 14 }}>Category</Text>
                         <Icon
                           name="drop_arrow"
                           width="16"

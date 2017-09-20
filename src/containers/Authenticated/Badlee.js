@@ -9,7 +9,6 @@
  * @author- heartit pirates were here
  */
 "use strict";
-import { fromJS } from 'immutable';
 import { Container, Content, Input, Item, Radio, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
 import { Component } from 'react';
 import React from 'react';
@@ -25,11 +24,13 @@ import NewBadlee from './NewBadlee';
 import SingleBadlee from './SingleBadlee';
 import User from './User';
 
+("use strict");
 
 class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialFabValue: false,
       activeTabIndex: 0,
       currentPagination: {
         offset: 0,
@@ -37,9 +38,8 @@ class Store extends Component {
       },
       searchString: null,
       globecategory: null,
-      currentData: fromJS([])
+      currentData: []
     };
-
     this.onFabSelect = this.onFabSelect.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.onClickUser = this.onClickUser.bind(this);
@@ -75,7 +75,7 @@ class Store extends Component {
     let badleesToShow = badleesToShowIDS.map(id => {
       return badleesJS[id];
     });
-    this.setState({ currentData: badleesToShow });
+    this.setState({ currentData: badleesToShow.toJS() });
   }
 
   // load badlee on load of component
@@ -172,8 +172,12 @@ class Store extends Component {
   }
 
   onRadioSelect(type) {
-    this.setState({ globecategory: type });
-    this.triggerSearch();
+    this.setState(
+      { globecategory: type === this.state.globecategory ? null : type },
+      () => {
+        this.triggerSearch();
+      }
+    );
   }
 
   triggerSearch() {
@@ -202,221 +206,117 @@ class Store extends Component {
   }
 
   render() {
-    var data = this.state.currentData.toJS();
+    let _this = this;
+    function returnIcon(name, position, width = 21, height = 21) {
+      return (
+        <Icon
+          name={name}
+          width={width}
+          height={height}
+          fill={_this.state.activeTabIndex === position ? "#611265" : "#4D4D4D"}
+          stroke={
+            _this.state.activeTabIndex === position ? "#611265" : "#4D4D4D"
+          }
+        />
+      );
+    }
+    function returnBadleeList() {
+      return (
+        <BadleesList
+          data={_this.state.currentData}
+          onClickUser={_this.onClickUser}
+          onClickLike={_this.onClickLike}
+          onClickUnlike={_this.onClickUnlike}
+          onClickWish={_this.onClickWish}
+          onClickUnwish={_this.onClickUnwish}
+          onClickComment={_this.onClickComment}
+          onClickBadlee={_this.onClickBadlee}
+          userId={_this.props.user.get("user_id")}
+        />
+      );
+    }
+    function returnFilterRadio(name, width = 21, height = 21) {
+      return (
+        <View style={{ ...styles.alignCenterRow, ...styles.filterRadioView }}>
+          <Icon name={name} width={width} height={height} />
+          <Radio
+            selected={_this.state.globecategory === name}
+            onPress={text => _this.onRadioSelect(name)}
+          />
+        </View>
+      );
+    }
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          <Content style={styles.content} contentContainerStyle={{ flex: 1 }}>
-            <BadleeFab isActive={false} onSelection={this.onFabSelect} />
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <BadleeFab
+              isActive={this.state.initialFabValue}
+              onSelection={this.onFabSelect}
+            />
             <View style={styles.content}>
               <Tabs
                 onChangeTab={this.onTabChange}
                 initialPage={this.state.activeTabIndex}
               >
                 <Tab
-                  tabHeaderStyle={{ height: 36 }}
                   heading={
                     <TabHeading
                       style={{ ...styles.tabHead, ...styles.firstTab }}
                     >
-                      <Icon
-                        fill={
-                          this.state.activeTabIndex === 0 ? (
-                            "#611265"
-                          ) : (
-                              "#4D4D4D"
-                            )
-                        }
-                        name="community"
-                        height="27"
-                        width="27"
-                      />
+                      {returnIcon("community", 0, 27, 27)}
                     </TabHeading>
                   }
                 >
-                  <BadleesList
-                    data={data}
-                    onClickUser={this.onClickUser}
-                    onClickLike={this.onClickLike}
-                    onClickUnlike={this.onClickUnlike}
-                    onClickWish={this.onClickWish}
-                    onClickUnwish={this.onClickUnwish}
-                    onClickComment={this.onClickComment}
-                    onClickBadlee={this.onClickBadlee}
-                    userId={this.props.user.get("user_id")}
-                  />
+                  {returnBadleeList()}
                 </Tab>
                 <Tab
                   heading={
                     <TabHeading style={styles.tabHead}>
-                      <Icon
-                        fill={
-                          this.state.activeTabIndex === 1 ? (
-                            "#611265"
-                          ) : (
-                              "#4D4D4D"
-                            )
-                        }
-                        name="location"
-                        height="21"
-                        width="21"
-                      />
+                      {returnIcon("location", 1)}
                     </TabHeading>
                   }
                 >
-                  <BadleesList
-                    data={data}
-                    onClickUser={this.onClickUser}
-                    onClickLike={this.onClickLike}
-                    onClickUnlike={this.onClickUnlike}
-                    onClickWish={this.onClickWish}
-                    onClickUnwish={this.onClickUnwish}
-                    onClickComment={this.onClickComment}
-                    onClickBadlee={this.onClickBadlee}
-                    userId={this.props.user.get("user_id")}
-                  />
+                  {returnBadleeList()}
                 </Tab>
                 <Tab
                   heading={
                     <TabHeading
                       style={{ ...styles.tabHead, ...styles.lastTab }}
                     >
-                      <Icon
-                        fill={
-                          this.state.activeTabIndex === 2 ? (
-                            "#611265"
-                          ) : (
-                              "#4D4D4D"
-                            )
-                        }
-                        name="globe"
-                        height="21"
-                        width="21"
-                      />
+                      {returnIcon("globe", 2)}
                     </TabHeading>
                   }
                 >
-                  <View>
-                    <View
-                      style={{
-                        paddingTop: 12,
-                        marginLeft: 12,
-                        marginRight: 12
-                      }}
-                    >
-                      <Item rounded style={{ height: 36, paddingLeft: 12 }}>
-                        <Icon name="search" width="21" height="21" />
+                  <View style={styles.globeFilterView}>
+                    <View>
+                      <Item rounded style={styles.inputItem}>
+                        {returnIcon("search", -1, 18, 18)}
                         <Input
                           placeholder="Search for folks or thingies.."
-                          style={{ height: 36, lineHeight: 36, fontSize: 14 }}
+                          style={styles.searchInput}
                           onChangeText={searchString =>
                             this.setState({ searchString })}
                           onEndEditing={this.triggerSearch}
                         />
                       </Item>
                     </View>
-                    <View
-                      style={{
-                        marginLeft: 12,
-                        marginRight: 12,
-                        marginTop: 12,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginBottom: 12
-                        }}
-                      >
-                        <Icon
-                          name="exchange"
-                          width="21"
-                          height="21"
-                          style={{ marginRight: 6 }}
-                        />
-                        <Radio
-                          selected={
-                            this.state.globecategory === "exchange" ? (
-                              true
-                            ) : (
-                                false
-                              )
-                          }
-                          onPress={text => this.onRadioSelect("exchange")}
-                          style={{ marginRight: 12 }}
-                        />
-                        <Icon
-                          name="showoff"
-                          width="21"
-                          height="21"
-                          style={{ marginRight: 6 }}
-                        />
-                        <Radio
-                          selected={
-                            this.state.globecategory === "showOff" ? (
-                              true
-                            ) : (
-                                false
-                              )
-                          }
-                          onPress={text => this.onRadioSelect("showOff")}
-                        />
+                    <View style={styles.filterView}>
+                      <View style={styles.alignCenterRow}>
+                        {returnFilterRadio("exchange")}
+                        {returnFilterRadio("showoff", 24, 24)}
                       </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginBottom: 12,
-                          marginLeft: 24
-                        }}
-                      >
-                        <Text style={{ fontSize: 14 }}>Location</Text>
-                        <Icon
-                          name="drop_arrow"
-                          width="16"
-                          height="10"
-                          style={{
-                            marginRight: 3
-                          }}
-                        />
+                      <View style={styles.alignCenterRow}>
+                        <Text style={styles.filterText}>Location</Text>
+                        {returnIcon("drop_arrow", -1, 16, 10)}
                       </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginBottom: 12,
-                          marginLeft: 24
-                        }}
-                      >
-                        <Text style={{ fontSize: 14 }}>Category</Text>
-                        <Icon
-                          name="drop_arrow"
-                          width="16"
-                          height="10"
-                          style={{
-                            marginRight: 3
-                          }}
-                        />
+                      <View style={styles.alignCenterRow}>
+                        <Text style={styles.filterText}>Category</Text>
+                        {returnIcon("drop_arrow", -1, 16, 10)}
                       </View>
                     </View>
                   </View>
-                  <View>
-                    <BadleesList
-                      data={data}
-                      onClickUser={this.onClickUser}
-                      onClickLike={this.onClickLike}
-                      onClickUnlike={this.onClickUnlike}
-                      onClickWish={this.onClickWish}
-                      onClickUnwish={this.onClickUnwish}
-                      onClickComment={this.onClickComment}
-                      onClickBadlee={this.onClickBadlee}
-                      userId={this.props.user.get("user_id")}
-                    />
-                  </View>
+                  <View>{returnBadleeList()}</View>
                 </Tab>
               </Tabs>
             </View>
@@ -431,7 +331,31 @@ const styles = {
   content: { flex: 1 },
   tabHead: { backgroundColor: "#fff" },
   firstTab: { paddingLeft: "12.5%" },
-  lastTab: { paddingRight: "12.5%" }
+  lastTab: { paddingRight: "12.5%" },
+  globeFilterView: {
+    paddingTop: 12,
+    paddingBottom: 6,
+    paddingLeft: 12,
+    paddingRight: 12
+  },
+  inputItem: { height: 36, paddingLeft: 12 },
+  searchInput: { lineHeight: 32, height: 36, fontSize: 14 },
+  filterView: {
+    marginTop: 9,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  alignCenterRow: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  filterRadioView: {
+    width: 45,
+    justifyContent: "space-between",
+    marginRight: 9
+  },
+  filterText: { fontSize: 15, color: "rgba(0, 0, 0, 0.78)" }
 };
 
 const _Wrapped = connect(

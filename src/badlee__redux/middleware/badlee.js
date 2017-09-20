@@ -8,15 +8,15 @@
  * 
  * @author- heartit pirates were here
  */
+import { postComment, showCommentPage } from './badleeFns/comment';
+import getBadlees from './badleeFns/get';
+import { onClickLike, onClickUnlike } from './badleeFns/like';
+import * as saveBadlee from './badleeFns/save';
+import { showBadleePage } from './badleeFns/single';
+import { onClickUnwish, onClickWish } from './badleeFns/wish';
+
 
 "use strict";
-
-import getBadlees from "./badleeFns/get";
-import * as saveBadlee from "./badleeFns/save";
-import { onClickLike, onClickUnlike } from "./badleeFns/like";
-import { onClickWish, onClickUnwish } from "./badleeFns/wish";
-import { showCommentPage, postComment } from "./badleeFns/comment";
-import { showBadleePage } from "./badleeFns/single";
 
 export default store => next => action => {
   switch (action.type) {

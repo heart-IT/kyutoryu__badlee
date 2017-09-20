@@ -1,4 +1,5 @@
 // @flow
+import { fromJS, List, Map, OrderedSet, Record, Set } from 'immutable';
 
 /**
  * @name- core.js
@@ -12,23 +13,13 @@
  * @author - heartit pirates were here.
  */
 
-"use strict";
+("use strict");
 
 /**
  * Imp[o]rts Definition :-
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
  */
-import {
-  fromJS,
-  Record,
-  Map,
-  List,
-  Set,
-  OrderedSet,
-  toJS,
-  findIndex
-} from "immutable";
 import type { State, User } from "./types";
 
 const StateRecord = Record({
@@ -136,17 +127,16 @@ export function clearUser(state: State): State {
  * Badlee Core Section
  */
 export function getBadlees(state, badlees, tabName, badleesIDS) {
+  console.log("gold digging here");
+  console.log(badlees, tabName, badleesIDS);
   let badleeObject = {};
   badlees.map(badlee => {
     badleeObject[badlee.id] = badlee;
   });
-  var updatedBadlees = state.get("allBadlees").merge(fromJS(badleeObject));
-  var updatedIDS = state
-    .getIn(["badleesByCategory", tabName, "ids"])
-    .union(badleesIDS);
+  var updatedBadlees = state.get("allBadlees").merge(badleeObject);
   return state
     .set("allBadlees", updatedBadlees)
-    .setIn(["badleesByCategory", tabName, "ids"], updatedIDS);
+    .setIn(["badleesByCategory", tabName, "ids"], fromJS(badleesIDS));
 }
 
 export function saveBadlee() {}

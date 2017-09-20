@@ -8,12 +8,11 @@
  * 
  * @author- heartit pirates were here
  */
+import { AsyncStorage } from 'react-native';
 
-"use strict";
+import * as actionCreators from '../../action_creators';
 
-import { AsyncStorage } from "react-native";
-
-import * as actionCreators from "../../action_creators";
+("use strict");
 
 const urls = [
   "http://mri2189.badlee.com/postbyfollow.php",
@@ -25,7 +24,6 @@ const urls = [
 export default async function getBadlees(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-
     let {
       tabName,
       offset,
@@ -85,15 +83,13 @@ async function getBadleesByLocation(location, offset, limit) {
 
 // Calls server api with given search, purpose, offset limit, return list of badlees in case of success.. otherwise throw error
 async function getBadleesByGlobe(search, purpose, offset, limit) {
-  let url;
+  console.log("starting my excavation");
+  console.log(search, purpose);
   let jollyroger = await AsyncStorage.getItem("jollyroger");
-  if (search) {
-    url = urls[2] + `?sp=${search}`;
-    purpose ? (url += `&spp=${purpose}`) : "";
-    url += `&offset=${offset}&limit=${limit}`;
-  } else {
-    url = `${urls[1]}?offset=${offset}&limit=${limit}`;
-  }
+  let url = search
+    ? `${urls[2]}?sp=${search}${purpose ? "&spp=" + purpose : ""}`
+    : `${urls[1]}?${purpose ? "&purpose=" + purpose : ""}`;
+  url += `&offset=${offset}&limit=${limit}`;
   console.log(url);
   let badleeFetch = await fetch(url, {
     headers: {
@@ -103,6 +99,7 @@ async function getBadleesByGlobe(search, purpose, offset, limit) {
   console.log(badleeFetch);
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();
+    console.log(badlees);
     return badlees;
   } else {
     throw "error happened in globe";

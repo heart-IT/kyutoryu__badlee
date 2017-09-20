@@ -9,36 +9,22 @@
  * @author- heartit pirates were here
  */
 "use strict";
+import { fromJS } from 'immutable';
+import { Container, Content, Input, Item, Radio, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fromJS, toJS } from "immutable";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import BadleesList from '../../components/BadleesList';
+import BadleeFab from '../../components/Fab';
+import Icon from '../../components/Icon';
+import getTheme from '../../theme/components';
+import Comments from './Comments';
+import NewBadlee from './NewBadlee';
+import SingleBadlee from './SingleBadlee';
+import User from './User';
 
-import {
-  StyleProvider,
-  Container,
-  Content,
-  Tabs,
-  Tab,
-  TabHeading,
-  View,
-  Text,
-  Button,
-  Item,
-  Input,
-  Radio
-} from "native-base";
-
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
-import BadleeFab from "../../components/Fab";
-import BadleesList from "../../components/BadleesList";
-
-import NewBadlee from "./NewBadlee";
-import User from "./User";
-import Comments from "./Comments";
-import SingleBadlee from "./SingleBadlee";
 
 class Store extends Component {
   constructor(props) {
@@ -238,8 +224,8 @@ class Store extends Component {
                           this.state.activeTabIndex === 0 ? (
                             "#611265"
                           ) : (
-                            "#4D4D4D"
-                          )
+                              "#4D4D4D"
+                            )
                         }
                         name="community"
                         height="27"
@@ -268,8 +254,8 @@ class Store extends Component {
                           this.state.activeTabIndex === 1 ? (
                             "#611265"
                           ) : (
-                            "#4D4D4D"
-                          )
+                              "#4D4D4D"
+                            )
                         }
                         name="location"
                         height="21"
@@ -300,8 +286,8 @@ class Store extends Component {
                           this.state.activeTabIndex === 2 ? (
                             "#611265"
                           ) : (
-                            "#4D4D4D"
-                          )
+                              "#4D4D4D"
+                            )
                         }
                         name="globe"
                         height="21"
@@ -357,8 +343,8 @@ class Store extends Component {
                             this.state.globecategory === "exchange" ? (
                               true
                             ) : (
-                              false
-                            )
+                                false
+                              )
                           }
                           onPress={text => this.onRadioSelect("exchange")}
                           style={{ marginRight: 12 }}
@@ -374,8 +360,8 @@ class Store extends Component {
                             this.state.globecategory === "showOff" ? (
                               true
                             ) : (
-                              false
-                            )
+                                false
+                              )
                           }
                           onPress={text => this.onRadioSelect("showOff")}
                         />

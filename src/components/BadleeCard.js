@@ -9,23 +9,13 @@
  * @author- heartit pirates were here
  */
 "use strict";
+import moment from 'moment';
+import { Body, Card, CardItem, Left, Right, Text, Thumbnail, View } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { Image, TouchableOpacity } from 'react-native';
 
-import React, { Component } from "react";
-import { Image, TouchableOpacity } from "react-native";
-import {
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Body,
-  View,
-  Left,
-  Right,
-  Button
-} from "native-base";
-import moment from "moment";
-
-import Icon from "./Icon";
+import Icon from './Icon';
 
 class BadleeCard extends React.PureComponent {
   constructor(props) {

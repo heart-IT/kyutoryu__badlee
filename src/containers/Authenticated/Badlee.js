@@ -15,6 +15,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as actionCreators from '../../badlee__redux/action_creators';
+import BadleesGrid from '../../components/BadleesGrid';
 import BadleesList from '../../components/BadleesList';
 import BadleeFab from '../../components/Fab';
 import Icon from '../../components/Icon';
@@ -34,7 +35,7 @@ class Store extends Component {
       activeTabIndex: 0,
       currentPagination: {
         offset: 0,
-        limit: 10
+        limit: 30
       },
       searchString: null,
       globecategory: null,
@@ -187,7 +188,7 @@ class Store extends Component {
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
     this.setState(
-      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 10 } },
+      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 30 } },
       () => {
         this.getBadlees();
       }
@@ -232,6 +233,14 @@ class Store extends Component {
           onClickComment={_this.onClickComment}
           onClickBadlee={_this.onClickBadlee}
           userId={_this.props.user.get("user_id")}
+        />
+      );
+    }
+    function returnBadleeGrid() {
+      return (
+        <BadleesGrid
+          data={_this.state.currentData}
+          onClickBadlee={_this.onClickBadlee}
         />
       );
     }
@@ -316,7 +325,7 @@ class Store extends Component {
                       </View>
                     </View>
                   </View>
-                  <View>{returnBadleeList()}</View>
+                  <View>{returnBadleeGrid()}</View>
                 </Tab>
               </Tabs>
             </View>
@@ -336,7 +345,8 @@ const styles = {
     paddingTop: 12,
     paddingBottom: 6,
     paddingLeft: 12,
-    paddingRight: 12
+    paddingRight: 12,
+    marginBottom: 6
   },
   inputItem: { height: 36, paddingLeft: 12 },
   searchInput: { lineHeight: 32, height: 36, fontSize: 14 },

@@ -139,7 +139,12 @@ export function getBadlees(state, badlees, tabName, badleesIDS) {
     .setIn(["badleesByCategory", tabName, "ids"], fromJS(badleesIDS));
 }
 
-export function saveBadlee() {}
+export function saveBadlee(state, newBadlee) {
+  let obj = {};
+  obj[newBadlee.id] = newBadlee;
+  var updatedBadlees = state.get("allBadlees").merge(obj);
+  return state.set("allBadlees", updatedBadlees);
+}
 
 export function saveGuestUser(state: State, user) {
   return state.set("guestUser", fromJS(user));

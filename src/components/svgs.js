@@ -1,18 +1,5 @@
-import React from "react";
-import {
-  G,
-  Path,
-  Ellipse,
-  Circle,
-  Defs,
-  Filter,
-  Mask,
-  feFlood,
-  feBlend,
-  Image,
-  LinearGradient,
-  Stop
-} from "react-native-svg";
+import React from 'react';
+import { Circle, Ellipse, G, Image, LinearGradient, Path, Stop } from 'react-native-svg';
 
 export default {
   // badlee icon svg
@@ -659,5 +646,17 @@ export default {
       </G>
     ),
     viewBox: "0 0 485.215 485.215"
+  },
+  thingy: {
+    svg: (
+      <G>
+        <Path fill="#9525B1" d="M440 200h400v400H440z" />
+        <G fill="#FFF">
+          <Path d="M745.596 339.253L639.88 400.288l-105.713-61.033v-.42V460.908l105.714 61.032 105.716-61.036V338.837" />
+          <Path d="M640.12 278.06l-105.716 61.035v.622l105.35 60.823 105.716-61.035v-.417l.364.007L640.12 278.06zm80.625 61.078h-.002v.32l-80.904 46.71-80.626-46.55v-.476l80.905-46.71 80.903 46.71-.278-.004z" />
+        </G>
+      </G>
+    ),
+    viewBox: "0 0 1280 800"
   }
 };

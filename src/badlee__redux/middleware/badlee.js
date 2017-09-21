@@ -11,12 +11,11 @@
 import { postComment, showCommentPage } from './badleeFns/comment';
 import getBadlees from './badleeFns/get';
 import { onClickLike, onClickUnlike } from './badleeFns/like';
-import * as saveBadlee from './badleeFns/save';
+import saveBadlee from './badleeFns/save';
 import { showBadleePage } from './badleeFns/single';
 import { onClickUnwish, onClickWish } from './badleeFns/wish';
 
-
-"use strict";
+("use strict");
 
 export default store => next => action => {
   switch (action.type) {

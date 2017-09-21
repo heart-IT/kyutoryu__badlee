@@ -77,7 +77,7 @@ export default class BadleesGrid extends React.PureComponent {
           justifyContent: "flex-start",
           alignItems: "stretch",
           flexWrap: "wrap",
-          paddingBottom: 12,
+          paddingBottom: 108,
           paddingTop: 12
         }}
         keyExtractor={this._keyExtractor}

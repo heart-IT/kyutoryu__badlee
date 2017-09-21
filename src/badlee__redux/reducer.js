@@ -1,4 +1,6 @@
 // @flow
+import * as core from './core';
+
 
 /**
  * @name- reducer.js
@@ -14,7 +16,6 @@
 
 "use strict";
 
-import * as core from "./core";
 import type { State, Action } from "./types";
 
 export function reducer(
@@ -69,7 +70,7 @@ export function reducer(
         action.badleesInIDS
       );
     case "SAVE_BADLEE":
-      return core.saveBadlee();
+      return core.saveBadlee(state, action.newBadlee);
       break;
     case "SHOW_USER_PAGE":
       return core.saveGuestUser(state, action.user);

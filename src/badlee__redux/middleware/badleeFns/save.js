@@ -1,9 +1,8 @@
 "use strict";
+import { AsyncStorage } from 'react-native';
 
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
-
-import { saveMedia } from "../utility";
+import * as actionCreators from '../../action_creators';
+import { application_id, application_secret, createFormData, saveMedia } from '../utility';
 
 async function saveBadlee(badleeData, badleePhotoUrl) {
   try {
@@ -14,17 +13,11 @@ async function saveBadlee(badleeData, badleePhotoUrl) {
       location: badleeData.location,
       purpose: badleeData.purpose,
       category: badleeData.category,
-      application_id: "xYqBgc1Xcf2Ufyhir5ab",
-      application_secret: "vh4tyy74xAnNLtGagto4"
+      application_id,
+      application_secret
     };
     const jolly_roger = await AsyncStorage.getItem("jollyroger");
-    let formBody = [];
-    for (var props in data) {
-      var encodedKey = encodeURIComponent(props);
-      var encodedValue = encodeURIComponent(data[props]);
-      formBody.push(`${encodedKey}=${encodedValue}`);
-    }
-    formBody = formBody.join("&");
+    let formBody = createFormData(data);
     let response = await fetch("http://mri2189.badlee.com/posts.php", {
       method: "POST",
       headers: {
@@ -48,21 +41,22 @@ async function saveBadlee(badleeData, badleePhotoUrl) {
 export default async function startSaveProcess(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    var badleeData = action.data;
-    var uploadMedia = await saveMedia({
+    let badleeData = action.data;
+    let uploadMedia = await saveMedia({
       uri: badleeData.badleePhotoUrl.uri,
       imageType: badleeData.badleePhotoType,
       fileName: badleeData.badleePhotoName
     });
     if (uploadMedia.error) {
-      next(action);
+      throw "couldnt upload image";
     } else {
-      var saveBadleeResponse = await saveBadlee(badleeData, uploadMedia.url);
-      if (saveBadleeResponse.error) {
-        next(action);
+      let newBadlee = await saveBadlee(badleeData, uploadMedia.url);
+      if (newBadlee.error) {
+        throw "error happened in saving badlee..";
       } else {
-        await store.dispatch(actionCreators.navigate(action.route));
+        action.newBadlee = newBadlee;
         next(action);
+        await store.dispatch(actionCreators.navigate(action.route));
       }
     }
   } catch (err) {

@@ -4,13 +4,14 @@
  * @description- Fab component
  * @author- heartit pirates were here
  */
+import { Fab } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { Button, Image } from 'react-native';
 
-"use strict";
-import React, { Component } from "react";
-import { Image, Button, View } from "react-native";
-import { Fab } from "native-base";
-import Icon from "./Icon";
+import Icon from './Icon';
 
+("use strict");
 export default class BadleeFab extends Component {
   constructor(props) {
     super(props);
@@ -63,8 +64,8 @@ export default class BadleeFab extends Component {
           onPress={this.onshowOffClick.bind(this)}
           style={{
             backgroundColor: "transparent",
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 36,
             zIndex: 1001
           }}
         >

@@ -1,5 +1,5 @@
 // @flow
-import { fromJS, List, Map, OrderedSet, Record, Set } from 'immutable';
+import { fromJS, Map, OrderedSet, Record, Set } from 'immutable';
 
 /**
  * @name- core.js
@@ -19,37 +19,36 @@ import { fromJS, List, Map, OrderedSet, Record, Set } from 'immutable';
  * Imp[o]rts Definition :-
  * 
  * Record -> A record is similar to a JS object, but enforces a specific set of allowed string keys, and have default Value.
+ * 
+ * user -> 
+ *  badleeCategory = {userId: {exchange: [], showoff: [], shoutout: []}}
+ *  guestUsers = {userId: {information}} 
  */
-import type { State, User } from "./types";
 
 const StateRecord = Record({
   application: new Map({
     isLoading: false,
     isOnline: true,
-    error: new Set(),
+    errors: new Set(),
     navigator: null,
-    notification: null
+    notifications: new Set()
   }),
   user: new Map({
     isLoggedIn: false,
-    information: new Map(),
-    followers: new List()
+    loggedUserID: null,
+    usersInformation: fromJS({})
   }),
-  guestUser: fromJS({}),
-  allBadlees: fromJS({}),
-  tempBadlee: fromJS({}),
-  badleesByCategory: new Map({
-    location: new Map({
-      ids: new OrderedSet(),
-      total: 0
+  badlees: new Map({
+    data: fromJS({}),
+    tabs: new Map({
+      following: new OrderedSet(),
+      location: new OrderedSet(),
+      globe: new OrderedSet()
     }),
-    globe: new Map({
-      ids: new OrderedSet(),
-      total: 0
-    }),
-    following: new Map({
-      ids: new OrderedSet(),
-      total: 0
+    users: new Map({
+      exchange: fromJS({}),
+      showoff: fromJS({}),
+      shoutout: fromJS({})
     })
   })
 });
@@ -144,6 +143,17 @@ export function saveBadlee(state, newBadlee) {
   obj[newBadlee.id] = newBadlee;
   var updatedBadlees = state.get("allBadlees").merge(obj);
   return state.set("allBadlees", updatedBadlees);
+}
+
+export function saveUserBadlees(state, userID, purpose, badlees) {
+  let tempObj = {};
+  let ids = badlees.map(badlee => {
+    tempObj[badlee.id] = badlee;
+    return badlee.id;
+  });
+  return state
+    .set("allBadlees", state.get("allBadlees").merge(tempObj))
+    .setIn(["usersMeta", userID, purpose], ids);
 }
 
 export function saveGuestUser(state: State, user) {

@@ -5,49 +5,67 @@
  * @description- This file contains User Profile page of the App
  * @author- heartit pirates
  */
-
-"use strict";
-
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image, TouchableOpacity } from "react-native";
 import {
-  StyleProvider,
-  Container,
-  Header,
-  Left,
-  Right,
-  Content,
-  View,
-  Text,
-  Button,
-  Tabs,
-  Tab,
-  TabHeading
-} from "native-base";
+    Button,
+    Container,
+    Content,
+    Header,
+    Left,
+    Right,
+    StyleProvider,
+    Tab,
+    TabHeading,
+    Tabs,
+    Text,
+    View,
+} from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
-import getTheme from "../../theme/components";
-import * as actionCreators from "../../badlee__redux/action_creators";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import BadleesGrid from '../../components/BadleesGrid';
+import Icon from '../../components/Icon';
+import LoadingView from '../../components/LoadingView';
+import getTheme from '../../theme/components';
+import Login from '../Not__Authenticated/login';
 
-import Icon from "../../components/Icon";
-import LoadingView from "../../components/LoadingView";
-
-import Login from "../Not__Authenticated/login";
+("use strict");
 
 class User extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOtherUser: false
-    };
     this.handleLogout = this.handleLogout.bind(this);
+    this.unFollowUser = this.unFollowUser.bind(this);
+    this.followUser = this.followUser.bind(this);
+    this.onTabChange = this.onTabChange.bind(this);
+    this.state = {
+      currentData: [],
+      activeTabIndex: 0
+    };
   }
   componentDidMount() {
-    if (this.props.params && this.props.params.isOtherProfile) {
-      this.setState({
-        isOtherUser: true
-      });
-    }
+    this.setState(
+      { isOtherUser: this.props.params && this.props.params.isOtherUser },
+      () => {
+        this.getUserBadlees();
+      }
+    );
+  }
+  onTabChange(i, ref) {
+    this.setState({ activeTabIndex: i.i }, () => {
+      this.getUserBadlees();
+    });
+  }
+  getUserBadlees() {
+    let activeTab = ["exchange", "shoutout", "showoff"][
+      this.state.activeTabIndex
+    ];
+    let userID = this.state.isOtherUser
+      ? this.props.guestUser.get("user_id")
+      : this.props.user.get("user_id");
+    this.props.getUserBadlees(userID, activeTab);
   }
   handleLogout() {
     this.props.logout({
@@ -65,39 +83,51 @@ class User extends Component {
   }
 
   render() {
-    const user = this.state.isOtherUser
+    let _this = this;
+    const { isOtherUser } = this.state;
+
+    const user = isOtherUser
       ? this.props.guestUser.toJS()
       : this.props.user.toJS();
-    const loggedUser = this.props.user;
-    const { isOtherUser } = this.state;
+
+    const loggedUserID = this.props.user.get("user_id");
+
+    const isGuestFollower =
+      user.follower && user.follower.indexOf(loggedUserID) !== -1;
+
+    function returnIcon(name, width = 24, height = 24) {
+      return <Icon name={name} width={width} height={height} />;
+    }
+    let guestUserHeader = (
+      <Header style={{ backgroundColor: "#fff" }}>
+        <Left>
+          <TouchableOpacity transparent>
+            {returnIcon("menuBackIcon")}
+          </TouchableOpacity>
+        </Left>
+        <Right>
+          {isGuestFollower && (
+            <Button transparent onPress={this.unFollowUser}>
+              {returnIcon("following")}
+            </Button>
+          )}
+          {!isGuestFollower && (
+            <Button transparent onPress={this.followUser}>
+              {returnIcon("follow_add")}
+            </Button>
+          )}
+        </Right>
+      </Header>
+    );
+
+    function returnBadleeGrid() {
+      return <BadleesGrid data={_this.state.currentData} />;
+    }
+
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          {isOtherUser && (
-            <Header style={{ backgroundColor: "#fff" }}>
-              <Left>
-                <Button transparent>
-                  <Icon name="menuBackIcon" width="24" height="24" />
-                </Button>
-              </Left>
-              <Right>
-                {user.follower &&
-                user.follower.indexOf(loggedUser.get("user_id")) > -1 && (
-                  <Button transparent onPress={this.unFollowUser.bind(this)}>
-                    <Icon name="following" width="24" height="24" />
-                  </Button>
-                )}
-                {(!user.follower ||
-                  (user.follower &&
-                    user.follower.indexOf(loggedUser.get("user_id")) ===
-                      -1)) && (
-                  <Button transparent onPress={this.followUser.bind(this)}>
-                    <Icon name="follow_add" width="24" height="24" />
-                  </Button>
-                )}
-              </Right>
-            </Header>
-          )}
+          {isOtherUser && guestUserHeader}
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             {!isOtherUser && (
               <TouchableOpacity
@@ -105,7 +135,7 @@ class User extends Component {
                 onPress={this.handleLogout}
                 style={styles.logout}
               >
-                <Icon name="logout" width="24" height="24" />
+                {returnIcon("logout")}
               </TouchableOpacity>
             )}
             <View style={styles.user__info}>
@@ -142,11 +172,15 @@ class User extends Component {
                 <Text style={styles.user__interests}>{user.interests}</Text>
               </View>
             </View>
-            <Tabs style={styles.user__badleetory}>
+            <Tabs
+              style={styles.user__badleetory}
+              onChangeTab={this.onTabChange}
+              initialPage={this.state.activeTabIndex}
+            >
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Icon name="exchange" width="30" height="30" />
+                    {returnIcon("exchange", 30, 30)}
                   </TabHeading>
                 }
                 style={styles.inventory__type}
@@ -154,22 +188,22 @@ class User extends Component {
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Icon name="shoutout" width="30" height="30" />
+                    {returnIcon("shoutout", 30, 30)}
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Icon name="shoutout" width="30" height="30" />
+                {returnIcon("shoutout", 30, 30)}
               </Tab>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
-                    <Icon name="showoff" width="36" height="36" />
+                    {returnIcon("showoff", 36, 36)}
                   </TabHeading>
                 }
                 style={styles.inventory__type}
               >
-                <Icon name="showoff" width="30" height="30" />
+                {returnIcon("showoff", 36, 36)}
               </Tab>
             </Tabs>
           </Content>
@@ -287,6 +321,7 @@ const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "information"]),
     guestUser: state.get("guestUser"),
+
     loading: state.getIn(["application", "isLoading"]),
     notification: state.getIn(["application", "notification"])
   }),

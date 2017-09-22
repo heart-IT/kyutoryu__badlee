@@ -1,18 +1,17 @@
+// @flow
+import * as actionCreators from '../../action_creators';
+
 /**
  * @name- show.js
  * 
- * @chill-
+ * @chill- I live not in myself, but i become Portion of that around me: and to me High mountains are a feeling. -Lord Byron
  * 
  * 
  * @description- Show Other user Page
  * 
  * @author- heartit pirates were here
  */
-
-"use strict";
-
-import type { Action, SHOW_USER_PAGE } from "../types";
-import * as actionCreators from "../../action_creators";
+("use strict");
 
 async function getUser(id) {
   let userGetRequest = await fetch(
@@ -22,11 +21,7 @@ async function getUser(id) {
   return user;
 }
 
-export default async function showUserPage(
-  store,
-  next: Function,
-  action: SHOW_USER_PAGE
-) {
+export default async function showUserPage(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
 

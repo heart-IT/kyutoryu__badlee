@@ -1,4 +1,7 @@
 // @flow
+import { followUser, unFollowUser } from './userFns/follow';
+import getBadlees from './userFns/getBadlees';
+import showUserPage from './userFns/show';
 
 /**
  * @name- user.js
@@ -11,10 +14,7 @@
  * @author- heartit pirates were here
  */
 
-"use strict";
-
-import showUserPage from "./userFns/show";
-import { followUser, unFollowUser } from "./userFns/follow";
+("use strict");
 
 export default store => (next: Function) => (action: Action) => {
   switch (action.type) {
@@ -27,6 +27,8 @@ export default store => (next: Function) => (action: Action) => {
     case "UNFOLLOW_USER":
       return unFollowUser(store, next, action);
       break;
+    case "GET_USER_BADLEES":
+      return getBadlees(store, next, action);
     default:
       return next(action);
   }

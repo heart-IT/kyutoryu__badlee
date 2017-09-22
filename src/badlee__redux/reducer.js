@@ -1,7 +1,6 @@
 // @flow
 import * as core from './core';
 
-
 /**
  * @name- reducer.js
  * 
@@ -14,7 +13,7 @@ import * as core from './core';
  * @author - heartit pirates were here.
  */
 
-"use strict";
+("use strict");
 
 import type { State, Action } from "./types";
 
@@ -98,6 +97,14 @@ export function reducer(
       break;
     case "POST_COMMENT":
       return core.postComment(state, action.id, action.commentResponse);
+      break;
+    case "GET_USER_BADLEES":
+      return core.saveUserBadlees(
+        state,
+        action.id,
+        action.purpose,
+        action.badlees
+      );
       break;
     default:
       return state;

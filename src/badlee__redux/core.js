@@ -27,10 +27,10 @@ import { fromJS, Map, OrderedSet, Record, Set } from 'immutable';
 
 const StateRecord = Record({
   application: new Map({
+    navigator: null,
     isLoading: false,
     isOnline: true,
     errors: new Set(),
-    navigator: null,
     notifications: new Set()
   }),
   user: new Map({
@@ -53,24 +53,24 @@ const StateRecord = Record({
   })
 });
 
-export const InitialState: State = new StateRecord();
+export const InitialState = new StateRecord();
 
-export function setNavigator(state: State, navigator: any): State {
+/**
+ * Application methods
+ */
+export function setNavigator(state, navigator) {
   return state.setIn(["application", "navigator"], navigator);
 }
 
-export function startLoading(state: State): State {
+export function startLoading(state) {
   return state.setIn(["application", "isLoading"], true);
 }
 
-export function finishLoading(state: State): State {
+export function finishLoading(state) {
   return state.setIn(["application", "isLoading"], false);
 }
 
-export function changeInternetConnectionStatus(
-  state: State,
-  status: boolean
-): State {
+export function changeInternetConnectionStatus(state, status) {
   return state.setIn(["application", "isOnline"], status);
 }
 
@@ -108,11 +108,17 @@ export function clearAllError(state: State): State {
  * Auth Functions
  */
 
-//  Function called when user logs in app. Add user to the app
-export function addUser(state: State, user: User): State {
+export function addLoggedUser(state, user) {
+  let userID = user.user_id;
+  let userInformation = {};
+  userInformation[userID] = user;
   return state
     .setIn(["user", "isLoggedIn"], true)
-    .setIn(["user", "information"], fromJS(user));
+    .setIn(["user", "loggedUserID"], userID)
+    .setIn(
+      ["user", "usersInformation"],
+      state.getIn(["user", "usersInformation"]).merge(userInformation)
+    );
 }
 
 // Function called when user logsout of app. Remove user from the app

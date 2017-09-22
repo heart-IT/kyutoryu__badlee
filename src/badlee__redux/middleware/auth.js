@@ -1,4 +1,9 @@
 // @flow
+import forgot_password from './authFns/forgot_password';
+import login from './authFns/login';
+import logout from './authFns/logout';
+import register from './authFns/register';
+import restoreAuth from './authFns/restoreAuth';
 
 /**
  * @name- auth.js
@@ -11,26 +16,18 @@
  * @author- heartit pirates were here
  */
 
-"use strict";
+("use strict");
 
-import type { Action } from "../types";
-
-import login from "./authFns/login";
-import register from "./authFns/register";
-import restore_auth from "./authFns/restore_auth";
-import logout from "./authFns/logout";
-import forgot_password from "./authFns/forgot_password";
-
-export default store => (next: Function) => (action: Action) => {
+export default store => next => action => {
   switch (action.type) {
+    case "RESTORE_AUTH":
+      return restoreAuth(store, next, action);
+      break;
     case "LOGIN":
       return login(store, next, action);
       break;
     case "REGISTER":
       return register(store, next, action);
-      break;
-    case "RESTORE_AUTH":
-      return restore_auth(store, next, action);
       break;
     case "LOGOUT":
       return logout(store, next, action);

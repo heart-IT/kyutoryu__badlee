@@ -1,4 +1,8 @@
 // @flow
+import { AsyncStorage, NetInfo } from 'react-native';
+
+import * as actionCreators from '../../action_creators';
+import { getRestoreAuthNextRoute } from './../utility';
 
 /**
  * @name- restore_auth.js
@@ -11,22 +15,11 @@
  * @author- heartit pirates were here
  */
 
-"use strict";
+("use strict");
 
-import { AsyncStorage, NetInfo } from "react-native";
-
-import type { Action, RESTORE_AUTH } from "../../types";
-import * as actionCreators from "../../action_creators";
-import { getRestoreAuthNextRoute } from "./../utility";
-
-export default async function restore_auth(
-  store,
-  next: Function,
-  action: RESTORE_AUTH
-) {
+export default async function restoreAuth(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-
     NetInfo.isConnected.addEventListener("change", async function(isConnected) {
       await store.dispatch(
         actionCreators.changeInternetConnectionStatus(isConnected)
@@ -35,6 +28,7 @@ export default async function restore_auth(
 
     let { route } = action;
     let user = await AsyncStorage.getItem("user");
+
     if (user) {
       action.user = JSON.parse(user);
       next(action);

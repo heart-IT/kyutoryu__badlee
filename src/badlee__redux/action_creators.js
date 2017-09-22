@@ -13,40 +13,23 @@
 
 "use strict";
 
-import type {
-  CHANGE_CONNECTION_STATUS,
-  SET_NAVIGATOR,
-  NAVIGATE_TO,
-  START_LOADING,
-  FINISH_LOADING,
-  LOGIN,
-  REGISTER,
-  LOGOUT,
-  RESTORE_AUTH,
-  FORGOT_PASSWORD,
-  ADD_NOTIFICATION,
-  CLEAR_NOTIFICATION,
-  ADD_ERROR,
-  CLEAR_ERROR,
-  GET_BADLEES,
-  SAVE_BADLEE
-} from "./types";
-
-export const changeInternetConnectionStatus = (
-  status: boolean
-): CHANGE_CONNECTION_STATUS => ({
-  type: "INTERNET_CONNECTION",
-  status: status
-});
-
-export const setNavigator = (navigator: any): SET_NAVIGATOR => ({
+export const setNavigator = navigator => ({
   type: "SET_NAVIGATOR",
   navigator: navigator
 });
 
-export const startLoading = (): START_LOADING => ({ type: "START_LOADING" });
+export const restoreAuth = route => ({
+  type: "RESTORE_AUTH",
+  route: route
+});
 
-export const finishLoading = (): FINISH_LOADING => ({ type: "FINISH_LOADING" });
+export const startLoading = () => ({ type: "START_LOADING" });
+export const finishLoading = () => ({ type: "FINISH_LOADING" });
+
+export const changeInternetConnectionStatus = status => ({
+  type: "INTERNET_CONNECTION",
+  status: status
+});
 
 export const navigate = (route: ?Object): NAVIGATE_TO => ({
   type: "NAVIGATE_TO",
@@ -79,11 +62,6 @@ export const register = (userObject: Object, route: ?Object): REGISTER => ({
 
 export const logout = (route: ?Object): LOGOUT => ({
   type: "LOGOUT",
-  route: route
-});
-
-export const restoreAuth = (route: ?Object = null): RESTORE_AUTH => ({
-  type: "RESTORE_AUTH",
   route: route
 });
 

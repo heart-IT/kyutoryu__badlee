@@ -12,19 +12,18 @@
  * 
  * @todo- 1. Onboarding only comes first time.
  */
+import { Container, Content, StyleProvider } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
-"use strict";
+import * as actionCreators from '../badlee__redux/action_creators';
+import getTheme from '../theme/components';
+import Loading from './../components/LoadingView';
+import BadleeAuthApp from './Authenticated/GoingMerry';
+import Onboarding from './Not__Authenticated/onboarding';
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { StyleProvider, Container, Content } from "native-base";
-
-import * as actionCreators from "../badlee__redux/action_creators";
-import getTheme from "../theme/components";
-
-import Loading from "./../components/LoadingView";
-import Onboarding from "./Not__Authenticated/onboarding";
-import BadleeAuthApp from "./Authenticated/GoingMerry";
+("use strict");
 
 class Init extends Component {
   componentDidMount() {

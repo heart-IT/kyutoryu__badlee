@@ -15,16 +15,8 @@ import * as core from './core';
 
 ("use strict");
 
-import type { State, Action } from "./types";
-
-export function reducer(
-  state: State = core.InitialState,
-  action: Action
-): State {
+export function reducer(state = core.InitialState, action) {
   switch (action.type) {
-    case "INTERNET_CONNECTION":
-      return core.changeInternetConnectionStatus(state, action.status);
-      break;
     case "SET_NAVIGATOR":
       return core.setNavigator(state, action.navigator);
       break;
@@ -34,14 +26,17 @@ export function reducer(
     case "FINISH_LOADING":
       return core.finishLoading(state);
       break;
-    case "LOGIN":
-      return core.addUser(state, action.user);
-      break;
-    case "REGISTER":
-      return core.addUser(state, action.user);
+    case "INTERNET_CONNECTION":
+      return core.changeInternetConnectionStatus(state, action.status);
       break;
     case "RESTORE_AUTH":
-      return core.addUser(state, action.user);
+      return core.addLoggedUser(state, action.user);
+      break;
+    case "LOGIN":
+      return core.addLoggedUser(state, action.user);
+      break;
+    case "REGISTER":
+      return core.addLoggedUser(state, action.user);
       break;
     case "LOGOUT":
       return core.clearUser(state);

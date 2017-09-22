@@ -74,33 +74,36 @@ export function changeInternetConnectionStatus(state, status) {
   return state.setIn(["application", "isOnline"], status);
 }
 
-export function addAppNotification(state: State, notification: String): State {
-  return state.setIn(["application", "notification"], notification);
-}
-export function clearAppNotification(
-  state: State,
-  notification: String
-): State {
-  return state.setIn(["application", "notification"], null);
-}
-
-export function addError(state: State, error: String): State {
+export function addNotification(state, notification) {
   return state.setIn(
-    ["application", "error"],
-    state.getIn(["application", "error"]).add(error)
+    ["application", "notifications"],
+    state.getIn(["application", "notifications"]).add(notification)
   );
 }
-export function clearError(state: State, error: String): State {
+export function clearNotification(state, notification) {
   return state.setIn(
-    ["application", "error"],
-    state.getIn(["application", "error"]).delete(error)
+    ["application", "notifications"],
+    state.getIn(["application", "notifications"]).delete(notification)
   );
 }
 
-export function clearAllError(state: State): State {
+export function addError(state, error) {
   return state.setIn(
-    ["application", "error"],
-    state.getIn(["application", "error"]).clear()
+    ["application", "errors"],
+    state.getIn(["application", "errors"]).add(error)
+  );
+}
+export function clearError(state, error) {
+  return state.setIn(
+    ["application", "errors"],
+    state.getIn(["application", "errors"]).delete(error)
+  );
+}
+
+export function clearAllError(state) {
+  return state.setIn(
+    ["application", "errors"],
+    state.getIn(["application", "errors"]).clear()
   );
 }
 
@@ -121,34 +124,69 @@ export function addLoggedUser(state, user) {
     );
 }
 
-// Function called when user logsout of app. Remove user from the app
-export function clearUser(state: State): State {
+export function clearUser(state) {
   return state
     .setIn(["user", "isLoggedIn"], false)
-    .setIn(["user", "information"], new Map());
+    .setIn(["user", "loggedUserID"], null);
+}
+
+export function saveGuestUser(state, user) {
+  let userID = user.user_id;
+  let userInformation = {};
+  userInformation[userID] = user;
+  return state.setIn(
+    ["user", "usersInformation"],
+    state.getIn(["user", "usersInformation"]).merge(userInformation)
+  );
+}
+
+export function followUser(state, userID) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  let oldFollowers = state.getIn([
+    "user",
+    "usersInformation",
+    userID,
+    "follower"
+  ]);
+  return state.setIn(
+    ["user", "usersInformation", userID, "follower"],
+    oldFollowers ? oldFollowers.push(loggedUserID) : fromJS([loggedUserID])
+  );
+}
+
+export function unfollowUser(state, userID) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  let oldFollowers = state.getIn([
+    "user",
+    "usersInformation",
+    userID,
+    "follower"
+  ]);
+  return state.setIn(
+    ["user", "usersInformation", userID, "follower"],
+    oldFollowers.remove(oldFollowers.indexOf(loggedUserID))
+  );
 }
 
 /**
  * Badlee Core Section
  */
 export function getBadlees(state, badlees, tabName, badleesIDS) {
-  console.log("gold digging here");
-  console.log(badlees, tabName, badleesIDS);
   let badleeObject = {};
   badlees.map(badlee => {
     badleeObject[badlee.id] = badlee;
   });
-  var updatedBadlees = state.get("allBadlees").merge(badleeObject);
+  var updatedBadlees = state.getIn(["badlees", "data"]).merge(badleeObject);
   return state
-    .set("allBadlees", updatedBadlees)
-    .setIn(["badleesByCategory", tabName, "ids"], fromJS(badleesIDS));
+    .setIn(["badlees", "data"], updatedBadlees)
+    .setIn(["badlees", "tabs", tabName], fromJS(badleesIDS));
 }
 
 export function saveBadlee(state, newBadlee) {
   let obj = {};
   obj[newBadlee.id] = newBadlee;
-  var updatedBadlees = state.get("allBadlees").merge(obj);
-  return state.set("allBadlees", updatedBadlees);
+  var updatedBadlees = state.getIn(["badlees", "data"]).merge(obj);
+  return state.setIn(["badlees", "data"], updatedBadlees);
 }
 
 export function saveUserBadlees(state, userID, purpose, badlees) {
@@ -158,87 +196,58 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
     return badlee.id;
   });
   return state
-    .set("allBadlees", state.get("allBadlees").merge(tempObj))
-    .setIn(["usersMeta", userID, purpose], ids);
+    .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
+    .setIn(["badlees", "users", purpose, userID], fromJS(ids));
 }
 
-export function saveGuestUser(state: State, user) {
-  return state.set("guestUser", fromJS(user));
-}
-export function followUser(state: State) {
-  let oldFollowers = state.getIn(["guestUser", "follower"]);
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.setIn(
-    ["guestUser", "follower"],
-    oldFollowers ? oldFollowers.push(loggedUser) : fromJS([loggedUser])
-  );
-}
-export function unfollowUser(state: State) {
-  let oldFollowers = state.getIn(["guestUser", "follower"]);
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.setIn(
-    ["guestUser", "follower"],
-    oldFollowers.remove(oldFollowers.indexOf(loggedUser))
-  );
-}
-
-export function onClickLike(state: State, id: String) {
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.updateIn(["allBadlees", String(id)], badlee => {
+export function onClickLike(state, id) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "likes",
       badlee.get("likes")
-        ? badlee.get("likes").push(loggedUser)
+        ? badlee.get("likes").push(loggedUserID)
         : fromJS([loggedUser])
     );
   });
 }
-export function onClickUnlike(state: State, id: String) {
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.updateIn(["allBadlees", String(id)], badlee => {
+export function onClickUnlike(state, id) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "likes",
-      badlee.get("likes").remove(badlee.get("likes").indexOf(loggedUser))
+      badlee.get("likes").remove(badlee.get("likes").indexOf(loggedUserID))
     );
   });
 }
 
-export function onClickWish(state: State, id: String) {
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.updateIn(["allBadlees", String(id)], badlee => {
+export function onClickWish(state, id) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "wishes",
       badlee.get("wishes")
-        ? badlee.get("wishes").push(loggedUser)
-        : fromJS([loggedUser])
+        ? badlee.get("wishes").push(loggedUserID)
+        : fromJS([loggedUserID])
     );
   });
 }
-export function onClickUnwish(state: State, id: String) {
-  let loggedUser = state.getIn(["user", "information", "user_id"]);
-  return state.updateIn(["allBadlees", String(id)], badlee => {
+export function onClickUnwish(state, id) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "wishes",
-      badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUser))
+      badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUserID))
     );
   });
 }
 
-export function saveTempBadlee(state: State, id: String) {
-  return state.set("tempBadlee", state.getIn(["allBadlees", String(id)]));
-}
-
-export function postComment(state: State, id: String, comment: Object) {
-  let oldComments = state.getIn(["tempBadlee", "comments"]);
-  return state
-    .updateIn(["allBadlees", String(id)], badlee => {
-      return badlee.set(
-        "comments",
-        oldComments ? oldComments.push(comment) : fromJS([comment])
-      );
-    })
-    .setIn(
-      ["tempBadlee", "comments"],
+export function postComment(state, id, comment) {
+  let oldComments = state.getIn(["badlees", "data", String(id), "comments"]);
+  return state.updateIn(["badlees", "data", String(id)], badlee => {
+    return badlee.set(
+      "comments",
       oldComments ? oldComments.push(comment) : fromJS([comment])
     );
+  });
 }

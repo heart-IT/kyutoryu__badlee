@@ -29,6 +29,21 @@ export function reducer(state = core.InitialState, action) {
     case "INTERNET_CONNECTION":
       return core.changeInternetConnectionStatus(state, action.status);
       break;
+    case "ADD_NOTIFICATION":
+      return core.addNotification(state, action.notification);
+      break;
+    case "CLEAR_NOTIFICATION":
+      return core.clearNotification(state);
+      break;
+    case "ADD_ERROR":
+      return core.addError(state, action.error);
+      break;
+    case "CLEAR_ERROR":
+      return core.clearError(state, action.error);
+      break;
+    case "CLEAR_ALL_ERRORS":
+      return core.clearAllError(state);
+      break;
     case "RESTORE_AUTH":
       return core.addLoggedUser(state, action.user);
       break;
@@ -41,20 +56,14 @@ export function reducer(state = core.InitialState, action) {
     case "LOGOUT":
       return core.clearUser(state);
       break;
-    case "ADD_NOTIFICATION":
-      return core.addAppNotification(state, action.notification);
+    case "SHOW_USER_PAGE":
+      return core.saveGuestUser(state, action.user);
       break;
-    case "CLEAR_NOTIFICATION":
-      return core.clearAppNotification(state);
+    case "FOLLOW_USER":
+      return core.followUser(state, action.userID);
       break;
-    case "ADD_ERROR":
-      return core.addError(state, action.error);
-      break;
-    case "CLEAR_ERROR":
-      return core.clearError(state, action.error);
-      break;
-    case "CLEAR_ALL_ERRORS":
-      return core.clearAllError(state);
+    case "UNFOLLOW_USER":
+      return core.unfollowUser(state, action.userID);
       break;
     case "GET_BADLEES":
       return core.getBadlees(
@@ -66,14 +75,13 @@ export function reducer(state = core.InitialState, action) {
     case "SAVE_BADLEE":
       return core.saveBadlee(state, action.newBadlee);
       break;
-    case "SHOW_USER_PAGE":
-      return core.saveGuestUser(state, action.user);
-      break;
-    case "FOLLOW_USER":
-      return core.followUser(state);
-      break;
-    case "UNFOLLOW_USER":
-      return core.unfollowUser(state);
+    case "GET_USER_BADLEES":
+      return core.saveUserBadlees(
+        state,
+        action.id,
+        action.purpose,
+        action.badlees
+      );
       break;
     case "ON_CLICK_LIKE":
       return core.onClickLike(state, action.id);
@@ -87,20 +95,10 @@ export function reducer(state = core.InitialState, action) {
     case "ON_CLICK_UNWISH":
       return core.onClickUnwish(state, action.id);
       break;
-    case "SAVE_TEMP_BADLEE":
-      return core.saveTempBadlee(state, action.id);
-      break;
     case "POST_COMMENT":
       return core.postComment(state, action.id, action.commentResponse);
       break;
-    case "GET_USER_BADLEES":
-      return core.saveUserBadlees(
-        state,
-        action.id,
-        action.purpose,
-        action.badlees
-      );
-      break;
+
     default:
       return state;
   }

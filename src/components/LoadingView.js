@@ -5,12 +5,11 @@
  * @description- Component for showing loading
  * @author- heartit pirates were here \m/
  */
+import { Spinner } from 'native-base';
+import { Component } from 'react';
+import { View } from 'react-native';
 
-"use strict";
-
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Spinner } from "native-base";
+("use strict");
 
 class LoadingView extends Component {
   render() {
@@ -18,14 +17,6 @@ class LoadingView extends Component {
       <View style={styles.container}>
         <View style={styles.spinner}>
           <Spinner color="#611265" />
-          <Text
-            style={{
-              color: "rgba(0, 0, 0, 0.87)",
-              fontWeight: "bold"
-            }}
-          >
-            {this.props.message ? this.props.message : "Loading badlee"}
-          </Text>
         </View>
       </View>
     );
@@ -40,7 +31,7 @@ const styles = {
     left: 0,
     right: 0,
     backgroundColor: "#fff",
-    opacity: 0.67,
+    opacity: 0.23,
     zIndex: 1040
   },
   spinner: {

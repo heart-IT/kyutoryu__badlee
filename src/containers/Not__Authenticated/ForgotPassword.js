@@ -8,26 +8,17 @@
  * @author- heartit pirates were here
  */
 "use strict";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
+import { Button, Container, Content, Form, Input, Item, StyleProvider, Text, View } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { Image } from 'react-native';
+import { connect } from 'react-redux';
 
-import {
-  StyleProvider,
-  Container,
-  Content,
-  View,
-  Form,
-  Item,
-  Input,
-  Button,
-  Text
-} from "native-base";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Loading from '../../components/LoadingView';
+import getTheme from '../../theme/components';
 
-import type { State } from "../../types";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-import Loading from "../../components/LoadingView";
+("use strict");
 
 class BackgroundImage extends Component {
   render() {
@@ -68,6 +59,7 @@ class ForgotPassword extends Component {
     }
   }
   render() {
+    let { notification } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -123,7 +115,7 @@ class ForgotPassword extends Component {
                     <Text style={styles.submitButtonText}>Submit</Text>
                   </Button>
                 </View>
-                {this.props.notification === "Email sent" && (
+                {notification.includes("Email sent") && (
                   <Text style={styles.successMessage}>
                     Check your inbox. We must have send you email.
                   </Text>
@@ -188,9 +180,9 @@ const styles = {
   }
 };
 const _Wrapped = connect(
-  (state: State) => ({
+  state => ({
     loading: state.getIn(["application", "isLoading"]),
-    notification: state.getIn(["application", "notification"])
+    notification: state.getIn(["application", "notifications"])
   }),
   actionCreators
 )(ForgotPassword);

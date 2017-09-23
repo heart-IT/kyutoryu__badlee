@@ -60,6 +60,16 @@ export const register = (userObject: Object, route: ?Object): REGISTER => ({
   route: route
 });
 
+export const checkEmailUniqueness = email => ({
+  type: "CHECK_EMAIL_UNIQUENESS",
+  email
+});
+
+export const checkUsernameUniqueness = username => ({
+  type: "CHECK_USERNAME_UNIQUENESS",
+  username
+});
+
 export const logout = (route: ?Object): LOGOUT => ({
   type: "LOGOUT",
   route: route

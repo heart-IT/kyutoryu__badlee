@@ -4,38 +4,26 @@
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
- * @description- This file handles Login Screen of Badlee App.
+ * @description- This file is Login Screen of Badlee App.
  * 
  * @author- heartit pirates were here
  */
+import { Button, Container, Content, Form, Input, Item, StyleProvider, Text, View } from 'native-base';
+import { Component } from 'react';
+import React from 'react';
+import { Image } from 'react-native';
+import { connect } from 'react-redux';
 
-"use strict";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import Loading from '../../components/LoadingView';
+import getTheme from '../../theme/components';
+import BadleeAuthApp from '../Authenticated/GoingMerry';
+import ForgotPassword from './forgotPassword';
+import Register from './register';
+import Welcome from './welcome';
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
-import {
-  StyleProvider,
-  Container,
-  Content,
-  View,
-  Form,
-  Item,
-  Input,
-  Button,
-  Text
-} from "native-base";
-
-import type { State } from "../../types";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-import Loading from "../../components/LoadingView";
-import Icon from "../../components/Icon";
-
-import Register from "./register";
-import ForgotPassword from "./forgotPassword";
-import Welcome from "./welcome";
-import BadleeAuthApp from "../Authenticated/GoingMerry";
+("use strict");
 
 class BackgroundImage extends Component {
   render() {
@@ -56,6 +44,9 @@ class Login extends Component {
       email: null,
       password: null
     };
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.forgotPassPage = this.forgotPassPage.bind(this);
+    this.handleGoToSignUpLink = this.handleGoToSignUpLink.bind(this);
   }
   /**
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
@@ -199,7 +190,7 @@ class Login extends Component {
                     common
                     action="submit"
                     style={styles.submitButton}
-                    onPress={this.handleFormSubmit.bind(this)}
+                    onPress={this.handleFormSubmit}
                   >
                     <Text style={styles.submitButtonText}>Login</Text>
                   </Button>
@@ -207,7 +198,7 @@ class Login extends Component {
               </Form>
               <Text
                 style={styles.forgotPasswordText}
-                onPress={this.forgotPassPage.bind(this)}
+                onPress={this.forgotPassPage}
               >
                 Forgot password?
               </Text>
@@ -215,14 +206,14 @@ class Login extends Component {
                 <Text style={styles.switcherText}>New to the community?</Text>
                 <Text
                   style={styles.switcherTextLink}
-                  onPress={this.handleGoToSignUpLink.bind(this)}
+                  onPress={this.handleGoToSignUpLink}
                 >
                   Sign Up
                 </Text>
               </View>
             </BackgroundImage>
           </Content>
-          {this.props.loading && <Loading message="Logging in.." />}
+          {this.props.loading && <Loading message="" />}
         </Container>
       </StyleProvider>
     );
@@ -336,9 +327,9 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  (state: State) => ({
+  state => ({
     loading: state.getIn(["application", "isLoading"]),
-    error: state.getIn(["application", "error"])
+    error: state.getIn(["application", "errors"])
   }),
   actionCreators
 )(Login);

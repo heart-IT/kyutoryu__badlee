@@ -4,6 +4,7 @@ import login from './authFns/login';
 import logout from './authFns/logout';
 import register from './authFns/register';
 import restoreAuth from './authFns/restoreAuth';
+import { checkEmailUniqueness, checkUsernameUniqueness } from './authFns/uniqueFns';
 
 /**
  * @name- auth.js
@@ -28,6 +29,12 @@ export default store => next => action => {
       break;
     case "REGISTER":
       return register(store, next, action);
+      break;
+    case "CHECK_EMAIL_UNIQUENESS":
+      return checkEmailUniqueness(store, next, action);
+      break;
+    case "CHECK_USERNAME_UNIQUENESS":
+      return checkUsernameUniqueness(store, next, action);
       break;
     case "LOGOUT":
       return logout(store, next, action);

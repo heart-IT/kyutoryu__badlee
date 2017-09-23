@@ -11,33 +11,18 @@
  * 
  * @todo- 1. ask mridul to make a middleware api to check uniqueness of uniquename and email
  */
+import { Button, Container, Content, Form, Header, Input, Item, Left, Right, StyleProvider, Text, View } from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { Image } from 'react-native';
+import { connect } from 'react-redux';
 
-"use strict";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Loading from '../../components/LoadingView';
+import getTheme from '../../theme/components';
+import Register2 from './register2';
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
-import {
-  StyleProvider,
-  Container,
-  Header,
-  Left,
-  Right,
-  Text,
-  Content,
-  Form,
-  View,
-  Item,
-  Button,
-  Input
-} from "native-base";
-
-import type { State } from "../../types";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-import Loading from "../../components/LoadingView";
-
-import Register2 from "./register2";
+("use strict");
 
 class BackgroundImage extends Component {
   render() {
@@ -62,28 +47,15 @@ class Register extends Component {
       password: null,
       rePassword: null,
 
-      passwordMatch: false,
-      error: []
+      passwordMatch: false
     };
   }
 
   removeError(error) {
-    var currentErrors = this.state.error;
-    if (currentErrors.indexOf(error) > -1) {
-      var index = currentErrors.indexOf(error);
-      currentErrors.splice(index, 1);
-      this.setState({ error: currentErrors });
-    }
+    this.props.clearError(error);
   }
   addError(error) {
-    var currentErrors = this.state.error;
-    if (currentErrors.indexOf(error) === -1) {
-      var errorCopy = this.state.error.map(function(err) {
-        return err;
-      });
-      errorCopy.push(error);
-      this.setState({ error: errorCopy });
-    }
+    this.props.addError(error);
   }
 
   validateEmail() {
@@ -91,9 +63,13 @@ class Register extends Component {
     var valid = re.test(this.state.email);
     if (valid) {
       this.removeError("Invalid Email");
+      this.props.checkEmailUniqueness(this.state.email);
     } else {
       this.addError("Invalid Email");
     }
+  }
+  validateUniquename() {
+    this.props.checkUsernameUniqueness(this.state.uniqueName);
   }
 
   validatePassword() {
@@ -121,6 +97,7 @@ class Register extends Component {
   }
 
   render() {
+    let { errors } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -163,9 +140,24 @@ class Register extends Component {
                       placeholder="Your unique name on badlee"
                       placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       onChangeText={uniqueName => this.setState({ uniqueName })}
+                      onEndEditing={this.validateUniquename.bind(this)}
                     />
                   </Item>
                 </View>
+                {errors.includes("Username already exists") ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>Username already exists</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input
@@ -178,7 +170,7 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
-                {this.state.error.indexOf("Invalid Email") > -1 ? (
+                {errors.includes("Invalid Email") ? (
                   <View
                     style={{
                       display: "flex",
@@ -188,6 +180,20 @@ class Register extends Component {
                     }}
                   >
                     <Text style={styles.errorMsg}>Invalid Email</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
+                {errors.includes("Email already exists") ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>Email already exists</Text>
                   </View>
                 ) : (
                   <Text />
@@ -218,7 +224,7 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
-                {this.state.error.indexOf("Password does not match") > -1 ? (
+                {errors.includes("Password does not match") ? (
                   <View
                     style={{
                       display: "flex",
@@ -247,7 +253,7 @@ class Register extends Component {
                   !this.state.email ||
                   !this.state.password ||
                   !this.state.rePassword ||
-                  !(this.state.error.length === 0)
+                  !(errors.size === 0)
                 }
                 onPress={this.goToPageTwo.bind(this)}
               >
@@ -348,8 +354,9 @@ const styles = {
 };
 
 const _Wrapped = connect(
-  (state: State) => ({
-    loading: state.getIn(["application", "isLoading"])
+  state => ({
+    loading: state.getIn(["application", "isLoading"]),
+    errors: state.getIn(["application", "errors"])
   }),
   actionCreators
 )(Register);

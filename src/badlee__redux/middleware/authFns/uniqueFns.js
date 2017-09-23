@@ -11,35 +11,39 @@
 import * as actionCreators from '../../action_creators';
 
 export async function checkEmailUniqueness(store, next, action) {
-  let email = action.email;
-  let userRequest = await fetch(
-    `http://mri2189.badlee.com/user.php?email=${email}`
-  );
-  if (userRequest.status === 200 && userRequest.ok) {
-    var user = await userRequest.json();
-    if (user.user_id) {
-      store.dispatch(actionCreators.addError("Email already exists"));
-    } else {
-      throw "email does not exist";
+  try {
+    let email = action.email;
+    let userRequest = await fetch(
+      `http://mri2189.badlee.com/user.php?email=${email}`
+    );
+    if (userRequest.status === 200 && userRequest.ok) {
+      var user = await userRequest.text();
+      if (user.indexOf("required credentials missing") === -1) {
+        store.dispatch(actionCreators.addError("Email already exists"));
+      } else {
+        throw "Email already exists";
+      }
     }
-  } else {
-    store.dispatch(actionCreators.clearError("Email already exists"));
+  } catch (err) {
+    store.dispatch(actionCreators.clearError(err));
   }
 }
 
 export async function checkUsernameUniqueness(store, next, action) {
-  let username = action.username;
-  let userRequest = await fetch(
-    `http://mri2189.badlee.com/user.php?username=${username}`
-  );
-  if (userRequest.status === 200 && userRequest.ok) {
-    var user = await userRequest.json();
-    if (user.user_id) {
-      store.dispatch(actionCreators.addError("Username already exists"));
-    } else {
-      throw "username does not exist";
+  try {
+    let username = action.username;
+    let userRequest = await fetch(
+      `http://mri2189.badlee.com/user.php?username=${username}`
+    );
+    if (userRequest.status === 200 && userRequest.ok) {
+      var user = await userRequest.text();
+      if (user.indexOf("required credentials missing") === -1) {
+        store.dispatch(actionCreators.addError("Username already exists"));
+      } else {
+        throw "Username already exists";
+      }
     }
-  } else {
-    store.dispatch(actionCreators.clearError("Username already exists"));
+  } catch (err) {
+    store.dispatch(actionCreators.clearError(err));
   }
 }

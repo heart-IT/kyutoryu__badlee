@@ -59,17 +59,22 @@ class Register extends Component {
   }
 
   validateEmail() {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var valid = re.test(this.state.email);
-    if (valid) {
-      this.removeError("Invalid Email");
-      this.props.checkEmailUniqueness(this.state.email);
+    if (this.state.email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var valid = re.test(this.state.email);
+      if (valid) {
+        this.removeError("Invalid Email");
+        this.props.checkEmailUniqueness(this.state.email);
+      } else {
+        this.addError("Invalid Email");
+      }
     } else {
-      this.addError("Invalid Email");
+      this.addError("Enter email");
     }
   }
   validateUniquename() {
-    this.props.checkUsernameUniqueness(this.state.uniqueName);
+    this.state.uniqueName &&
+      this.props.checkUsernameUniqueness(this.state.uniqueName);
   }
 
   validatePassword() {

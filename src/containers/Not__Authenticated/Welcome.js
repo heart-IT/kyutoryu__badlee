@@ -5,16 +5,18 @@
  * @description- Welcoming User Screen
  * @author- heartIT pirates were here.
  */
+import { Button, Content, StyleProvider, Text, View } from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { Image } from 'react-native';
+import { connect } from 'react-redux';
 
-"use strict";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
-import { StyleProvider, Content, View, Text, Button } from "native-base";
-import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import AuthContainer from "../Authenticated/GoingMerry";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import getTheme from '../../theme/components';
+import AuthContainer from '../Authenticated/GoingMerry';
+
+("use strict");
 
 class BackgroundImage extends Component {
   render() {
@@ -28,9 +30,6 @@ class BackgroundImage extends Component {
 }
 
 class Welcome extends Component {
-  componentDidMount() {
-    console.log(this.props.user);
-  }
   onEnterBtnPress() {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -40,8 +39,7 @@ class Welcome extends Component {
     });
   }
   render() {
-    const { user } = this.props;
-    console.log(user.toJS());
+    const user = this.props.user.toJS();
     return (
       <StyleProvider style={getTheme()}>
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -54,17 +52,15 @@ class Welcome extends Component {
                 />
               </View>
               <View style={styles.userWrapper}>
-                <Text style={styles.welcomeText}>
-                  Welcome {user.get("fname")}!
-                </Text>
+                <Text style={styles.welcomeText}>Welcome {user.fname}!</Text>
                 <View style={styles.userAvatar}>
-                  {user.get("avatar") && (
+                  {!!user.avatar && (
                     <Image
-                      source={{ uri: user.get("avatar") }}
+                      source={{ uri: user.avatar }}
                       style={{ width: 120, height: 120, borderRadius: 60 }}
                     />
                   )}
-                  {!user.get("avatar") && (
+                  {!user.avatar && (
                     <Icon name="userPlaceholder" width="120" height="120" />
                   )}
                 </View>
@@ -74,7 +70,7 @@ class Welcome extends Component {
                 </Text>
                 <Text style={styles.verificationText2}>
                   We've mailed you the verification link to your registered
-                  e-mail id {user.get("email")}
+                  e-mail id {user.email}
                 </Text>
                 <Button
                   style={styles.enterButton}
@@ -86,13 +82,13 @@ class Welcome extends Component {
               <View style={styles.footer}>
                 <Text style={{ textAlign: "center" }}>
                   <Text style={styles.footerText}>
-                    Note: we recommend you to read these{" "}
+                    Note: we recommend you to read these
                   </Text>
                   <Text style={{ ...styles.footerText, ...styles.footerLink }}>
-                    tips
+                    {" "}
+                    tips{" "}
                   </Text>
                   <Text style={styles.footerText}>
-                    {" "}
                     for better and safer transaction.
                   </Text>
                 </Text>
@@ -176,13 +172,19 @@ const styles = {
     color: "#616161"
   },
   footerLink: {
-    color: "#9331ac"
+    color: "#9331ac",
+    marginLeft: 1.5,
+    marginRight: 1.5
   }
 };
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn(["user", "information"])
+    user: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"])
+    ])
   }),
   actionCreators
 )(Welcome);

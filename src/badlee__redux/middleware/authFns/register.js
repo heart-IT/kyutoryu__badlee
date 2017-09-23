@@ -1,4 +1,8 @@
 // @flow
+import base64 from 'base-64';
+
+import * as actionCreators from '../../action_creators';
+import { application_id, application_secret, createFormData, saveMedia, saveUserInStorage } from '../utility';
 
 /**
  * @name- register.js
@@ -11,25 +15,9 @@
  * @author- hearit pirates were here
  */
 
-"use strict";
+("use strict");
 
-import base64 from "base-64";
-
-import type { Action, REGISTER } from "../../types";
-import * as actionCreators from "../../action_creators";
-import {
-  application_id,
-  application_secret,
-  saveUserInStorage,
-  saveMedia,
-  createFormData
-} from "../utility";
-
-export default async function register(
-  store,
-  next: Function,
-  action: REGISTER
-) {
+export default async function register(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let uploadMedia;

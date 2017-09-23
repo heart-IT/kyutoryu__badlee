@@ -7,43 +7,38 @@
  * @description- This file is the second part of Register Screen.
  * 
  * @author- heartit pirates were here
- * 
- * @todo- add error handling to register form.
  */
-
-"use strict";
-
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
 import {
-  StyleProvider,
-  Container,
-  Header,
-  Left,
-  Right,
-  Text,
-  Content,
-  Form,
-  View,
-  Button,
-  Input,
-  Thumbnail,
-  Radio,
-  Picker
-} from "native-base";
+    Button,
+    Container,
+    Content,
+    Form,
+    Header,
+    Input,
+    Left,
+    Picker,
+    Radio,
+    Right,
+    StyleProvider,
+    Text,
+    View,
+} from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { Image } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import { connect } from 'react-redux';
+
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import LoadingView from '../../components/LoadingView';
+import Locator from '../../components/Location';
+import getTheme from '../../theme/components';
+import Welcome from './welcome';
+
+("use strict");
+
 var ImagePicker = require("react-native-image-picker");
-import DatePicker from "react-native-datepicker";
-
-import type { State } from "../../types";
-import * as actionCreators from "../../badlee__redux/action_creators";
-import getTheme from "../../theme/components";
-import LoadingView from "../../components/LoadingView";
-import Icon from "../../components/Icon";
-import Locator from "../../components/Location";
-
-import Welcome from "./welcome";
-
 const Item = Picker.Item;
 
 class BackgroundImage extends Component {
@@ -131,7 +126,7 @@ class Register2 extends Component {
       uniqueName: userInfo.uniqueName,
       email: userInfo.email,
       avatarName: this.state.avatarName,
-      avatarSource: this.state.avatarSource.uri,
+      avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
       avatarType: this.state.avatarType,
       date: this.state.date,
       gender: this.state.gender,

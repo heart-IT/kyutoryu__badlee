@@ -370,11 +370,15 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn(["user", "information"]),
-    allBadlees: state.get("allBadlees"),
-    badleesIDFollowing: state.getIn(["badleesByCategory", "following", "ids"]),
-    badleesIDLocation: state.getIn(["badleesByCategory", "location", "ids"]),
-    badleesIDGlobe: state.getIn(["badleesByCategory", "globe", "ids"])
+    user: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"])
+    ]),
+    allBadlees: state.getIn(["badlees", "data"]),
+    badleesIDFollowing: state.getIn(["badlees", "tabs", "following"]),
+    badleesIDLocation: state.getIn(["badlees", "tabs", "location"]),
+    badleesIDGlobe: state.getIn(["badlees", "tabs", "globe"])
   }),
   actionCreators
 )(Store);

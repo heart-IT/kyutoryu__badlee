@@ -42,8 +42,32 @@ class User extends Component {
     this.onTabChange = this.onTabChange.bind(this);
     this.state = {
       currentData: [],
-      activeTabIndex: 0
+      activeTabIndex: 0,
+      user: null
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    let { badlees, badleeUserIDs, params, user, guestUser } = nextProps;
+    let user_id =
+      params && params.isOtherUser
+        ? guestUser.get("user_id")
+        : user.get("user_id");
+    let badleesJS = badlees.toJS();
+    let badleesToShowIDS = "";
+    switch (this.state.activeTabIndex) {
+      case 0:
+        badleesToShowIDS = badleeUserIDs.getIn(["exchange", user_id]);
+        break;
+      case 1:
+        badleesToShowIDS = badleeUserIDs.getIn(["shoutout", user_id]);
+        break;
+      default:
+        badleesToShowIDS = badleeUserIDs.getIn(["showoff", user_id]);
+    }
+    let badleesToShow = badleesToShowIDS.map(id => {
+      return badleesJS[id];
+    });
+    this.setState({ currentData: badleesToShow.toJS() });
   }
   componentDidMount() {
     this.setState(
@@ -185,6 +209,7 @@ class User extends Component {
                 }
                 style={styles.inventory__type}
               />
+              <View>{returnBadleeGrid()}</View>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
@@ -193,7 +218,7 @@ class User extends Component {
                 }
                 style={styles.inventory__type}
               >
-                {returnIcon("shoutout", 30, 30)}
+                <View>{returnBadleeGrid()}</View>
               </Tab>
               <Tab
                 heading={
@@ -203,11 +228,11 @@ class User extends Component {
                 }
                 style={styles.inventory__type}
               >
-                {returnIcon("showoff", 36, 36)}
+                <View>{returnBadleeGrid()}</View>
               </Tab>
             </Tabs>
           </Content>
-          {this.props.loading && <LoadingView message="Doing action.." />}
+          {this.props.loading && <LoadingView />}
         </Container>
       </StyleProvider>
     );
@@ -319,11 +344,20 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn(["user", "information"]),
-    guestUser: state.get("guestUser"),
-
+    user: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"])
+    ]),
+    guestUser: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "guestUserID"])
+    ]),
+    badlees: state.getIn(["badlees", "data"]),
+    badleeUserIDs: state.getIn(["badlees", "users"]),
     loading: state.getIn(["application", "isLoading"]),
-    notification: state.getIn(["application", "notification"])
+    notification: state.getIn(["application", "notifications"])
   }),
   actionCreators
 )(User);

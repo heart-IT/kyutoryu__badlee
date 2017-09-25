@@ -36,6 +36,7 @@ const StateRecord = Record({
   user: new Map({
     isLoggedIn: false,
     loggedUserID: null,
+    guestUserID: null,
     usersInformation: fromJS({})
   }),
   badlees: new Map({
@@ -197,7 +198,7 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
   });
   return state
     .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
-    .setIn(["badlees", "users", purpose, userID], fromJS(ids));
+    .setIn(["badlees", "users", userID, purpose], fromJS(ids));
 }
 
 export function onClickLike(state, id) {

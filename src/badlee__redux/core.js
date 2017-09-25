@@ -196,9 +196,10 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
     tempObj[badlee.id] = badlee;
     return badlee.id;
   });
+
   return state
     .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
-    .setIn(["badlees", "users", userID, purpose], fromJS(ids));
+    .setIn(["badlees", "users", purpose, userID], fromJS(ids));
 }
 
 export function onClickLike(state, id) {

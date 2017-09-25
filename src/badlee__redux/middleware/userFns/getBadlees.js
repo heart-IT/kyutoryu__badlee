@@ -14,9 +14,11 @@ import * as actionCreators from '../../action_creators';
 export default async function getBadlees(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
+
     let badleeRequest = await fetch(
       `http://mri2189.badlee.com/posts.php?userid=${action.id}&purpose=${action.purpose}`
     );
+
     if (badleeRequest.ok && badleeRequest.status === 200) {
       let badlees = await badleeRequest.json();
       action.badlees = badlees;

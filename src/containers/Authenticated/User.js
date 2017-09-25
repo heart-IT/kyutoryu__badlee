@@ -5,20 +5,7 @@
  * @description- This file contains User Profile page of the App
  * @author- heartit pirates
  */
-import {
-    Button,
-    Container,
-    Content,
-    Header,
-    Left,
-    Right,
-    StyleProvider,
-    Tab,
-    TabHeading,
-    Tabs,
-    Text,
-    View,
-} from 'native-base';
+import { Container, Content, Header, Left, Right, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
 import React from 'react';
 import { Component } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
@@ -27,8 +14,8 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../badlee__redux/action_creators';
 import BadleesGrid from '../../components/BadleesGrid';
 import Icon from '../../components/Icon';
-import LoadingView from '../../components/LoadingView';
 import getTheme from '../../theme/components';
+import { styles } from '../../theme/mystyle/userpage';
 import Login from '../Not__Authenticated/login';
 
 ("use strict");
@@ -36,15 +23,24 @@ import Login from '../Not__Authenticated/login';
 class User extends Component {
   constructor(props) {
     super(props);
+
     this.handleLogout = this.handleLogout.bind(this);
     this.unFollowUser = this.unFollowUser.bind(this);
     this.followUser = this.followUser.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
+    this.onClickBadlee = this.onClickBadlee.bind(this);
     this.state = {
-      currentData: [],
       activeTabIndex: 0,
-      user: null
+      currentData: []
     };
+  }
+  componentDidMount() {
+    this.setState(
+      { isOtherUser: this.props.params && this.props.params.isOtherUser },
+      () => {
+        this.getUserBadlees();
+      }
+    );
   }
   componentWillReceiveProps(nextProps) {
     let { badlees, badleeUserIDs, params, user, guestUser } = nextProps;
@@ -64,19 +60,16 @@ class User extends Component {
       default:
         badleesToShowIDS = badleeUserIDs.getIn(["showoff", user_id]);
     }
-    let badleesToShow = badleesToShowIDS.map(id => {
-      return badleesJS[id];
+    let badleesToShow =
+      badleesToShowIDS &&
+      badleesToShowIDS.map(id => {
+        return badleesJS[id];
+      });
+    this.setState({
+      currentData: badleesToShowIDS ? badleesToShow.toJS() : []
     });
-    this.setState({ currentData: badleesToShow.toJS() });
   }
-  componentDidMount() {
-    this.setState(
-      { isOtherUser: this.props.params && this.props.params.isOtherUser },
-      () => {
-        this.getUserBadlees();
-      }
-    );
-  }
+
   onTabChange(i, ref) {
     this.setState({ activeTabIndex: i.i }, () => {
       this.getUserBadlees();
@@ -86,6 +79,7 @@ class User extends Component {
     let activeTab = ["exchange", "shoutout", "showoff"][
       this.state.activeTabIndex
     ];
+
     let userID = this.state.isOtherUser
       ? this.props.guestUser.get("user_id")
       : this.props.user.get("user_id");
@@ -106,6 +100,10 @@ class User extends Component {
     this.props.unFollowUser(this.props.guestUser.get("user_id"));
   }
 
+  onClickBadlee(id) {
+    console.log(id);
+  }
+
   render() {
     let _this = this;
     const { isOtherUser } = this.state;
@@ -113,7 +111,6 @@ class User extends Component {
     const user = isOtherUser
       ? this.props.guestUser.toJS()
       : this.props.user.toJS();
-
     const loggedUserID = this.props.user.get("user_id");
 
     const isGuestFollower =
@@ -131,21 +128,28 @@ class User extends Component {
         </Left>
         <Right>
           {isGuestFollower && (
-            <Button transparent onPress={this.unFollowUser}>
+            <TouchableOpacity transparent onPress={this.unFollowUser}>
               {returnIcon("following")}
-            </Button>
+            </TouchableOpacity>
           )}
           {!isGuestFollower && (
-            <Button transparent onPress={this.followUser}>
+            <TouchableOpacity transparent onPress={this.followUser}>
               {returnIcon("follow_add")}
-            </Button>
+            </TouchableOpacity>
           )}
         </Right>
       </Header>
     );
 
     function returnBadleeGrid() {
-      return <BadleesGrid data={_this.state.currentData} />;
+      if (_this.state.currentData.length) {
+        return (
+          <BadleesGrid
+            data={_this.state.currentData}
+            onClickBadlee={_this.onClickBadlee}
+          />
+        );
+      }
     }
 
     return (
@@ -209,7 +213,7 @@ class User extends Component {
                 }
                 style={styles.inventory__type}
               />
-              <View>{returnBadleeGrid()}</View>
+              {returnBadleeGrid()}
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
@@ -217,9 +221,7 @@ class User extends Component {
                   </TabHeading>
                 }
                 style={styles.inventory__type}
-              >
-                <View>{returnBadleeGrid()}</View>
-              </Tab>
+              />
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
@@ -227,120 +229,14 @@ class User extends Component {
                   </TabHeading>
                 }
                 style={styles.inventory__type}
-              >
-                <View>{returnBadleeGrid()}</View>
-              </Tab>
+              />
             </Tabs>
           </Content>
-          {this.props.loading && <LoadingView />}
         </Container>
       </StyleProvider>
     );
   }
 }
-
-const styles = {
-  logout: {
-    position: "absolute",
-    top: 6,
-    right: 15,
-    zIndex: 99
-  },
-  user__info: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: 24
-  },
-  user__photo: {
-    width: 96,
-    height: 96,
-    borderRadius: 48
-  },
-  user__knowledge: {
-    marginTop: 12,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  user__name: {
-    fontWeight: "bold"
-  },
-  user__gender: {
-    fontSize: 15,
-    color: "#757575",
-    borderRightWidth: 1,
-    borderColor: "#757575",
-    paddingLeft: 9,
-    paddingRight: 9
-  },
-  user__location: {
-    fontSize: 15,
-    color: "#757575",
-    paddingLeft: 9,
-    paddingRight: 9
-  },
-  user__supporters: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 9
-  },
-  user__following: {
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 30,
-    paddingRight: 30,
-    borderRightWidth: 1,
-    borderColor: "#757575"
-  },
-  user__follower: {
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 30,
-    paddingRight: 30
-  },
-  supporters__label: {
-    fontSize: 14,
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  supporters__value: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  user__interestedin: {
-    marginTop: 9,
-    paddingLeft: 30,
-    paddingRight: 30,
-    width: "100%",
-    flexDirection: "row"
-  },
-  interestedin__label: {
-    fontWeight: "bold",
-    flex: 4
-  },
-  user__interests: {
-    flex: 7,
-    color: "#616161",
-    fontSize: 15,
-    fontWeight: "bold"
-  },
-  user__badleetory: {
-    marginTop: 18,
-    paddingBottom: 12
-  },
-  inventory__type: {
-    width: 90
-  },
-  inventorytype__head: {
-    backgroundColor: "#fff"
-  },
-  inventorytype__icon: {
-    width: 30,
-    height: 30
-  }
-};
 
 const _Wrapped = connect(
   state => ({

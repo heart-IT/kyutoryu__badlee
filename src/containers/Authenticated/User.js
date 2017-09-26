@@ -52,13 +52,13 @@ class User extends Component {
     let badleesToShowIDS = "";
     switch (this.state.activeTabIndex) {
       case 0:
-        badleesToShowIDS = badleeUserIDs.getIn(["exchange", user_id]);
+        badleesToShowIDS = badleeUserIDs.getIn([user_id, "exchange"]);
         break;
       case 1:
-        badleesToShowIDS = badleeUserIDs.getIn(["shoutout", user_id]);
+        badleesToShowIDS = badleeUserIDs.getIn([user_id, "shoutout"]);
         break;
       default:
-        badleesToShowIDS = badleeUserIDs.getIn(["showoff", user_id]);
+        badleesToShowIDS = badleeUserIDs.getIn([user_id, "showoff"]);
     }
     let badleesToShow =
       badleesToShowIDS &&
@@ -143,6 +143,7 @@ class User extends Component {
 
     function returnBadleeGrid() {
       if (_this.state.currentData.length) {
+        console.log(_this.state.currentData);
         return (
           <BadleesGrid
             data={_this.state.currentData}
@@ -211,25 +212,27 @@ class User extends Component {
                     {returnIcon("exchange", 30, 30)}
                   </TabHeading>
                 }
-                style={styles.inventory__type}
-              />
-              {returnBadleeGrid()}
+              >
+                {returnBadleeGrid()}
+              </Tab>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
                     {returnIcon("shoutout", 30, 30)}
                   </TabHeading>
                 }
-                style={styles.inventory__type}
-              />
+              >
+                {returnBadleeGrid()}
+              </Tab>
               <Tab
                 heading={
                   <TabHeading style={styles.inventorytype__head}>
                     {returnIcon("showoff", 36, 36)}
                   </TabHeading>
                 }
-                style={styles.inventory__type}
-              />
+              >
+                {returnBadleeGrid()}
+              </Tab>
             </Tabs>
           </Content>
         </Container>

@@ -89,9 +89,7 @@ export const styles = {
     marginTop: 18,
     paddingBottom: 12
   },
-  inventory__type: {
-    width: 90
-  },
+
   inventorytype__head: {
     backgroundColor: "#fff"
   },

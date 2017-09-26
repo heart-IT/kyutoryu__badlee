@@ -46,11 +46,7 @@ const StateRecord = Record({
       location: new OrderedSet(),
       globe: new OrderedSet()
     }),
-    users: new Map({
-      exchange: fromJS({}),
-      showoff: fromJS({}),
-      shoutout: fromJS({})
-    })
+    users: fromJS({})
   })
 });
 
@@ -199,7 +195,7 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
 
   return state
     .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
-    .setIn(["badlees", "users", purpose, userID], fromJS(ids));
+    .setIn(["badlees", "users", userID, purpose], fromJS(ids));
 }
 
 export function onClickLike(state, id) {

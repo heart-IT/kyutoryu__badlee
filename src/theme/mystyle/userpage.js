@@ -6,6 +6,7 @@ export const styles = {
     zIndex: 99
   },
   user__info: {
+    flex: 1,
     display: "flex",
     alignItems: "center",
     marginTop: 24

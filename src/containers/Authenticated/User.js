@@ -121,7 +121,7 @@ class User extends Component {
       return <Icon name={name} width={width} height={height} />;
     }
     let guestUserHeader = (
-      <Header style={{ backgroundColor: "#fff" }}>
+      <Header style={{ backgroundColor: "#fff", height: 48 }}>
         <Left>
           <TouchableOpacity transparent>
             {returnIcon("menuBackIcon")}
@@ -153,6 +153,7 @@ class User extends Component {
         );
       }
     }
+    console.log(user);
 
     return (
       <StyleProvider style={getTheme()}>
@@ -169,12 +170,7 @@ class User extends Component {
               </TouchableOpacity>
             )}
             <View style={styles.user__info}>
-              <Image
-                source={{
-                  uri: user.avatar
-                }}
-                style={styles.user__photo}
-              />
+              <Image source={{ uri: user.avatar }} style={styles.user__photo} />
 
               <View style={styles.user__knowledge}>
                 <Text style={styles.user__name}>

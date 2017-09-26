@@ -173,6 +173,10 @@ class Store extends Component {
     });
   }
 
+  onClickDelete(id) {
+    console.log(id);
+  }
+
   onRadioSelect(type) {
     this.setState(
       { globecategory: type === this.state.globecategory ? null : type },
@@ -233,6 +237,7 @@ class Store extends Component {
           onClickUnwish={_this.onClickUnwish}
           onClickComment={_this.onClickComment}
           onClickBadlee={_this.onClickBadlee}
+          onClickDelete={_this.onClickDelete}
           userId={_this.props.user.get("user_id")}
         />
       );

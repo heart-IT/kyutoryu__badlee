@@ -8,13 +8,13 @@
  * 
  * @author- heartit pirates were here
  */
+import React from 'react';
+import { Component, PureComponent } from 'react';
+import { FlatList } from 'react-native';
 
-"use strict";
-import React, { Component, PureComponent } from "react";
-import { FlatList } from "react-native";
+import BadleeCard from './BadleeCard';
 
-import BadleeCard from "./BadleeCard";
-
+("use strict");
 class Error extends React.Component {
   render() {
     return <Text>Nothing to see here</Text>;
@@ -31,6 +31,7 @@ class MyList extends React.PureComponent {
     this.onClickUnwish = this._onClickUnwish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
     this.onClickBadlee = this._onClickBadlee.bind(this);
+    this.onClickDelete = this._onClickDelete.bind(this);
   }
   _keyExtractor = (item, index) => item.id;
   _onClickUser = (id: string) => {
@@ -54,6 +55,9 @@ class MyList extends React.PureComponent {
   _onClickBadlee = (id: string) => {
     this.props.onClickBadlee(id);
   };
+  _onClickDelete = (id: string) => {
+    this.props.onClickDelete(id);
+  };
   _renderItem = ({ item }) => (
     <BadleeCard
       cardData={item}
@@ -64,6 +68,7 @@ class MyList extends React.PureComponent {
       onClickUnwish={this.onClickUnwish}
       onClickComment={this.onClickComment}
       onClickBadlee={this.onClickBadlee}
+      onClickDelete={this.onClickDelete}
       title={item.title}
       userId={this.props.userId}
     />

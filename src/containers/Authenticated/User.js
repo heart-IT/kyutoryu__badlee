@@ -35,8 +35,9 @@ class User extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.props);
     this.setState(
-      { isOtherUser: this.props.params && this.props.params.isOtherUser },
+      { isOtherUser: this.props.params && this.props.params.isOtherProfile },
       () => {
         this.getUserBadlees();
       }
@@ -45,7 +46,7 @@ class User extends Component {
   componentWillReceiveProps(nextProps) {
     let { badlees, badleeUserIDs, params, user, guestUser } = nextProps;
     let user_id =
-      params && params.isOtherUser
+      params && params.isOtherProfile
         ? guestUser.get("user_id")
         : user.get("user_id");
     let badleesJS = badlees.toJS();
@@ -107,7 +108,7 @@ class User extends Component {
   render() {
     let _this = this;
     const { isOtherUser } = this.state;
-
+    console.log("is other user ", isOtherUser);
     const user = isOtherUser
       ? this.props.guestUser.toJS()
       : this.props.user.toJS();

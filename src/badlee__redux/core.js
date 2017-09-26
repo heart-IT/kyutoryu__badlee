@@ -131,10 +131,12 @@ export function saveGuestUser(state, user) {
   let userID = user.user_id;
   let userInformation = {};
   userInformation[userID] = user;
-  return state.setIn(
-    ["user", "usersInformation"],
-    state.getIn(["user", "usersInformation"]).merge(userInformation)
-  );
+  return state
+    .setIn(
+      ["user", "usersInformation"],
+      state.getIn(["user", "usersInformation"]).merge(userInformation)
+    )
+    .setIn(["user", "guestUserID"], userID);
 }
 
 export function followUser(state, userID) {

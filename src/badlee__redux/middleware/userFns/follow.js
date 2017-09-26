@@ -8,13 +8,13 @@
  * 
  * @author- heartit pirates
  */
+import { AsyncStorage } from 'react-native';
 
-"use strict";
+import * as actionCreators from '../../action_creators';
 
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
+("use strict");
 
-export async function unFollowUser(store, next: Function, action) {
+export async function unFollowUser(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let jollyroger = await AsyncStorage.getItem("jollyroger");
@@ -28,6 +28,7 @@ export async function unFollowUser(store, next: Function, action) {
       }
     );
     if (unFollowReq.status === 200 && unFollowReq.ok) {
+      action.userID = action.id;
       next(action);
     }
   } catch (err) {
@@ -37,7 +38,7 @@ export async function unFollowUser(store, next: Function, action) {
   }
 }
 
-export async function followUser(store, next: Function, action) {
+export async function followUser(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let jollyroger = await AsyncStorage.getItem("jollyroger");
@@ -51,6 +52,7 @@ export async function followUser(store, next: Function, action) {
       }
     );
     if (followReq.status === 200 && followReq.ok) {
+      action.userID = action.id;
       next(action);
     }
   } catch (err) {

@@ -147,10 +147,21 @@ export function followUser(state, userID) {
     userID,
     "follower"
   ]);
-  return state.setIn(
-    ["user", "usersInformation", userID, "follower"],
-    oldFollowers ? oldFollowers.push(loggedUserID) : fromJS([loggedUserID])
-  );
+  let oldFollowing = state.getIn([
+    "user",
+    "usersInformation",
+    loggedUserID,
+    "following"
+  ]);
+  return state
+    .setIn(
+      ["user", "usersInformation", userID, "follower"],
+      oldFollowers ? oldFollowers.push(loggedUserID) : fromJS([loggedUserID])
+    )
+    .setIn(
+      ["user", "usersInformation", loggedUserID, "following"],
+      oldFollowing ? oldFollowing.push(userID) : fromJS([userID])
+    );
 }
 
 export function unfollowUser(state, userID) {
@@ -161,10 +172,21 @@ export function unfollowUser(state, userID) {
     userID,
     "follower"
   ]);
-  return state.setIn(
-    ["user", "usersInformation", userID, "follower"],
-    oldFollowers.remove(oldFollowers.indexOf(loggedUserID))
-  );
+  let oldFollowing = state.getIn([
+    "user",
+    "usersInformation",
+    loggedUserID,
+    "following"
+  ]);
+  return state
+    .setIn(
+      ["user", "usersInformation", userID, "follower"],
+      oldFollowers.remove(oldFollowers.indexOf(loggedUserID))
+    )
+    .setIn(
+      ["user", "usersInformation", loggedUserID, "following"],
+      oldFollowing.remove(oldFollowing.indexOf(userID))
+    );
 }
 
 /**

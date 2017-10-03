@@ -1,4 +1,6 @@
 // @flow
+import * as actionCreators from '../action_creators';
+
 
 /**
  * @name- navigate.js
@@ -12,8 +14,18 @@
 
 "use strict";
 
-import * as actionCreators from "../action_creators";
 import type { Action, NAVIGATE_TO } from "../types";
+
+function doBack(store, next, action) {
+  const state = store.getState();
+  const scopeNavigator = state.getIn(["application", "navigator"]);
+  store.dispatch(actionCreators.clearAllErrors());
+  store.dispatch(actionCreators.clearNotification());
+  if (scopeNavigator && scopeNavigator.getCurrentRoutes().length > 1) {
+    // unmount current screen and go to previous scene
+    scopeNavigator.pop();
+  }
+}
 
 function doNavigate(store, next, action: NAVIGATE_TO) {
   let route = action.route;
@@ -39,6 +51,8 @@ function doNavigate(store, next, action: NAVIGATE_TO) {
 export default store => (next: Function) => (action: Action) => {
   if (action.type === "NAVIGATE_TO") {
     return doNavigate(store, next, action);
+  } else if (action.type === "GO_BACK") {
+    return doBack(store, next, action);
   }
   return next(action);
 };

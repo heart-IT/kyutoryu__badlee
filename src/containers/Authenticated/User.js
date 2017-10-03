@@ -42,6 +42,7 @@ class User extends Component {
     this.followUser = this.followUser.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
+    this.onBackPress = this.onBackPress.bind(this);
     this.state = {
       activeTabIndex: 0,
       currentData: []
@@ -107,6 +108,10 @@ class User extends Component {
     });
   }
 
+  onBackPress() {
+    this.props.goBack();
+  }
+
   followUser() {
     this.props.followUser(this.props.guestUser.get("user_id"));
   }
@@ -153,7 +158,7 @@ class User extends Component {
           {isOtherUser && (
             <Header style={{ backgroundColor: "#fff", height: 48 }}>
               <Left style={{ flexDirection: "row", alignItems: "center" }}>
-                <TouchableOpacity transparent>
+                <TouchableOpacity transparent onPress={this.onBackPress}>
                   {returnIcon("menuBackIcon")}
                 </TouchableOpacity>
                 <Text
@@ -180,7 +185,7 @@ class User extends Component {
             style={{ flex: 1, paddingTop: 18 }}
             contentContainerStyle={{ flex: 1, alignItems: "center" }}
           >
-            {!isOtherUser && (
+            {!!!isOtherUser && (
               <TouchableOpacity
                 transparent
                 onPress={this.handleLogout}

@@ -36,6 +36,10 @@ export const navigate = (route: ?Object): NAVIGATE_TO => ({
   route: route
 });
 
+export const goBack = () => ({
+  type: "GO_BACK"
+});
+
 export const login = (formData: Object, route: ?Object): LOGIN => ({
   type: "LOGIN",
   username: formData.username,

@@ -101,6 +101,9 @@ export function reducer(state = core.InitialState, action) {
     case "STORE_UNWISH_BADLEE":
       return core.unwishBadlee(state, action.id);
       break;
+    case "STORE_CURRENTSHOWINGBADLEE":
+      return core.currentShowingBadlee(state, action.id);
+      break;
     default:
       return state;
   }

@@ -178,17 +178,15 @@ export const showCommentPage = (id: Number, route: ?Object) => ({
   type: "SHOW_COMMENT_PAGE"
 });
 
-export const saveTempBadlee = (id: Number) => ({
-  id: id,
-  type: "SAVE_TEMP_BADLEE"
-});
-
 export const postComment = (id: Number, comment: String) => ({
   id: id,
   comment: comment,
   type: "POST_COMMENT"
 });
-
+export const currentShowingBadlee = id => ({
+  id: id,
+  type: "STORE_CURRENTSHOWINGBADLEE"
+});
 export const showBadleePage = (id: Number, route: ?Object) => ({
   id: id,
   route: route,

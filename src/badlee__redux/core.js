@@ -46,7 +46,8 @@ const StateRecord = Record({
       location: new OrderedSet(),
       globe: new OrderedSet()
     }),
-    users: fromJS({})
+    users: fromJS({}),
+    currentShowing: null
   })
 });
 
@@ -262,6 +263,10 @@ export function unwishBadlee(state, id) {
       badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUserID))
     );
   });
+}
+
+export function currentShowingBadlee(state, id) {
+  return state.setIn(["badlees", "currentShowing"], String(id));
 }
 
 export function postComment(state, id, comment) {

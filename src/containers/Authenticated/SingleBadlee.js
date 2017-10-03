@@ -8,36 +8,37 @@
  * 
  * @author- heartit pirates
  */
-
-"use strict";
-
-import React, { Component } from "react";
-import { TouchableOpacity, Image } from "react-native";
-import { connect } from "react-redux";
+import moment from 'moment';
 import {
-  StyleProvider,
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  View,
-  Text,
-  Icon as IconX,
-  Card,
-  CardItem,
-  Thumbnail
-} from "native-base";
-import * as actionCreators from "../../badlee__redux/action_creators";
+    Body,
+    Card,
+    CardItem,
+    Container,
+    Content,
+    Header,
+    Icon as IconX,
+    Left,
+    Right,
+    StyleProvider,
+    Text,
+    Thumbnail,
+    View,
+} from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
-import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
-import moment from "moment";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import getTheme from '../../theme/components';
+
+("use strict");
 
 class SingleBadlee extends Component {
   render() {
     let cardData = this.props.badlee.toJS();
+    console.log(cardData);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -242,7 +243,11 @@ var styles = {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    badlee: state.get("tempBadlee")
+    badlee: state.getIn([
+      "badlees",
+      "data",
+      state.getIn(["badlees", "currentShowing"])
+    ])
   }),
   actionCreators
 )(SingleBadlee);

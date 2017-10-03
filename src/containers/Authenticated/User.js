@@ -5,10 +5,23 @@
  * @description- This file contains User Profile page of the App
  * @author- heartit pirates
  */
-import { Container, Content, Header, Left, Right, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
+import {
+    Container,
+    Content,
+    Header,
+    Left,
+    Right,
+    StyleProvider,
+    Tab,
+    TabHeading,
+    Tabs,
+    Text,
+    Thumbnail,
+    View,
+} from 'native-base';
 import React from 'react';
 import { Component } from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actionCreators from '../../badlee__redux/action_creators';
@@ -117,49 +130,56 @@ class User extends Component {
     const isGuestFollower =
       user.follower && user.follower.indexOf(loggedUserID) !== -1;
 
-    function returnIcon(name, width = 24, height = 24) {
+    function returnIcon(name, width = 21, height = 21) {
       return <Icon name={name} width={width} height={height} />;
     }
-    let guestUserHeader = (
-      <Header style={{ backgroundColor: "#fff", height: 48 }}>
-        <Left>
-          <TouchableOpacity transparent>
-            {returnIcon("menuBackIcon")}
-          </TouchableOpacity>
-        </Left>
-        <Right>
-          {isGuestFollower && (
-            <TouchableOpacity transparent onPress={this.unFollowUser}>
-              {returnIcon("following")}
-            </TouchableOpacity>
-          )}
-          {!isGuestFollower && (
-            <TouchableOpacity transparent onPress={this.followUser}>
-              {returnIcon("follow_add")}
-            </TouchableOpacity>
-          )}
-        </Right>
-      </Header>
-    );
 
     function returnBadleeGrid() {
       if (_this.state.currentData.length) {
-        console.log(_this.state.currentData);
         return (
           <BadleesGrid
             data={_this.state.currentData}
             onClickBadlee={_this.onClickBadlee}
+            toShowPurpose={false}
           />
         );
       }
     }
-    console.log(user);
-
+    let avatarUser = user.avatar;
+    let userName = `${user.fname} ${user.lname} -`;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          {isOtherUser && guestUserHeader}
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          {isOtherUser && (
+            <Header style={{ backgroundColor: "#fff", height: 48 }}>
+              <Left style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity transparent>
+                  {returnIcon("menuBackIcon")}
+                </TouchableOpacity>
+                <Text
+                  style={{ marginLeft: 6, fontWeight: "normal", fontSize: 20 }}
+                >
+                  {user.username}
+                </Text>
+              </Left>
+              <Right>
+                {isGuestFollower && (
+                  <TouchableOpacity transparent onPress={this.unFollowUser}>
+                    {returnIcon("following", 27, 27)}
+                  </TouchableOpacity>
+                )}
+                {!isGuestFollower && (
+                  <TouchableOpacity transparent onPress={this.followUser}>
+                    {returnIcon("follow_add", 27, 27)}
+                  </TouchableOpacity>
+                )}
+              </Right>
+            </Header>
+          )}
+          <Content
+            style={{ flex: 1, paddingTop: 18 }}
+            contentContainerStyle={{ flex: 1, alignItems: "center" }}
+          >
             {!isOtherUser && (
               <TouchableOpacity
                 transparent
@@ -169,39 +189,39 @@ class User extends Component {
                 {returnIcon("logout")}
               </TouchableOpacity>
             )}
-            <View style={styles.user__info}>
-              <Image source={{ uri: user.avatar }} style={styles.user__photo} />
-
-              <View style={styles.user__knowledge}>
-                <Text style={styles.user__name}>
-                  {user.fname} {user.lname} -
+            <Thumbnail
+              large
+              source={{ uri: avatarUser }}
+              style={styles.user__photo}
+            />
+            <View style={styles.user__knowledge}>
+              <Text style={styles.user__name}>{userName}</Text>
+              <Text style={styles.user__gender}>{user.gender}</Text>
+              <Text style={styles.user__location}>{user.location}</Text>
+            </View>
+            <View style={styles.user__supporters}>
+              <View style={styles.user__following}>
+                <Text style={styles.supporters__label}>Following</Text>
+                <Text style={styles.supporters__value}>
+                  {user.following ? user.following.length : 0}
                 </Text>
-                <Text style={styles.user__gender}>{user.gender}</Text>
-                <Text style={styles.user__location}>{user.location}</Text>
               </View>
-              <View style={styles.user__supporters}>
-                <View style={styles.user__following}>
-                  <Text style={styles.supporters__label}>Following</Text>
-                  <Text style={styles.supporters__value}>
-                    {user.following ? user.following.length : 0}
-                  </Text>
-                </View>
-                <View style={styles.user__follower}>
-                  <Text style={styles.supporters__label}>Follower</Text>
-                  <Text style={styles.supporters__value}>
-                    {user.follower ? user.follower.length : 0}
-                  </Text>
-                </View>
+              <View style={styles.user__follower}>
+                <Text style={styles.supporters__label}>Follower</Text>
+                <Text style={styles.supporters__value}>
+                  {user.follower ? user.follower.length : 0}
+                </Text>
               </View>
-              <View style={styles.user__interestedin}>
-                <Text style={styles.interestedin__label}>Interested in : </Text>
-                <Text style={styles.user__interests}>{user.interests}</Text>
-              </View>
+            </View>
+            <View style={styles.user__interestedin}>
+              <Text style={styles.interestedin__label}>Interested in : </Text>
+              <Text style={styles.user__interests}>{user.interests}</Text>
             </View>
             <Tabs
               style={styles.user__badleetory}
               onChangeTab={this.onTabChange}
               initialPage={this.state.activeTabIndex}
+              tabBarUnderlineStyle={{ backgroundColor: "#611265", height: 3 }}
             >
               <Tab
                 heading={
@@ -251,9 +271,7 @@ const _Wrapped = connect(
       state.getIn(["user", "guestUserID"])
     ]),
     badlees: state.getIn(["badlees", "data"]),
-    badleeUserIDs: state.getIn(["badlees", "users"]),
-    loading: state.getIn(["application", "isLoading"]),
-    notification: state.getIn(["application", "notifications"])
+    badleeUserIDs: state.getIn(["badlees", "users"])
   }),
   actionCreators
 )(User);

@@ -36,7 +36,8 @@ class BadleeGridItem extends React.PureComponent {
     return (
       <View style={{ position: "relative" }}>
         <TouchableOpacity onPress={this._onPress}>
-          {returnIcon(this.props.purpose.toLowerCase())}
+          {this.props.toShowPurpose &&
+            returnIcon(this.props.purpose.toLowerCase())}
           <Image
             source={{ uri: this.props.media }}
             resizeMode={"cover"}
@@ -65,6 +66,7 @@ export default class BadleesGrid extends React.PureComponent {
       media={item.media}
       purpose={item.purpose}
       _onClickBadlee={this._onClickBadlee}
+      toShowPurpose={this.props.toShowPurpose}
     />
   );
   render() {

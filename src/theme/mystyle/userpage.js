@@ -3,13 +3,8 @@ export const styles = {
     position: "absolute",
     top: 6,
     right: 15,
-    zIndex: 99
-  },
-  user__info: {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    marginTop: 24
+    zIndex: 99,
+    width: 40
   },
   user__photo: {
     width: 96,
@@ -17,13 +12,14 @@ export const styles = {
     borderRadius: 48
   },
   user__knowledge: {
-    marginTop: 12,
+    marginTop: 15,
     display: "flex",
     flexDirection: "row",
     alignItems: "center"
   },
   user__name: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "#000"
   },
   user__gender: {
     fontSize: 15,
@@ -87,8 +83,7 @@ export const styles = {
     fontWeight: "bold"
   },
   user__badleetory: {
-    marginTop: 18,
-    paddingBottom: 12
+    marginTop: 12
   },
 
   inventorytype__head: {

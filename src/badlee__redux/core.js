@@ -222,18 +222,18 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
     .setIn(["badlees", "users", userID, purpose], fromJS(ids));
 }
 
-export function onClickLike(state, id) {
+export function likeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "likes",
       badlee.get("likes")
         ? badlee.get("likes").push(loggedUserID)
-        : fromJS([loggedUser])
+        : fromJS([loggedUserID])
     );
   });
 }
-export function onClickUnlike(state, id) {
+export function unlikeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
@@ -243,7 +243,7 @@ export function onClickUnlike(state, id) {
   });
 }
 
-export function onClickWish(state, id) {
+export function wishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
@@ -254,7 +254,7 @@ export function onClickWish(state, id) {
     );
   });
 }
-export function onClickUnwish(state, id) {
+export function unwishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(

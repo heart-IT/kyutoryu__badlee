@@ -2,18 +2,18 @@
  * @name- like.js
  * 
  * @chill- Try eating without doing anything else: no talking, reading, walking, driving, working. Just eat. Really slowly. 
-  It can be alternately transcendent or totally annoying. Keep doing it anyway. -Katie Goodman
+ * It can be alternately transcendent or totally annoying. Keep doing it anyway. -Katie Goodman
  *
  * 
  * @description- fns for doing like and unliking of badlees
  * 
  * @author- heartit pirates were here
  */
+import { AsyncStorage } from 'react-native';
 
-"use strict";
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from '../../action_creators';
 
+("use strict");
 async function doUnlike(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
@@ -58,30 +58,20 @@ async function doLike(postid) {
 
 export async function onClickLike(store, next, action) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    let badleeID = action.id;
-    let likeReqResponse = await doLike(badleeID);
-    if (likeReqResponse === "Liked") {
-      next(action);
-    }
+    await store.dispatch(actionCreators.store_likeBadlee(action.id));
+    await doLike(action.id);
   } catch (err) {
+    await store.dispatch(actionCreators.store_unlikeBadlee(action.id));
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }
 
 export async function onClickUnlike(store, next, action) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    let badleeID = action.id;
-    let likeReqResponse = await doUnlike(badleeID);
-    if (likeReqResponse) {
-      next(action);
-    }
+    await store.dispatch(actionCreators.store_unlikeBadlee(action.id));
+    await doUnlike(action.id);
   } catch (err) {
+    await store.dispatch(actionCreators.store_likeBadlee(action.id));
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }

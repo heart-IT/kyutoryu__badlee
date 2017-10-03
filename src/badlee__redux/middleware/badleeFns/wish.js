@@ -8,11 +8,11 @@
  * 
  * @author- heartit pirates were here
  */
+import { AsyncStorage } from 'react-native';
 
-"use strict";
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
+import * as actionCreators from '../../action_creators';
 
+("use strict");
 async function doUnwish(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
@@ -57,30 +57,20 @@ async function doWish(postid) {
 
 export async function onClickWish(store, next, action) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    let badleeID = action.id;
-    let wishReqResponse = await doWish(badleeID);
-    if (wishReqResponse) {
-      next(action);
-    }
+    await store.dispatch(actionCreators.store_wishBadlee(action.id));
+    await doWish(action.id);
   } catch (err) {
+    await store.dispatch(actionCreators.store_unwishBadlee(action.id));
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }
 
 export async function onClickUnwish(store, next, action) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    let badleeID = action.id;
-    let wishReqResponse = await doUnwish(badleeID);
-    if (wishReqResponse) {
-      next(action);
-    }
+    await store.dispatch(actionCreators.store_unwishBadlee(action.id));
+    await doUnwish(action.id);
   } catch (err) {
+    await store.dispatch(actionCreators.store_wishBadlee(action.id));
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }

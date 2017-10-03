@@ -123,9 +123,17 @@ export const onClickLike = (id: Number) => ({
   type: "ON_CLICK_LIKE",
   id: id
 });
+export const store_likeBadlee = id => ({
+  type: "STORE_LIKE_BADLEE",
+  id: id
+});
 
 export const onClickUnlike = (id: Number) => ({
   type: "ON_CLICK_UNLIKE",
+  id: id
+});
+export const store_unlikeBadlee = id => ({
+  type: "STORE_UNLIKE_BADLEE",
   id: id
 });
 
@@ -133,9 +141,17 @@ export const onClickWish = (id: Number) => ({
   type: "ON_CLICK_WISH",
   id: id
 });
+export const store_wishBadlee = id => ({
+  type: "STORE_WISH_BADLEE",
+  id: id
+});
 
 export const onClickUnwish = (id: Number) => ({
   type: "ON_CLICK_UNWISH",
+  id: id
+});
+export const store_unwishBadlee = id => ({
+  type: "STORE_UNWISH_BADLEE",
   id: id
 });
 

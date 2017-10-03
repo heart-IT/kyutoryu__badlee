@@ -83,22 +83,24 @@ export function reducer(state = core.InitialState, action) {
         action.badlees
       );
       break;
-    case "ON_CLICK_LIKE":
-      return core.onClickLike(state, action.id);
-      break;
     case "ON_CLICK_UNLIKE":
-      return core.onClickUnlike(state, action.id);
-      break;
-    case "ON_CLICK_WISH":
-      return core.onClickWish(state, action.id);
-      break;
-    case "ON_CLICK_UNWISH":
-      return core.onClickUnwish(state, action.id);
+      return core.unlikeBadlee(state, action.id);
       break;
     case "POST_COMMENT":
       return core.postComment(state, action.id, action.commentResponse);
       break;
-
+    case "STORE_LIKE_BADLEE":
+      return core.likeBadlee(state, action.id);
+      break;
+    case "STORE_UNLIKE_BADLEE":
+      return core.unlikeBadlee(state, action.id);
+      break;
+    case "STORE_WISH_BADLEE":
+      return core.wishBadlee(state, action.id);
+      break;
+    case "STORE_UNWISH_BADLEE":
+      return core.unwishBadlee(state, action.id);
+      break;
     default:
       return state;
   }

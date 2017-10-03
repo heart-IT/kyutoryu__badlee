@@ -8,24 +8,22 @@
  * 
  * @author- heartit pirates were here
  */
+import { Component } from 'react';
+import { AsyncStorage } from 'react-native';
+
+import * as actionCreators from '../../action_creators';
+import { application_id, application_secret, createFormData } from '../utility';
+
 
 "use strict";
 
-import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
-import * as actionCreators from "../../action_creators";
-import { application_id, application_secret, createFormData } from "../utility";
-
 export async function showCommentPage(store, next: Function, action) {
   try {
-    await store.dispatch(actionCreators.startLoading());
-    await store.dispatch(actionCreators.saveTempBadlee(action.id));
     action.route.params = { id: action.id };
+    await store.dispatch(actionCreators.currentShowingBadlee(action.id));
     await store.dispatch(actionCreators.navigate(action.route));
   } catch (err) {
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }
 

@@ -23,14 +23,15 @@ import {
     Thumbnail,
     View,
 } from 'native-base';
-import React from 'react';
 import { Component } from 'react';
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
+import Comments from './Comments';
 import User from './User';
 
 ("use strict");
@@ -71,7 +72,12 @@ class SingleBadlee extends Component {
     this.props.onClickUnwish(this.props.badlee.get("id"));
   }
   _onClickComment() {
-    this.props.onClickComment(this.props.badlee.get("id"));
+    requestAnimationFrame(() => {
+      this.props.showCommentPage(this.props.badlee.get("id"), {
+        navigator: this.props.navigator,
+        component: Comments
+      });
+    });
   }
   _onClickDelete() {
     this.props.onClickDelete(this.props.badlee.get("id"));

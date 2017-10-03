@@ -8,36 +8,35 @@
  * 
  * @author- heartit pirates
  */
-
-"use strict";
-
-import React, { Component } from "react";
-import { TouchableOpacity, ScrollView } from "react-native";
-import { connect } from "react-redux";
 import {
-  StyleProvider,
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  View,
-  Text,
-  Form,
-  Item,
-  Input,
-  Button,
-  List,
-  ListItem,
-  Body,
-  Thumbnail,
-  Icon as IconX
-} from "native-base";
-import Icon from "../../components/Icon";
-import * as actionCreators from "../../badlee__redux/action_creators";
+    Body,
+    Button,
+    Container,
+    Content,
+    Form,
+    Header,
+    Icon as IconX,
+    Input,
+    Item,
+    Left,
+    List,
+    ListItem,
+    StyleProvider,
+    Text,
+    Thumbnail,
+    View,
+} from 'native-base';
+import React from 'react';
+import { Component } from 'react';
+import { ScrollView, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
-import getTheme from "../../theme/components";
-import LoadingView from "../../components/LoadingView";
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import LoadingView from '../../components/LoadingView';
+import getTheme from '../../theme/components';
+
+("use strict");
 
 class Comment extends Component {
   constructor(props) {
@@ -178,7 +177,7 @@ let styles = {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    comments: state.getIn(["tempBadlee", "comments"])
+    comments: state.getIn(["badlees", "data", "currentShowing", "comments"])
   }),
   actionCreators
 )(Comment);

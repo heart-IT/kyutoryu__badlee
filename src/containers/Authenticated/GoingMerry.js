@@ -72,7 +72,7 @@ class AuthContainer extends Component {
               </Tab>
             </Tabs>
           </Content>
-          {this.props.loading && <Loading message=" " />}
+          {this.props.loading && <Loading />}
         </Container>
       </StyleProvider>
     );

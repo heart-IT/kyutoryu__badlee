@@ -32,32 +32,36 @@ class MyList extends React.PureComponent {
     this.onClickComment = this._onClickComment.bind(this);
     this.onClickBadlee = this._onClickBadlee.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
+    this.onFlatListRefresh = this._onFlatListRefresh.bind(this);
   }
   _keyExtractor = (item, index) => item.id;
-  _onClickUser = (id: string) => {
+  _onClickUser = id => {
     this.props.onClickUser(id);
   };
-  _onClickLike = (id: string) => {
+  _onClickLike = id => {
     this.props.onClickLike(id);
   };
-  _onClickUnlike = (id: string) => {
+  _onClickUnlike = id => {
     this.props.onClickUnlike(id);
   };
-  _onClickWish = (id: string) => {
+  _onClickWish = id => {
     this.props.onClickWish(id);
   };
-  _onClickUnwish = (id: string) => {
+  _onClickUnwish = id => {
     this.props.onClickUnwish(id);
   };
-  _onClickComment = (id: string) => {
+  _onClickComment = id => {
     this.props.onClickComment(id);
   };
-  _onClickBadlee = (id: string) => {
+  _onClickBadlee = id => {
     this.props.onClickBadlee(id);
   };
-  _onClickDelete = (id: string) => {
+  _onClickDelete = id => {
     this.props.onClickDelete(id);
   };
+  _onFlatListRefresh() {
+    this.props.onFlatListRefresh();
+  }
   _renderItem = ({ item }) => (
     <BadleeCard
       cardData={item}
@@ -85,6 +89,8 @@ class MyList extends React.PureComponent {
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
         style={{ backgroundColor: "#d9d9d9" }}
+        refreshing={false}
+        onRefresh={this.onFlatListRefresh}
       />
     );
   }

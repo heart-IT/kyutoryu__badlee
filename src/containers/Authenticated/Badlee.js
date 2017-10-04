@@ -52,6 +52,7 @@ class Store extends Component {
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
     this.triggerSearch = this.triggerSearch.bind(this);
+    this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -190,6 +191,10 @@ class Store extends Component {
     this.getBadleeByGlobe();
   }
 
+  onFlatListRefresh() {
+    console.log("hey");
+  }
+
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
     this.setState(
@@ -238,6 +243,7 @@ class Store extends Component {
           onClickComment={_this.onClickComment}
           onClickBadlee={_this.onClickBadlee}
           onClickDelete={_this.onClickDelete}
+          onFlatListRefresh={_this.onFlatListRefresh}
           userId={_this.props.user.get("user_id")}
         />
       );
@@ -247,6 +253,7 @@ class Store extends Component {
         <BadleesGrid
           data={_this.state.currentData}
           onClickBadlee={_this.onClickBadlee}
+          loading={_this.props.loading}
         />
       );
     }
@@ -352,7 +359,8 @@ const _Wrapped = connect(
     allBadlees: state.getIn(["badlees", "data"]),
     badleesIDFollowing: state.getIn(["badlees", "tabs", "following"]),
     badleesIDLocation: state.getIn(["badlees", "tabs", "location"]),
-    badleesIDGlobe: state.getIn(["badlees", "tabs", "globe"])
+    badleesIDGlobe: state.getIn(["badlees", "tabs", "globe"]),
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Store);

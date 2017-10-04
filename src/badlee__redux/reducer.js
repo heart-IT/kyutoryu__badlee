@@ -87,7 +87,12 @@ export function reducer(state = core.InitialState, action) {
       return core.unlikeBadlee(state, action.id);
       break;
     case "POST_COMMENT":
-      return core.postComment(state, action.id, action.commentResponse);
+      return core.postComment(
+        state,
+        action.id,
+        action.commentResponse,
+        action.timestamp
+      );
       break;
     case "STORE_LIKE_BADLEE":
       return core.likeBadlee(state, action.id);

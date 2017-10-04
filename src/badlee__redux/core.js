@@ -269,12 +269,34 @@ export function currentShowingBadlee(state, id) {
   return state.setIn(["badlees", "currentShowing"], String(id));
 }
 
-export function postComment(state, id, comment) {
+export function postComment(state, id, comment, timestamp) {
   let oldComments = state.getIn(["badlees", "data", String(id), "comments"]);
+  var commentObj = {
+    avatar: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"]),
+      "avatar"
+    ]),
+    content: comment.content,
+    fname: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"]),
+      "fname"
+    ]),
+    user_id: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"]),
+      "user_id"
+    ]),
+    timestamp: timestamp
+  };
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "comments",
-      oldComments ? oldComments.push(comment) : fromJS([comment])
+      oldComments ? oldComments.unshift(commentObj) : fromJS([commentObj])
     );
   });
 }

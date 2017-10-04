@@ -14,8 +14,7 @@ import { AsyncStorage } from 'react-native';
 import * as actionCreators from '../../action_creators';
 import { application_id, application_secret, createFormData } from '../utility';
 
-
-"use strict";
+("use strict");
 
 export async function showCommentPage(store, next: Function, action) {
   try {
@@ -56,16 +55,14 @@ async function doComment(postid, content) {
   }
 }
 
-export async function postComment(store, next: Function, action) {
+export async function postComment(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     var req = await doComment(action.id, action.comment);
-    console.log(req);
     action.commentResponse = req;
-    if (req) {
-      next(action);
-    }
+    next(action);
   } catch (err) {
+    console.log("error in posting");
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

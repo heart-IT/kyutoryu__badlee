@@ -27,7 +27,7 @@ import Icon from '../../components/Icon';
 import LoadingView from '../../components/LoadingView';
 import Locator from '../../components/Location';
 import getTheme from '../../theme/components';
-import Main from './GoingMerry';
+import Main from './goingMerry';
 
 var ImagePicker = require("react-native-image-picker");
 

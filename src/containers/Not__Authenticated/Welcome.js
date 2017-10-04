@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
-import AuthContainer from '../Authenticated/GoingMerry';
+import AuthContainer from '../Authenticated/goingMerry';
 
 ("use strict");
 

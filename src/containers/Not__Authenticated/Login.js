@@ -18,7 +18,7 @@ import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import Loading from '../../components/LoadingView';
 import getTheme from '../../theme/components';
-import BadleeAuthApp from '../Authenticated/GoingMerry';
+import BadleeAuthApp from '../Authenticated/goingMerry';
 import ForgotPassword from './forgotPassword';
 import Register from './register';
 import Welcome from './welcome';

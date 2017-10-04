@@ -1,5 +1,5 @@
 /**
- * @name- GoingMerry.js
+ * @name- goingMerry.js
  * 
  * @chill -There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
  * 

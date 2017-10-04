@@ -4,7 +4,7 @@
  * @chill -There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
  * 
  * 
- * @description- This file is the parent container of Badlee App after logging in. Everything is loaded inside
+ * @description- This file is the parent container of badlee App after logging in. Everything is loaded inside
  * 
  * @author- heartit pirates
  */
@@ -17,7 +17,7 @@ import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import Loading from '../../components/LoadingView';
 import getTheme from '../../theme/components';
-import Badlee from './Badlee';
+import Badlees from './badlee';
 import Chat from './Chat';
 import UserProfile from './User';
 
@@ -53,7 +53,7 @@ class AuthContainer extends Component {
               onChangeTab={(i, ref) => this.setState({ activeTabIndex: i.i })}
             >
               <Tab heading={<TabHeading>{returnIcon("home", 0)}</TabHeading>}>
-                <Badlee />
+                <Badlees />
               </Tab>
               <Tab
                 heading={<TabHeading>{returnIcon("messages", 1)}</TabHeading>}

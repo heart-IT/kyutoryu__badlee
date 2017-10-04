@@ -6,27 +6,19 @@
  * @description- This file is the Onboarding page. This is what shown to user first time.
  * @author- heartIT pirates were here
  */
+import { Button, Container, Content, StyleProvider, Text, View } from 'native-base';
+import { Component } from 'react';
+import { Image } from 'react-native';
+import Swiper from 'react-native-swiper';
+import { connect } from 'react-redux';
+
+import * as actionCreators from '../../badlee__redux/action_creators';
+import Icon from '../../components/Icon';
+import getTheme from '../../theme/components';
+import Login from './login';
+
 
 "use strict";
-
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Image } from "react-native";
-import {
-  StyleProvider,
-  Container,
-  Content,
-  View,
-  Button,
-  Text
-} from "native-base";
-
-import * as actionCreators from "../../badlee__redux/action_creators";
-import Swiper from "react-native-swiper";
-import getTheme from "../../theme/components";
-import Icon from "../../components/Icon";
-
-import Login from "./login";
 
 class BackgroundImage extends Component {
   render() {
@@ -72,7 +64,7 @@ class Onboarding extends Component {
                 >
                   <View style={styles.view}>
                     <Text style={{ ...styles.head, ...styles.badleeColor }}>
-                      Badlee?
+                      badlee?
                     </Text>
                     <Image
                       source={require("../../images/badlee.png")}
@@ -112,7 +104,7 @@ class Onboarding extends Component {
                         under this badge.
                       </Text>
                       <Text style={styles.content}>
-                        The true essence of Badlee, it is
+                        The true essence of badlee, it is
                       </Text>
                     </View>
                   </View>
@@ -128,7 +120,7 @@ class Onboarding extends Component {
                     />
                     <View>
                       <Text style={styles.content}>
-                        Got something 'premium'? Here's Badlee giving you an
+                        Got something 'premium'? Here's badlee giving you an
                         exclusive platform to show your premium possessions off.
                       </Text>
                       <Text style={styles.content}>

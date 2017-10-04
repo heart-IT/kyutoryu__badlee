@@ -4,7 +4,7 @@
  * @chill- Do not seek to follow in the footsteps of the wise ones: seek what they sought- Matsuo Basho
  * 
  * 
- * @description- Single Badlee Page
+ * @description- Single badlee Page
  * 
  * @author- heartit pirates
  */
@@ -23,8 +23,8 @@ import {
     Thumbnail,
     View,
 } from 'native-base';
-import { Component } from 'react';
 import React from 'react';
+import { Component } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -177,20 +177,20 @@ class SingleBadlee extends Component {
                 >
                   <View style={{ flexDirection: "row" }}>
                     {cardData.likes &&
-                    cardData.likes.indexOf(this.props.userId) > -1 && (
-                      <TouchableOpacity
-                        transparent
-                        onPress={this.onClickUnlike}
-                      >
-                        <Icon
-                          name="postLiked"
-                          width="30"
-                          height="30"
-                          style={{ margin: 3 }}
-                          strokeWidth="17"
-                        />
-                      </TouchableOpacity>
-                    )}
+                      cardData.likes.indexOf(this.props.userId) > -1 && (
+                        <TouchableOpacity
+                          transparent
+                          onPress={this.onClickUnlike}
+                        >
+                          <Icon
+                            name="postLiked"
+                            width="30"
+                            height="30"
+                            style={{ margin: 3 }}
+                            strokeWidth="17"
+                          />
+                        </TouchableOpacity>
+                      )}
                     {(!cardData.likes ||
                       (cardData.likes &&
                         cardData.likes.indexOf(this.props.userId) === -1)) && (
@@ -207,20 +207,20 @@ class SingleBadlee extends Component {
                       </TouchableOpacity>
                     )}
                     {cardData.wishes &&
-                    cardData.wishes.indexOf(this.props.userId) > -1 && (
-                      <TouchableOpacity
-                        transparent
-                        onPress={this.onClickUnwish}
-                      >
-                        <Icon
-                          name="postWished"
-                          width="30"
-                          height="30"
-                          fill="#EF5454"
-                          style={{ margin: 3 }}
-                        />
-                      </TouchableOpacity>
-                    )}
+                      cardData.wishes.indexOf(this.props.userId) > -1 && (
+                        <TouchableOpacity
+                          transparent
+                          onPress={this.onClickUnwish}
+                        >
+                          <Icon
+                            name="postWished"
+                            width="30"
+                            height="30"
+                            fill="#EF5454"
+                            style={{ margin: 3 }}
+                          />
+                        </TouchableOpacity>
+                      )}
                     {(!cardData.wishes ||
                       (cardData.wishes &&
                         cardData.wishes.indexOf(this.props.userId) === -1)) && (
@@ -280,11 +280,9 @@ class SingleBadlee extends Component {
                           color: "rgba(0, 0, 0, 0.73)"
                         }}
                       >
-                        {cardData.comment_count ? (
-                          `View ${cardData.comment_count}`
-                        ) : (
-                          0
-                        )}{" "}
+                        {cardData.comment_count
+                          ? `View ${cardData.comment_count}`
+                          : 0}{" "}
                         comments{" "}
                       </Text>
                     </TouchableOpacity>

@@ -4,7 +4,7 @@
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
- * @description- This file is Login Screen of Badlee App.
+ * @description- This file is Login Screen of badlee App.
  * 
  * @author- heartit pirates were here
  */

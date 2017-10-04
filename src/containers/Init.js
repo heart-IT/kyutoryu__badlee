@@ -5,7 +5,7 @@
  * Their teacher happened to be passing by. He told them, "Not the wind, not the flag; It is your mind that is moving." - Mumon Ekai
  * 
  * 
- * @description- This file is starting point of Badlee App. Here, we take initial calm steps needed to start the app like cheking auth,
+ * @description- This file is starting point of badlee App. Here, we take initial calm steps needed to start the app like cheking auth,
  * redirecting user to right place.
  * 
  * @author- heartit pirates were here.

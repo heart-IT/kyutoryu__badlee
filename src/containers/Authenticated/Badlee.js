@@ -1,5 +1,5 @@
 /**
- * @name- Badlee.js
+ * @name- badlee.js
  * 
  * @chill- Great is the person who does not lose their childlike heart.- Mencius
  * 

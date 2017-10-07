@@ -70,7 +70,9 @@ export function reducer(state = core.InitialState, action) {
         state,
         action.badlees,
         action.tabName,
-        action.badleesInIDS
+        action.badleesInIDS,
+        action.offset,
+        action.limit
       );
     case "SAVE_BADLEE":
       return core.saveBadlee(state, action.newBadlee);

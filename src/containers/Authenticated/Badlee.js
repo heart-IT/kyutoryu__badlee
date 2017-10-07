@@ -36,7 +36,7 @@ class Store extends Component {
       activeTabIndex: 0,
       currentPagination: {
         offset: 0,
-        limit: 30
+        limit: 4
       },
       searchString: null,
       globecategory: null,
@@ -53,6 +53,7 @@ class Store extends Component {
     this.onClickBadlee = this.onClickBadlee.bind(this);
     this.triggerSearch = this.triggerSearch.bind(this);
     this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
+    this.onListEnd = this.onListEnd.bind(this);
   }
 
   // update state currentData according to the activeTab and store values
@@ -102,6 +103,7 @@ class Store extends Component {
 
   // call prop getBadlee fn with tabName "following"
   getBadleeByFollowing() {
+    console.log(this.state.currentPagination.limit);
     this.props.getBadlees({
       tabName: "following",
       offset: this.state.currentPagination.offset,
@@ -195,10 +197,26 @@ class Store extends Component {
     console.log("hey");
   }
 
+  onListEnd() {
+    this.setState(
+      {
+        currentPagination: {
+          offset:
+            this.state.currentPagination.offset +
+            this.state.currentPagination.limit,
+          limit: 4
+        }
+      },
+      () => {
+        this.getBadlees();
+      }
+    );
+  }
+
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
     this.setState(
-      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 30 } },
+      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 4 } },
       () => {
         this.getBadlees();
       }
@@ -244,6 +262,7 @@ class Store extends Component {
           onClickBadlee={_this.onClickBadlee}
           onClickDelete={_this.onClickDelete}
           onFlatListRefresh={_this.onFlatListRefresh}
+          onListEnd={_this.onListEnd}
           userId={_this.props.user.get("user_id")}
         />
       );

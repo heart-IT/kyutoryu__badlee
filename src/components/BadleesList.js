@@ -33,6 +33,7 @@ class MyList extends React.PureComponent {
     this.onClickBadlee = this._onClickBadlee.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
     this.onFlatListRefresh = this._onFlatListRefresh.bind(this);
+    this.handleMore = this._handleMore.bind(this);
   }
   _keyExtractor = (item, index) => item.id;
   _onClickUser = id => {
@@ -61,6 +62,12 @@ class MyList extends React.PureComponent {
   };
   _onFlatListRefresh() {
     this.props.onFlatListRefresh();
+  }
+  _handleMore() {
+    if (!this.onEndReachedCalledDuringMomentum) {
+      this.props.onListEnd();
+      this.onEndReachedCalledDuringMomentum = true;
+    }
   }
   _renderItem = ({ item }) => (
     <BadleeCard
@@ -91,6 +98,11 @@ class MyList extends React.PureComponent {
         style={{ backgroundColor: "#d9d9d9" }}
         refreshing={false}
         onRefresh={this.onFlatListRefresh}
+        onEndReached={this.handleMore}
+        onEndReachedThreshold={0.5}
+        onMomentumScrollBegin={() => {
+          this.onEndReachedCalledDuringMomentum = false;
+        }}
       />
     );
   }

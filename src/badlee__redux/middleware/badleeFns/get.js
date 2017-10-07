@@ -32,6 +32,17 @@ export default async function getBadlees(store, next, action) {
       search,
       category
     } = action.params;
+    let storeState = store.getState();
+    const gotTill = storeState.getIn([
+      "badlees",
+      "pagination",
+      "tabs",
+      tabName,
+      "to"
+    ]);
+    if (offset + limit < gotTill) {
+      throw "already has values";
+    }
     let badlees;
     if (tabName === "following") {
       badlees = await getBadleesByFollowing(offset, limit);
@@ -40,8 +51,13 @@ export default async function getBadlees(store, next, action) {
     } else {
       badlees = await getBadleesByGlobe(search, category, offset, limit);
     }
+    if (badlees === "its over") {
+      action.itsEnd = true;
+    }
     action.badlees = badlees;
     action.tabName = tabName;
+    action.offset = offset;
+    action.limit = limit;
     action.badleesInIDS = badlees.map(badlee => badlee.id);
     next(action);
   } catch (e) {
@@ -62,6 +78,9 @@ async function getBadleesByFollowing(offset, limit) {
   });
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();
+    if (!badlees) {
+      return "its over";
+    }
     return badlees;
   } else {
     throw "error happened in following";

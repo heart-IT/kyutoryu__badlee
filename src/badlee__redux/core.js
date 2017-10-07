@@ -47,7 +47,14 @@ const StateRecord = Record({
       globe: new OrderedSet()
     }),
     users: fromJS({}),
-    currentShowing: null
+    currentShowing: null,
+    pagingEndsIn: new Map({
+      tabs: new Map({
+        following: -1,
+        location: -1,
+        globe: -1
+      })
+    })
   })
 });
 
@@ -193,15 +200,26 @@ export function unfollowUser(state, userID) {
 /**
  * Badlee Core Section
  */
-export function getBadlees(state, badlees, tabName, badleesIDS) {
+export function getBadlees(state, badlees, tabName, badleesIDS, offset, limit) {
   let badleeObject = {};
-  badlees.map(badlee => {
-    badleeObject[badlee.id] = badlee;
-  });
-  var updatedBadlees = state.getIn(["badlees", "data"]).merge(badleeObject);
-  return state
-    .setIn(["badlees", "data"], updatedBadlees)
-    .setIn(["badlees", "tabs", tabName], fromJS(badleesIDS));
+  if (badlees) {
+    badlees.map(badlee => {
+      badleeObject[badlee.id] = badlee;
+    });
+    var updatedBadlees = state.getIn(["badlees", "data"]).merge(badleeObject);
+    var updatedBadleeIDS = state
+      .getIn(["badlees", "tabs", tabName])
+      .union(badleesIDS);
+    return state
+      .setIn(["badlees", "data"], updatedBadlees)
+      .setIn(["badlees", "tabs", tabName], updatedBadleeIDS)
+      .setIn(
+        ["badlees", "paging", "tabs", tabName],
+        action.itEnds ? offset + limit : -1
+      );
+  } else {
+    return state;
+  }
 }
 
 export function saveBadlee(state, newBadlee) {

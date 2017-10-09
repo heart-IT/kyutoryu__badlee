@@ -79,9 +79,9 @@ class Store extends Component {
         showingBadleeIDs = badleeIDs.get("globe");
     }
     currentData = showingBadleeIDs
-      .filter(badlee, index => index >= offset && index < limit + offset)
-      .map(id => allBadlees.get(String(id)).toJS());
-
+      .slice(offset, limit + offset)
+      .map(id => allBadlees.get(String(id)))
+      .toJS();
     this.setState({ currentData: currentData });
   }
 

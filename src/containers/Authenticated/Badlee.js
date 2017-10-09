@@ -22,7 +22,7 @@ import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
 import { styles } from '../../theme/mystyle/badlee';
 import Comments from './Comments';
-import NewBadlee from './NewBadlee';
+import NewBadlee from './newBadlee';
 import SingleBadlee from './SingleBadlee';
 import User from './User';
 
@@ -32,39 +32,42 @@ class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialFabValue: false,
       activeTabIndex: 0,
-      currentPagination: {
-        offset: 0,
-        limit: 4
-      },
-      searchString: null,
+      paging: { offset: 0, limit: 4 },
+      searchFor: null,
       globecategory: null,
       currentData: []
     };
+
     this.onFabSelect = this.onFabSelect.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
-    this.onClickUser = this.onClickUser.bind(this);
-    this.onClickLike = this.onClickLike.bind(this);
-    this.onClickUnlike = this.onClickUnlike.bind(this);
-    this.onClickWish = this.onClickWish.bind(this);
-    this.onClickUnwish = this.onClickUnwish.bind(this);
-    this.onClickComment = this.onClickComment.bind(this);
-    this.onClickBadlee = this.onClickBadlee.bind(this);
-    this.triggerSearch = this.triggerSearch.bind(this);
+
     this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
     this.onListEnd = this.onListEnd.bind(this);
+
+    this.triggerSearch = this.triggerSearch.bind(this);
+
+    this.onClickUser = this.onClickUser.bind(this);
+    this.onClickBadlee = this.onClickBadlee.bind(this);
+
+    this.onClickLike = this.onClickLike.bind(this);
+    this.onClickUnlike = this.onClickUnlike.bind(this);
+
+    this.onClickWish = this.onClickWish.bind(this);
+    this.onClickUnwish = this.onClickUnwish.bind(this);
+
+    this.onClickComment = this.onClickComment.bind(this);
   }
 
-  componentDidMount() {
-    this.getBadlees();
-  }
-
-  // update state currentData according to the activeTab
+  /**
+   * Component Section
+   */
+  // in case of render, when props are received turn it into a meaningful data, apply pagination locally on data from an immutable object for state 'currentData' key.
   componentWillReceiveProps(nextProps) {
     let { allBadlees, badleeIDs } = nextProps;
     let showingBadleeIDs = [];
     let currentData = [];
+    let { offset, limit } = this.state.paging;
     switch (this.state.activeTabIndex) {
       case 0:
         showingBadleeIDs = badleeIDs.get("following");
@@ -75,15 +78,24 @@ class Store extends Component {
       default:
         showingBadleeIDs = badleeIDs.get("globe");
     }
-    currentData = showingBadleeIDs.map(id => {
-      return allBadlees.get(String(id)).toJS();
-    });
+    currentData = showingBadleeIDs
+      .filter(badlee, index => index >= offset && index < limit + offset)
+      .map(id => allBadlees.get(String(id)).toJS());
+
     this.setState({ currentData: currentData });
   }
 
-  // switch case to fetch item based on activeTab
+  // get badlees on component mounting.
+  componentDidMount() {
+    this.getBadlees();
+  }
+
+  /**
+   * Get Badlees Section
+   */
+  // call fns to fetch badlees based on activeTab switch case
   getBadlees() {
-    let { offset, limit } = this.state.currentPagination;
+    let { offset, limit } = this.state.paging;
     switch (this.state.activeTabIndex) {
       case 0:
         this.getBadleeByFollowing();
@@ -94,56 +106,94 @@ class Store extends Component {
       default:
         this.getBadleeByGlobe();
     }
-    function isListOver(pagingEndsAt) {
-      return pagingEndsAt !== -1 && pagingEndsAt > offset + limit;
-    }
   }
 
-  // call prop getBadlee fn with tabName "following"
   getBadleeByFollowing() {
     let pagingEndsIn = this.props.pagingEndsIn.get("following");
-    if (pagingEndsIn === -1 || offset + limit < pagingEndsIn) {
+    if (checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
         tabName: "following",
-        offset: offset,
-        limit: limit
+        offset: this.state.paging.offset,
+        limit: this.state.paging.limit
       });
     }
   }
 
-  // call prop getBadlee fn with tabName "location" and currentLocation "Jaipur"
   getBadleeByLocation() {
-    let { offset, limit } = this.state.currentPagination;
     let pagingEndsIn = this.props.pagingEndsIn.get("location");
-    if (pagingEndsIn !== -1 && offset + limit < pagingEndsIn) {
+    if (checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
         tabName: "location",
         currentLocation: "Jaipur, Rajasthan, India",
-        offset: offset,
-        limit: limit
+        offset: this.state.paging.offset,
+        limit: this.state.paging.limit
       });
     }
   }
 
-  // call prop getBadlee fn with tabName "globe", search string and category value
   getBadleeByGlobe() {
-    let { offset, limit } = this.state.currentPagination;
-    let pagingEndsIn = this.props.pagingEndsIn.get("location");
-    if (pagingEndsIn !== -1 && offset + limit < pagingEndsIn) {
+    let pagingEndsIn = this.props.pagingEndsIn.get("globe");
+    if (checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
-        tabName: "location",
-        currentLocation: "Jaipur, Rajasthan, India",
-        offset: offset,
-        limit: limit
+        tabName: "globe",
+        search: this.state.searchFor,
+        category: this.state.globecategory,
+        offset: this.state.paging.offset,
+        limit: this.state.paging.limit
       });
     }
-    this.props.getBadlees({
-      tabName: "globe",
-      search: this.state.searchString,
-      category: this.state.globecategory,
-      offset: this.state.currentPagination.offset,
-      limit: this.state.currentPagination.limit
+  }
+
+  checkForPagination(pagingEndsIn) {
+    let { offset, limit } = this.state.paging;
+    // if pagingEnds and we are trying higher value, then we wont request.  !(A && B) = !A || !B
+    if (pagingEndsIn === -1 || offset + limit < pagingEndsIn) {
+      return true;
+    }
+  }
+
+  /**
+   * Component Events section
+   */
+  // open new badlee form screen with the type passed in parameter.
+  onFabSelect(type) {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: NewBadlee,
+        params: { type }
+      });
     });
+  }
+
+  // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
+  onTabChange(i, ref) {
+    this.setState(
+      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 4 } },
+      () => {
+        this.getBadlees();
+      }
+    );
+  }
+
+  onFlatListRefresh() {
+    console.log("hey");
+  }
+
+  onListEnd() {
+    this.setState(
+      {
+        currentPagination: {
+          offset:
+            this.state.currentPagination.offset +
+            this.state.currentPagination.limit,
+          limit: 4
+        }
+      },
+      () => {
+        this.getBadlees();
+      }
+    );
   }
 
   // call prop showUserPage fn to open clicked user page, pass user_id of clicked user
@@ -207,47 +257,6 @@ class Store extends Component {
     this.getBadleeByGlobe();
   }
 
-  onFlatListRefresh() {
-    console.log("hey");
-  }
-
-  onListEnd() {
-    this.setState(
-      {
-        currentPagination: {
-          offset:
-            this.state.currentPagination.offset +
-            this.state.currentPagination.limit,
-          limit: 4
-        }
-      },
-      () => {
-        this.getBadlees();
-      }
-    );
-  }
-
-  // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
-  onTabChange(i, ref) {
-    this.setState(
-      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 4 } },
-      () => {
-        this.getBadlees();
-      }
-    );
-  }
-
-  // open new badlee form screen with the type passed in parameter.
-  onFabSelect(type) {
-    requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: NewBadlee,
-        params: { type }
-      });
-    });
-  }
-
   render() {
     let _this = this;
     function returnIcon(name, position, width = 21, height = 21) {
@@ -304,10 +313,7 @@ class Store extends Component {
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <BadleeFab
-              isActive={this.state.initialFabValue}
-              onSelection={this.onFabSelect}
-            />
+            <BadleeFab isActive={true} onSelection={this.onFabSelect} />
             <View style={styles.content}>
               <Tabs
                 onChangeTab={this.onTabChange}
@@ -349,8 +355,8 @@ class Store extends Component {
                         <Input
                           placeholder="Search for folks or thingies.."
                           style={styles.searchInput}
-                          onChangeText={searchString =>
-                            this.setState({ searchString })}
+                          onChangeText={searchFor =>
+                            this.setState({ searchFor })}
                           onEndEditing={this.triggerSearch}
                         />
                       </Item>

@@ -9,11 +9,25 @@
  * 
  * @author- heartit pirates were here.
  */
-import { Container, Content, Header, Icon as IconX, Left, Picker, Right, StyleProvider, Text } from 'native-base';
+import {
+    Container,
+    Content,
+    Header,
+    Icon as IconX,
+    Input,
+    Left,
+    Picker,
+    Right,
+    StyleProvider,
+    Text,
+    View,
+} from 'native-base';
 import { Component } from 'react';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
+import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
 import SingleBadlee from './singleBadlee';
@@ -163,65 +177,56 @@ class NewBadlee extends Component {
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <View>
-              {this.state.showLocator && (
-                <Locator
-                  defaultValue={this.state.location}
-                  onSelection={this.locationSelection}
+              <View style={styles.badleePhotoWrapper}>
+                <Image
+                  style={styles.avatar}
+                  source={this.state.badleePhotoUrl}
                 />
-              )}
-              {!this.state.showLocator && (
-                <Form style={styles.newBadleeForm}>
-                  <View style={styles.badleePhotoWrapper}>
-                    <Image
-                      style={styles.avatar}
-                      source={this.state.badleePhotoUrl}
-                    />
-                    {!this.state.badleePhotoUrl && (
-                      <TouchableOpacity
-                        transparent
-                        onPress={this.selectPhotoTapped}
-                        style={{
-                          width: 160,
-                          height: 100,
-                          marginLeft: "auto",
-                          marginRight: "auto"
-                        }}
-                      >
-                        <Icon name="thingy" width="160" height="100" />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                  <Item style={styles.inputItem}>
-                    <Input
-                      placeholder="Title.."
-                      value={this.state.title}
-                      onChangeText={title => this.setState({ title })}
-                    />
-                  </Item>
-                  <Item style={styles.inputItem}>
-                    <Input
-                      placeholder="Write a Caption"
-                      value={this.state.description}
-                      onChangeText={description =>
-                        this.setState({ description })}
-                    />
-                  </Item>
-                  <Item style={styles.inputItem}>
-                    <Input
-                      placeholder="Where is it?"
-                      value={this.state.location}
-                      onFocus={this.onLocationInputTap.bind(this)}
-                    />
-                  </Item>
-                  <Item style={styles.inputItem}>
-                    <Input
-                      placeholder="Where does it fits?"
-                      value={this.state.category}
-                      onChangeText={category => this.setState({ category })}
-                    />
-                  </Item>
-                </Form>
-              )}
+                {!this.state.badleePhotoUrl && (
+                  <TouchableOpacity
+                    transparent
+                    onPress={this.selectPhotoTapped}
+                    style={{
+                      width: 160,
+                      height: 100,
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  >
+                    <Icon name="thingy" width="160" height="100" />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <View>
+                <Item style={styles.inputItem}>
+                  <Input
+                    placeholder="Title.."
+                    value={this.state.title}
+                    onChangeText={title => this.setState({ title })}
+                  />
+                </Item>
+                <Item style={styles.inputItem}>
+                  <Input
+                    placeholder="Write a Caption"
+                    value={this.state.description}
+                    onChangeText={description => this.setState({ description })}
+                  />
+                </Item>
+                <Item style={styles.inputItem}>
+                  <Input
+                    placeholder="Where is it?"
+                    value={this.state.location}
+                    onFocus={this.onLocationInputTap.bind(this)}
+                  />
+                </Item>
+                <Item style={styles.inputItem}>
+                  <Input
+                    placeholder="Where does it fits?"
+                    value={this.state.category}
+                    onChangeText={category => this.setState({ category })}
+                  />
+                </Item>
+              </View>
             </View>
           </Content>
         </Container>

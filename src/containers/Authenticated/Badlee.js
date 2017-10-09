@@ -110,7 +110,7 @@ class Store extends Component {
 
   getBadleeByFollowing() {
     let pagingEndsIn = this.props.pagingEndsIn.get("following");
-    if (checkForPagination(pagingEndsIn)) {
+    if (this.checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
         tabName: "following",
         offset: this.state.paging.offset,
@@ -121,7 +121,7 @@ class Store extends Component {
 
   getBadleeByLocation() {
     let pagingEndsIn = this.props.pagingEndsIn.get("location");
-    if (checkForPagination(pagingEndsIn)) {
+    if (this.checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
         tabName: "location",
         currentLocation: "Jaipur, Rajasthan, India",
@@ -133,7 +133,7 @@ class Store extends Component {
 
   getBadleeByGlobe() {
     let pagingEndsIn = this.props.pagingEndsIn.get("globe");
-    if (checkForPagination(pagingEndsIn)) {
+    if (this.checkForPagination(pagingEndsIn)) {
       this.props.getBadlees({
         tabName: "globe",
         search: this.state.searchFor,

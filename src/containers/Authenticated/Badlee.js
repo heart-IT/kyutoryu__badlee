@@ -56,39 +56,34 @@ class Store extends Component {
     this.onListEnd = this.onListEnd.bind(this);
   }
 
-  // update state currentData according to the activeTab and store values
-  componentWillReceiveProps(nextProps) {
-    let {
-      allBadlees,
-      badleesIDLocation,
-      badleesIDGlobe,
-      badleesIDFollowing
-    } = nextProps;
-    let badleesJS = allBadlees.toJS();
-    let badleesToShowIDS = "";
-    switch (this.state.activeTabIndex) {
-      case 0:
-        badleesToShowIDS = badleesIDFollowing;
-        break;
-      case 1:
-        badleesToShowIDS = badleesIDLocation;
-        break;
-      default:
-        badleesToShowIDS = badleesIDGlobe;
-    }
-    let badleesToShow = badleesToShowIDS.map(id => {
-      return badleesJS[id];
-    });
-    this.setState({ currentData: badleesToShow.toJS() });
-  }
-
-  // load badlee on load of component
   componentDidMount() {
     this.getBadlees();
   }
 
+  // update state currentData according to the activeTab
+  componentWillReceiveProps(nextProps) {
+    let { allBadlees, badleeIDs } = nextProps;
+    let showingBadleeIDs = [];
+    let currentData = [];
+    switch (this.state.activeTabIndex) {
+      case 0:
+        showingBadleeIDs = badleeIDs.get("following");
+        break;
+      case 1:
+        showingBadleeIDs = badleeIDs.get("location");
+        break;
+      default:
+        showingBadleeIDs = badleeIDs.get("globe");
+    }
+    currentData = showingBadleeIDs.map(id => {
+      return allBadlees.get(String(id)).toJS();
+    });
+    this.setState({ currentData: currentData });
+  }
+
   // switch case to fetch item based on activeTab
   getBadlees() {
+    let { offset, limit } = this.state.currentPagination;
     switch (this.state.activeTabIndex) {
       case 0:
         this.getBadleeByFollowing();
@@ -99,30 +94,49 @@ class Store extends Component {
       default:
         this.getBadleeByGlobe();
     }
+    function isListOver(pagingEndsAt) {
+      return pagingEndsAt !== -1 && pagingEndsAt > offset + limit;
+    }
   }
 
   // call prop getBadlee fn with tabName "following"
   getBadleeByFollowing() {
-    console.log(this.state.currentPagination.limit);
-    this.props.getBadlees({
-      tabName: "following",
-      offset: this.state.currentPagination.offset,
-      limit: this.state.currentPagination.limit
-    });
+    let pagingEndsIn = this.props.pagingEndsIn.get("following");
+    if (pagingEndsIn === -1 || offset + limit < pagingEndsIn) {
+      this.props.getBadlees({
+        tabName: "following",
+        offset: offset,
+        limit: limit
+      });
+    }
   }
 
   // call prop getBadlee fn with tabName "location" and currentLocation "Jaipur"
   getBadleeByLocation() {
-    this.props.getBadlees({
-      tabName: "location",
-      currentLocation: "Jaipur, Rajasthan, India",
-      offset: this.state.currentPagination.offset,
-      limit: this.state.currentPagination.limit
-    });
+    let { offset, limit } = this.state.currentPagination;
+    let pagingEndsIn = this.props.pagingEndsIn.get("location");
+    if (pagingEndsIn !== -1 && offset + limit < pagingEndsIn) {
+      this.props.getBadlees({
+        tabName: "location",
+        currentLocation: "Jaipur, Rajasthan, India",
+        offset: offset,
+        limit: limit
+      });
+    }
   }
 
   // call prop getBadlee fn with tabName "globe", search string and category value
   getBadleeByGlobe() {
+    let { offset, limit } = this.state.currentPagination;
+    let pagingEndsIn = this.props.pagingEndsIn.get("location");
+    if (pagingEndsIn !== -1 && offset + limit < pagingEndsIn) {
+      this.props.getBadlees({
+        tabName: "location",
+        currentLocation: "Jaipur, Rajasthan, India",
+        offset: offset,
+        limit: limit
+      });
+    }
     this.props.getBadlees({
       tabName: "globe",
       search: this.state.searchString,
@@ -272,7 +286,6 @@ class Store extends Component {
         <BadleesGrid
           data={_this.state.currentData}
           onClickBadlee={_this.onClickBadlee}
-          loading={_this.props.loading}
         />
       );
     }
@@ -376,10 +389,8 @@ const _Wrapped = connect(
       state.getIn(["user", "loggedUserID"])
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
-    badleesIDFollowing: state.getIn(["badlees", "tabs", "following"]),
-    badleesIDLocation: state.getIn(["badlees", "tabs", "location"]),
-    badleesIDGlobe: state.getIn(["badlees", "tabs", "globe"]),
-    loading: state.getIn(["application", "isLoading"])
+    badleeIDs: state.getIn(["badlees", "tabs"]),
+    pagingEndsIn: state.getIn(["badlees", "pagingEndsIn", "tabs"])
   }),
   actionCreators
 )(Store);

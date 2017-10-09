@@ -222,6 +222,7 @@ export function getBadlees(state, listEnds, tabName, badlees, offset, limit) {
 
 export function saveBadlee(state, newBadlee) {
   let obj = {};
+  console.log(newBadlee);
   obj[newBadlee.id] = newBadlee;
   var updatedBadlees = state.getIn(["badlees", "data"]).merge(obj);
   return state.setIn(["badlees", "data"], updatedBadlees);

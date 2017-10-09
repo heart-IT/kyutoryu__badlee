@@ -23,8 +23,8 @@ import {
     Thumbnail,
     View,
 } from 'native-base';
-import React from 'react';
 import { Component } from 'react';
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 

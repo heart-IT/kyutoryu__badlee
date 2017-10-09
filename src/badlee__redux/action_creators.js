@@ -113,7 +113,7 @@ export const getBadlees = (params: Object): GET_BADLEES => ({
   params: params
 });
 
-export const saveBadlee = (data: Object, route: ?Object): SAVE_BADLEE => ({
+export const saveBadlee = (data, route) => ({
   type: "SAVE_BADLEE",
   data: data,
   route: route

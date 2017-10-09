@@ -1,13 +1,47 @@
-"use strict";
+/**
+ * 
+ * @name- save.js
+ * 
+ * @chill- The little cares that fretted me, I lost them yesterday. Among the fields about the sea, Among the winds at play. -Elizabeth Barrett Browning
+ * 
+ * 
+ * @description- Saving badlee fn here
+ * 
+ * @author- heartit pirates were here
+ */
 import { AsyncStorage } from 'react-native';
 
 import * as actionCreators from '../../action_creators';
 import { application_id, application_secret, createFormData, saveMedia } from '../utility';
 
-async function saveBadlee(badleeData, badleePhotoUrl) {
+("use strict");
+
+export default async function saveBadlee(store, next, action) {
+  try {
+    await store.dispatch(actionCreators.startLoading());
+    let badleeData = action.data;
+    let { uri, imageType, fileName } = badleeData;
+    let uploadMedia = await saveMedia({
+      uri: uri,
+      imageType: imageType,
+      fileName: fileName
+    });
+    badleeData.uri = uploadMedia.url;
+    let newBadlee = await badleeSaveRequest(badleeData);
+    action.newBadlee = newBadlee;
+    next(action);
+    await store.dispatch(actionCreators.navigate(action.route));
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
+  }
+}
+
+async function badleeSaveRequest(badleeData) {
   try {
     const data = {
-      media: "http://mri2189.badlee.com/" + badleePhotoUrl,
+      media: "http://mri2189.badlee.com/" + badleeData.uri,
       description: badleeData.description,
       ip: badleeData.ip,
       location: badleeData.location,
@@ -31,37 +65,9 @@ async function saveBadlee(badleeData, badleePhotoUrl) {
       var respnseJson = await response.json();
       return respnseJson;
     } else {
-      return { error: true };
-    }
-  } catch (err) {
-    return { error: true };
-  }
-}
-
-export default async function startSaveProcess(store, next, action) {
-  try {
-    await store.dispatch(actionCreators.startLoading());
-    let badleeData = action.data;
-    let uploadMedia = await saveMedia({
-      uri: badleeData.badleePhotoUrl.uri,
-      imageType: badleeData.badleePhotoType,
-      fileName: badleeData.badleePhotoName
-    });
-    if (uploadMedia.error) {
-      throw "couldnt upload image";
-    } else {
-      let newBadlee = await saveBadlee(badleeData, uploadMedia.url);
-      if (newBadlee.error) {
-        throw "error happened in saving badlee..";
-      } else {
-        action.newBadlee = newBadlee;
-        next(action);
-        await store.dispatch(actionCreators.navigate(action.route));
-      }
+      throw "Error happened in Saving Request";
     }
   } catch (err) {
     console.log(err);
-  } finally {
-    await store.dispatch(actionCreators.finishLoading());
   }
 }

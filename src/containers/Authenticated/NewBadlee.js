@@ -1,35 +1,28 @@
 /**
+ * 
+ * @name- newBadlee.js
+ * 
  * @chill- Even as the dense and solid rock Cannot be stirred by either wind or storm: Even so the wise cannot be moved By voices of blame or voices of praise - Buddha
- * @name- NewBadlee
+ * 
+ * 
+ * @description- NewBadlee Screen for Badlee
+ * 
+ * @author- heartit pirates were here.
  */
-"use strict";
-import {
-    Container,
-    Content,
-    Form,
-    Header,
-    Icon as IconX,
-    Input,
-    Item,
-    Left,
-    Right,
-    StyleProvider,
-    Text,
-    View,
-} from 'native-base';
+import { Container, Content, Header, Icon as IconX, Left, Picker, Right, StyleProvider, Text } from 'native-base';
 import { Component } from 'react';
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import { TouchableOpacity } from 'react-native';
 
-import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
-import LoadingView from '../../components/LoadingView';
-import Locator from '../../components/Location';
 import getTheme from '../../theme/components';
-import Main from './goingMerry';
+import SingleBadlee from './singleBadlee';
+
+const Item = Picker.Item;
 
 var ImagePicker = require("react-native-image-picker");
+
+("use strict");
 
 class NewBadlee extends Component {
   constructor(props) {
@@ -40,31 +33,31 @@ class NewBadlee extends Component {
       badleePhotoType: null,
       title: null,
       description: null,
-      purpose: this.props.params.type ? this.props.params.type : null,
       category: null,
-      ip: "11.12.13.14"
+      ip: "95.99.52.29.37",
+      showLocator: false
     };
-    this.saveBadlee = this.saveBadlee.bind(this);
-    this.closeLocation = this.closeLocation.bind(this);
-    this.backPress = this.backPress.bind(this);
-    this.locationSelection = this.locationSelection.bind(this);
-    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+    this.backPress = this._backPress.bind(this);
+    this.onPhotoTap = this._onPhotoTap.bind(this);
+    this.onLocationInputTap = this._onLocationInputTap.bind(this);
+    this.closeLocator = this._closeLocator.bind(this);
+    this.onLocationSelect = this._onLocationSelect.bind(this);
+    this.saveBadlee = this._saveBadlee.bind(this);
   }
 
-  backPress() {
+  // go back
+  _backPress() {
     requestAnimationFrame(() => {
-      this.props.navigate({
-        navigator: this.props.navigator,
-        component: Main
-      });
+      this.props.goBack();
     });
   }
 
-  selectPhotoTapped() {
+  // open image picker
+  _onPhotoTap() {
     const options = {
       quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
+      maxWidth: 600,
+      maxHeight: 400,
       storageOptions: {
         skipBackup: true
       }
@@ -81,8 +74,6 @@ class NewBadlee extends Component {
         console.log("User tapped custom button: ", response.customButton);
       } else {
         let source = { uri: response.uri };
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
           badleePhotoUrl: source,
           badleePhotoType: response.type,
@@ -91,130 +82,148 @@ class NewBadlee extends Component {
       }
     });
   }
-  locationInputFocussed() {
+
+  // on location input, show locator
+  _onLocationInputTap() {
     this.setState({ showLocator: true });
   }
-  locationSelection(locatoin) {
-    this.setState({ location: locatoin });
-    this.setState({ showLocator: false });
-  }
-  closeLocation() {
+
+  // close locator
+  _closeLocator() {
     this.setState({ showLocator: false });
   }
 
-  saveBadlee() {
-    var data = {
-      badleePhotoUrl: this.state.badleePhotoUrl,
-      badleePhotoType: this.state.badleePhotoType,
-      badleePhotoName: this.state.badleePhotoName,
-      description: this.state.description,
-      ip: this.state.ip,
-      location: this.state.location,
-      category: this.state.category,
-      purpose: this.state.purpose
-    };
-    // console.log(data);
-    this.props.saveBadlee(data, {
-      navigator: this.props.navigator,
-      component: Main,
-      reset: true
-    });
+  // set state and close locator
+  _onLocationSelect(location) {
+    this.setState({ location: location });
+    this.closeLocator();
+  }
+
+  /**
+   * 
+   * validation.. xDD
+   * 
+   * purpose   photo    result
+   *    ex      1        1
+   *    ex      0        0
+   *    show      1      1
+   *    show    0       0
+   *    shout   1       1
+   *    shout   0        1
+   */
+  _saveBadlee() {
+    let { purpose } = this.props.params;
+    if (purpose === "shoutOut" || this.state.badleePhotoUrl) {
+      var data = {
+        uri: this.state.badleePhotoUrl.uri,
+        imageType: this.state.badleePhotoType,
+        fileName: this.state.badleePhotoName,
+        description: this.state.description,
+        location: this.state.location,
+        category: this.state.category,
+        ip: this.state.ip,
+        purpose: purpose
+      };
+      this.props.saveBadlee(data, {
+        navigator: this.props.navigator,
+        component: SingleBadlee
+      });
+    }
   }
 
   render() {
-    let locationHeader = (
-      <Header style={{ backgroundColor: "#611265" }}>
-        <Left style={styles.headerLeft}>
-          <Text style={{ color: "#fff", fontSize: 18 }}>Select a Location</Text>
-        </Left>
-        <Right>
-          <TouchableOpacity transparent onPress={this.closeLocation}>
-            <Icon name="menuCloseIcon" width="15" height="15" />
-          </TouchableOpacity>
-        </Right>
-      </Header>
-    );
-    let newBadleeHeader = (
-      <Header style={{ backgroundColor: "#611265" }}>
-        <Left style={styles.headerLeft}>
-          <TouchableOpacity transparent onPress={this.backPress}>
-            <IconX name="arrow-back" fill="#fff" />
-          </TouchableOpacity>
-        </Left>
-        <Right>
-          <TouchableOpacity transparent onPress={this.saveBadlee}>
-            <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
-          </TouchableOpacity>
-        </Right>
-      </Header>
-    );
+    let { purpose } = this.props.params;
+    let { showLocator } = this.state;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          {this.state.showLocator && locationHeader}
-          {!this.state.showLocator && newBadleeHeader}
+          <Header style={{ backgroundColor: "#611265" }}>
+            <Left style={styles.headerLeft}>
+              {showLocator ? (
+                <Text style={{ color: "#fff", fontSize: 18 }}>
+                  Select a Location
+                </Text>
+              ) : (
+                <TouchableOpacity transparent onPress={this.backPress}>
+                  <IconX name="arrow-back" fill="#fff" />
+                </TouchableOpacity>
+              )}
+            </Left>
+            <Right>
+              {showLocator ? (
+                <TouchableOpacity transparent onPress={this.closeLocator}>
+                  <Icon name="menuCloseIcon" width="15" height="15" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity transparent onPress={this.saveBadlee}>
+                  <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
+                </TouchableOpacity>
+              )}
+            </Right>
+          </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            {this.state.showLocator && (
-              <Locator
-                defaultValue={this.state.location}
-                onSelection={this.locationSelection}
-              />
-            )}
-            {!this.state.showLocator && (
-              <Form style={styles.newBadleeForm}>
-                <View style={styles.badleePhotoWrapper}>
-                  <Image
-                    style={styles.avatar}
-                    source={this.state.badleePhotoUrl}
-                  />
-                  {!this.state.badleePhotoUrl && (
-                    <TouchableOpacity
-                      transparent
-                      onPress={this.selectPhotoTapped}
-                      style={{
-                        width: 160,
-                        height: 100,
-                        marginLeft: "auto",
-                        marginRight: "auto"
-                      }}
-                    >
-                      <Icon name="thingy" width="160" height="100" />
-                    </TouchableOpacity>
-                  )}
-                </View>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Title.."
-                    value={this.state.title}
-                    onChangeText={title => this.setState({ title })}
-                  />
-                </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Write a Caption"
-                    value={this.state.description}
-                    onChangeText={description => this.setState({ description })}
-                  />
-                </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Where is it?"
-                    value={this.state.location}
-                    onChangeText={location => this.setState({ location })}
-                    onFocus={this.locationInputFocussed.bind(this)}
-                  />
-                </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Where does it fits?"
-                    value={this.state.category}
-                    onChangeText={category => this.setState({ category })}
-                  />
-                </Item>
-              </Form>
-            )}
+            <View>
+              {this.state.showLocator && (
+                <Locator
+                  defaultValue={this.state.location}
+                  onSelection={this.locationSelection}
+                />
+              )}
+              {!this.state.showLocator && (
+                <Form style={styles.newBadleeForm}>
+                  <View style={styles.badleePhotoWrapper}>
+                    <Image
+                      style={styles.avatar}
+                      source={this.state.badleePhotoUrl}
+                    />
+                    {!this.state.badleePhotoUrl && (
+                      <TouchableOpacity
+                        transparent
+                        onPress={this.selectPhotoTapped}
+                        style={{
+                          width: 160,
+                          height: 100,
+                          marginLeft: "auto",
+                          marginRight: "auto"
+                        }}
+                      >
+                        <Icon name="thingy" width="160" height="100" />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                  <Item style={styles.inputItem}>
+                    <Input
+                      placeholder="Title.."
+                      value={this.state.title}
+                      onChangeText={title => this.setState({ title })}
+                    />
+                  </Item>
+                  <Item style={styles.inputItem}>
+                    <Input
+                      placeholder="Write a Caption"
+                      value={this.state.description}
+                      onChangeText={description =>
+                        this.setState({ description })}
+                    />
+                  </Item>
+                  <Item style={styles.inputItem}>
+                    <Input
+                      placeholder="Where is it?"
+                      value={this.state.location}
+                      onFocus={this.onLocationInputTap.bind(this)}
+                    />
+                  </Item>
+                  <Item style={styles.inputItem}>
+                    <Input
+                      placeholder="Where does it fits?"
+                      value={this.state.category}
+                      onChangeText={category => this.setState({ category })}
+                    />
+                  </Item>
+                </Form>
+              )}
+            </View>
           </Content>
-          {this.props.loading && <LoadingView />}
         </Container>
       </StyleProvider>
     );

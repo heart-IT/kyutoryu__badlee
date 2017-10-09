@@ -23,7 +23,7 @@ import getTheme from '../../theme/components';
 import { styles } from '../../theme/mystyle/badlee';
 import Comments from './Comments';
 import NewBadlee from './newBadlee';
-import SingleBadlee from './SingleBadlee';
+import SingleBadlee from './singleBadlee';
 import User from './User';
 
 ("use strict");
@@ -155,13 +155,13 @@ class Store extends Component {
   /**
    * Component Events section
    */
-  // open new badlee form screen with the type passed in parameter.
-  onFabSelect(type) {
+  // open new badlee form screen with the purpose passed in parameter.
+  onFabSelect(purpose) {
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
         component: NewBadlee,
-        params: { type }
+        params: { purpose }
       });
     });
   }

@@ -9,19 +9,7 @@
  * 
  * @author- heartit pirates were here.
  */
-import {
-    Container,
-    Content,
-    Header,
-    Icon as IconX,
-    Input,
-    Left,
-    Picker,
-    Right,
-    StyleProvider,
-    Text,
-    View,
-} from 'native-base';
+import { Container, Content, Header, Icon as IconX, Input, Item, Left, Right, StyleProvider, Text, View } from 'native-base';
 import { Component } from 'react';
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
@@ -31,8 +19,6 @@ import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
 import SingleBadlee from './singleBadlee';
-
-const Item = Picker.Item;
 
 var ImagePicker = require("react-native-image-picker");
 
@@ -185,7 +171,7 @@ class NewBadlee extends Component {
                 {!this.state.badleePhotoUrl && (
                   <TouchableOpacity
                     transparent
-                    onPress={this.selectPhotoTapped}
+                    onPress={this.onPhotoTap}
                     style={{
                       width: 160,
                       height: 100,

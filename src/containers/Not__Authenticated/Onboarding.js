@@ -8,6 +8,7 @@
  */
 import { Button, Container, Content, StyleProvider, Text, View } from 'native-base';
 import { Component } from 'react';
+import React from 'react';
 import { Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { connect } from 'react-redux';
@@ -17,8 +18,7 @@ import Icon from '../../components/Icon';
 import getTheme from '../../theme/components';
 import Login from './login';
 
-
-"use strict";
+("use strict");
 
 class BackgroundImage extends Component {
   render() {

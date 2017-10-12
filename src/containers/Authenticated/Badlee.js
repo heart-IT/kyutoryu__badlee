@@ -59,15 +59,17 @@ class Store extends Component {
     this.onClickComment = this.onClickComment.bind(this);
   }
 
-  /**
-   * Component Section
-   */
-  // in case of render, when props are received turn it into a meaningful data, apply pagination locally on data from an immutable object for state 'currentData' key.
+  // 65 47 43 37
+  // in case of props are changed, format and update state with currentData
   componentWillReceiveProps(nextProps) {
-    let { allBadlees, badleeIDs } = nextProps;
+    this.formatAndUpdatePropData(nextProps);
+  }
+
+  // format and update state with propData
+  formatAndUpdatePropData(propData) {
+    let { allBadlees, badleeIDs } = propData;
     let showingBadleeIDs = [];
     let currentData = [];
-    let { page, limit } = this.state.paging;
     switch (this.state.activeTabIndex) {
       case 0:
         showingBadleeIDs = badleeIDs.get("following");
@@ -78,10 +80,8 @@ class Store extends Component {
       default:
         showingBadleeIDs = badleeIDs.get("globe");
     }
-    currentData = showingBadleeIDs
-      .slice(0, (page + 1) * limit)
-      .map(id => allBadlees.get(String(id)))
-      .toJS();
+
+    currentData = showingBadleeIDs.map(id => allBadlees.get(String(id))).toJS();
     this.setState({ currentData: currentData });
   }
 
@@ -97,13 +97,19 @@ class Store extends Component {
   getBadlees() {
     switch (this.state.activeTabIndex) {
       case 0:
-        this.checkForPagination("following") && this.getBadleeByFollowing();
+        this.checkForPagination("following")
+          ? this.getBadleeByFollowing()
+          : this.formatAndUpdatePropData(this.props);
         break;
       case 1:
-        this.checkForPagination("location") && this.getBadleeByLocation();
+        this.checkForPagination("location")
+          ? this.getBadleeByLocation()
+          : this.formatAndUpdatePropData(this.props);
         break;
       default:
-        this.checkForPagination("globe") && this.getBadleeByGlobe();
+        this.checkForPagination("globe")
+          ? this.getBadleeByGlobe()
+          : this.formatAndUpdatePropData(this.props);
     }
   }
 
@@ -166,8 +172,14 @@ class Store extends Component {
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
+    let limit;
+    if (i.i === 2) {
+      limit = 20;
+    } else {
+      limit = 4;
+    }
     this.setState(
-      { activeTabIndex: i.i, paging: { page: 0, limit: 4 } },
+      { activeTabIndex: i.i, paging: { page: 0, limit: limit } },
       () => {
         this.getBadlees();
       }

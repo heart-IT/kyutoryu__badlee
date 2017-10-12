@@ -3,8 +3,8 @@ export const styles = {
     position: "absolute",
     top: 6,
     right: 15,
-    zIndex: 99,
-    width: 40
+    width: 40,
+    height: 40
   },
   user__photo: {
     width: 96,

@@ -6,30 +6,30 @@
  * @author- heartit pirates
  */
 import {
-    Container,
-    Content,
-    Header,
-    Left,
-    Right,
-    StyleProvider,
-    Tab,
-    TabHeading,
-    Tabs,
-    Text,
-    Thumbnail,
-    View,
-} from 'native-base';
-import React from 'react';
-import { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+  Container,
+  Content,
+  Header,
+  Left,
+  Right,
+  StyleProvider,
+  Tab,
+  TabHeading,
+  Tabs,
+  Text,
+  Thumbnail,
+  View
+} from "native-base";
+import React from "react";
+import { Component } from "react";
+import { TouchableOpacity, Image } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import BadleesGrid from '../../components/BadleesGrid';
-import Icon from '../../components/Icon';
-import getTheme from '../../theme/components';
-import { styles } from '../../theme/mystyle/userpage';
-import Login from '../Not__Authenticated/login';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import BadleesGrid from "../../components/BadleesGrid";
+import Icon from "../../components/Icon";
+import getTheme from "../../theme/components";
+import { styles } from "../../theme/mystyle/userpage";
+import Login from "../Not__Authenticated/login";
 
 ("use strict");
 
@@ -49,7 +49,6 @@ class User extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     this.setState(
       { isOtherUser: this.props.params && this.props.params.isOtherProfile },
       () => {
@@ -86,7 +85,7 @@ class User extends Component {
   }
 
   onTabChange(i, ref) {
-    this.setState({ activeTabIndex: i.i }, () => {
+    this.setState({ activeTabIndex: i.i, currentData: [] }, () => {
       this.getUserBadlees();
     });
   }
@@ -122,14 +121,19 @@ class User extends Component {
   onClickBadlee(id) {
     console.log(id);
   }
+  onError(error){
+    console.log(error);
+  }
 
   render() {
     let _this = this;
+
     const { isOtherUser } = this.state;
-    console.log("is other user ", isOtherUser);
     const user = isOtherUser
       ? this.props.guestUser.toJS()
       : this.props.user.toJS();
+    const avatarUser = user.avatar;
+    const userName = `${user.fname} ${user.lname} -`;
     const loggedUserID = this.props.user.get("user_id");
 
     const isGuestFollower =
@@ -150,20 +154,18 @@ class User extends Component {
         );
       }
     }
-    let avatarUser = user.avatar;
-    let userName = `${user.fname} ${user.lname} -`;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
           {isOtherUser && (
             <Header style={{ backgroundColor: "#fff", height: 48 }}>
-              <Left style={{ flexDirection: "row", alignItems: "center" }}>
+              <Left
+                style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+              >
                 <TouchableOpacity transparent onPress={this.onBackPress}>
                   {returnIcon("menuBackIcon")}
                 </TouchableOpacity>
-                <Text
-                  style={{ marginLeft: 6, fontWeight: "normal", fontSize: 20 }}
-                >
+                <Text style={{ marginLeft: 6, fontSize: 20 }}>
                   {user.username}
                 </Text>
               </Left>
@@ -183,79 +185,85 @@ class User extends Component {
           )}
           <Content
             style={{ flex: 1, paddingTop: 18 }}
-            contentContainerStyle={{ flex: 1, alignItems: "center" }}
+            contentContainerStyle={{ flex: 1 }}
           >
-            {!!!isOtherUser && (
-              <TouchableOpacity
-                transparent
-                onPress={this.handleLogout}
-                style={styles.logout}
-              >
-                {returnIcon("logout")}
-              </TouchableOpacity>
-            )}
-            <Thumbnail
-              large
-              source={{ uri: avatarUser }}
-              style={styles.user__photo}
-            />
-            <View style={styles.user__knowledge}>
-              <Text style={styles.user__name}>{userName}</Text>
-              <Text style={styles.user__gender}>{user.gender}</Text>
-              <Text style={styles.user__location}>{user.location}</Text>
-            </View>
-            <View style={styles.user__supporters}>
-              <View style={styles.user__following}>
-                <Text style={styles.supporters__label}>Following</Text>
-                <Text style={styles.supporters__value}>
-                  {user.following ? user.following.length : 0}
-                </Text>
+            <View style={{ flex: 1, alignItems: "center", zIndex: 99, position: 'relative' }}>
+              {!isOtherUser && (
+                <TouchableOpacity
+                  transparent
+                  onPress={this.handleLogout}
+                  style={styles.logout}
+                >
+                  {returnIcon("logout")}
+                </TouchableOpacity>
+              )}
+              <View>
+                <Image
+                  source={{ uri: user.avatar }}
+                  style={styles.user__photo}
+                  onError={ this.onError.bind(this) }
+                />
               </View>
-              <View style={styles.user__follower}>
-                <Text style={styles.supporters__label}>Follower</Text>
-                <Text style={styles.supporters__value}>
-                  {user.follower ? user.follower.length : 0}
-                </Text>
+              <View style={styles.user__knowledge}>
+                <Text
+                  style={styles.user__name}
+                >{`${user.fname} ${user.lname} -`}</Text>
+                <Text style={styles.user__gender}>{user.gender}</Text>
+                <Text style={styles.user__location}>{user.location}</Text>
               </View>
+              <View style={styles.user__supporters}>
+                <View style={styles.user__following}>
+                  <Text style={styles.supporters__label}>Following</Text>
+                  <Text style={styles.supporters__value}>
+                    {user.following ? user.following.length : 0}
+                  </Text>
+                </View>
+                <View style={styles.user__follower}>
+                  <Text style={styles.supporters__label}>Follower</Text>
+                  <Text style={styles.supporters__value}>
+                    {user.follower ? user.follower.length : 0}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.user__interestedin}>
+                <Text style={styles.interestedin__label}>Interested in : </Text>
+                <Text style={styles.user__interests}>{user.interests}</Text>
+              </View>
+              <Tabs
+                style={styles.user__badleetory}
+                onChangeTab={this.onTabChange}
+                initialPage={this.state.activeTabIndex}
+                tabBarUnderlineStyle={{ backgroundColor: "#611265", height: 3 }}
+              >
+                <Tab
+                  heading={
+                    <TabHeading style={styles.inventorytype__head}>
+                      {returnIcon("exchange", 30, 30)}
+                    </TabHeading>
+                  }
+                >
+                  {returnBadleeGrid()}
+                </Tab>
+                <Tab
+                  heading={
+                    <TabHeading style={styles.inventorytype__head}>
+                      {returnIcon("shoutout", 30, 30)}
+                    </TabHeading>
+                  }
+                >
+                  {returnBadleeGrid()}
+                </Tab>
+                <Tab
+                  heading={
+                    <TabHeading style={styles.inventorytype__head}>
+                      {returnIcon("showoff", 36, 36)}
+                    </TabHeading>
+                  }
+                >
+                  {returnBadleeGrid()}
+                </Tab>
+              </Tabs>
             </View>
-            <View style={styles.user__interestedin}>
-              <Text style={styles.interestedin__label}>Interested in : </Text>
-              <Text style={styles.user__interests}>{user.interests}</Text>
-            </View>
-            <Tabs
-              style={styles.user__badleetory}
-              onChangeTab={this.onTabChange}
-              initialPage={this.state.activeTabIndex}
-              tabBarUnderlineStyle={{ backgroundColor: "#611265", height: 3 }}
-            >
-              <Tab
-                heading={
-                  <TabHeading style={styles.inventorytype__head}>
-                    {returnIcon("exchange", 30, 30)}
-                  </TabHeading>
-                }
-              >
-                {returnBadleeGrid()}
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading style={styles.inventorytype__head}>
-                    {returnIcon("shoutout", 30, 30)}
-                  </TabHeading>
-                }
-              >
-                {returnBadleeGrid()}
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading style={styles.inventorytype__head}>
-                    {returnIcon("showoff", 36, 36)}
-                  </TabHeading>
-                }
-              >
-                {returnBadleeGrid()}
-              </Tab>
-            </Tabs>
           </Content>
         </Container>
       </StyleProvider>

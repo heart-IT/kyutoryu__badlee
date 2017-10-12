@@ -322,7 +322,7 @@ class Store extends Component {
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <BadleeFab isActive={true} onSelection={this.onFabSelect} />
+            <BadleeFab isActive={false} onSelection={this.onFabSelect} />
             <View style={styles.content}>
               <Tabs
                 onChangeTab={this.onTabChange}

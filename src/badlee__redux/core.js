@@ -200,9 +200,12 @@ export function unfollowUser(state, userID) {
 /**
  * Badlee Core Section
  */
-export function getBadlees(state, listEnds, tabName, badlees, offset, limit) {
-  if (listEnds) {
-    return state.setIn(["badlees", "pagingEndsIn", "tabs", tabName], offset);
+export function getBadlees(state, listEnd, tabName, badlees, offset, limit) {
+  if (listEnd) {
+    return state.setIn(
+      ["badlees", "pagingEndsIn", "tabs", tabName],
+      offset - limit
+    );
   } else {
     let badleeObject = {};
     var badleeIDs = badlees.map(badlee => {

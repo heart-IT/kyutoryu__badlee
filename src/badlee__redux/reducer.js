@@ -68,7 +68,7 @@ export function reducer(state = core.InitialState, action) {
     case "GET_BADLEES":
       return core.getBadlees(
         state,
-        action.listEnds,
+        action.listEnd,
         action.tabName,
         action.badlees,
         action.offset,

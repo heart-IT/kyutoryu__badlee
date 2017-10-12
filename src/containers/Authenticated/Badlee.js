@@ -33,7 +33,7 @@ class Store extends Component {
     super(props);
     this.state = {
       activeTabIndex: 0,
-      paging: { offset: 0, limit: 4 },
+      paging: { page: 0, limit: 4 },
       searchFor: null,
       globecategory: null,
       currentData: []
@@ -67,7 +67,7 @@ class Store extends Component {
     let { allBadlees, badleeIDs } = nextProps;
     let showingBadleeIDs = [];
     let currentData = [];
-    let { offset, limit } = this.state.paging;
+    let { page, limit } = this.state.paging;
     switch (this.state.activeTabIndex) {
       case 0:
         showingBadleeIDs = badleeIDs.get("following");
@@ -79,7 +79,7 @@ class Store extends Component {
         showingBadleeIDs = badleeIDs.get("globe");
     }
     currentData = showingBadleeIDs
-      .slice(offset, limit + offset)
+      .slice(0, (page + 1) * limit)
       .map(id => allBadlees.get(String(id)))
       .toJS();
     this.setState({ currentData: currentData });
@@ -95,59 +95,57 @@ class Store extends Component {
    */
   // call fns to fetch badlees based on activeTab switch case
   getBadlees() {
-    let { offset, limit } = this.state.paging;
     switch (this.state.activeTabIndex) {
       case 0:
-        this.getBadleeByFollowing();
+        this.checkForPagination("following") && this.getBadleeByFollowing();
         break;
       case 1:
-        this.getBadleeByLocation();
+        this.checkForPagination("location") && this.getBadleeByLocation();
         break;
       default:
-        this.getBadleeByGlobe();
+        this.checkForPagination("globe") && this.getBadleeByGlobe();
     }
   }
 
   getBadleeByFollowing() {
-    let pagingEndsIn = this.props.pagingEndsIn.get("following");
-    if (this.checkForPagination(pagingEndsIn)) {
-      this.props.getBadlees({
-        tabName: "following",
-        offset: this.state.paging.offset,
-        limit: this.state.paging.limit
-      });
-    }
+    let { page, limit } = this.state.paging;
+    this.props.getBadlees({
+      tabName: "following",
+      offset: page * limit,
+      limit: limit
+    });
   }
 
   getBadleeByLocation() {
-    let pagingEndsIn = this.props.pagingEndsIn.get("location");
-    if (this.checkForPagination(pagingEndsIn)) {
-      this.props.getBadlees({
-        tabName: "location",
-        currentLocation: "Jaipur, Rajasthan, India",
-        offset: this.state.paging.offset,
-        limit: this.state.paging.limit
-      });
-    }
+    let { page, limit } = this.state.paging;
+    this.props.getBadlees({
+      tabName: "location",
+      currentLocation: "Jaipur, Rajasthan, India",
+      offset: page * limit,
+      limit: limit
+    });
   }
 
   getBadleeByGlobe() {
-    let pagingEndsIn = this.props.pagingEndsIn.get("globe");
-    if (this.checkForPagination(pagingEndsIn)) {
-      this.props.getBadlees({
-        tabName: "globe",
-        search: this.state.searchFor,
-        category: this.state.globecategory,
-        offset: this.state.paging.offset,
-        limit: this.state.paging.limit
-      });
-    }
+    let { page, limit } = this.state.paging;
+    this.props.getBadlees({
+      tabName: "globe",
+      search: this.state.searchFor,
+      category: this.state.globecategory,
+      offset: page * limit,
+      limit: limit
+    });
   }
 
-  checkForPagination(pagingEndsIn) {
-    let { offset, limit } = this.state.paging;
+  checkForPagination(tabName) {
+    let pagingEndsIn = this.props.pagingEndsIn.get(tabName);
+    let badleeIDs = this.props.badleeIDs.get(tabName);
+    let { page, limit } = this.state.paging;
     // if pagingEnds and we are trying higher value, then we wont request.  !(A && B) = !A || !B
-    if (pagingEndsIn === -1 || offset + limit < pagingEndsIn) {
+    if (
+      (page + 1) * limit > badleeIDs.size &&
+      (pagingEndsIn === -1 || page < pagingEndsIn)
+    ) {
       return true;
     }
   }
@@ -169,7 +167,7 @@ class Store extends Component {
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
     this.setState(
-      { activeTabIndex: i.i, currentPagination: { offset: 0, limit: 4 } },
+      { activeTabIndex: i.i, paging: { page: 0, limit: 4 } },
       () => {
         this.getBadlees();
       }
@@ -181,13 +179,12 @@ class Store extends Component {
   }
 
   onListEnd() {
+    let { page, limit } = this.state.paging;
     this.setState(
       {
-        currentPagination: {
-          offset:
-            this.state.currentPagination.offset +
-            this.state.currentPagination.limit,
-          limit: 4
+        paging: {
+          page: page + 1,
+          limit: limit
         }
       },
       () => {

@@ -12,6 +12,7 @@
 import { Container, Content, Input, Item, Radio, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
 import { Component } from 'react';
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actionCreators from '../../badlee__redux/action_creators';
@@ -19,6 +20,7 @@ import BadleesGrid from '../../components/BadleesGrid';
 import BadleesList from '../../components/BadleesList';
 import BadleeFab from '../../components/Fab';
 import Icon from '../../components/Icon';
+import Picker from '../../components/Picker';
 import getTheme from '../../theme/components';
 import { styles } from '../../theme/mystyle/badlee';
 import Comments from './Comments';
@@ -36,7 +38,8 @@ class Store extends Component {
       paging: { page: 0, limit: 4 },
       searchFor: null,
       globecategory: null,
-      currentData: []
+      currentData: [],
+      isShowingPicker: false
     };
 
     this.onFabSelect = this.onFabSelect.bind(this);
@@ -46,6 +49,8 @@ class Store extends Component {
     this.onListEnd = this.onListEnd.bind(this);
 
     this.triggerSearch = this.triggerSearch.bind(this);
+    this.onLocationPress = this.onLocationPress.bind(this);
+    this.pickerSearchClose = this.pickerSearchClose.bind(this);
 
     this.onClickUser = this.onClickUser.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
@@ -265,6 +270,14 @@ class Store extends Component {
   triggerSearch() {
     this.getBadleeByGlobe();
   }
+  onLocationPress() {
+    this.setState({ isShowingPicker: true });
+  }
+  pickerSearchClose(pickerVal) {
+    this.setState({ isShowingPicker: false });
+    if (pickerVal) {
+    }
+  }
 
   render() {
     let _this = this;
@@ -322,73 +335,80 @@ class Store extends Component {
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <BadleeFab isActive={false} onSelection={this.onFabSelect} />
-            <View style={styles.content}>
-              <Tabs
-                onChangeTab={this.onTabChange}
-                initialPage={this.state.activeTabIndex}
-              >
-                <Tab
-                  heading={
-                    <TabHeading
-                      style={{ ...styles.tabHead, ...styles.firstTab }}
-                    >
-                      {returnIcon("community", 0, 27, 27)}
-                    </TabHeading>
-                  }
+            {this.state.isShowingPicker && (
+              <Picker type="location" goBack={this.pickerSearchClose} />
+            )}
+            {!this.state.isShowingPicker && (
+              <View style={styles.content}>
+                <BadleeFab isActive={false} onSelection={this.onFabSelect} />
+                <Tabs
+                  onChangeTab={this.onTabChange}
+                  initialPage={this.state.activeTabIndex}
                 >
-                  {returnBadleeList()}
-                </Tab>
-                <Tab
-                  heading={
-                    <TabHeading style={styles.tabHead}>
-                      {returnIcon("location", 1)}
-                    </TabHeading>
-                  }
-                >
-                  {returnBadleeList()}
-                </Tab>
-                <Tab
-                  heading={
-                    <TabHeading
-                      style={{ ...styles.tabHead, ...styles.lastTab }}
-                    >
-                      {returnIcon("globe", 2)}
-                    </TabHeading>
-                  }
-                >
-                  <View style={styles.globeFilterView}>
-                    <View>
-                      <Item rounded style={styles.inputItem}>
-                        {returnIcon("search", -1, 18, 18)}
-                        <Input
-                          placeholder="Search for folks or thingies.."
-                          style={styles.searchInput}
-                          onChangeText={searchFor =>
-                            this.setState({ searchFor })}
-                          onEndEditing={this.triggerSearch}
-                        />
-                      </Item>
+                  <Tab
+                    heading={
+                      <TabHeading
+                        style={{ ...styles.tabHead, ...styles.firstTab }}
+                      >
+                        {returnIcon("community", 0, 27, 27)}
+                      </TabHeading>
+                    }
+                  >
+                    {returnBadleeList()}
+                  </Tab>
+                  <Tab
+                    heading={
+                      <TabHeading style={styles.tabHead}>
+                        {returnIcon("location", 1)}
+                      </TabHeading>
+                    }
+                  >
+                    {returnBadleeList()}
+                  </Tab>
+                  <Tab
+                    heading={
+                      <TabHeading
+                        style={{ ...styles.tabHead, ...styles.lastTab }}
+                      >
+                        {returnIcon("globe", 2)}
+                      </TabHeading>
+                    }
+                  >
+                    <View style={styles.globeFilterView}>
+                      <View>
+                        <Item rounded style={styles.inputItem}>
+                          {returnIcon("search", -1, 18, 18)}
+                          <Input
+                            placeholder="Search for folks or thingies.."
+                            style={styles.searchInput}
+                            onChangeText={searchFor =>
+                              this.setState({ searchFor })}
+                            onEndEditing={this.triggerSearch}
+                          />
+                        </Item>
+                      </View>
+                      <View style={styles.filterView}>
+                        <View style={styles.alignCenterRow}>
+                          {returnFilterRadio("exchange")}
+                          {returnFilterRadio("showoff", 24, 24)}
+                        </View>
+                        <View style={styles.alignCenterRow}>
+                          <TouchableOpacity onPress={this.onLocationPress}>
+                            <Text style={styles.filterText}>Location</Text>
+                            {returnIcon("drop_arrow", -1, 16, 10)}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.alignCenterRow}>
+                          <Text style={styles.filterText}>Category</Text>
+                          {returnIcon("drop_arrow", -1, 16, 10)}
+                        </View>
+                      </View>
                     </View>
-                    <View style={styles.filterView}>
-                      <View style={styles.alignCenterRow}>
-                        {returnFilterRadio("exchange")}
-                        {returnFilterRadio("showoff", 24, 24)}
-                      </View>
-                      <View style={styles.alignCenterRow}>
-                        <Text style={styles.filterText}>Location</Text>
-                        {returnIcon("drop_arrow", -1, 16, 10)}
-                      </View>
-                      <View style={styles.alignCenterRow}>
-                        <Text style={styles.filterText}>Category</Text>
-                        {returnIcon("drop_arrow", -1, 16, 10)}
-                      </View>
-                    </View>
-                  </View>
-                  <View>{returnBadleeGrid()}</View>
-                </Tab>
-              </Tabs>
-            </View>
+                    <View>{returnBadleeGrid()}</View>
+                  </Tab>
+                </Tabs>
+              </View>
+            )}
           </Content>
         </Container>
       </StyleProvider>

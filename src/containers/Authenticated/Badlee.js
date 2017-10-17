@@ -336,7 +336,11 @@ class Store extends Component {
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             {this.state.isShowingPicker && (
-              <Picker type="location" goBack={this.pickerSearchClose} />
+              <Picker
+                type="location"
+                multiSelect={false}
+                goBack={this.pickerSearchClose}
+              />
             )}
             {!this.state.isShowingPicker && (
               <View style={styles.content}>

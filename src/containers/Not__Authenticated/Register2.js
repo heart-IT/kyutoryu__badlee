@@ -166,7 +166,11 @@ class Register2 extends Component {
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <BackgroundImage>
               {this.state.showLocator && (
-                <Picker type="location" goBack={this.closeLocation} />
+                <Picker
+                  type="location"
+                  multiselect={false}
+                  goBack={this.closeLocation}
+                />
               )}
               <Form
                 style={{

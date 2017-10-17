@@ -104,6 +104,19 @@ class Register2 extends Component {
   openDatePicker() {
     this.datePicker.onPressDate();
   }
+
+  //
+  locationInputFocussed() {
+    this.setState({ showLocator: true });
+  }
+  locationSelection(location) {
+    this.setState({ location: location });
+    this.setState({ showLocator: false });
+  }
+  closeLocation() {
+    this.setState({ showLocator: false });
+  }
+
   // Event to set user wishes. Convert wish csv to array format here.
   setWishes(wish) {
     var wishes = wish.split(",");
@@ -113,9 +126,6 @@ class Register2 extends Component {
     this.setState({ wish: trimmedWishes });
   }
 
-  locationInputFocussed() {
-    this.setState({ showLocator: true });
-  }
   // Event triggered when User submits the form.
   submittingUser() {
     let { userInfo } = this.props.params;
@@ -138,14 +148,6 @@ class Register2 extends Component {
       component: Welcome,
       reset: true
     });
-  }
-
-  locationSelection(location) {
-    this.setState({ location: location });
-    this.setState({ showLocator: false });
-  }
-  closeLocation() {
-    this.setState({ showLocator: false });
   }
 
   render() {

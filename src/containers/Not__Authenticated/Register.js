@@ -252,13 +252,15 @@ class Register extends Component {
                   borderRadius: 9
                 }}
                 disabled={
-                  !this.state.firstName ||
-                  !this.state.lastName ||
-                  !this.state.uniqueName ||
-                  !this.state.email ||
-                  !this.state.password ||
-                  !this.state.rePassword ||
-                  !(errors.size === 0)
+                  !(
+                    !this.state.firstName ||
+                    !this.state.lastName ||
+                    !this.state.uniqueName ||
+                    !this.state.email ||
+                    !this.state.password ||
+                    !this.state.rePassword ||
+                    !(errors.size === 0)
+                  )
                 }
                 onPress={this.goToPageTwo.bind(this)}
               >

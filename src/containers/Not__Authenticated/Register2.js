@@ -8,21 +8,7 @@
  * 
  * @author- heartit pirates were here
  */
-import {
-    Button,
-    Container,
-    Content,
-    Form,
-    Header,
-    Input,
-    Left,
-    Picker,
-    Radio,
-    Right,
-    StyleProvider,
-    Text,
-    View,
-} from 'native-base';
+import { Button, Container, Content, Form, Header, Left, Radio, Right, StyleProvider, Text, View } from 'native-base';
 import React from 'react';
 import { Component } from 'react';
 import { Image } from 'react-native';
@@ -32,14 +18,13 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../badlee__redux/action_creators';
 import Icon from '../../components/Icon';
 import LoadingView from '../../components/LoadingView';
-import Locator from '../../components/Location';
+import Picker from '../../components/Picker';
 import getTheme from '../../theme/components';
 import Welcome from './welcome';
 
 ("use strict");
 
 var ImagePicker = require("react-native-image-picker");
-const Item = Picker.Item;
 
 class BackgroundImage extends Component {
   render() {
@@ -172,332 +157,303 @@ class Register2 extends Component {
             <Left
               style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
             >
-              {!this.state.showLocator && (
-                <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
-              )}
-              {this.state.showLocator && (
-                <Text style={{ color: "#fff", fontSize: 18 }}>
-                  Select a Location
-                </Text>
-              )}
+              <Text style={{ color: "#fff", fontSize: 18 }}>Sign Up</Text>
             </Left>
             <Right>
-              {!this.state.showLocator && (
-                <Text style={{ color: "#fff", fontSize: 15 }}>2 of 2</Text>
-              )}
-              {this.state.showLocator && (
-                <Button transparent onPress={this.closeLocation.bind(this)}>
-                  <Icon name="menuCloseIcon" width="15" height="15" />
-                </Button>
-              )}
+              <Text style={{ color: "#fff", fontSize: 15 }}>2 of 2</Text>
             </Right>
           </Header>
-
-          {this.state.showLocator && (
-            <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-              <Locator
-                defaultValue={this.state.location}
-                onSelection={this.locationSelection.bind(this)}
-              />
-            </Content>
-          )}
-          {!this.state.showLocator && (
-            <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-              <BackgroundImage>
-                <Form
-                  style={{
-                    paddingLeft: "24%",
-                    paddingTop: 30,
-                    paddingRight: 15
-                  }}
-                >
-                  <View style={styles.specialRow}>
-                    <Image
-                      style={styles.avatar}
-                      source={this.state.avatarSource}
-                    />
-                    {!this.state.avatarSource && (
-                      <Button
-                        transparent
-                        onPress={this.selectPhotoTapped.bind(this)}
-                        style={{
-                          width: 160,
-                          height: 120,
-                          marginLeft: "auto",
-                          marginRight: "auto"
-                        }}
-                      >
-                        <Icon name="userPlaceholder" width="120" height="120" />
-                      </Button>
-                    )}
-                    <Text
-                      style={{
-                        color: "#4f0554",
-                        fontSize: 15,
-                        marginTop: 3,
-                        borderBottomColor: "#4f0554",
-                        borderBottomWidth: 1,
-                        paddingLeft: 6,
-                        paddingRight: 6
-                      }}
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <BackgroundImage>
+              {this.state.showLocator && (
+                <Picker type="location" goBack={this.closeLocation} />
+              )}
+              <Form
+                style={{
+                  paddingLeft: "24%",
+                  paddingTop: 30,
+                  zIndex: 99,
+                  flex: 1
+                }}
+              >
+                <View style={styles.specialRow}>
+                  <Image
+                    style={styles.avatar}
+                    source={this.state.avatarSource}
+                  />
+                  {!this.state.avatarSource && (
+                    <Button
+                      transparent
                       onPress={this.selectPhotoTapped.bind(this)}
+                      style={{
+                        width: 160,
+                        height: 120,
+                        marginLeft: "auto",
+                        marginRight: "auto"
+                      }}
                     >
-                      Upload Avatar
-                    </Text>
-                  </View>
-                  <View style={styles.formRow}>
+                      <Icon name="userPlaceholder" width="120" height="120" />
+                    </Button>
+                  )}
+                  <Text
+                    style={{
+                      color: "#4f0554",
+                      fontSize: 15,
+                      marginTop: 3,
+                      borderBottomColor: "#4f0554",
+                      borderBottomWidth: 1,
+                      paddingLeft: 6,
+                      paddingRight: 6
+                    }}
+                    onPress={this.selectPhotoTapped.bind(this)}
+                  >
+                    Upload Avatar
+                  </Text>
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="gender"
+                    style={styles.formLabel}
+                    width="28"
+                    height="28"
+                  />
+                  <Radio
+                    selected={this.state.gender === "He" ? true : false}
+                    onPress={text => this.setState({ gender: "He" })}
+                  />
+                  <Text
+                    style={{
+                      marginRight: 18,
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 15,
+                      lineHeight: 18
+                    }}
+                    onPress={text => this.setState({ gender: "He" })}
+                  >
+                    He
+                  </Text>
+                  <Radio
+                    selected={this.state.gender === "She" ? true : false}
+                    onPress={text => this.setState({ gender: "She" })}
+                  />
+                  <Text
+                    style={{
+                      marginRight: 18,
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 15
+                    }}
+                    onPress={text => this.setState({ gender: "She" })}
+                  >
+                    She
+                  </Text>
+                  <Radio
+                    selected={this.state.gender === "Ze" ? true : false}
+                    onPress={text => this.setState({ gender: "Ze" })}
+                  />
+                  <Text
+                    style={{
+                      marginLeft: 3,
+                      color: "#4f0554",
+                      fontSize: 15
+                    }}
+                    onPress={text => this.setState({ gender: "Ze" })}
+                  >
+                    Ze
+                  </Text>
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="cake"
+                    width="28"
+                    height="28"
+                    style={styles.formLabel}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
                     <Icon
-                      name="gender"
-                      style={styles.formLabel}
-                      width="28"
-                      height="28"
-                    />
-                    <Radio
-                      selected={this.state.gender === "He" ? true : false}
-                      onPress={text => this.setState({ gender: "He" })}
+                      name="drop_arrow"
+                      width="16"
+                      height="10"
+                      style={{
+                        marginRight: 3
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
                     />
                     <Text
                       style={{
-                        marginRight: 18,
-                        marginLeft: 3,
                         color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 15
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
+                    >
+                      {this.state.date.split("-")[0]}
+                    </Text>
+                    <Icon
+                      name="drop_arrow"
+                      width="16"
+                      height="10"
+                      style={{
+                        marginRight: 3
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 15
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
+                    >
+                      {months[this.state.date.split("-")[1]]}
+                    </Text>
+                    <Icon
+                      name="drop_arrow"
+                      width="16"
+                      height="10"
+                      style={{
+                        marginRight: 3
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        fontSize: 15
+                      }}
+                      onPress={this.openDatePicker.bind(this)}
+                    >
+                      {this.state.date.split("-")[2]}
+                    </Text>
+                  </View>
+                  <DatePicker
+                    date={this.state.date}
+                    style={{ width: 0 }}
+                    ref={d => {
+                      this.datePicker = d;
+                    }}
+                    mode="date"
+                    placeholder="select date"
+                    format="DD-MM-YYYY"
+                    maxDate={new Date()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onDateChange={date => this.setState({ date: date })}
+                  />
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="locationBadlee"
+                    width="28"
+                    height="28"
+                    fill="#9625b1"
+                    style={{ marginRight: 18 }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Icon
+                      name="drop_arrow"
+                      width="16"
+                      height="10"
+                      style={{
+                        marginRight: 3
+                      }}
+                    />
+                    <Text
+                      style={{
+                        color: "#4f0554",
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
                         fontSize: 15,
-                        lineHeight: 18
+                        minWidth: 150
                       }}
-                      onPress={text => this.setState({ gender: "He" })}
+                      onPress={this.locationInputFocussed.bind(this)}
                     >
-                      He
+                      Select a location
                     </Text>
-                    <Radio
-                      selected={this.state.gender === "She" ? true : false}
-                      onPress={text => this.setState({ gender: "She" })}
+                  </View>
+                </View>
+                <View style={styles.formRow}>
+                  <Icon
+                    name="wishBadlee"
+                    width="28"
+                    height="28"
+                    fill="#9625b1"
+                    style={{ marginRight: 18 }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Icon
+                      name="drop_arrow"
+                      width="16"
+                      height="10"
+                      style={{
+                        marginRight: 3
+                      }}
                     />
                     <Text
                       style={{
-                        marginRight: 18,
-                        marginLeft: 3,
                         color: "#4f0554",
-                        fontSize: 15
+                        borderBottomWidth: 2,
+                        borderBottomColor: "#4f0554",
+                        paddingLeft: 6,
+                        paddingRight: 6,
+                        marginRight: 12,
+                        fontSize: 15,
+                        minWidth: 150
                       }}
-                      onPress={text => this.setState({ gender: "She" })}
+                      onPress={this.locationInputFocussed.bind(this)}
                     >
-                      She
-                    </Text>
-                    <Radio
-                      selected={this.state.gender === "Ze" ? true : false}
-                      onPress={text => this.setState({ gender: "Ze" })}
-                    />
-                    <Text
-                      style={{
-                        marginLeft: 3,
-                        color: "#4f0554",
-                        fontSize: 15
-                      }}
-                      onPress={text => this.setState({ gender: "Ze" })}
-                    >
-                      Ze
+                      (Fashion, Gaming, Cameras, etc)
                     </Text>
                   </View>
-                  <View style={styles.formRow}>
-                    <Icon
-                      name="cake"
-                      width="28"
-                      height="28"
-                      style={styles.formLabel}
-                    />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {this.state.date.split("-")[0]}
-                      </Text>
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {months[this.state.date.split("-")[1]]}
-                      </Text>
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {this.state.date.split("-")[2]}
-                      </Text>
-                    </View>
-                    <DatePicker
-                      date={this.state.date}
-                      style={{ width: 0 }}
-                      ref={d => {
-                        this.datePicker = d;
-                      }}
-                      mode="date"
-                      placeholder="select date"
-                      format="DD-MM-YYYY"
-                      maxDate={new Date()}
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      onDateChange={date => this.setState({ date: date })}
-                    />
-                  </View>
-                  <View style={styles.formRow}>
-                    <Icon
-                      name="locationBadlee"
-                      width="28"
-                      height="28"
-                      fill="#9625b1"
-                      style={{ marginRight: 18 }}
-                    />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                      />
-                      <Input
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15,
-                          height: 20,
-                          lineHeight: 20,
-                          paddingBottom: 3,
-                          paddingTop: 0
-                        }}
-                        value={this.state.location}
-                        placeholder="Your Location"
-                        onChangeText={location => this.setState({ location })}
-                        onFocus={this.locationInputFocussed.bind(this)}
-                      />
-                    </View>
-                  </View>
-                  <View style={styles.formRow}>
-                    <Icon
-                      name="wishBadlee"
-                      width="28"
-                      height="28"
-                      fill="#9625b1"
-                      style={{ marginRight: 18 }}
-                    />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                      />
-                      <Input
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15,
-                          height: 20,
-                          lineHeight: 20,
-                          paddingBottom: 3,
-                          paddingTop: 0
-                        }}
-                        placeholder="(Fashion, Gaming, Cameras, etc)"
-                        onChangeText={this.setWishes.bind(this)}
-                      />
-                    </View>
-                  </View>
-                </Form>
+                </View>
                 <Button
                   style={{
-                    position: "absolute",
-                    bottom: "10%",
-                    right: "10%",
-                    borderRadius: 9
+                    borderRadius: 9,
+                    zIndex: 2
                   }}
                 >
                   <Text onPress={this.submittingUser.bind(this)}>Submit</Text>
                 </Button>
-              </BackgroundImage>
-            </Content>
-          )}
+              </Form>
+            </BackgroundImage>
+          </Content>
           {this.props.loading && <LoadingView message="Registering you.." />}
         </Container>
       </StyleProvider>

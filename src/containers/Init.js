@@ -21,7 +21,7 @@ import * as actionCreators from '../badlee__redux/action_creators';
 import getTheme from '../theme/components';
 import Loading from './../components/LoadingView';
 import BadleeAuthApp from './Authenticated/goingMerry';
-import Onboarding from './Not__Authenticated/onboarding';
+import Register from './Not__Authenticated/register';
 
 ("use strict");
 
@@ -35,7 +35,7 @@ class Init extends Component {
           component: BadleeAuthApp
         },
         not__authenticated: {
-          component: Onboarding
+          component: Register
         }
       }
     };

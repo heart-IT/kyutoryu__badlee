@@ -11,16 +11,29 @@
  * 
  * @todo- 1. ask mridul to make a middleware api to check uniqueness of uniquename and email
  */
-import { Button, Container, Content, Form, Header, Input, Item, Left, Right, StyleProvider, Text, View } from 'native-base';
-import React from 'react';
-import { Component } from 'react';
-import { Image } from 'react-native';
-import { connect } from 'react-redux';
+import {
+  Button,
+  Container,
+  Content,
+  Form,
+  Header,
+  Input,
+  Item,
+  Left,
+  Right,
+  StyleProvider,
+  Text,
+  View
+} from "native-base";
+import React from "react";
+import { Component } from "react";
+import { Image } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Loading from '../../components/LoadingView';
-import getTheme from '../../theme/components';
-import Register2 from './register2';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Loading from "../../components/LoadingView";
+import getTheme from "../../theme/components";
+import Register2 from "./register2";
 
 ("use strict");
 
@@ -252,15 +265,13 @@ class Register extends Component {
                   borderRadius: 9
                 }}
                 disabled={
-                  !(
-                    !this.state.firstName ||
-                    !this.state.lastName ||
-                    !this.state.uniqueName ||
-                    !this.state.email ||
-                    !this.state.password ||
-                    !this.state.rePassword ||
-                    !(errors.size === 0)
-                  )
+                  !this.state.firstName ||
+                  !this.state.lastName ||
+                  !this.state.uniqueName ||
+                  !this.state.email ||
+                  !this.state.password ||
+                  !this.state.rePassword ||
+                  !(errors.size === 0)
                 }
                 onPress={this.goToPageTwo.bind(this)}
               >

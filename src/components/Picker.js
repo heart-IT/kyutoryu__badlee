@@ -98,13 +98,19 @@ export default class Picker extends PureComponent {
       selected: new Map()
     };
     this.closeIconClicked = this.closeIconClicked.bind(this);
-    this.submitClicked = this.submitClicked.bind(this);
+    this.onPickerSubmit = this.onPickerSubmit.bind(this);
   }
 
   closeIconClicked() {
     this.props.goBack();
   }
-  submitClicked() {}
+  onPickerSubmit() {
+    let selectedIDS = Object.keys(this.state.selected.toJS());
+    var x = this.state.data.filter(function(singleData) {
+      return selectedIDS.indexOf(String(singleData.id)) > -1;
+    });
+    this.props.onPickerSubmit(x);
+  }
 
   onSearchType(text) {
     if (text) {
@@ -145,7 +151,11 @@ export default class Picker extends PureComponent {
       onPressItem={this._onPressItem}
       selected={!!this.state.selected.get(item.id)}
       multiselect={this.state.multiselect}
-      title={item.city + ", " + item.state}
+      title={
+        this.props.type === "location"
+          ? item.city + ", " + item.state
+          : item.name
+      }
     />
   );
 
@@ -205,7 +215,10 @@ export default class Picker extends PureComponent {
             </CardItem>
             <CardItem footer style={styles.cardFooter}>
               <Right>
-                <Button style={styles.selectButton}>
+                <Button
+                  style={styles.selectButton}
+                  onPress={this.onPickerSubmit}
+                >
                   <Text style={styles.selectButtonText}>Select</Text>
                 </Button>
               </Right>

@@ -11,17 +11,16 @@
 "use strict";
 
 export const Categories = [
-  "Computers & Gadgets",
-  "Cameras & accessories",
-  "Fashion & Accessories",
-  "Home & furniture",
-  "Appliances & tools",
-  "Games & Sports",
-  "Books & Stationary",
-  "Music & Instruments",
-  "Medical",
-  "Lifesstyle & Leisure",
-  "Others"
+  { name: "Cameras & accessories", id: 0 },
+  { name: "Fashion & Accessories", id: 1 },
+  { name: "Home & furniture", id: 2 },
+  { name: "Appliances & tools", id: 3 },
+  { name: "Games & Sports", id: 4 },
+  { name: "Books & Stationary", id: 5 },
+  { name: "Music & Instruments", id: 6 },
+  { name: "Medical", id: 7 },
+  { name: "Lifesstyle & Leisure", id: 8 },
+  { name: "Others", id: 9 }
 ];
 
 export const Locations = [

@@ -1,5 +1,13 @@
-import React from 'react';
-import { Circle, Ellipse, G, Image, LinearGradient, Path, Stop } from 'react-native-svg';
+import React from "react";
+import {
+  Circle,
+  Ellipse,
+  G,
+  Image,
+  LinearGradient,
+  Path,
+  Stop
+} from "react-native-svg";
 
 export default {
   // badlee icon svg

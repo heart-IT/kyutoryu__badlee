@@ -26,84 +26,57 @@ import Icon from "./Icon";
 
 class BadleeCard extends React.PureComponent {
   render() {
-    let { cardData } = this.props;
+    let {
+      id,
+      media,
+      purpose,
+      userAvatar,
+      userName,
+      time,
+      location,
+      description,
+      likes,
+      wishes,
+      commentCount,
+      userID,
+      loggedUserID
+    } = this.props;
     return (
       <Card style={styles.card}>
-        {cardData.purpose === "showOff" && (
-          <Icon
-            name="showoff"
-            width="45"
-            height="45"
-            style={styles.purposeIcon}
-          />
-        )}
-        {cardData.purpose === "shoutOut" && (
-          <Icon
-            name="shoutout"
-            width="36"
-            height="36"
-            style={styles.purposeIcon}
-          />
-        )}
-        {cardData.purpose === "exchange" && (
-          <Icon
-            name="exchange"
-            width="36"
-            height="36"
-            style={styles.purposeIcon}
-          />
-        )}
+        <Icon
+          name={purpose}
+          width="45"
+          height="45"
+          style={styles.purposeIcon}
+        />
         <CardItem header>
           <TouchableOpacity
-            onPress={this.onClickUser}
             style={{ flexDirection: "row", alignItems: "center" }}
           >
-            <Thumbnail
-              source={{
-                uri: cardData.user_info
-                  ? cardData.user_info.avatar
-                  : cardData.media
-              }}
-              style={styles.userAvatar}
-            />
-            <Text style={styles.userName}>
-              {cardData.user_info
-                ? cardData.user_info.username
-                : cardData.user.substring(0, 12)}
-            </Text>
+            <Thumbnail source={{ uri: userAvatar }} style={styles.userAvatar} />
+            <Text style={styles.userName}>{userName}</Text>
           </TouchableOpacity>
-          <Text style={{ fontSize: 14 }}>
+          <Text style={{ fontSize: 12 }}>
             <Text>'s</Text>
             <Text style={{ fontWeight: "bold" }}> Thingy</Text>
           </Text>
           <Text style={{ color: "#616161", fontSize: 15 }}>
             {" "}
-            {moment(cardData.timestamp).fromNow()}
+            {moment(time).fromNow()}
           </Text>
         </CardItem>
         <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
-          <TouchableOpacity
-            transparent
-            style={styles.badleeImage}
-            onPress={this.onClickBadlee}
-          >
-            <Image
-              source={{ uri: cardData.media }}
-              style={styles.badleeImage}
-            />
-          </TouchableOpacity>
+          <Image source={{ uri: media }} style={styles.badleeImage} />
           <Body>
-            <Text style={styles.badleeLocation}>{cardData.location}</Text>
-            <Text style={styles.badleeDescription} onPress={this.onClickBadlee}>
-              {cardData.description}
-            </Text>
+            <Text style={styles.badleeLocation}>{location}</Text>
+            <Text style={styles.badleeDescription}>{description}</Text>
           </Body>
         </CardItem>
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              {cardData.likes &&
-                cardData.likes.indexOf(this.props.userId) > -1 && (
+              {likes &&
+                likes.indexOf(loggedUserID) > -1 && (
                   <TouchableOpacity transparent onPress={this.onClickUnlike}>
                     <Icon
                       name="postLiked"
@@ -114,9 +87,7 @@ class BadleeCard extends React.PureComponent {
                     />
                   </TouchableOpacity>
                 )}
-              {(!cardData.likes ||
-                (cardData.likes &&
-                  cardData.likes.indexOf(this.props.userId) === -1)) && (
+              {(!likes || (likes && likes.indexOf(loggedUserID) === -1)) && (
                 <TouchableOpacity transparent onPress={this.onClickLike}>
                   <Icon
                     name="postUnliked"
@@ -129,8 +100,8 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
-              {cardData.wishes &&
-                cardData.wishes.indexOf(this.props.userId) > -1 && (
+              {wishes &&
+                wishes.indexOf(loggedUserID) > -1 && (
                   <TouchableOpacity transparent onPress={this.onClickUnwish}>
                     <Icon
                       name="postWished"
@@ -141,9 +112,7 @@ class BadleeCard extends React.PureComponent {
                     />
                   </TouchableOpacity>
                 )}
-              {(!cardData.wishes ||
-                (cardData.wishes &&
-                  cardData.wishes.indexOf(this.props.userId) === -1)) && (
+              {(!wishes || (wishes && wishes.indexOf(loggedUserID) === -1)) && (
                 <TouchableOpacity transparent onPress={this.onClickWish}>
                   <Icon
                     name="postUnwished"
@@ -180,14 +149,14 @@ class BadleeCard extends React.PureComponent {
                     color: "rgba(0, 0, 0, 0.87)"
                   }}
                 >
-                  View {cardData.comment_count} comments{" "}
+                  View {commentCount} comments{" "}
                 </Text>
               </TouchableOpacity>
             </View>
           </Left>
           <Right>
             <TouchableOpacity transparent onPress={this.onClickDelete}>
-              {cardData.user === this.props.userId && (
+              {userID === loggedUserID && (
                 <Icon name="postDelete" width="30" height="30" />
               )}
             </TouchableOpacity>

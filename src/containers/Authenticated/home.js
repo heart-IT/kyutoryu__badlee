@@ -1,14 +1,16 @@
 /**
- * @name- badlee.js
+ * @name- home.js
  * 
  * @chill- Great is the person who does not lose their childlike heart.- Mencius
  * 
  * 
- * @description- This displays badlees section with tabs
+ * @description- This file displays home tab of badlee application.
  * 
  * @author- heartit pirates were here
  */
+
 "use strict";
+
 import {
   Container,
   Content,

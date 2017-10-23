@@ -10,6 +10,8 @@
  * @author- heartit pirates were here
  */
 
+"use strict";
+
 import {
   Container,
   Content,
@@ -28,8 +30,6 @@ import Loading from "../../components/LoadingView";
 import getTheme from "../../theme/components";
 import Home from "./home";
 import User from "./user";
-
-("use strict");
 
 class GoingMerry extends Component {
   state = {

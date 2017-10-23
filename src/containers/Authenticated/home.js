@@ -21,11 +21,14 @@ import Icon from "../../components/Icon";
 import BadleeList from "../../components/BadleeList";
 import getTheme from "../../theme/components";
 
+import User from "./user";
+import Comments from "./Comments";
+
 class Home extends Component {
   state = {
     tabNames: ["following", "location", "globe"],
     activeTabIndex: 0,
-    paging: { page: 0, limit: 4 },
+    paging: { page: 0, limit: 5 },
     currentData: [],
     filter: {
       searching: "",
@@ -34,6 +37,18 @@ class Home extends Component {
       category: ""
     }
   };
+
+  constructor(props) {
+    super(props);
+    this.onTabChange = this.onTabChange.bind(this);
+    this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
+    this.onListEnd = this.onListEnd.bind(this);
+    this.onClickUser = this.onClickUser.bind(this);
+    this.onClickLike = this.onClickLike.bind(this);
+    this.onClickWish = this.onClickWish.bind(this);
+    this.onClickComment = this.onClickComment.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
+  }
 
   // in case of props are changed, format and update state with currentData
   componentWillReceiveProps(nextProps) {
@@ -61,21 +76,15 @@ class Home extends Component {
    */
   getBadlees() {
     // if pagination exists, dont fetch badlees online
-    if (
-      !this.checkForPagination(this.state.tabNames[this.state.activeTabIndex])
-    ) {
-      this.formatAndUpdatePropData(this.props);
-    } else {
-      switch (this.state.activeTabIndex) {
-        case 0:
-          this.getBadleeByFollowing();
-          break;
-        case 1:
-          this.getBadleeByLocation();
-          break;
-        default:
-          this.getBadleeByGlobe();
-      }
+    switch (this.state.activeTabIndex) {
+      case 0:
+        this.getBadleeByFollowing();
+        break;
+      case 1:
+        this.getBadleeByLocation();
+        break;
+      default:
+        this.getBadleeByGlobe();
     }
   }
 
@@ -130,12 +139,7 @@ class Home extends Component {
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
-    let limit;
-    if (i.i === 2) {
-      limit = 20;
-    } else {
-      limit = 4;
-    }
+    let limit = i.i === 2 ? 20 : 5;
     this.setState(
       { activeTabIndex: i.i, paging: { page: 0, limit: limit } },
       () => {
@@ -144,9 +148,65 @@ class Home extends Component {
     );
   }
 
+  onFlatListRefresh() {
+    let { page, limit } = this.state.paging;
+    this.setState({ paging: { page: 0, limit: limit } }, () => {
+      this.getBadlees();
+    });
+  }
+
+  onListEnd() {
+    let { page, limit } = this.state.paging;
+    this.setState(
+      {
+        paging: {
+          page: page + 1,
+          limit: limit
+        }
+      },
+      () => {
+        let { tabNames, activeTabIndex } = this.state;
+        if (!this.checkForPagination(tabNames[activeTabIndex])) {
+          alert("list end");
+          this.formatAndUpdatePropData(this.props);
+        } else {
+          this.getBadlees();
+        }
+      }
+    );
+  }
+
+  onClickUser(id) {
+    requestAnimationFrame(() => {
+      this.props.showUserPage(id, {
+        navigator: this.props.navigator,
+        component: User
+      });
+    });
+  }
+
+  onClickLike(id, didLike) {
+    console.log(id);
+    didLike ? this.props.onClickLike(id) : this.props.onClickUnlike(id);
+  }
+  onClickWish(id, didWish) {
+    didWish ? this.props.onClickWish(id) : this.props.onClickUnwish(id);
+  }
+  onClickComment(id) {
+    requestAnimationFrame(() => {
+      this.props.showCommentPage(id, {
+        navigator: this.props.navigator,
+        component: Comments
+      });
+    });
+  }
+  onClickDelete(id) {
+    console.log(id);
+  }
+
   render() {
     let _this = this;
-    function returnIcon(name, position, width = 19, height = 19) {
+    function returnIcon(name, position, width = 21, height = 21) {
       return (
         <Icon
           name={name}
@@ -159,38 +219,64 @@ class Home extends Component {
         />
       );
     }
+
     return (
       <StyleProvider style={getTheme()}>
         <Tabs
-          onChangeTab={this.onTabChange.bind(this)}
+          onChangeTab={this.onTabChange}
           initialPage={this.state.activeTabIndex}
         >
           <Tab
             heading={
-              <TabHeading>{returnIcon("community", 0, 22, 22)}</TabHeading>
+              <TabHeading style={{ ...styles.tab, ...styles.firstTab }}>
+                {returnIcon("community", 0, 27, 27)}
+              </TabHeading>
             }
           >
-            <BadleeList data={this.state.currentData} type="card" />
+            <BadleeList
+              data={this.state.currentData}
+              type="card"
+              onClickUser={_this.onClickUser}
+              onClickLike={_this.onClickLike}
+              onClickWish={_this.onClickWish}
+              onClickComment={_this.onClickComment}
+              onClickDelete={_this.onClickDelete}
+              onFlatListRefresh={_this.onFlatListRefresh}
+              onListEnd={_this.onListEnd}
+              loggedUserID={_this.props.user.get("user_id")}
+            />
           </Tab>
-          <Tab heading={<TabHeading>{returnIcon("location", 1)}</TabHeading>}>
+          <Tab
+            heading={
+              <TabHeading style={styles.tab}>
+                {returnIcon("location", 1)}
+              </TabHeading>
+            }
+          >
             <BadleeList
               data={this.state.currentData}
               type="grid"
               toShowPurpose={true}
             />
           </Tab>
-          <Tab heading={<TabHeading>{returnIcon("globe", 2)}</TabHeading>}>
-            <BadleeList
-              data={this.state.currentData}
-              type="grid"
-              toShowPurpose={true}
-            />
-          </Tab>
+          <Tab
+            heading={
+              <TabHeading style={{ ...styles.tab, ...styles.lastTab }}>
+                {returnIcon("globe", 2)}
+              </TabHeading>
+            }
+          />
         </Tabs>
       </StyleProvider>
     );
   }
 }
+
+var styles = {
+  tab: { backgroundColor: "#fff" },
+  firstTab: { paddingLeft: "12.5%" },
+  lastTab: { paddingRight: "12.5%" }
+};
 
 const _Wrapped = connect(
   state => ({

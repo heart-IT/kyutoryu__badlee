@@ -25,6 +25,37 @@ import { Image, TouchableOpacity } from "react-native";
 import Icon from "./Icon";
 
 class BadleeCard extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.onClickUser = this._onClickUser.bind(this);
+    this.onClickLike = this._onClickLike.bind(this);
+    this.onClickUnlike = this._onClickUnlike.bind(this);
+    this.onClickWish = this._onClickWish.bind(this);
+    this.onClickUnwish = this._onClickUnwish.bind(this);
+    this.onClickComment = this._onClickComment.bind(this);
+    this.onClickDelete = this._onClickDelete.bind(this);
+  }
+  _onClickUser = () => {
+    this.props.onClickUser(this.props.userID);
+  };
+  _onClickLike = () => {
+    this.props.onClickLike(this.props.id, true);
+  };
+  _onClickUnlike = () => {
+    this.props.onClickLike(this.props.id, false);
+  };
+  _onClickWish = () => {
+    this.props.onClickWish(this.props.id, true);
+  };
+  _onClickUnwish = () => {
+    this.props.onClickWish(this.props.id, false);
+  };
+  _onClickComment = () => {
+    this.props.onClickComment(this.props.id);
+  };
+  _onClickDelete = () => {
+    this.props.onClickDelete(this.props.id);
+  };
   render() {
     let {
       id,
@@ -51,6 +82,7 @@ class BadleeCard extends React.PureComponent {
         />
         <CardItem header>
           <TouchableOpacity
+            onPress={this.onClickUser}
             style={{ flexDirection: "row", alignItems: "center" }}
           >
             <Thumbnail source={{ uri: userAvatar }} style={styles.userAvatar} />
@@ -68,7 +100,7 @@ class BadleeCard extends React.PureComponent {
         <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
           <Image source={{ uri: media }} style={styles.badleeImage} />
           <Body>
-            <Text style={styles.badleeLocation}>{location}</Text>
+            {location && <Text style={styles.badleeLocation}>{location}</Text>}
             <Text style={styles.badleeDescription}>{description}</Text>
           </Body>
         </CardItem>

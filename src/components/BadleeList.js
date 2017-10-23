@@ -20,6 +20,41 @@ import BadleeGridItem from "./BadleesGrid";
 class BadleeList extends React.PureComponent {
   _keyExtractor = (item, index) => item.id;
 
+  constructor(props) {
+    super(props);
+    this.onClickUser = this._onClickUser.bind(this);
+    this.onClickLike = this._onClickLike.bind(this);
+    this.onClickWish = this._onClickWish.bind(this);
+    this.onClickComment = this._onClickComment.bind(this);
+    this.onClickDelete = this._onClickDelete.bind(this);
+    this.onFlatListRefresh = this._onFlatListRefresh.bind(this);
+    this.onListEnd = this._onListEnd.bind(this);
+  }
+  _onClickUser = id => {
+    this.props.onClickUser(id);
+  };
+  _onClickLike = (id, didLike) => {
+    this.props.onClickLike(id, didLike);
+  };
+  _onClickWish = (id, didWish) => {
+    this.props.onClickWish(id, didWish);
+  };
+  _onClickComment = id => {
+    this.props.onClickComment(id);
+  };
+  _onClickDelete = id => {
+    this.props.onClickDelete(id);
+  };
+  _onFlatListRefresh() {
+    this.props.onFlatListRefresh();
+  }
+  _onListEnd() {
+    if (!this.onEndReachedCalledDuringMomentum) {
+      this.props.onListEnd();
+      this.onEndReachedCalledDuringMomentum = true;
+    }
+  }
+
   _renderItem = ({ item }) => {
     if (this.props.type === "card") {
       return (
@@ -37,6 +72,11 @@ class BadleeList extends React.PureComponent {
           commentCount={item.comment_count}
           userID={item.user}
           loggedUserID={this.props.loggedUserID}
+          onClickUser={this.onClickUser}
+          onClickLike={this.onClickLike}
+          onClickWish={this.onClickWish}
+          onClickComment={this.onClickComment}
+          onClickDelete={this.onClickDelete}
         />
       );
     } else {
@@ -57,6 +97,14 @@ class BadleeList extends React.PureComponent {
         data={this.props.data}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
+        style={{ backgroundColor: "#d9d9d9" }}
+        onRefresh={this.onFlatListRefresh}
+        onEndReached={this.onListEnd}
+        refreshing={false}
+        onEndReachedThreshold={0.5}
+        onMomentumScrollBegin={() => {
+          this.onEndReachedCalledDuringMomentum = false;
+        }}
       />
     );
   }

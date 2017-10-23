@@ -1,5 +1,5 @@
 // @flow
-import { fromJS, Map, OrderedSet, Record, Set } from 'immutable';
+import { fromJS, Map, OrderedSet, Record, Set } from "immutable";
 
 /**
  * @name- core.js
@@ -214,9 +214,16 @@ export function getBadlees(state, listEnd, tabName, badlees, offset, limit) {
       return id;
     });
     var updatedBadlees = state.getIn(["badlees", "data"]).merge(badleeObject);
-    var updatedBadleeIDS = state
-      .getIn(["badlees", "tabs", tabName])
-      .union(badleeIDs);
+    var updatedBadleeIDS;
+    if (offset === 0) {
+      updatedBadleeIDS = OrderedSet(badleeIDs).union(
+        state.getIn(["badlees", "tabs", tabName])
+      );
+    } else {
+      updatedBadleeIDS = state
+        .getIn(["badlees", "tabs", tabName])
+        .union(badleeIDs);
+    }
     return state
       .setIn(["badlees", "data"], updatedBadlees)
       .setIn(["badlees", "tabs", tabName], updatedBadleeIDS);

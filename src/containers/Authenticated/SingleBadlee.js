@@ -8,31 +8,31 @@
  * 
  * @author- heartit pirates
  */
-import moment from 'moment';
+import moment from "moment";
 import {
-    Body,
-    Card,
-    CardItem,
-    Container,
-    Content,
-    Header,
-    Left,
-    Right,
-    StyleProvider,
-    Text,
-    Thumbnail,
-    View,
-} from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+  Body,
+  Card,
+  CardItem,
+  Container,
+  Content,
+  Header,
+  Left,
+  Right,
+  StyleProvider,
+  Text,
+  Thumbnail,
+  View
+} from "native-base";
+import { Component } from "react";
+import React from "react";
+import { Image, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import getTheme from '../../theme/components';
-import Comments from './Comments';
-import User from './User';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import getTheme from "../../theme/components";
+import Comments from "./Comments";
+import User from "./User";
 
 ("use strict");
 
@@ -47,6 +47,7 @@ class SingleBadlee extends Component {
     this.onClickUnwish = this._onClickUnwish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
+    this.onClickReport = this._onClickReport.bind(this);
   }
   onBackPress() {
     this.props.goBack();
@@ -81,6 +82,9 @@ class SingleBadlee extends Component {
   }
   _onClickDelete() {
     this.props.onClickDelete(this.props.badlee.get("id"));
+  }
+  _onClickReport() {
+    this.props.onClickReport(this.props.badlee.get("id"));
   }
   render() {
     let cardData = this.props.badlee.toJS();

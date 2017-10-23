@@ -4,33 +4,37 @@
  * @chill -There is no shelter from aging and death. Knowing this inevitability, Seek joy instead in the goodness of your actions - Buddha
  * 
  * 
- * @description- This file is the parent container of badlee App after logging in. Everything is loaded inside
+ * @description- This file is the parent component for the home page shown after logging in.
+ * Child components are -> Home, Notifications and User
  * 
- * @author- heartit pirates
+ * @author- heartit pirates were here
  */
-import { Container, Content, StyleProvider, Tab, TabHeading, Tabs, Text } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { connect } from 'react-redux';
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import Loading from '../../components/LoadingView';
-import getTheme from '../../theme/components';
-import Badlees from './badlee';
-import Chat from './Chat';
-import UserProfile from './User';
+import {
+  Container,
+  Content,
+  StyleProvider,
+  Tab,
+  TabHeading,
+  Tabs
+} from "native-base";
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import Loading from "../../components/LoadingView";
+import getTheme from "../../theme/components";
+import Home from "./home";
+import User from "./user";
 
 ("use strict");
 
-class AuthContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTabIndex: 0,
-      tabLocked: true
-    };
-  }
+class GoingMerry extends Component {
+  state = {
+    activeTabIndex: 0
+  };
   render() {
     let _this = this;
     function returnIcon(name, position, width = 22, height = 22) {
@@ -49,26 +53,20 @@ class AuthContainer extends Component {
         <Container style={{ flex: 1 }}>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Tabs
-              locked={this.state.tabLocked}
+              locked={true}
               onChangeTab={(i, ref) => this.setState({ activeTabIndex: i.i })}
+              tabBarUnderlineStyle={{ opacity: 0 }}
             >
               <Tab heading={<TabHeading>{returnIcon("home", 0)}</TabHeading>}>
-                <Badlees />
-              </Tab>
-              <Tab
-                heading={<TabHeading>{returnIcon("messages", 1)}</TabHeading>}
-              >
-                <Chat />
+                <Home />
               </Tab>
               <Tab
                 heading={
-                  <TabHeading>{returnIcon("notifications", 2)}</TabHeading>
+                  <TabHeading>{returnIcon("notifications", 1)}</TabHeading>
                 }
-              >
-                <Text>One Piece is hidden somewhere in the app</Text>
-              </Tab>
-              <Tab heading={<TabHeading>{returnIcon("user", 3)}</TabHeading>}>
-                <UserProfile />
+              />
+              <Tab heading={<TabHeading>{returnIcon("user", 2)}</TabHeading>}>
+                <User profile={this.props.user} />
               </Tab>
             </Tabs>
           </Content>
@@ -81,9 +79,14 @@ class AuthContainer extends Component {
 
 const _Wrapped = connect(
   state => ({
-    loading: state.getIn(["application", "isLoading"])
+    loading: state.getIn(["application", "isLoading"]),
+    user: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"])
+    ])
   }),
   actionCreators
-)(AuthContainer);
+)(GoingMerry);
 
 export default _Wrapped;

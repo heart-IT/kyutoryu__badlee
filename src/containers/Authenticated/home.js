@@ -9,24 +9,36 @@
  * @author- heartit pirates were here
  */
 "use strict";
-import { Container, Content, Input, Item, Radio, StyleProvider, Tab, TabHeading, Tabs, Text, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import {
+  Container,
+  Content,
+  Input,
+  Item,
+  Radio,
+  StyleProvider,
+  Tab,
+  TabHeading,
+  Tabs,
+  Text,
+  View
+} from "native-base";
+import { Component } from "react";
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import BadleesGrid from '../../components/BadleesGrid';
-import BadleesList from '../../components/BadleesList';
-import BadleeFab from '../../components/Fab';
-import Icon from '../../components/Icon';
-import Picker from '../../components/Picker';
-import getTheme from '../../theme/components';
-import { styles } from '../../theme/mystyle/badlee';
-import Comments from './Comments';
-import NewBadlee from './newBadlee';
-import SingleBadlee from './singleBadlee';
-import User from './User';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import BadleesGrid from "../../components/BadleesGrid";
+import BadleesList from "../../components/BadleesList";
+import BadleeFab from "../../components/Fab";
+import Icon from "../../components/Icon";
+import Picker from "../../components/Picker";
+import getTheme from "../../theme/components";
+import { styles } from "../../theme/mystyle/badlee";
+import Comments from "./Comments";
+import NewBadlee from "./newBadlee";
+import SingleBadlee from "./singleBadlee";
+import User from "./User";
 
 ("use strict");
 

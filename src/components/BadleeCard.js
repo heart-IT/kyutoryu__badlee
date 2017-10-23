@@ -4,56 +4,27 @@
  * @chill- Suffering is only one face of life. Life has another face, the face of wonder. If we can see that face of life, we will have happiness, peace and joy. When our hearts are unfettered, we can make direct contact with the wonders of life. - Thich Nhat Hanh
  * 
  * 
- * @description- BadleeCard component
+ * @description- Badlee Card component
  * 
  * @author- heartit pirates were here
  */
 "use strict";
-import moment from 'moment';
-import { Body, Card, CardItem, Left, Right, Text, Thumbnail, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-
-import Icon from './Icon';
+import moment from "moment";
+import {
+  Body,
+  Card,
+  CardItem,
+  Left,
+  Right,
+  Text,
+  Thumbnail,
+  View
+} from "native-base";
+import React, { Component } from "react";
+import { Image, TouchableOpacity } from "react-native";
+import Icon from "./Icon";
 
 class BadleeCard extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.onClickUser = this._onClickUser.bind(this);
-    this.onClickLike = this._onClickLike.bind(this);
-    this.onClickUnlike = this._onClickUnlike.bind(this);
-    this.onClickWish = this._onClickWish.bind(this);
-    this.onClickUnwish = this._onClickUnwish.bind(this);
-    this.onClickComment = this._onClickComment.bind(this);
-    this.onClickBadlee = this._onClickBadlee.bind(this);
-    this.onClickDelete = this._onClickDelete.bind(this);
-  }
-
-  _onClickUser = () => {
-    this.props.onClickUser(this.props.cardData.user);
-  };
-  _onClickLike = () => {
-    this.props.onClickLike(this.props.cardData.id);
-  };
-  _onClickUnlike = () => {
-    this.props.onClickUnlike(this.props.cardData.id);
-  };
-  _onClickWish = () => {
-    this.props.onClickWish(this.props.cardData.id);
-  };
-  _onClickUnwish = () => {
-    this.props.onClickUnwish(this.props.cardData.id);
-  };
-  _onClickComment = () => {
-    this.props.onClickComment(this.props.cardData.id);
-  };
-  _onClickBadlee = () => {
-    this.props.onClickBadlee(this.props.cardData.id);
-  };
-  _onClickDelete = () => {
-    this.props.onClickDelete(this.props.cardData.id);
-  };
   render() {
     let { cardData } = this.props;
     return (
@@ -96,11 +67,9 @@ class BadleeCard extends React.PureComponent {
               style={styles.userAvatar}
             />
             <Text style={styles.userName}>
-              {cardData.user_info ? (
-                cardData.user_info.username
-              ) : (
-                cardData.user.substring(0, 12)
-              )}
+              {cardData.user_info
+                ? cardData.user_info.username
+                : cardData.user.substring(0, 12)}
             </Text>
           </TouchableOpacity>
           <Text style={{ fontSize: 14 }}>
@@ -134,17 +103,17 @@ class BadleeCard extends React.PureComponent {
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
               {cardData.likes &&
-              cardData.likes.indexOf(this.props.userId) > -1 && (
-                <TouchableOpacity transparent onPress={this.onClickUnlike}>
-                  <Icon
-                    name="postLiked"
-                    width="30"
-                    height="30"
-                    style={{ margin: 3 }}
-                    strokeWidth="17"
-                  />
-                </TouchableOpacity>
-              )}
+                cardData.likes.indexOf(this.props.userId) > -1 && (
+                  <TouchableOpacity transparent onPress={this.onClickUnlike}>
+                    <Icon
+                      name="postLiked"
+                      width="30"
+                      height="30"
+                      style={{ margin: 3 }}
+                      strokeWidth="17"
+                    />
+                  </TouchableOpacity>
+                )}
               {(!cardData.likes ||
                 (cardData.likes &&
                   cardData.likes.indexOf(this.props.userId) === -1)) && (
@@ -161,17 +130,17 @@ class BadleeCard extends React.PureComponent {
                 </TouchableOpacity>
               )}
               {cardData.wishes &&
-              cardData.wishes.indexOf(this.props.userId) > -1 && (
-                <TouchableOpacity transparent onPress={this.onClickUnwish}>
-                  <Icon
-                    name="postWished"
-                    width="30"
-                    height="30"
-                    fill="#EF5454"
-                    style={{ margin: 3 }}
-                  />
-                </TouchableOpacity>
-              )}
+                cardData.wishes.indexOf(this.props.userId) > -1 && (
+                  <TouchableOpacity transparent onPress={this.onClickUnwish}>
+                    <Icon
+                      name="postWished"
+                      width="30"
+                      height="30"
+                      fill="#EF5454"
+                      style={{ margin: 3 }}
+                    />
+                  </TouchableOpacity>
+                )}
               {(!cardData.wishes ||
                 (cardData.wishes &&
                   cardData.wishes.indexOf(this.props.userId) === -1)) && (

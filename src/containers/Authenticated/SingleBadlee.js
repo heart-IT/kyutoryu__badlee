@@ -287,7 +287,7 @@ class SingleBadlee extends Component {
                         {cardData.comment_count
                           ? `View ${cardData.comment_count}`
                           : 0}{" "}
-                        comments{" "}
+                        {cardData.comment_count > 1 ? "comments" : "comment"}
                       </Text>
                     </TouchableOpacity>
                   </View>

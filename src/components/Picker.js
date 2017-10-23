@@ -89,6 +89,7 @@ class MyListItem extends React.PureComponent {
 }
 
 export default class Picker extends PureComponent {
+  _keyExtractor = (item, index) => item.id;
   constructor(props) {
     super(props);
     this.state = {
@@ -98,19 +99,20 @@ export default class Picker extends PureComponent {
       selected: new Map()
     };
     this.closeIconClicked = this.closeIconClicked.bind(this);
-    this.onPickerSubmit = this.onPickerSubmit.bind(this);
   }
 
-  closeIconClicked() {
-    this.props.goBack();
-  }
-  onPickerSubmit() {
-    let selectedIDS = Object.keys(this.state.selected.toJS());
-    var x = this.state.data.filter(function(singleData) {
-      return selectedIDS.indexOf(String(singleData.id)) > -1;
+  _onPressItem = item => {
+    // updater functions are preferred for transactional updates
+    this.setState(state => {
+      // copy the map rather than modifying state.
+      let oldSelected = new Map(state.selected);
+      if (!state.multiselect) {
+        oldSelected = oldSelected.clear();
+      }
+      const selected = oldSelected.set(item.id, !oldSelected.get(item.id)); // toggle
+      return { selected };
     });
-    this.props.onPickerSubmit(x);
-  }
+  };
 
   onSearchType(text) {
     if (text) {
@@ -130,20 +132,9 @@ export default class Picker extends PureComponent {
       this.setState({ data: Locations, searchInputValue: text });
     }
   }
-
-  _keyExtractor = (item, index) => item.id;
-  _onPressItem = item => {
-    // updater functions are preferred for transactional updates
-    this.setState(state => {
-      // copy the map rather than modifying state.
-      let oldSelected = new Map(state.selected);
-      if (!state.multiselect) {
-        oldSelected = oldSelected.clear();
-      }
-      const selected = oldSelected.set(item.id, !oldSelected.get(item.id)); // toggle
-      return { selected };
-    });
-  };
+  closeIconClicked() {
+    this.props.goBack();
+  }
 
   _renderItem = ({ item }) => (
     <MyListItem
@@ -151,11 +142,7 @@ export default class Picker extends PureComponent {
       onPressItem={this._onPressItem}
       selected={!!this.state.selected.get(item.id)}
       multiselect={this.state.multiselect}
-      title={
-        this.props.type === "location"
-          ? item.city + ", " + item.state
-          : item.name
-      }
+      title={item.city + ", " + item.state}
     />
   );
 
@@ -190,11 +177,20 @@ export default class Picker extends PureComponent {
             </CardItem>
             <CardItem style={styles.cardBodyItem}>
               <Body style={styles.cardBody}>
-                <Item style={styles.searchBoxItem} regular>
+                <Item
+                  style={{
+                    height: 36,
+                    borderColor: "#bdbdbd"
+                  }}
+                  regular
+                >
                   <Input
                     placeholder="search.."
                     value={this.state.searchInputValue}
                     onChangeText={text => this.onSearchType(text)}
+                    style={{
+                      paddingLeft: 6
+                    }}
                   />
                 </Item>
                 {items.length > 0 && (
@@ -203,23 +199,23 @@ export default class Picker extends PureComponent {
                     extraData={this.state}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
-                    style={styles.itemsList}
+                    style={{
+                      width: "100%",
+                      paddingTop: 6
+                    }}
                   />
                 )}
                 {items.length === 0 && (
-                  <View style={styles.noItemView}>
-                    <Text style={styles.noItemText}>No Results!</Text>
+                  <View style={{ marginTop: 18, width: "100%" }}>
+                    <Text style={{ textAlign: "center" }}>No Results!</Text>
                   </View>
                 )}
               </Body>
             </CardItem>
-            <CardItem footer style={styles.cardFooter}>
+            <CardItem footer style={{ height: 40 }}>
               <Right>
-                <Button
-                  style={styles.selectButton}
-                  onPress={this.onPickerSubmit}
-                >
-                  <Text style={styles.selectButtonText}>Select</Text>
+                <Button style={{ height: 30 }}>
+                  <Text>Select</Text>
                 </Button>
               </Right>
             </CardItem>
@@ -263,24 +259,6 @@ let styles = {
     top: 0,
     right: 0
   },
-  cardBodyItem: {
-    flex: 1,
-    paddingTop: 6
-  },
-  cardBody: {
-    flex: 1
-  },
-  searchBoxItem: {
-    height: 36,
-    borderColor: "#e0e0e0"
-  },
-  itemsList: {
-    width: "100%",
-    marginTop: 6
-  },
-  noItemView: { marginTop: 18, width: "100%" },
-  noItemText: { textAlign: "center" },
-  cardFooter: { height: 42 },
-  selectButton: { height: 30 },
-  selectButtonText: { paddingTop: 3 }
+  cardBodyItem: { flex: 1, paddingTop: 6 },
+  cardBody: { flex: 1 }
 };

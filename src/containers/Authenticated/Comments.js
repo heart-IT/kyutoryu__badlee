@@ -9,31 +9,31 @@
  * @author- heartit pirates
  */
 import {
-    Button,
-    Container,
-    Content,
-    Form,
-    Header,
-    Icon as IconX,
-    Input,
-    Item,
-    Left,
-    List,
-    StyleProvider,
-    Text,
-    Thumbnail,
-    View,
-} from 'native-base';
-import React from 'react';
-import { Component } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
-import { connect } from 'react-redux';
+  Button,
+  Container,
+  Content,
+  Form,
+  Header,
+  Icon as IconX,
+  Input,
+  Item,
+  Left,
+  List,
+  StyleProvider,
+  Text,
+  Thumbnail,
+  View
+} from "native-base";
+import React from "react";
+import { Component } from "react";
+import { ScrollView, TouchableOpacity } from "react-native";
+import { KeyboardAwareView } from "react-native-keyboard-aware-view";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import LoadingView from '../../components/LoadingView';
-import getTheme from '../../theme/components';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import LoadingView from "../../components/LoadingView";
+import getTheme from "../../theme/components";
 
 ("use strict");
 
@@ -60,7 +60,6 @@ class Comment extends Component {
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];
-    console.log(comments);
     var commentsText = comments.map(comment => {
       return (
         <View key={comment.user_id + comment.timestamp}>
@@ -192,41 +191,42 @@ class Comment extends Component {
             </Left>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <KeyboardAwareView>
-              {comments.length === 0 && (
-                <View style={styles.noComments}>
-                  <Text style={styles.noCommentsText}>
-                    No comments yet, why not add one ;)
-                  </Text>
-                </View>
-              )}
-
-              {comments.length > 0 && (
-                <ScrollView style={styles.comments}>
-                  <List style={{ flex: 1 }}>{commentsText}</List>
-                </ScrollView>
-              )}
-
-              <View style={styles.commentInputWrapper}>
-                <Form style={styles.commentForm}>
-                  <Item style={styles.commentsInput}>
-                    <Input
-                      placeholder="enter something here"
-                      onChangeText={commentText =>
-                        this.setState({ commentText })}
-                      value={this.state.commentText}
-                      style={styles.commentsInputBox}
-                    />
-                  </Item>
-                  <Button
-                    style={styles.commentEnterBtn}
-                    onPress={this.postComment}
-                  >
-                    <Text>Post</Text>
-                  </Button>
-                </Form>
+            {comments.length === 0 && (
+              <View style={styles.noComments}>
+                <Text style={styles.noCommentsText}>
+                  No comments yet, why not add one ;)
+                </Text>
               </View>
-            </KeyboardAwareView>
+            )}
+
+            {comments.length > 0 && (
+              <ScrollView
+                style={styles.comments}
+                keyboardShouldPersistTaps={true}
+                keyboardDismissMode="on-drag"
+              >
+                <List style={{ flex: 1 }}>{commentsText}</List>
+                <View style={styles.commentInputWrapper}>
+                  <Form style={styles.commentForm}>
+                    <Item style={styles.commentsInput}>
+                      <Input
+                        placeholder="enter something here"
+                        onChangeText={commentText =>
+                          this.setState({ commentText })}
+                        value={this.state.commentText}
+                        style={styles.commentsInputBox}
+                      />
+                    </Item>
+                    <Button
+                      style={styles.commentEnterBtn}
+                      onPress={this.postComment}
+                    >
+                      <Text>Post</Text>
+                    </Button>
+                  </Form>
+                </View>
+              </ScrollView>
+            )}
           </Content>
           {this.props.loading && <LoadingView message="Doing action.." />}
         </Container>

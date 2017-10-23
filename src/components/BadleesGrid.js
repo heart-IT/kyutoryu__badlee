@@ -8,11 +8,11 @@
  * 
  * @author- heartit pirates were here
  */
-import { PureComponent } from 'react';
-import React from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import { PureComponent } from "react";
+import React from "react";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
 
-import Icon from './Icon';
+import Icon from "./Icon";
 
 ("use strict");
 

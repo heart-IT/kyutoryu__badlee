@@ -143,7 +143,12 @@ class Home extends Component {
     this.setState(
       { activeTabIndex: i.i, paging: { page: 0, limit: limit } },
       () => {
-        this.getBadlees();
+        let { tabNames, activeTabIndex } = this.state;
+        if (!this.checkForPagination(tabNames[activeTabIndex])) {
+          this.formatAndUpdatePropData(this.props);
+        } else {
+          this.getBadlees();
+        }
       }
     );
   }
@@ -255,8 +260,15 @@ class Home extends Component {
           >
             <BadleeList
               data={this.state.currentData}
-              type="grid"
-              toShowPurpose={true}
+              type="card"
+              onClickUser={_this.onClickUser}
+              onClickLike={_this.onClickLike}
+              onClickWish={_this.onClickWish}
+              onClickComment={_this.onClickComment}
+              onClickDelete={_this.onClickDelete}
+              onFlatListRefresh={_this.onFlatListRefresh}
+              onListEnd={_this.onListEnd}
+              loggedUserID={_this.props.user.get("user_id")}
             />
           </Tab>
           <Tab

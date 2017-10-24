@@ -1,5 +1,5 @@
 // @flow
-import * as actionCreators from '../../action_creators';
+import * as actionCreators from "../../action_creators";
 
 /**
  * @name- show.js
@@ -30,7 +30,7 @@ export default async function showUserPage(store, next, action) {
       action.user = user;
       next(action);
 
-      action.route.params = { isOtherProfile: true };
+      action.route.params = { isOtherUser: true };
       await store.dispatch(actionCreators.navigate(action.route));
     }
   } catch (err) {

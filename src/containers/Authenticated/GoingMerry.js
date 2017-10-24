@@ -66,7 +66,7 @@ class GoingMerry extends Component {
                 }
               />
               <Tab heading={<TabHeading>{returnIcon("user", 2)}</TabHeading>}>
-                <User profile={this.props.user} />
+                <User params={{ isOtherUser: false }} />
               </Tab>
             </Tabs>
           </Content>

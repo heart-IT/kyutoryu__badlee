@@ -323,12 +323,10 @@ class Home extends Component {
           >
             {(!this.state.currentData || !this.state.currentData.length) && (
               <View style={styles.NoDataView}>
-                <Icon name="noLocationIllustration" width="60" height="60" />
-                <Text style={styles.mainText}>
-                  Hmm, No badlees in your location.
-                </Text>
-                <Text style={styles.subText}>Why dont you be the first!</Text>
-                <Text style={styles.subText}>and start a trend :D</Text>
+                <Icon name="noGlobeIllustration" width="60" height="60" />
+                <Text style={styles.mainText}>Hmm, No badlees found.</Text>
+                <Text style={styles.subText}>That's weird..</Text>
+                <Text style={styles.subText}>Try changing the filters :D</Text>
               </View>
             )}
             <BadleeList

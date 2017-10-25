@@ -48,6 +48,7 @@ class Home extends Component {
     this.onClickWish = this.onClickWish.bind(this);
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
+    this.onClickBadlee = this.onClickBadlee.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -222,6 +223,10 @@ class Home extends Component {
     console.log(id);
   }
 
+  onClickBadlee(id) {
+    console.log(id);
+  }
+
   render() {
     let _this = this;
     function returnIcon(name, position, width = 21, height = 21) {
@@ -267,14 +272,14 @@ class Home extends Component {
             <BadleeList
               data={this.state.currentData}
               type="card"
-              onClickUser={_this.onClickUser}
-              onClickLike={_this.onClickLike}
-              onClickWish={_this.onClickWish}
-              onClickComment={_this.onClickComment}
-              onClickDelete={_this.onClickDelete}
-              onFlatListRefresh={_this.onFlatListRefresh}
-              onListEnd={_this.onListEnd}
-              loggedUserID={_this.props.user.get("user_id")}
+              onClickUser={this.onClickUser}
+              onClickLike={this.onClickLike}
+              onClickWish={this.onClickWish}
+              onClickComment={this.onClickComment}
+              onClickDelete={this.onClickDelete}
+              onFlatListRefresh={this.onFlatListRefresh}
+              onListEnd={this.onListEnd}
+              loggedUserID={this.props.user.get("user_id")}
             />
           </Tab>
           <Tab
@@ -298,14 +303,14 @@ class Home extends Component {
             <BadleeList
               data={this.state.currentData}
               type="card"
-              onClickUser={_this.onClickUser}
-              onClickLike={_this.onClickLike}
-              onClickWish={_this.onClickWish}
-              onClickComment={_this.onClickComment}
-              onClickDelete={_this.onClickDelete}
-              onFlatListRefresh={_this.onFlatListRefresh}
-              onListEnd={_this.onListEnd}
-              loggedUserID={_this.props.user.get("user_id")}
+              onClickUser={this.onClickUser}
+              onClickLike={this.onClickLike}
+              onClickWish={this.onClickWish}
+              onClickComment={this.onClickComment}
+              onClickDelete={this.onClickDelete}
+              onFlatListRefresh={this.onFlatListRefresh}
+              onListEnd={this.onListEnd}
+              loggedUserID={this.props.user.get("user_id")}
             />
           </Tab>
           <Tab
@@ -329,14 +334,10 @@ class Home extends Component {
             <BadleeList
               data={this.state.currentData}
               type="grid"
-              onClickUser={_this.onClickUser}
-              onClickLike={_this.onClickLike}
-              onClickWish={_this.onClickWish}
-              onClickComment={_this.onClickComment}
-              onClickDelete={_this.onClickDelete}
-              onFlatListRefresh={_this.onFlatListRefresh}
-              onListEnd={_this.onListEnd}
-              loggedUserID={_this.props.user.get("user_id")}
+              onClickBadlee={this.onClickBadlee}
+              onFlatListRefresh={this.onFlatListRefresh}
+              onListEnd={this.onListEnd}
+              loggedUserID={this.props.user.get("user_id")}
             />
           </Tab>
         </Tabs>

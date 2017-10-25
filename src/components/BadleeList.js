@@ -87,6 +87,7 @@ class BadleeList extends React.PureComponent {
           media={item.media}
           purpose={item.purpose}
           toShowPurpose={this.props.toShowPurpose}
+          _onClickBadlee={this.props.onClickBadlee}
         />
       );
     }

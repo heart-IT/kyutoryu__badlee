@@ -63,6 +63,8 @@ class Home extends Component {
     let currentData = showingBadleeIDs
       .map(id => allBadlees.get(String(id)))
       .toJS();
+    console.log(this.state.tabNames[this.state.activeTabIndex]);
+    console.log(currentData);
     this.setState({ currentData: currentData });
   }
 
@@ -112,6 +114,8 @@ class Home extends Component {
         offset: page * limit,
         limit: limit
       });
+    } else {
+      this.setState({ currentData: [] });
     }
   }
 
@@ -119,7 +123,7 @@ class Home extends Component {
     let { page, limit } = this.state.paging;
     this.props.getBadlees({
       tabName: "location",
-      currentLocation: "Jaipur, Rajasthan, India",
+      currentLocation: this.props.user.get("location"),
       offset: page * limit,
       limit: limit
     });
@@ -144,9 +148,13 @@ class Home extends Component {
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
-    let limit = i.i === 2 ? 20 : 5;
+    let limit = i.i === 2 ? 32 : 5;
     this.setState(
-      { activeTabIndex: i.i, paging: { page: 0, limit: limit } },
+      {
+        activeTabIndex: i.i,
+        paging: { page: 0, limit: limit },
+        currentData: []
+      },
       () => {
         let { tabNames, activeTabIndex } = this.state;
         if (!this.checkForPagination(tabNames[activeTabIndex])) {
@@ -242,56 +250,16 @@ class Home extends Component {
                 {returnIcon("community", 0, 27, 27)}
               </TabHeading>
             }
+            style={{ position: "relative" }}
           >
             {(!this.state.currentData || !this.state.currentData.length) && (
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  zIndex: 99,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingLeft: "10%",
-                  paddingRight: "10%",
-                  backgroundColor: "#eeeeee"
-                }}
-              >
+              <View style={styles.NoDataView}>
                 <Icon name="noFollowIllustration" width="60" height="60" />
-                <Text
-                  style={{
-                    textAlign: "center",
-                    marginBottom: 9,
-                    color: "rgba(0, 0, 0, 0.87)",
-                    fontSize: 17,
-                    borderBottomWidth: 1,
-                    borderColor: "#611265",
-                    marginTop: 12
-                  }}
-                >
-                  No posts to see here.
+                <Text style={styles.mainText}>
+                  You are not following anyone.
                 </Text>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    lineHeight: 18,
-                    fontSize: 16,
-                    color: "rgba(0, 0, 0, 0.87)"
-                  }}
-                >
-                  Follow lot of people
-                </Text>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    lineHeight: 18,
-                    fontSize: 16,
-                    color: "rgba(0, 0, 0, 0.87)"
-                  }}
-                >
+                <Text style={styles.subText}>Follow lot of people</Text>
+                <Text style={styles.subText}>
                   to see lots of badlee here :D
                 </Text>
               </View>
@@ -315,7 +283,18 @@ class Home extends Component {
                 {returnIcon("location", 1)}
               </TabHeading>
             }
+            style={{ position: "relative" }}
           >
+            {(!this.state.currentData || !this.state.currentData.length) && (
+              <View style={styles.NoDataView}>
+                <Icon name="noLocationIllustration" width="60" height="60" />
+                <Text style={styles.mainText}>
+                  Hmm, No badlees in your location.
+                </Text>
+                <Text style={styles.subText}>Why dont you be the first!</Text>
+                <Text style={styles.subText}>and start a trend :D</Text>
+              </View>
+            )}
             <BadleeList
               data={this.state.currentData}
               type="card"
@@ -335,7 +314,31 @@ class Home extends Component {
                 {returnIcon("globe", 2)}
               </TabHeading>
             }
-          />
+            style={{ position: "relative" }}
+          >
+            {(!this.state.currentData || !this.state.currentData.length) && (
+              <View style={styles.NoDataView}>
+                <Icon name="noLocationIllustration" width="60" height="60" />
+                <Text style={styles.mainText}>
+                  Hmm, No badlees in your location.
+                </Text>
+                <Text style={styles.subText}>Why dont you be the first!</Text>
+                <Text style={styles.subText}>and start a trend :D</Text>
+              </View>
+            )}
+            <BadleeList
+              data={this.state.currentData}
+              type="grid"
+              onClickUser={_this.onClickUser}
+              onClickLike={_this.onClickLike}
+              onClickWish={_this.onClickWish}
+              onClickComment={_this.onClickComment}
+              onClickDelete={_this.onClickDelete}
+              onFlatListRefresh={_this.onFlatListRefresh}
+              onListEnd={_this.onListEnd}
+              loggedUserID={_this.props.user.get("user_id")}
+            />
+          </Tab>
         </Tabs>
       </StyleProvider>
     );
@@ -345,7 +348,32 @@ class Home extends Component {
 var styles = {
   tab: { backgroundColor: "#fff" },
   firstTab: { paddingLeft: "12.5%" },
-  lastTab: { paddingRight: "12.5%" }
+  lastTab: { paddingRight: "12.5%" },
+  NoDataView: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingLeft: "12%",
+    paddingRight: "12%",
+    backgroundColor: "#eeeeee"
+  },
+  mainText: {
+    textAlign: "center",
+    marginBottom: 9,
+    color: "rgba(0, 0, 0, 0.87)",
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: "#611265",
+    fontWeight: "bold",
+    marginTop: 12
+  },
+  subText: {
+    textAlign: "center",
+    lineHeight: 18,
+    fontSize: 16,
+    color: "rgba(0, 0, 0, 0.87)"
+  }
 };
 
 const _Wrapped = connect(

@@ -80,6 +80,7 @@ class BadleeList extends React.PureComponent {
         />
       );
     } else {
+      console.log("hey");
       return (
         <BadleeGridItem
           id={item.id}
@@ -96,8 +97,9 @@ class BadleeList extends React.PureComponent {
       <FlatList
         data={this.props.data}
         keyExtractor={this._keyExtractor}
+        numColumns={4}
         renderItem={this._renderItem}
-        style={{ backgroundColor: "#d9d9d9" }}
+        style={{ backgroundColor: "#eeeeee" }}
         onRefresh={this.onFlatListRefresh}
         onEndReached={this.onListEnd}
         refreshing={false}

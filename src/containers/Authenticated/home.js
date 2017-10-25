@@ -266,7 +266,9 @@ class Home extends Component {
                     textAlign: "center",
                     marginBottom: 9,
                     color: "rgba(0, 0, 0, 0.87)",
-                    fontSize: 15,
+                    fontSize: 17,
+                    borderBottomWidth: 1,
+                    borderColor: "#611265",
                     marginTop: 12
                   }}
                 >
@@ -276,7 +278,7 @@ class Home extends Component {
                   style={{
                     textAlign: "center",
                     lineHeight: 18,
-                    fontSize: 15,
+                    fontSize: 16,
                     color: "rgba(0, 0, 0, 0.87)"
                   }}
                 >
@@ -286,7 +288,7 @@ class Home extends Component {
                   style={{
                     textAlign: "center",
                     lineHeight: 18,
-                    fontSize: 15,
+                    fontSize: 16,
                     color: "rgba(0, 0, 0, 0.87)"
                   }}
                 >

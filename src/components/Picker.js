@@ -7,9 +7,11 @@
  * @description- Component for creating a autocomplete search like dropdown.
  * 
  * @author- heartit pirates were here
+ * 
  */
-import Fuse from "fuse.js";
-import { Map } from "immutable";
+
+"use strict";
+
 import {
   Body,
   Button,
@@ -24,69 +26,14 @@ import {
   View,
   Radio
 } from "native-base";
-import React from "react";
-import { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
+import Fuse from "fuse.js";
+import { Map } from "immutable";
 
 import { Categories, Locations } from "../constants";
 import getTheme from "../theme/components";
 import Icon from "./Icon";
-
-("use strict");
-
-class MyListItem extends React.PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props);
-  };
-
-  render() {
-    var title = this.props.title;
-    var selected = this.props.selected;
-    var multiselect = this.props.multiselect;
-    return (
-      <TouchableOpacity
-        onPress={this._onPress}
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          alignItems: "center",
-          minHeight: 24,
-          marginTop: 6,
-          marginBottom: 3,
-          paddingLeft: 6,
-          paddingRight: 6,
-          borderBottomWidth: 1,
-          borderColor: "#fafafa"
-        }}
-      >
-        <Text style={{ fontSize: 15, flex: 1 }}>{title}</Text>
-        <View style={{ paddingRight: 18 }}>
-          {!multiselect ? (
-            <Radio
-              selected={selected}
-              style={{
-                borderColor: "#611265",
-                width: 24,
-                height: 24
-              }}
-              onPress={this._onPress}
-            />
-          ) : (
-            <CheckBox
-              style={{
-                borderColor: "#611265",
-                width: 15,
-                height: 15
-              }}
-              checked={selected}
-              onPress={this._onPress}
-            />
-          )}
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
 
 export default class Picker extends PureComponent {
   _keyExtractor = (item, index) => item.id;
@@ -94,28 +41,51 @@ export default class Picker extends PureComponent {
     super(props);
     this.state = {
       searchInputValue: "",
-      data: this.props.type === "location" ? Locations : Categories,
+      allData: this.props.type === "location" ? Locations : Categories,
+      currentData: this.props.type === "location" ? Locations : Categories,
+      fuseSearchKey:
+        this.props.type === "location" ? ["city", "state"] : ["name"],
       multiselect: this.props.multiselect,
       selected: new Map()
     };
     this.closeIconClicked = this.closeIconClicked.bind(this);
+    this.onSearchType = this.onSearchType.bind(this);
+    this._onPressSubmit = this._onPressSubmit.bind(this);
   }
 
   _onPressItem = item => {
     // updater functions are preferred for transactional updates
-    this.setState(state => {
-      // copy the map rather than modifying state.
-      let oldSelected = new Map(state.selected);
-      if (!state.multiselect) {
-        oldSelected = oldSelected.clear();
-      }
-      const selected = oldSelected.set(item.id, !oldSelected.get(item.id)); // toggle
-      return { selected };
-    });
+    if (
+      !this.props.maximumValues ||
+      (this.props.maximumValues &&
+        this.state.selected.size < this.props.maximumValues)
+    ) {
+      this.setState(state => {
+        // copy the map rather than modifying state.
+        let oldSelected = new Map(state.selected);
+        if (!state.multiselect) {
+          oldSelected = oldSelected.clear();
+        }
+        const selected = oldSelected.set(item.id, !oldSelected.get(item.id)); // toggle
+        return { selected };
+      });
+    }
   };
 
   onSearchType(text) {
+    let searchedData;
     if (text) {
+      searchedData = fuseSearchActivate(
+        text,
+        this.state.allData,
+        this.state.fuseSearchKey
+      );
+    } else {
+      searchedData = this.state.allData;
+    }
+    this.setState({ currentData: searchedData, searchInputValue: text });
+
+    function fuseSearchActivate(searchString, values, fuseKeys) {
       var options = {
         shouldSort: true,
         threshold: 0.6,
@@ -123,31 +93,43 @@ export default class Picker extends PureComponent {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: ["city", "state"]
+        keys: fuseKeys
       };
-      var fuse = new Fuse(Locations, options); // "list" is the item array
-      var result = fuse.search(text);
-      this.setState({ searchInputValue: text, data: result });
-    } else {
-      this.setState({ data: Locations, searchInputValue: text });
+      var fuse = new Fuse(values, options); // "list" is the item array
+      return fuse.search(searchString);
     }
   }
+
   closeIconClicked() {
-    this.props.goBack();
+    this.props.onPickerClose();
+  }
+
+  _onPressSubmit() {
+    let selectedIDs = Object.keys(this.state.selected.toJS());
+    let selectedValues = selectedIDs.map(id => {
+      return this.state.allData.filter(data => {
+        return data.id === parseInt(id, 10);
+      })[0];
+    });
+    this.props.onPickerSubmit(selectedValues);
   }
 
   _renderItem = ({ item }) => (
-    <MyListItem
+    <PickerItem
       id={item.id}
       onPressItem={this._onPressItem}
       selected={!!this.state.selected.get(item.id)}
       multiselect={this.state.multiselect}
-      title={item.city + ", " + item.state}
+      title={
+        this.props.type === "location"
+          ? item.city + ", " + item.state
+          : item.name
+      }
     />
   );
 
   render() {
-    let items = this.state.data;
+    let items = this.state.currentData;
 
     return (
       <StyleProvider style={getTheme()}>
@@ -166,8 +148,8 @@ export default class Picker extends PureComponent {
                 >
                   <Icon
                     name="menuCloseIcon"
-                    width="12"
-                    height="12"
+                    width="16"
+                    height="16"
                     stroke="rgba(0, 0 ,0 ,0.87)"
                     fill="rgba(0, 0 ,0 ,0.87)"
                     strokeWidth="2"
@@ -180,10 +162,15 @@ export default class Picker extends PureComponent {
                 <Item
                   style={{
                     height: 36,
-                    borderColor: "#bdbdbd"
+                    borderWidth: 1,
+                    borderColor: "#e0e0e0",
+                    borderRadius: 18,
+                    paddingLeft: 12,
+                    backgroundColor: "#eeeeee"
                   }}
                   regular
                 >
+                  <Icon name="search" width="15" height="15" />
                   <Input
                     placeholder="search.."
                     value={this.state.searchInputValue}
@@ -214,7 +201,7 @@ export default class Picker extends PureComponent {
             </CardItem>
             <CardItem footer style={{ height: 40 }}>
               <Right>
-                <Button style={{ height: 30 }}>
+                <Button style={{ height: 30 }} onPress={this._onPressSubmit}>
                   <Text>Select</Text>
                 </Button>
               </Right>
@@ -222,6 +209,45 @@ export default class Picker extends PureComponent {
           </Card>
         </View>
       </StyleProvider>
+    );
+  }
+}
+
+class PickerItem extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props);
+  };
+
+  render() {
+    var selected = this.props.selected;
+    var multiselect = this.props.multiselect;
+    return (
+      <TouchableOpacity onPress={this._onPress} style={styles.ListItem}>
+        <Text style={{ fontSize: 15, flex: 1 }}>{this.props.title}</Text>
+        <View style={{ paddingRight: 18 }}>
+          {!multiselect ? (
+            <Radio
+              selected={selected}
+              style={{
+                borderColor: "#611265",
+                width: 24,
+                height: 24
+              }}
+              onPress={this._onPress}
+            />
+          ) : (
+            <CheckBox
+              style={{
+                borderColor: "#611265",
+                width: 15,
+                height: 15
+              }}
+              checked={selected}
+              onPress={this._onPress}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -240,6 +266,7 @@ let styles = {
   pickerCard: {
     marginTop: "4%",
     marginLeft: "5%",
+    marginBottom: "4%",
     width: "90%",
     zIndex: 10001,
     backgroundColor: "#fff"
@@ -254,11 +281,20 @@ let styles = {
   },
   headText: { color: "#611265", fontSize: 16, fontWeight: "bold" },
   pickerClose: {
-    width: 12,
+    width: 16,
     position: "absolute",
     top: 0,
     right: 0
   },
   cardBodyItem: { flex: 1, paddingTop: 6 },
-  cardBody: { flex: 1 }
+  cardBody: { flex: 1 },
+  ListItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 24,
+    marginTop: 6,
+    marginBottom: 3,
+    paddingLeft: 6,
+    paddingRight: 6
+  }
 };

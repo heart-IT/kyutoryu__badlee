@@ -23,7 +23,7 @@ import {
 } from "native-base";
 import React from "react";
 import { Component } from "react";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-datepicker";
 import { connect } from "react-redux";
 
@@ -61,9 +61,9 @@ class Register2 extends Component {
       gender: "He",
       date: "01-01-1990", //dd-mm-yyyy
       location: null,
-      wish: []
+      wish: null
     };
-    this.closeLocation = this.closeLocation.bind(this);
+    this.closePicker = this.closePicker.bind(this);
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
     this.locationInputFocussed = this.locationInputFocussed.bind(this);
     this.categoryInputFocussed = this.categoryInputFocussed.bind(this);
@@ -118,40 +118,28 @@ class Register2 extends Component {
     this.setState({
       showPicker: true,
       pickerType: "category",
-      isMultiselect: true
+      isMultiselect: true,
+      maximumValues: 3
     });
   }
   onPickerSubmit(selectedVal) {
-    this.setState({ showPicker: false });
     if (this.state.pickerType === "location") {
-      var selectedValues = selectedVal
-        .map(function(val) {
-          return `${val.city}, ${val.state}`;
-        })
-        .join(", ");
       this.setState({
-        location: selectedValues
+        location: `${selectedVal[0].city}, ${selectedVal[0].state}`,
+        showPicker: false
       });
     } else {
-      var selectedValues = selectedVal.map(function(val) {
+      let selectedValues = selectedVal.map(function(val) {
         return `${val.name}`;
       });
       this.setState({
-        wish: selectedValues
+        wish: selectedValues.join(", "),
+        showPicker: false
       });
     }
   }
-  closeLocation() {
+  closePicker() {
     this.setState({ showPicker: false });
-  }
-
-  // Event to set user wishes. Convert wish csv to array format here.
-  setWishes(wish) {
-    var wishes = wish.split(",");
-    var trimmedWishes = wishes.map(function(wish) {
-      return wish.trim();
-    });
-    this.setState({ wish: trimmedWishes });
   }
 
   // Event triggered when User submits the form.
@@ -212,19 +200,13 @@ class Register2 extends Component {
                 <Picker
                   type={this.state.pickerType}
                   multiselect={this.state.isMultiselect}
-                  goBack={this.closeLocation}
+                  maximumValues={this.state.maximumValues}
+                  onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
                 />
               )}
               {!this.state.showPicker && (
-                <Form
-                  style={{
-                    paddingLeft: "24%",
-                    paddingTop: 30,
-                    zIndex: 99,
-                    flex: 1
-                  }}
-                >
+                <Form style={styles.register2form}>
                   <View style={styles.specialRow}>
                     <Image
                       style={styles.avatar}
@@ -266,51 +248,44 @@ class Register2 extends Component {
                       width="28"
                       height="28"
                     />
-                    <Radio
-                      selected={this.state.gender === "He" ? true : false}
-                      onPress={text => this.setState({ gender: "He" })}
-                    />
-                    <Text
-                      style={{
-                        marginRight: 18,
-                        marginLeft: 3,
-                        color: "#4f0554",
-                        fontSize: 15,
-                        lineHeight: 18
-                      }}
-                      onPress={text => this.setState({ gender: "He" })}
-                    >
-                      He
-                    </Text>
-                    <Radio
-                      selected={this.state.gender === "She" ? true : false}
-                      onPress={text => this.setState({ gender: "She" })}
-                    />
-                    <Text
-                      style={{
-                        marginRight: 18,
-                        marginLeft: 3,
-                        color: "#4f0554",
-                        fontSize: 15
-                      }}
-                      onPress={text => this.setState({ gender: "She" })}
-                    >
-                      She
-                    </Text>
-                    <Radio
-                      selected={this.state.gender === "Ze" ? true : false}
-                      onPress={text => this.setState({ gender: "Ze" })}
-                    />
-                    <Text
-                      style={{
-                        marginLeft: 3,
-                        color: "#4f0554",
-                        fontSize: 15
-                      }}
-                      onPress={text => this.setState({ gender: "Ze" })}
-                    >
-                      Ze
-                    </Text>
+                    <View style={styles.formOptionContainer}>
+                      <View style={styles.formOption}>
+                        <Radio
+                          selected={this.state.gender === "He" ? true : false}
+                          onPress={text => this.setState({ gender: "He" })}
+                        />
+                        <Text
+                          style={styles.formOptionText}
+                          onPress={text => this.setState({ gender: "He" })}
+                        >
+                          He
+                        </Text>
+                      </View>
+                      <View style={styles.formOption}>
+                        <Radio
+                          selected={this.state.gender === "She" ? true : false}
+                          onPress={text => this.setState({ gender: "She" })}
+                        />
+                        <Text
+                          style={styles.formOptionText}
+                          onPress={text => this.setState({ gender: "She" })}
+                        >
+                          She
+                        </Text>
+                      </View>
+                      <View style={styles.formOption}>
+                        <Radio
+                          selected={this.state.gender === "Ze" ? true : false}
+                          onPress={text => this.setState({ gender: "Ze" })}
+                        />
+                        <Text
+                          style={styles.formOptionText}
+                          onPress={text => this.setState({ gender: "Ze" })}
+                        >
+                          Ze
+                        </Text>
+                      </View>
+                    </View>
                   </View>
                   <View style={styles.formRow}>
                     <Icon
@@ -319,83 +294,58 @@ class Register2 extends Component {
                       height="28"
                       style={styles.formLabel}
                     />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {this.state.date.split("-")[0]}
-                      </Text>
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {months[this.state.date.split("-")[1]]}
-                      </Text>
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          fontSize: 15
-                        }}
-                        onPress={this.openDatePicker.bind(this)}
-                      >
-                        {this.state.date.split("-")[2]}
-                      </Text>
+                    <View style={styles.formOptionContainer}>
+                      <View style={styles.formOption}>
+                        <Icon
+                          name="drop_arrow"
+                          width="16"
+                          height="10"
+                          onPress={this.openDatePicker.bind(this)}
+                        />
+                        <Text
+                          style={{
+                            ...styles.formOptionText,
+                            ...styles.underlinedText
+                          }}
+                          onPress={this.openDatePicker.bind(this)}
+                        >
+                          {this.state.date.split("-")[0]}
+                        </Text>
+                      </View>
+                      <View style={styles.formOption}>
+                        <Icon
+                          name="drop_arrow"
+                          width="16"
+                          height="10"
+                          onPress={this.openDatePicker.bind(this)}
+                        />
+                        <Text
+                          style={{
+                            ...styles.formOptionText,
+                            ...styles.underlinedText
+                          }}
+                          onPress={this.openDatePicker.bind(this)}
+                        >
+                          {months[this.state.date.split("-")[1]]}
+                        </Text>
+                      </View>
+                      <View style={styles.formOption}>
+                        <Icon
+                          name="drop_arrow"
+                          width="16"
+                          height="10"
+                          onPress={this.openDatePicker.bind(this)}
+                        />
+                        <Text
+                          style={{
+                            ...styles.formOptionText,
+                            ...styles.underlinedText
+                          }}
+                          onPress={this.openDatePicker.bind(this)}
+                        >
+                          {this.state.date.split("-")[2]}
+                        </Text>
+                      </View>
                     </View>
                     <DatePicker
                       date={this.state.date}
@@ -418,40 +368,23 @@ class Register2 extends Component {
                       width="28"
                       height="28"
                       fill="#9625b1"
-                      style={{ marginRight: 18 }}
+                      style={styles.formLabel}
                     />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15,
-                          minWidth: 150
-                        }}
-                        onPress={this.locationInputFocussed}
-                      >
-                        {this.state.location
-                          ? this.state.location
-                          : "Select a location"}
-                      </Text>
+                    <View style={styles.formOptionContainer}>
+                      <View style={styles.formOption}>
+                        <Icon name="drop_arrow" width="16" height="10" />
+                        <Text
+                          style={{
+                            ...styles.formOptionText,
+                            ...styles.underlinedText
+                          }}
+                          onPress={this.locationInputFocussed}
+                        >
+                          {this.state.location
+                            ? this.state.location
+                            : "Select a location"}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                   <View style={styles.formRow}>
@@ -460,50 +393,42 @@ class Register2 extends Component {
                       width="28"
                       height="28"
                       fill="#9625b1"
-                      style={{ marginRight: 18 }}
+                      style={styles.formLabel}
                     />
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Icon
-                        name="drop_arrow"
-                        width="16"
-                        height="10"
-                        style={{
-                          marginRight: 3
-                        }}
-                      />
-                      <Text
-                        style={{
-                          color: "#4f0554",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "#4f0554",
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginRight: 12,
-                          fontSize: 15,
-                          minWidth: 150
-                        }}
-                        onPress={this.categoryInputFocussed}
-                      >
-                        {this.state.wish.length
-                          ? this.state.wish.join(", ")
-                          : "(Fashion, Gaming, Cameras, etc)"}
-                      </Text>
+                    <View style={styles.formOptionContainer}>
+                      <View style={styles.formOption}>
+                        <Icon name="drop_arrow" width="16" height="10" />
+                        <Text
+                          style={{
+                            ...styles.formOptionText,
+                            ...styles.underlinedText
+                          }}
+                          onPress={this.categoryInputFocussed}
+                        >
+                          {this.state.wish
+                            ? this.state.wish
+                            : "(Fashion, Gaming, Cameras, etc)"}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                  <Button
-                    style={{
-                      borderRadius: 9,
-                      zIndex: 2
-                    }}
-                  >
-                    <Text onPress={this.submittingUser.bind(this)}>Submit</Text>
-                  </Button>
+                  <View style={styles.tncView}>
+                    <Text style={styles.tncText}>
+                      By Signing up, you agree to the
+                    </Text>
+                    <TouchableOpacity>
+                      <Text style={{ ...styles.tncText, ...styles.tncLink }}>
+                        Terms and Conditions
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <Button style={styles.submitButton}>
+                      <Text onPress={this.submittingUser.bind(this)}>
+                        Submit
+                      </Text>
+                    </Button>
+                  </View>
                 </Form>
               )}
             </BackgroundImage>
@@ -522,6 +447,14 @@ const styles = {
     height: null,
     resizeMode: "cover"
   },
+  register2form: {
+    paddingLeft: "24%",
+    paddingRight: 24,
+    width: "100%",
+    paddingTop: 12,
+    zIndex: 99,
+    flex: 1
+  },
   avatar: {
     borderRadius: 60,
     width: 120,
@@ -537,14 +470,48 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 18,
-    paddingRight: 18
+    marginBottom: 12
   },
-  formLabel: { marginRight: 18 }
+  formLabel: { marginRight: 12 },
+  formOptionContainer: {
+    flex: 1,
+    flexDirection: "row"
+  },
+  formOption: { flexDirection: "row", marginRight: 18, alignItems: "center" },
+  formOptionText: {
+    marginLeft: 3,
+    color: "#4f0554",
+    fontSize: 15,
+    paddingLeft: 3,
+    paddingRight: 3
+  },
+  underlinedText: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#4f0554"
+  },
+  tncView: {
+    marginTop: 18,
+    marginBottom: 6,
+    alignItems: "center"
+  },
+  tncText: {
+    fontSize: 14
+  },
+  tncLink: {
+    color: "#611265",
+    borderBottomWidth: 1,
+    borderBottomColor: "#4f0554"
+  },
+  submitButton: {
+    borderRadius: 9,
+    zIndex: 2,
+    alignSelf: "flex-end",
+    marginTop: 12
+  }
 };
 
 const _Wrapped = connect(
-  (state: State) => ({
+  state => ({
     loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators

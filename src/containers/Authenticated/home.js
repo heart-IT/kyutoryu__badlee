@@ -11,7 +11,7 @@
 
 "use strict";
 
-import { StyleProvider, Tab, TabHeading, Tabs } from "native-base";
+import { StyleProvider, Tab, TabHeading, Tabs, View, Text } from "native-base";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -103,11 +103,16 @@ class Home extends Component {
 
   getBadleeByFollowing() {
     let { page, limit } = this.state.paging;
-    this.props.getBadlees({
-      tabName: "following",
-      offset: page * limit,
-      limit: limit
-    });
+    if (
+      this.props.user.get("following") &&
+      this.props.user.get("following").length
+    ) {
+      this.props.getBadlees({
+        tabName: "following",
+        offset: page * limit,
+        limit: limit
+      });
+    }
   }
 
   getBadleeByLocation() {
@@ -238,6 +243,57 @@ class Home extends Component {
               </TabHeading>
             }
           >
+            {(!this.state.currentData || !this.state.currentData.length) && (
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 99,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingLeft: "10%",
+                  paddingRight: "10%",
+                  backgroundColor: "#eeeeee"
+                }}
+              >
+                <Icon name="noFollowIllustration" width="60" height="60" />
+                <Text
+                  style={{
+                    textAlign: "center",
+                    marginBottom: 9,
+                    color: "rgba(0, 0, 0, 0.87)",
+                    fontSize: 15,
+                    marginTop: 12
+                  }}
+                >
+                  No posts to see here.
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    lineHeight: 18,
+                    fontSize: 15,
+                    color: "rgba(0, 0, 0, 0.87)"
+                  }}
+                >
+                  Follow lot of people
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    lineHeight: 18,
+                    fontSize: 15,
+                    color: "rgba(0, 0, 0, 0.87)"
+                  }}
+                >
+                  to see lots of badlee here :D
+                </Text>
+              </View>
+            )}
             <BadleeList
               data={this.state.currentData}
               type="card"

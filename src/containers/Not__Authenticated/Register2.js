@@ -423,7 +423,10 @@ class Register2 extends Component {
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <Button style={styles.submitButton}>
+                    <Button
+                      disabled={!this.state.location || !this.state.gender}
+                      style={styles.submitButton}
+                    >
                       <Text onPress={this.submittingUser.bind(this)}>
                         Submit
                       </Text>

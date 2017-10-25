@@ -33,6 +33,7 @@ import LoadingView from "../../components/LoadingView";
 import Picker from "../../components/Picker";
 import getTheme from "../../theme/components";
 import Welcome from "./welcome";
+import TnC from "../../components/tnc";
 
 ("use strict");
 
@@ -67,6 +68,10 @@ class Register2 extends Component {
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
     this.locationInputFocussed = this.locationInputFocussed.bind(this);
     this.categoryInputFocussed = this.categoryInputFocussed.bind(this);
+    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+    this.submittingUser = this.submittingUser.bind(this);
+    this.openDatePicker = this.openDatePicker.bind(this);
+    this.onTnCPressed = this.onTnCPressed.bind(this);
   }
 
   // Function for Opening Image Picker
@@ -166,6 +171,15 @@ class Register2 extends Component {
     });
   }
 
+  onTnCPressed() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: TnC
+      });
+    });
+  }
+
   render() {
     const months = {
       "01": "JAN",
@@ -215,7 +229,7 @@ class Register2 extends Component {
                     {!this.state.avatarSource && (
                       <Button
                         transparent
-                        onPress={this.selectPhotoTapped.bind(this)}
+                        onPress={this.selectPhotoTapped}
                         style={{
                           width: 160,
                           height: 120,
@@ -236,7 +250,7 @@ class Register2 extends Component {
                         paddingLeft: 6,
                         paddingRight: 6
                       }}
-                      onPress={this.selectPhotoTapped.bind(this)}
+                      onPress={this.selectPhotoTapped}
                     >
                       Upload Avatar
                     </Text>
@@ -300,14 +314,14 @@ class Register2 extends Component {
                           name="drop_arrow"
                           width="16"
                           height="10"
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         />
                         <Text
                           style={{
                             ...styles.formOptionText,
                             ...styles.underlinedText
                           }}
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         >
                           {this.state.date.split("-")[0]}
                         </Text>
@@ -317,14 +331,14 @@ class Register2 extends Component {
                           name="drop_arrow"
                           width="16"
                           height="10"
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         />
                         <Text
                           style={{
                             ...styles.formOptionText,
                             ...styles.underlinedText
                           }}
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         >
                           {months[this.state.date.split("-")[1]]}
                         </Text>
@@ -334,14 +348,14 @@ class Register2 extends Component {
                           name="drop_arrow"
                           width="16"
                           height="10"
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         />
                         <Text
                           style={{
                             ...styles.formOptionText,
                             ...styles.underlinedText
                           }}
-                          onPress={this.openDatePicker.bind(this)}
+                          onPress={this.openDatePicker}
                         >
                           {this.state.date.split("-")[2]}
                         </Text>
@@ -416,7 +430,7 @@ class Register2 extends Component {
                     <Text style={styles.tncText}>
                       By Signing up, you agree to the
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.onTnCPressed}>
                       <Text style={{ ...styles.tncText, ...styles.tncLink }}>
                         Terms and Conditions
                       </Text>
@@ -427,9 +441,7 @@ class Register2 extends Component {
                       disabled={!this.state.location || !this.state.gender}
                       style={styles.submitButton}
                     >
-                      <Text onPress={this.submittingUser.bind(this)}>
-                        Submit
-                      </Text>
+                      <Text onPress={this.submittingUser}>Submit</Text>
                     </Button>
                   </View>
                 </Form>

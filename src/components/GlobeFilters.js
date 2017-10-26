@@ -29,19 +29,37 @@ export default class GlobeFilters extends Component {
     this.props.globeSearchingFor(search);
   }
   onRadioExchangeSelect() {
-    this.setState({ purpose: "exchange" }, () => {
-      alert(this.state.purpose);
-    });
+    if (this.state.purpose === "exchange") {
+      this.setState({ purpose: "" }, () => {
+        this.props.onRadioUnselect();
+      });
+    } else {
+      this.setState({ purpose: "exchange" }, () => {
+        this.props.onPurposeSelect("exchange");
+      });
+    }
   }
   onRadioShowoffSelect() {
-    this.setState({ purpose: "showoff" }, () => {
-      alert(this.state.purpose);
-    });
+    if (this.state.purpose === "showoff") {
+      this.setState({ purpose: "" }, () => {
+        this.props.onRadioUnselect();
+      });
+    } else {
+      this.setState({ purpose: "showoff" }, () => {
+        this.props.onPurposeSelect("showoff");
+      });
+    }
   }
   onRadioShoutoutSelect() {
-    this.setState({ purpose: "shoutout" }, () => {
-      alert(this.state.purpose);
-    });
+    if (this.state.purpose === "shoutout") {
+      this.setState({ purpose: "" }, () => {
+        this.props.onRadioUnselect();
+      });
+    } else {
+      this.setState({ purpose: "shoutout" }, () => {
+        this.props.onPurposeSelect("shoutout");
+      });
+    }
   }
   openLocationPicker() {
     this.props.openLocationPicker();

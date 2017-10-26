@@ -55,6 +55,8 @@ class Home extends Component {
     this.openLocationPicker = this.openLocationPicker.bind(this);
     this.openCategoryPicker = this.openCategoryPicker.bind(this);
     this.globeSearchingFor = this.globeSearchingFor.bind(this);
+    this.onPurposeSelect = this.onPurposeSelect.bind(this);
+    this.onRadioUnselect = this.onRadioUnselect.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -244,6 +246,23 @@ class Home extends Component {
     });
   }
 
+  onPurposeSelect(purpose) {
+    var filteredState = Object.assign({}, this.state.filter, {
+      purpose: purpose
+    });
+    this.setState({ filter: filteredState }, () => {
+      this.getBadleeByGlobe();
+    });
+  }
+  onRadioUnselect() {
+    var filteredState = Object.assign({}, this.state.filter, {
+      purpose: ""
+    });
+    this.setState({ filter: filteredState }, () => {
+      this.getBadleeByGlobe();
+    });
+  }
+
   openLocationPicker() {
     this.setState({ showPicker: true, type: "location" });
   }
@@ -354,6 +373,8 @@ class Home extends Component {
                 openLocationPicker={this.openLocationPicker}
                 openCategoryPicker={this.openCategoryPicker}
                 globeSearchingFor={this.globeSearchingFor}
+                onPurposeSelect={this.onPurposeSelect}
+                onRadioUnselect={this.onRadioUnselect}
               />
             )}
             {(!this.state.currentData || !this.state.currentData.length) && (

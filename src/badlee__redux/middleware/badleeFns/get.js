@@ -30,7 +30,7 @@ export default async function getBadlees(store, next, action) {
       limit,
       currentLocation,
       search,
-      category
+      purpose
     } = action.params;
     action.isSearching = false;
     let badlees;
@@ -39,8 +39,8 @@ export default async function getBadlees(store, next, action) {
     } else if (tabName === "location") {
       badlees = await getBadleesByLocation(currentLocation, offset, limit);
     } else {
-      badlees = await getBadleesByGlobe(search, category, offset, limit);
-      if (search || category) {
+      badlees = await getBadleesByGlobe(search, purpose, offset, limit);
+      if (search || purpose) {
         action.isSearching = true;
       }
     }
@@ -92,8 +92,6 @@ async function getBadleesByLocation(location, offset, limit) {
 
 // Calls server api with given search, purpose, offset limit, return list of badlees in case of success.. otherwise throw error
 async function getBadleesByGlobe(search, purpose, offset, limit) {
-  console.log("starting my excavation");
-  console.log(search, purpose);
   let jollyroger = await AsyncStorage.getItem("jollyroger");
   let url = search
     ? `${urls[2]}?sp=${search}${purpose ? "&spp=" + purpose : ""}`
@@ -108,6 +106,6 @@ async function getBadleesByGlobe(search, purpose, offset, limit) {
     var badlees = await badleeFetch.json();
     return badlees;
   } else {
-    throw "error happened in globe";
+    return [];
   }
 }

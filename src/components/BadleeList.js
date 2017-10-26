@@ -81,7 +81,6 @@ class BadleeList extends React.PureComponent {
         />
       );
     } else {
-      console.log("hey");
       return (
         <BadleeGridItem
           id={item.id}

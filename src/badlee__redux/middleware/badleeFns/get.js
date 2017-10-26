@@ -30,7 +30,9 @@ export default async function getBadlees(store, next, action) {
       limit,
       currentLocation,
       search,
-      purpose
+      purpose,
+      location,
+      category
     } = action.params;
     action.isSearching = false;
     let badlees;
@@ -39,8 +41,15 @@ export default async function getBadlees(store, next, action) {
     } else if (tabName === "location") {
       badlees = await getBadleesByLocation(currentLocation, offset, limit);
     } else {
-      badlees = await getBadleesByGlobe(search, purpose, offset, limit);
-      if (search || purpose) {
+      badlees = await getBadleesByGlobe(
+        search,
+        purpose,
+        location,
+        category,
+        offset,
+        limit
+      );
+      if (search || purpose || location || category) {
         action.isSearching = true;
       }
     }
@@ -91,20 +100,35 @@ async function getBadleesByLocation(location, offset, limit) {
 }
 
 // Calls server api with given search, purpose, offset limit, return list of badlees in case of success.. otherwise throw error
-async function getBadleesByGlobe(search, purpose, offset, limit) {
+async function getBadleesByGlobe(
+  search,
+  purpose,
+  location,
+  category,
+  offset,
+  limit
+) {
   let jollyroger = await AsyncStorage.getItem("jollyroger");
   let url = search
     ? `${urls[2]}?sp=${search}${purpose ? "&spp=" + purpose : ""}`
     : `${urls[1]}?${purpose ? "&purpose=" + purpose : ""}`;
+  url += `${location ? "&location=" + location : ""}`;
+  url += `${category ? "&category=" + category : ""}`;
   url += `&offset=${offset}&limit=${limit}`;
+  console.log(url);
   let badleeFetch = await fetch(url, {
     headers: {
       Authorization: jollyroger
     }
   });
+  console.log(badleeFetch);
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();
-    return badlees;
+    if (badlees) {
+      return badlees;
+    } else {
+      return [];
+    }
   } else {
     return [];
   }

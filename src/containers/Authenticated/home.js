@@ -37,7 +37,8 @@ class Home extends Component {
       purpose: "",
       location: "",
       category: ""
-    }
+    },
+    toShowPurpose: true
   };
 
   constructor(props) {
@@ -250,7 +251,7 @@ class Home extends Component {
     var filteredState = Object.assign({}, this.state.filter, {
       purpose: purpose
     });
-    this.setState({ filter: filteredState }, () => {
+    this.setState({ filter: filteredState, toShowPurpose: false }, () => {
       this.getBadleeByGlobe();
     });
   }
@@ -258,7 +259,7 @@ class Home extends Component {
     var filteredState = Object.assign({}, this.state.filter, {
       purpose: ""
     });
-    this.setState({ filter: filteredState }, () => {
+    this.setState({ filter: filteredState, toShowPurpose: true }, () => {
       this.getBadleeByGlobe();
     });
   }
@@ -274,7 +275,29 @@ class Home extends Component {
   }
 
   onPickerSubmit(submittedVal) {
-    this.setState({ showPicker: false });
+    if (this.state.type === "location") {
+      let location = "";
+      if (submittedVal && submittedVal.length) {
+        location = submittedVal[0].city;
+      }
+      let filteredState = Object.assign({}, this.state.filter, {
+        location: location
+      });
+      this.setState({ filter: filteredState, showPicker: false }, () => {
+        this.getBadleeByGlobe();
+      });
+    } else {
+      let category = "";
+      if (submittedVal && submittedVal.length) {
+        category = submittedVal[0].name;
+      }
+      let filteredState = Object.assign({}, this.state.filter, {
+        category: category
+      });
+      this.setState({ filter: filteredState, showPicker: false }, () => {
+        this.getBadleeByGlobe();
+      });
+    }
   }
 
   render() {
@@ -388,7 +411,7 @@ class Home extends Component {
             <BadleeList
               data={this.state.currentData}
               type="grid"
-              toShowPurpose={true}
+              toShowPurpose={this.state.toShowPurpose}
               onClickBadlee={this.onClickBadlee}
               onFlatListRefresh={this.onFlatListRefresh}
               onListEnd={this.onListEnd}

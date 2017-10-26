@@ -72,7 +72,6 @@ class BadleeCard extends React.PureComponent {
       userID,
       loggedUserID
     } = this.props;
-    console.log(media);
     return (
       <Card style={styles.card}>
         <Icon

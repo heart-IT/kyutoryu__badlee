@@ -1,5 +1,5 @@
 // @flow
-import * as core from './core';
+import * as core from "./core";
 
 /**
  * @name- reducer.js
@@ -72,7 +72,8 @@ export function reducer(state = core.InitialState, action) {
         action.tabName,
         action.badlees,
         action.offset,
-        action.limit
+        action.limit,
+        action.isSearching
       );
     case "SAVE_BADLEE":
       return core.saveBadlee(state, action.newBadlee);

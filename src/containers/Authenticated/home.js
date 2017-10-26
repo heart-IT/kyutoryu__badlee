@@ -54,6 +54,7 @@ class Home extends Component {
 
     this.openLocationPicker = this.openLocationPicker.bind(this);
     this.openCategoryPicker = this.openCategoryPicker.bind(this);
+    this.globeSearchingFor = this.globeSearchingFor.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -137,7 +138,7 @@ class Home extends Component {
     let { page, limit } = this.state.paging;
     this.props.getBadlees({
       tabName: "globe",
-      search: this.state.filter.searching,
+      search: this.state.filter.search,
       purpose: this.state.filter.purpose,
       location: this.state.filter.location,
       category: this.state.filter.category,
@@ -228,6 +229,19 @@ class Home extends Component {
 
   onClickBadlee(id) {
     console.log(id);
+  }
+
+  // search: this.state.filter.searching,
+  // purpose: this.state.filter.purpose,
+  // location: this.state.filter.location,
+  // category: this.state.filter.category,
+  globeSearchingFor(searchString) {
+    var filteredState = Object.assign({}, this.state.filter, {
+      search: searchString
+    });
+    this.setState({ filter: filteredState }, () => {
+      this.getBadleeByGlobe();
+    });
   }
 
   openLocationPicker() {
@@ -339,6 +353,7 @@ class Home extends Component {
               <GlobeFilters
                 openLocationPicker={this.openLocationPicker}
                 openCategoryPicker={this.openCategoryPicker}
+                globeSearchingFor={this.globeSearchingFor}
               />
             )}
             {(!this.state.currentData || !this.state.currentData.length) && (

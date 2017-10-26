@@ -26,7 +26,7 @@ export default class GlobeFilters extends Component {
   };
   searchInputChanged() {
     var search = this.state.search;
-    alert(search);
+    this.props.globeSearchingFor(search);
   }
   onRadioExchangeSelect() {
     this.setState({ purpose: "exchange" }, () => {

@@ -32,6 +32,7 @@ export default async function getBadlees(store, next, action) {
       search,
       category
     } = action.params;
+    action.isSearching = false;
     let badlees;
     if (tabName === "following") {
       badlees = await getBadleesByFollowing(offset, limit);
@@ -39,6 +40,9 @@ export default async function getBadlees(store, next, action) {
       badlees = await getBadleesByLocation(currentLocation, offset, limit);
     } else {
       badlees = await getBadleesByGlobe(search, category, offset, limit);
+      if (search || category) {
+        action.isSearching = true;
+      }
     }
     if (badlees) {
       action.badlees = badlees;

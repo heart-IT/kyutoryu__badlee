@@ -8,23 +8,18 @@
  * 
  * @author- heartit pirates
  */
-import moment from "moment";
+
+"use strict";
+
 import {
-  Body,
-  Card,
-  CardItem,
   Container,
   Content,
   Header,
   Left,
   Right,
-  StyleProvider,
-  Text,
-  Thumbnail,
-  View
+  StyleProvider
 } from "native-base";
-import { Component } from "react";
-import React from "react";
+import React, { Component } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
@@ -32,59 +27,48 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 import Icon from "../../components/Icon";
 import getTheme from "../../theme/components";
 import Comments from "./Comments";
-import User from "./User";
-
-("use strict");
+import User from "./user";
+import BadleeCard from "../../components/BadleeCard";
 
 class SingleBadlee extends Component {
   constructor(props) {
     super(props);
     this.onBackPress = this.onBackPress.bind(this);
-    this.onClickUser = this._onClickUser.bind(this);
-    this.onClickLike = this._onClickLike.bind(this);
-    this.onClickUnlike = this._onClickUnlike.bind(this);
-    this.onClickWish = this._onClickWish.bind(this);
-    this.onClickUnwish = this._onClickUnwish.bind(this);
-    this.onClickComment = this._onClickComment.bind(this);
-    this.onClickDelete = this._onClickDelete.bind(this);
-    this.onClickReport = this._onClickReport.bind(this);
+    this.onClickUser = this.onClickUser.bind(this);
+    this.onClickLike = this.onClickLike.bind(this);
+    this.onClickWish = this.onClickWish.bind(this);
+    this.onClickComment = this.onClickComment.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
   onBackPress() {
     this.props.goBack();
   }
-  _onClickUser() {
+  onClickUser(id) {
     requestAnimationFrame(() => {
-      this.props.showUserPage(this.props.badlee.get("user"), {
+      this.props.showUserPage(id, {
         navigator: this.props.navigator,
         component: User
       });
     });
   }
-  _onClickLike() {
-    this.props.onClickLike(this.props.badlee.get("id"));
+
+  onClickLike(id, didLike) {
+    console.log(id);
+    didLike ? this.props.onClickLike(id) : this.props.onClickUnlike(id);
   }
-  _onClickUnlike() {
-    this.props.onClickUnlike(this.props.badlee.get("id"));
+  onClickWish(id, didWish) {
+    didWish ? this.props.onClickWish(id) : this.props.onClickUnwish(id);
   }
-  _onClickWish() {
-    this.props.onClickWish(this.props.badlee.get("id"));
-  }
-  _onClickUnwish() {
-    this.props.onClickUnwish(this.props.badlee.get("id"));
-  }
-  _onClickComment() {
+  onClickComment(id) {
     requestAnimationFrame(() => {
-      this.props.showCommentPage(this.props.badlee.get("id"), {
+      this.props.showCommentPage(id, {
         navigator: this.props.navigator,
         component: Comments
       });
     });
   }
-  _onClickDelete() {
-    this.props.onClickDelete(this.props.badlee.get("id"));
-  }
-  _onClickReport() {
-    this.props.onClickReport(this.props.badlee.get("id"));
+  onClickDelete(id) {
+    console.log(id);
   }
   render() {
     let cardData = this.props.badlee.toJS();
@@ -111,199 +95,26 @@ class SingleBadlee extends Component {
             </Right>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <Card style={styles.card}>
-              <CardItem header>
-                <Left style={{ flex: 1 }}>
-                  <TouchableOpacity
-                    style={{ flexDirection: "row", alignItems: "center" }}
-                    onPress={this.onClickUser}
-                  >
-                    <Thumbnail
-                      source={{
-                        uri: cardData.user_info.avatar
-                      }}
-                      style={styles.userAvatar}
-                    />
-                  </TouchableOpacity>
-                  <View>
-                    <Text>
-                      <Text style={styles.userName} onPress={this.onClickUser}>
-                        {cardData.user_info.username}
-                      </Text>
-                      <Text style={{ fontSize: 14 }}>
-                        <Text>'s</Text>
-                        <Text style={{ fontWeight: "bold", fontSize: 14 }}>
-                          {" "}
-                          Thingy
-                        </Text>
-                      </Text>
-                      <Text style={{ color: "#616161", fontSize: 14 }}>
-                        {" "}
-                        {moment(cardData.timestamp).fromNow()}
-                      </Text>
-                    </Text>
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                      <Icon
-                        name="location"
-                        width="14"
-                        height="14"
-                        fill="#4c6a36"
-                      />
-                      <Text
-                        style={{
-                          color: "#616161",
-                          fontSize: 12,
-                          marginLeft: 2
-                        }}
-                      >
-                        {cardData.location}
-                      </Text>
-                    </View>
-                  </View>
-                </Left>
-              </CardItem>
-              <CardItem cardBody>
-                <Body>
-                  <Image
-                    source={{ uri: cardData.media }}
-                    style={styles.badleeImage}
-                  />
-                  <Text style={styles.badleeDescription}>
-                    {cardData.description}
-                  </Text>
-                </Body>
-              </CardItem>
-              <CardItem footer>
-                <Left
-                  style={{ flexDirection: "column", alignItems: "flex-start" }}
-                >
-                  <View style={{ flexDirection: "row" }}>
-                    {cardData.likes &&
-                      cardData.likes.indexOf(this.props.userId) > -1 && (
-                        <TouchableOpacity
-                          transparent
-                          onPress={this.onClickUnlike}
-                        >
-                          <Icon
-                            name="postLiked"
-                            width="30"
-                            height="30"
-                            style={{ margin: 3 }}
-                            strokeWidth="17"
-                          />
-                        </TouchableOpacity>
-                      )}
-                    {(!cardData.likes ||
-                      (cardData.likes &&
-                        cardData.likes.indexOf(this.props.userId) === -1)) && (
-                      <TouchableOpacity transparent onPress={this.onClickLike}>
-                        <Icon
-                          name="postUnliked"
-                          width="30"
-                          height="30"
-                          style={{ margin: 3 }}
-                          fill="none"
-                          stroke="#000"
-                          strokeWidth="17"
-                        />
-                      </TouchableOpacity>
-                    )}
-                    {cardData.wishes &&
-                      cardData.wishes.indexOf(this.props.userId) > -1 && (
-                        <TouchableOpacity
-                          transparent
-                          onPress={this.onClickUnwish}
-                        >
-                          <Icon
-                            name="postWished"
-                            width="30"
-                            height="30"
-                            fill="#EF5454"
-                            style={{ margin: 3 }}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    {(!cardData.wishes ||
-                      (cardData.wishes &&
-                        cardData.wishes.indexOf(this.props.userId) === -1)) && (
-                      <TouchableOpacity transparent onPress={this.onClickWish}>
-                        <Icon
-                          name="postUnwished"
-                          width="30"
-                          height="30"
-                          style={{ margin: 3 }}
-                          fill="none"
-                          stroke="#000"
-                          strokeWidth="10"
-                        />
-                      </TouchableOpacity>
-                    )}
-                    <TouchableOpacity transparent onPress={this.onClickComment}>
-                      <Icon
-                        name="postComment"
-                        width="30"
-                        height="30"
-                        fill="#fff"
-                        style={{ margin: 3 }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      marginTop: 3
-                    }}
-                  >
-                    <TouchableOpacity transparent>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          marginLeft: 4,
-                          fontWeight: "bold",
-                          color: "rgba(0, 0, 0, 0.73)"
-                        }}
-                      >
-                        {(cardData.wishes ? cardData.wishes.length : 0) +
-                          (cardData.likes ? cardData.likes.length : 0)}{" "}
-                        reactions{" "}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      marginTop: 3
-                    }}
-                  >
-                    <TouchableOpacity transparent onPress={this.onClickComment}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          marginLeft: 4,
-                          fontWeight: "bold",
-                          color: "rgba(0, 0, 0, 0.73)"
-                        }}
-                      >
-                        {cardData.comment_count
-                          ? `View ${cardData.comment_count}`
-                          : 0}{" "}
-                        {cardData.comment_count > 1 ? "comments" : "comment"}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </Left>
-                <Right>
-                  <TouchableOpacity transparent onPress={this.onClickDelete}>
-                    {cardData.user === this.props.userId && (
-                      <Icon name="postDelete" width="30" height="30" />
-                    )}
-                  </TouchableOpacity>
-                  <TouchableOpacity transparent onPress={this.onClickReport}>
-                    {cardData.user !== this.props.userId && <Text>report</Text>}
-                  </TouchableOpacity>
-                </Right>
-              </CardItem>
-            </Card>
+            <BadleeCard
+              id={cardData.id}
+              media={cardData.media}
+              purpose={cardData.purpose}
+              userAvatar={cardData.user_info.avatar}
+              userName={cardData.user_info.username}
+              time={cardData.timestamp}
+              location={cardData.location}
+              description={cardData.description}
+              likes={cardData.likes}
+              wishes={cardData.wishes}
+              commentCount={cardData.comment_count}
+              userID={cardData.user}
+              loggedUserID={this.props.loggedUserID}
+              onClickUser={this.onClickUser}
+              onClickLike={this.onClickLike}
+              onClickWish={this.onClickWish}
+              onClickComment={this.onClickComment}
+              onClickDelete={this.onClickDelete}
+            />
           </Content>
         </Container>
       </StyleProvider>
@@ -360,7 +171,7 @@ const _Wrapped = connect(
       "data",
       state.getIn(["badlees", "currentShowing"])
     ]),
-    userId: state.getIn(["user", "loggedUserID"])
+    loggedUserID: state.getIn(["user", "loggedUserID"])
   }),
   actionCreators
 )(SingleBadlee);

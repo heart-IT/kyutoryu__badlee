@@ -23,6 +23,7 @@ import GlobeFilters from "../../components/GlobeFilters";
 import getTheme from "../../theme/components";
 import Picker from "../../components/Picker";
 import BadleeFab from "../../components/Fab";
+import SingleBadlee from "./singleBadlee";
 
 import User from "./user";
 import Comments from "./Comments";
@@ -245,9 +246,11 @@ class Home extends Component {
 
   onClickBadlee(id) {
     requestAnimationFrame(() => {
-      this.props.navigate({});
+      this.props.showBadleePage(id, {
+        navigator: this.props.navigator,
+        component: SingleBadlee
+      });
     });
-    console.log(id);
   }
 
   globeSearchingFor(searchString) {

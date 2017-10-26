@@ -72,6 +72,7 @@ class BadleeCard extends React.PureComponent {
       userID,
       loggedUserID
     } = this.props;
+    console.log(media);
     return (
       <Card style={styles.card}>
         <Icon
@@ -96,13 +97,34 @@ class BadleeCard extends React.PureComponent {
             {" "}
             {moment(time).fromNow()}
           </Text>
+          <Right>
+            <Icon name="share" width="21" height="21" />
+          </Right>
         </CardItem>
-        <CardItem cardBody style={{ flexDirection: "column", marginTop: 2 }}>
+        <CardItem cardBody style={{ flexDirection: "column", marginTop: 3 }}>
           <Image source={{ uri: media }} style={styles.badleeImage} />
-          <Body>
-            {location && <Text style={styles.badleeLocation}>{location}</Text>}
+          <View
+            style={{
+              flex: 0,
+              width: "100%",
+              justifyContent: "flex-start"
+            }}
+          >
+            {location && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginLeft: 12,
+                  marginTop: 6
+                }}
+              >
+                <Icon name="location" width="13" height="13" fill="#4a6934" />
+                <Text style={styles.badleeLocation}>{location}</Text>
+              </View>
+            )}
             <Text style={styles.badleeDescription}>{description}</Text>
-          </Body>
+          </View>
         </CardItem>
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
@@ -220,22 +242,18 @@ var styles = {
   },
   userAvatar: { height: 32, width: 32, marginLeft: 12, marginRight: 3 },
   userName: { fontWeight: "bold", fontSize: 15, color: "rgba(0, 0, 0, 0.87)" },
-  badleeImage: { height: 200, width: "100%", flex: 1, zIndex: 1 },
+  badleeImage: { width: "100%", zIndex: 1, flex: 0, height: 210 },
   badleeLocation: {
-    marginLeft: 12,
-    marginTop: 2,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "bold",
     color: "rgba(0, 0, 0, 0.87)"
   },
   badleeDescription: {
-    marginLeft: 12,
-    marginTop: 6,
-    marginBottom: 5,
     fontSize: 24,
     lineHeight: 36,
     fontFamily: "Ubuntu-Regular",
-    color: "rgba(0, 0, 0, 0.87)"
+    color: "rgba(0, 0, 0, 0.87)",
+    marginLeft: 12
   }
 };
 

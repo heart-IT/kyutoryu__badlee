@@ -17,6 +17,7 @@ import React, { PureComponent } from "react";
 import { FlatList } from "react-native";
 import BadleeCard from "./BadleeCard";
 import BadleeGridItem from "./BadleesGrid";
+
 class BadleeList extends React.PureComponent {
   _keyExtractor = (item, index) => item.id;
 

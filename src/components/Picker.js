@@ -259,7 +259,7 @@ let styles = {
     position: "absolute",
     top: 0,
     left: 0,
-    zIndex: 10000,
+    zIndex: 999999,
     width: "100%",
     height: "100%"
   },
@@ -268,7 +268,7 @@ let styles = {
     marginLeft: "5%",
     marginBottom: "4%",
     width: "90%",
-    zIndex: 10001,
+    zIndex: 999999,
     backgroundColor: "#fff"
   },
   cardHead: {

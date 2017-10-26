@@ -36,7 +36,8 @@ export default class BadleeGridItem extends React.PureComponent {
     return (
       <View style={{ position: "relative" }}>
         <TouchableOpacity onPress={this._onPress}>
-          {this.props.toShowPurpose && returnIcon(this.props.purpose)}
+          {this.props.toShowPurpose &&
+            returnIcon(this.props.purpose.toLowerCase())}
           <Image
             source={{ uri: this.props.media }}
             resizeMode={"cover"}

@@ -21,6 +21,7 @@ import Icon from "../../components/Icon";
 import BadleeList from "../../components/BadleeList";
 import GlobeFilters from "../../components/GlobeFilters";
 import getTheme from "../../theme/components";
+import Picker from "../../components/Picker";
 
 import User from "./user";
 import Comments from "./Comments";
@@ -50,6 +51,9 @@ class Home extends Component {
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
+
+    this.openLocationPicker = this.openLocationPicker.bind(this);
+    this.openCategoryPicker = this.openCategoryPicker.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -226,6 +230,20 @@ class Home extends Component {
     console.log(id);
   }
 
+  openLocationPicker() {
+    this.setState({ showPicker: true, type: "location" });
+  }
+  openCategoryPicker() {
+    this.setState({ showPicker: true, type: "category" });
+  }
+  closePicker() {
+    this.setState({ showPicker: false });
+  }
+
+  onPickerSubmit(submittedVal) {
+    this.setState({ showPicker: false });
+  }
+
   render() {
     let _this = this;
     function returnIcon(name, position, width = 21, height = 21) {
@@ -254,7 +272,6 @@ class Home extends Component {
                 {returnIcon("community", 0, 27, 27)}
               </TabHeading>
             }
-            style={{ position: "relative" }}
           >
             {(!this.state.currentData || !this.state.currentData.length) && (
               <View style={styles.NoDataView}>
@@ -287,7 +304,6 @@ class Home extends Component {
                 {returnIcon("location", 1)}
               </TabHeading>
             }
-            style={{ position: "relative" }}
           >
             {(!this.state.currentData || !this.state.currentData.length) && (
               <View style={styles.NoDataView}>
@@ -318,9 +334,13 @@ class Home extends Component {
                 {returnIcon("globe", 2)}
               </TabHeading>
             }
-            style={{ position: "relative" }}
           >
-            <GlobeFilters />
+            {!this.state.showPicker && (
+              <GlobeFilters
+                openLocationPicker={this.openLocationPicker}
+                openCategoryPicker={this.openCategoryPicker}
+              />
+            )}
             {(!this.state.currentData || !this.state.currentData.length) && (
               <View style={styles.NoDataView}>
                 <Icon name="noGlobeIllustration" width="60" height="60" />
@@ -332,6 +352,7 @@ class Home extends Component {
             <BadleeList
               data={this.state.currentData}
               type="grid"
+              toShowPurpose={true}
               onClickBadlee={this.onClickBadlee}
               onFlatListRefresh={this.onFlatListRefresh}
               onListEnd={this.onListEnd}

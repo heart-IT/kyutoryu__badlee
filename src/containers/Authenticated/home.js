@@ -19,6 +19,7 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Icon from "../../components/Icon";
 import BadleeList from "../../components/BadleeList";
+import GlobeFilters from "../../components/GlobeFilters";
 import getTheme from "../../theme/components";
 
 import User from "./user";
@@ -64,8 +65,6 @@ class Home extends Component {
     let currentData = showingBadleeIDs
       .map(id => allBadlees.get(String(id)))
       .toJS();
-    console.log(this.state.tabNames[this.state.activeTabIndex]);
-    console.log(currentData);
     this.setState({ currentData: currentData });
   }
 
@@ -321,6 +320,7 @@ class Home extends Component {
             }
             style={{ position: "relative" }}
           >
+            <GlobeFilters />
             {(!this.state.currentData || !this.state.currentData.length) && (
               <View style={styles.NoDataView}>
                 <Icon name="noGlobeIllustration" width="60" height="60" />
@@ -337,6 +337,14 @@ class Home extends Component {
               onListEnd={this.onListEnd}
               loggedUserID={this.props.user.get("user_id")}
             />
+            {this.state.showPicker && (
+              <Picker
+                type={this.state.type}
+                multiselect={false}
+                onPickerClose={this.closePicker.bind(this)}
+                onPickerSubmit={this.onPickerSubmit.bind(this)}
+              />
+            )}
           </Tab>
         </Tabs>
       </StyleProvider>

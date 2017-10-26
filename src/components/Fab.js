@@ -4,26 +4,21 @@
  * @description- Fab component
  * @author- heartit pirates were here
  */
-import { Fab } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Button, Image } from 'react-native';
+import { Fab } from "native-base";
+import { Component, PureComponent } from "react";
+import React from "react";
+import { Button, Image } from "react-native";
 
-import Icon from './Icon';
+import Icon from "./Icon";
 
 ("use strict");
-export default class BadleeFab extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isActive: this.props.isActive ? this.props.isActive : false,
-      direction: this.props.direction ? this.props.direction : "up",
-      position: this.props.position ? this.props.position : "bottomRight"
-    };
-  }
+export default class BadleeFab extends React.PureComponent {
+  state = {
+    isActive: false
+  };
   fabClicked() {
     this.setState({ isActive: !this.state.isActive });
-    // this.props.onToggle(this.state.isActive);
+    this.props.onFabToggle(this.state.isActive);
   }
   onlendAndBorrowClick() {
     this.props.onSelection("exchange");
@@ -37,9 +32,9 @@ export default class BadleeFab extends Component {
   render() {
     return (
       <Fab
-        active={this.state.isActive}
-        direction={this.state.direction}
-        position={this.state.position}
+        active={this.state.isActive ? this.state.isActive : this.props.isActive}
+        direction="up"
+        position="bottomRight"
         onPress={this.fabClicked.bind(this)}
         style={{ backgroundColor: "transparent", zIndex: 1001 }}
       >

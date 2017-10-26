@@ -14,7 +14,7 @@
 import { StyleProvider, Tab, TabHeading, Tabs, View, Text } from "native-base";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { TouchableOpacity } from "react-native";
 import * as actionCreators from "../../badlee__redux/action_creators";
 
 import Icon from "../../components/Icon";
@@ -22,6 +22,7 @@ import BadleeList from "../../components/BadleeList";
 import GlobeFilters from "../../components/GlobeFilters";
 import getTheme from "../../theme/components";
 import Picker from "../../components/Picker";
+import BadleeFab from "../../components/Fab";
 
 import User from "./user";
 import Comments from "./Comments";
@@ -38,7 +39,8 @@ class Home extends Component {
       location: "",
       category: ""
     },
-    toShowPurpose: true
+    toShowPurpose: true,
+    isActive: false
   };
 
   constructor(props) {
@@ -58,6 +60,9 @@ class Home extends Component {
     this.globeSearchingFor = this.globeSearchingFor.bind(this);
     this.onPurposeSelect = this.onPurposeSelect.bind(this);
     this.onRadioUnselect = this.onRadioUnselect.bind(this);
+    this.onFabSelect = this.onFabSelect.bind(this);
+    this.onFabToggle = this.onFabToggle.bind(this);
+    this.closeFab = this.closeFab.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -154,6 +159,14 @@ class Home extends Component {
    * Component Events section
    */
 
+  onFabSelect(type) {
+    console.log(type);
+  }
+  onFabToggle(fabValue) {
+    this.setState({ isActive: !fabValue });
+  }
+  closeFab() {}
+
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
     let limit = i.i === 2 ? 32 : 5;
@@ -231,13 +244,12 @@ class Home extends Component {
   }
 
   onClickBadlee(id) {
+    requestAnimationFrame(() => {
+      this.props.navigate({});
+    });
     console.log(id);
   }
 
-  // search: this.state.filter.searching,
-  // purpose: this.state.filter.purpose,
-  // location: this.state.filter.location,
-  // category: this.state.filter.category,
   globeSearchingFor(searchString) {
     var filteredState = Object.assign({}, this.state.filter, {
       search: searchString
@@ -318,115 +330,137 @@ class Home extends Component {
 
     return (
       <StyleProvider style={getTheme()}>
-        <Tabs
-          onChangeTab={this.onTabChange}
-          initialPage={this.state.activeTabIndex}
-        >
-          <Tab
-            heading={
-              <TabHeading style={{ ...styles.tab, ...styles.firstTab }}>
-                {returnIcon("community", 0, 27, 27)}
-              </TabHeading>
-            }
+        <View style={{ flex: 1 }}>
+          <Tabs
+            onChangeTab={this.onTabChange}
+            initialPage={this.state.activeTabIndex}
           >
-            {(!this.state.currentData || !this.state.currentData.length) && (
-              <View style={styles.NoDataView}>
-                <Icon name="noFollowIllustration" width="60" height="60" />
-                <Text style={styles.mainText}>
-                  You are not following anyone.
-                </Text>
-                <Text style={styles.subText}>Follow lot of people</Text>
-                <Text style={styles.subText}>
-                  to see lots of badlee here :D
-                </Text>
-              </View>
-            )}
-            <BadleeList
-              data={this.state.currentData}
-              type="card"
-              onClickUser={this.onClickUser}
-              onClickLike={this.onClickLike}
-              onClickWish={this.onClickWish}
-              onClickComment={this.onClickComment}
-              onClickDelete={this.onClickDelete}
-              onFlatListRefresh={this.onFlatListRefresh}
-              onListEnd={this.onListEnd}
-              loggedUserID={this.props.user.get("user_id")}
-            />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={styles.tab}>
-                {returnIcon("location", 1)}
-              </TabHeading>
-            }
-          >
-            {(!this.state.currentData || !this.state.currentData.length) && (
-              <View style={styles.NoDataView}>
-                <Icon name="noLocationIllustration" width="60" height="60" />
-                <Text style={styles.mainText}>
-                  Hmm, No badlees in your location.
-                </Text>
-                <Text style={styles.subText}>Why dont you be the first!</Text>
-                <Text style={styles.subText}>and start a trend :D</Text>
-              </View>
-            )}
-            <BadleeList
-              data={this.state.currentData}
-              type="card"
-              onClickUser={this.onClickUser}
-              onClickLike={this.onClickLike}
-              onClickWish={this.onClickWish}
-              onClickComment={this.onClickComment}
-              onClickDelete={this.onClickDelete}
-              onFlatListRefresh={this.onFlatListRefresh}
-              onListEnd={this.onListEnd}
-              loggedUserID={this.props.user.get("user_id")}
-            />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ ...styles.tab, ...styles.lastTab }}>
-                {returnIcon("globe", 2)}
-              </TabHeading>
-            }
-          >
-            {!this.state.showPicker && (
-              <GlobeFilters
-                openLocationPicker={this.openLocationPicker}
-                openCategoryPicker={this.openCategoryPicker}
-                globeSearchingFor={this.globeSearchingFor}
-                onPurposeSelect={this.onPurposeSelect}
-                onRadioUnselect={this.onRadioUnselect}
+            <Tab
+              heading={
+                <TabHeading style={{ ...styles.tab, ...styles.firstTab }}>
+                  {returnIcon("community", 0, 27, 27)}
+                </TabHeading>
+              }
+            >
+              {(!this.state.currentData || !this.state.currentData.length) && (
+                <View style={styles.NoDataView}>
+                  <Icon name="noFollowIllustration" width="60" height="60" />
+                  <Text style={styles.mainText}>
+                    You are not following anyone.
+                  </Text>
+                  <Text style={styles.subText}>Follow lot of people</Text>
+                  <Text style={styles.subText}>
+                    to see lots of badlee here :D
+                  </Text>
+                </View>
+              )}
+              <BadleeList
+                data={this.state.currentData}
+                type="card"
+                onClickUser={this.onClickUser}
+                onClickLike={this.onClickLike}
+                onClickWish={this.onClickWish}
+                onClickComment={this.onClickComment}
+                onClickDelete={this.onClickDelete}
+                onFlatListRefresh={this.onFlatListRefresh}
+                onListEnd={this.onListEnd}
+                loggedUserID={this.props.user.get("user_id")}
               />
-            )}
-            {(!this.state.currentData || !this.state.currentData.length) && (
-              <View style={styles.NoDataView}>
-                <Icon name="noGlobeIllustration" width="60" height="60" />
-                <Text style={styles.mainText}>Hmm, No badlees found.</Text>
-                <Text style={styles.subText}>That's weird..</Text>
-                <Text style={styles.subText}>Try changing the filters :D</Text>
-              </View>
-            )}
-            <BadleeList
-              data={this.state.currentData}
-              type="grid"
-              toShowPurpose={this.state.toShowPurpose}
-              onClickBadlee={this.onClickBadlee}
-              onFlatListRefresh={this.onFlatListRefresh}
-              onListEnd={this.onListEnd}
-              loggedUserID={this.props.user.get("user_id")}
-            />
-            {this.state.showPicker && (
-              <Picker
-                type={this.state.type}
-                multiselect={false}
-                onPickerClose={this.closePicker.bind(this)}
-                onPickerSubmit={this.onPickerSubmit.bind(this)}
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={styles.tab}>
+                  {returnIcon("location", 1)}
+                </TabHeading>
+              }
+            >
+              {(!this.state.currentData || !this.state.currentData.length) && (
+                <View style={styles.NoDataView}>
+                  <Icon name="noLocationIllustration" width="60" height="60" />
+                  <Text style={styles.mainText}>
+                    Hmm, No badlees in your location.
+                  </Text>
+                  <Text style={styles.subText}>Why dont you be the first!</Text>
+                  <Text style={styles.subText}>and start a trend :D</Text>
+                </View>
+              )}
+              <BadleeList
+                data={this.state.currentData}
+                type="card"
+                onClickUser={this.onClickUser}
+                onClickLike={this.onClickLike}
+                onClickWish={this.onClickWish}
+                onClickComment={this.onClickComment}
+                onClickDelete={this.onClickDelete}
+                onFlatListRefresh={this.onFlatListRefresh}
+                onListEnd={this.onListEnd}
+                loggedUserID={this.props.user.get("user_id")}
               />
-            )}
-          </Tab>
-        </Tabs>
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={{ ...styles.tab, ...styles.lastTab }}>
+                  {returnIcon("globe", 2)}
+                </TabHeading>
+              }
+            >
+              {!this.state.showPicker && (
+                <GlobeFilters
+                  openLocationPicker={this.openLocationPicker}
+                  openCategoryPicker={this.openCategoryPicker}
+                  globeSearchingFor={this.globeSearchingFor}
+                  onPurposeSelect={this.onPurposeSelect}
+                  onRadioUnselect={this.onRadioUnselect}
+                />
+              )}
+              {(!this.state.currentData || !this.state.currentData.length) && (
+                <View style={styles.NoDataView}>
+                  <Icon name="noGlobeIllustration" width="60" height="60" />
+                  <Text style={styles.mainText}>Hmm, No badlees found.</Text>
+                  <Text style={styles.subText}>That's weird..</Text>
+                  <Text style={styles.subText}>
+                    Try changing the filters :D
+                  </Text>
+                </View>
+              )}
+              <BadleeList
+                data={this.state.currentData}
+                type="grid"
+                toShowPurpose={this.state.toShowPurpose}
+                onClickBadlee={this.onClickBadlee}
+                onFlatListRefresh={this.onFlatListRefresh}
+                onListEnd={this.onListEnd}
+                loggedUserID={this.props.user.get("user_id")}
+              />
+              {this.state.showPicker && (
+                <Picker
+                  type={this.state.type}
+                  multiselect={false}
+                  onPickerClose={this.closePicker.bind(this)}
+                  onPickerSubmit={this.onPickerSubmit.bind(this)}
+                />
+              )}
+            </Tab>
+          </Tabs>
+          {this.state.isActive && (
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: "rgba(97,18,101,0.6)"
+              }}
+              onPress={this.closeFab}
+            />
+          )}
+          <BadleeFab
+            isActive={false}
+            onSelection={this.onFabSelect}
+            onFabToggle={this.onFabToggle}
+          />
+        </View>
       </StyleProvider>
     );
   }

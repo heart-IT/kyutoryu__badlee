@@ -46,14 +46,14 @@ class Comment extends Component {
       commentText: ""
     };
   }
+  onPressBack() {
+    this.props.goBack();
+  }
   postComment() {
     if (this.state.commentText) {
       this.props.postComment(this.props.params.id, this.state.commentText);
       this.setState({ commentText: "" });
     }
-  }
-  onClickLike(hello, hel2) {
-    console.log(hello, hel2);
   }
   onCommentDelete(commentId) {
     this.props.deleteComment(commentId);
@@ -66,12 +66,14 @@ class Comment extends Component {
         <Container style={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
-              <Icon
-                name="menuBackIcon"
-                stroke="rgba(0, 0, 0, 0.81)"
-                width="16"
-                height="16"
-              />
+              <TouchableOpacity onPress={this.onPressBack.bind(this)}>
+                <Icon
+                  name="menuBackIcon"
+                  stroke="rgba(0, 0, 0, 0.81)"
+                  width="16"
+                  height="16"
+                />
+              </TouchableOpacity>
               <Text style={styles.headerText}>Comments</Text>
             </Left>
           </Header>
@@ -107,14 +109,14 @@ class Comment extends Component {
                 </Item>
                 <Button
                   style={styles.commentEnterBtn}
+                  disabled={this.props.loading}
                   onPress={this.postComment}
                 >
-                  <Text>Post</Text>
+                  <Text>{this.props.loading ? "Wait.." : "POST"}</Text>
                 </Button>
               </Form>
             </View>
           </Content>
-          {this.props.loading && <LoadingView />}
         </Container>
       </StyleProvider>
     );

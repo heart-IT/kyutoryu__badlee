@@ -98,7 +98,7 @@ class BadleeList extends React.PureComponent {
       <FlatList
         data={this.props.data}
         keyExtractor={this._keyExtractor}
-        numColumns={4}
+        numColumns={this.props.type === "card" ? 1 : 4}
         renderItem={this._renderItem}
         style={{ backgroundColor: "#eeeeee" }}
         onRefresh={this.onFlatListRefresh}

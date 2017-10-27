@@ -18,6 +18,7 @@ import { onClickLike, onClickUnlike } from "./badleeFns/like";
 import saveBadlee from "./badleeFns/save";
 import { showBadleePage } from "./badleeFns/single";
 import { onClickUnwish, onClickWish } from "./badleeFns/wish";
+import reportBadlee from "./badleeFns/reportBadlee";
 
 ("use strict");
 
@@ -52,6 +53,9 @@ export default store => next => action => {
       break;
     case "SHOW_BADLEE_PAGE":
       return showBadleePage(store, next, action);
+      break;
+    case "REPORT_BADLEE":
+      return reportBadlee(store, next, action);
       break;
     default:
       return next(action);

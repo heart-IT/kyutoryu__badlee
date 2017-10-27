@@ -119,6 +119,9 @@ export default class Picker extends PureComponent {
         return data.id === parseInt(id, 10);
       })[0];
     });
+    if (this.props.badleeId) {
+      selectedValues[0].badleeId = this.props.badleeId;
+    }
     this.props.onPickerSubmit(selectedValues);
   }
 
@@ -138,18 +141,20 @@ export default class Picker extends PureComponent {
 
   render() {
     let items = this.state.currentData;
-
+    let headText = "Select Location";
+    if (this.props.type === "category") {
+      headText = "Select Category";
+    }
+    if (this.props.type === "report") {
+      headText = "Choose a reason";
+    }
     return (
       <StyleProvider style={getTheme()}>
         <View style={styles.pickerWrapper}>
           <Card style={styles.pickerCard}>
             <CardItem header>
               <View style={styles.cardHead}>
-                <Text style={styles.headText}>
-                  {this.props.type === "location"
-                    ? "Select Location"
-                    : "Select Categories"}
-                </Text>
+                <Text style={styles.headText}>{headText}</Text>
                 <TouchableOpacity
                   onPress={this.closeIconClicked}
                   style={styles.pickerClose}

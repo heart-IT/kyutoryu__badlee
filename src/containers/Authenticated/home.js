@@ -244,8 +244,8 @@ class Home extends Component {
   onClickDelete(id) {
     console.log(id);
   }
-  onClickReport() {
-    this.setState({ showPicker: true, type: "report" });
+  onClickReport(id) {
+    this.setState({ showPicker: true, type: "report", badleeId: id });
   }
 
   onClickBadlee(id) {
@@ -318,10 +318,13 @@ class Home extends Component {
       });
     } else {
       this.setState({ showPicker: false }, () => {
+        console.log(submittedVal);
         let reason =
           submittedVal && submittedVal.length ? submittedVal[0].name : null;
+        let badleeId =
+          submittedVal && submittedVal.length ? submittedVal[0].badleeId : null;
         if (reason) {
-          // this.props.reportPost();
+          this.props.reportPost(badleeId, reason);
         }
       });
     }
@@ -386,6 +389,7 @@ class Home extends Component {
                 <Picker
                   type={this.state.type}
                   multiselect={false}
+                  badleeId={this.state.badleeId}
                   onPickerClose={this.closePicker.bind(this)}
                   onPickerSubmit={this.onPickerSubmit.bind(this)}
                 />
@@ -423,6 +427,7 @@ class Home extends Component {
               {this.state.showPicker && (
                 <Picker
                   type={this.state.type}
+                  badleeId={this.state.badleeId}
                   multiselect={false}
                   onPickerClose={this.closePicker.bind(this)}
                   onPickerSubmit={this.onPickerSubmit.bind(this)}
@@ -468,6 +473,7 @@ class Home extends Component {
                 <Picker
                   type={this.state.type}
                   multiselect={false}
+                  badleeId={this.state.badleeId}
                   onPickerClose={this.closePicker.bind(this)}
                   onPickerSubmit={this.onPickerSubmit.bind(this)}
                 />

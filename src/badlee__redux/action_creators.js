@@ -202,3 +202,9 @@ export const getUserBadlees = (id, purpose) => ({
   purpose: purpose,
   type: "GET_USER_BADLEES"
 });
+
+export const reportPost = (id, reason) => ({
+  id: id,
+  reason: reason,
+  type: "REPORT_BADLEE"
+});

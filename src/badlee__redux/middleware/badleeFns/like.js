@@ -9,16 +9,16 @@
  * 
  * @author- heartit pirates were here
  */
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
-import * as actionCreators from '../../action_creators';
+import * as actionCreators from "../../action_creators";
 
 ("use strict");
 async function doUnlike(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     let unlikeRequest = await fetch(
-      `http:///mri2189.badlee.com/like.php?postid=${postid}`,
+      `http://mri2189.badlee.com/like.php?postid=${postid}`,
       {
         method: "DELETE",
         headers: {
@@ -39,7 +39,7 @@ async function doLike(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     let likeRequest = await fetch(
-      `http:///mri2189.badlee.com/like.php?postid=${postid}`,
+      `http://mri2189.badlee.com/like.php?postid=${postid}`,
       {
         method: "POST",
         headers: {

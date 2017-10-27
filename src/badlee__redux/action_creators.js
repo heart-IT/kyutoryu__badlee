@@ -178,7 +178,7 @@ export const showCommentPage = (id: Number, route: ?Object) => ({
   type: "SHOW_COMMENT_PAGE"
 });
 
-export const postComment = (id: Number, comment: String) => ({
+export const postComment = (id, comment) => ({
   id: id,
   comment: comment,
   type: "POST_COMMENT"

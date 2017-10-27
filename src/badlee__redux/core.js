@@ -309,30 +309,21 @@ export function currentShowingBadlee(state, id) {
 }
 
 export function postComment(state, id, comment, timestamp) {
-  let oldComments = state.getIn(["badlees", "data", String(id), "comments"]);
+  var badleeId = state.getIn(["badlees", "currentShowing"]);
+  let oldComments = state.getIn(["badlees", "data", badleeId, "comments"]);
+  let loggedUser = state.getIn([
+    "user",
+    "usersInformation",
+    state.getIn(["user", "loggedUserID"])
+  ]);
   var commentObj = {
-    avatar: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"]),
-      "avatar"
-    ]),
-    content: comment.content,
-    fname: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"]),
-      "fname"
-    ]),
-    user_id: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"]),
-      "user_id"
-    ]),
+    avatar: loggedUser.get("avatar"),
+    content: comment,
+    fname: loggedUser.get("fname"),
+    user_id: loggedUser.get("user_id"),
     timestamp: timestamp
   };
-  return state.updateIn(["badlees", "data", String(id)], badlee => {
+  return state.updateIn(["badlees", "data", badleeId], badlee => {
     return badlee.set(
       "comments",
       oldComments ? oldComments.unshift(commentObj) : fromJS([commentObj])

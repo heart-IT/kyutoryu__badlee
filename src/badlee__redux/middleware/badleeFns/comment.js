@@ -45,7 +45,6 @@ async function doComment(postid, content) {
       },
       body: formBody
     });
-    console.log(response);
     if (response.status === 200 && response.ok) {
       let requestJson = await response.json();
       return requestJson;
@@ -59,7 +58,9 @@ export async function postComment(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     var req = await doComment(action.id, action.comment);
-    action.commentResponse = req;
+    action.comment_id = req.comment_id;
+    action.content = req.content;
+    action.timestamp = req.timestamp;
     next(action);
   } catch (err) {
     console.log("error in posting");

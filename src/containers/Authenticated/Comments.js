@@ -14,7 +14,6 @@ import {
   Content,
   Form,
   Header,
-  Icon as IconX,
   Input,
   Item,
   Left,
@@ -30,6 +29,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
+import Comments from "../../components/Comments";
 import Icon from "../../components/Icon";
 import LoadingView from "../../components/LoadingView";
 import getTheme from "../../theme/components";
@@ -59,134 +59,19 @@ class Comment extends Component {
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];
-    var commentsText = comments.map(comment => {
-      return (
-        <View key={comment.user_id + comment.timestamp}>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ paddingLeft: 6, paddingRight: 6 }}>
-              <Thumbnail
-                source={{ uri: comment.avatar }}
-                style={{ width: 42, height: 42 }}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: "rgba(0, 0, 0, 0.87)",
-                  fontWeight: "bold",
-                  fontSize: 17,
-                  lineHeight: 30
-                }}
-              >
-                {comment.fname}
-              </Text>
-              <Text style={{ fontSize: 15, color: "rgba(0, 0, 0, 0.72)" }}>
-                {comment.content}
-              </Text>
-              <View style={styles.icons}>
-                <TouchableOpacity transparent>
-                  <Icon
-                    name="postLiked"
-                    width="22"
-                    height="24"
-                    fill="none"
-                    strokeWidth="17"
-                  />
-                </TouchableOpacity>
-                <View
-                  style={{
-                    width: 5,
-                    height: 5,
-                    backgroundColor: "#611265",
-                    borderRadius: 3,
-                    marginLeft: 2,
-                    marginRight: 2
-                  }}
-                />
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    color: "rgba(0, 0, 0, 0.77)",
-                    paddingLeft: 2,
-                    paddingRight: 2
-                  }}
-                >
-                  Reply
-                </Text>
-                {comment.user_id === this.props.loggedUserID && (
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <View
-                      style={{
-                        width: 5,
-                        height: 5,
-                        backgroundColor: "#611265",
-                        borderRadius: 3,
-                        marginLeft: 2,
-                        marginRight: 2
-                      }}
-                    />
-                    <TouchableOpacity
-                      transparent
-                      onPress={this.commentDelete(comment)}
-                    >
-                      <Icon
-                        name="postDelete"
-                        width="25"
-                        height="25"
-                        fill="none"
-                        stroke="#000"
-                        strokeWidth="17"
-                      />
-                    </TouchableOpacity>
-                  </View>
-                )}
 
-                <View
-                  style={{
-                    width: 5,
-                    height: 5,
-                    backgroundColor: "#611265",
-                    borderRadius: 3,
-                    marginLeft: 2,
-                    marginRight: 2
-                  }}
-                />
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    color: "rgba(0, 0, 0, 0.77)",
-                    paddingLeft: 2,
-                    paddingRight: 2
-                  }}
-                >
-                  2 likes
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.commentsEndline} />
-        </View>
-      );
-    });
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#fff" }}>
-            <Left
-              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
-            >
-              <IconX name="arrow-back" stroke="rgba(0, 0, 0, 0.81)" />
-              <Text
-                style={{
-                  color: "rgba(0, 0, 0, 0.87)",
-                  marginLeft: 12,
-                  fontSize: 18
-                }}
-              >
-                Comments
-              </Text>
+            <Left style={styles.headerLeft}>
+              <Icon
+                name="menuBackIcon"
+                stroke="rgba(0, 0, 0, 0.81)"
+                width="16"
+                height="16"
+              />
+              <Text style={styles.headerText}>Comments</Text>
             </Left>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -198,36 +83,27 @@ class Comment extends Component {
               </View>
             )}
 
-            {comments.length > 0 && (
-              <ScrollView
-                style={styles.comments}
-                keyboardShouldPersistTaps={true}
-                keyboardDismissMode="on-drag"
-              >
-                <List style={{ flex: 1 }}>{commentsText}</List>
-                <View style={styles.commentInputWrapper}>
-                  <Form style={styles.commentForm}>
-                    <Item style={styles.commentsInput}>
-                      <Input
-                        placeholder="enter something here"
-                        onChangeText={commentText =>
-                          this.setState({ commentText })}
-                        value={this.state.commentText}
-                        style={styles.commentsInputBox}
-                      />
-                    </Item>
-                    <Button
-                      style={styles.commentEnterBtn}
-                      onPress={this.postComment}
-                    >
-                      <Text>Post</Text>
-                    </Button>
-                  </Form>
-                </View>
-              </ScrollView>
-            )}
+            {comments.length > 0 && <Comments data={comments} />}
+            <View style={styles.commentInputWrapper}>
+              <Form style={styles.commentForm}>
+                <Item style={styles.commentsInput} regular>
+                  <Input
+                    placeholder="enter something here"
+                    onChangeText={commentText => this.setState({ commentText })}
+                    value={this.state.commentText}
+                    style={styles.commentsInputBox}
+                  />
+                </Item>
+                <Button
+                  style={styles.commentEnterBtn}
+                  onPress={this.postComment}
+                >
+                  <Text>Post</Text>
+                </Button>
+              </Form>
+            </View>
           </Content>
-          {this.props.loading && <LoadingView message="Doing action.." />}
+          {this.props.loading && <LoadingView />}
         </Container>
       </StyleProvider>
     );
@@ -235,6 +111,16 @@ class Comment extends Component {
 }
 
 let styles = {
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  headerText: {
+    color: "rgba(0, 0, 0, 0.87)",
+    marginLeft: 6,
+    fontSize: 18,
+    fontWeight: "bold"
+  },
   comments: {
     flex: 1,
     paddingLeft: 15,
@@ -251,27 +137,26 @@ let styles = {
     backgroundColor: "#dcccdc"
   },
   commentInputWrapper: {
-    height: 60,
     backgroundColor: "#eeeeee",
-    padding: 9,
-    paddingLeft: 0
+    padding: 6
   },
   commentForm: { flexDirection: "row", alignItems: "center", height: 42 },
   commentsInput: {
     flex: 1,
-    height: 42
+    height: 36,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 18,
+    paddingLeft: 12,
+    backgroundColor: "#eeeeee"
   },
   commentsInputBox: {
-    backgroundColor: "#fff",
-    height: 40,
-    paddingLeft: 6,
-    borderRadius: 3
+    paddingLeft: 6
   },
   commentEnterBtn: {
     marginLeft: 9,
-    height: 36,
-    borderRadius: 18,
-    marginTop: 3
+    height: 33,
+    marginTop: 6
   },
   noComments: {
     flex: 1,

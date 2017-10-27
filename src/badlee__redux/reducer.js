@@ -92,8 +92,8 @@ export function reducer(state = core.InitialState, action) {
     case "POST_COMMENT":
       return core.postComment(
         state,
-        action.id,
-        action.commentResponse,
+        action.comment_id,
+        action.comment,
         action.timestamp
       );
       break;

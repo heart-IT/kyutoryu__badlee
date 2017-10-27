@@ -55,6 +55,7 @@ class Home extends Component {
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
+    this.onClickReport = this.onClickReport.bind(this);
 
     this.openLocationPicker = this.openLocationPicker.bind(this);
     this.openCategoryPicker = this.openCategoryPicker.bind(this);
@@ -243,6 +244,9 @@ class Home extends Component {
   onClickDelete(id) {
     console.log(id);
   }
+  onClickReport() {
+    this.setState({ showPicker: true, type: "report" });
+  }
 
   onClickBadlee(id) {
     requestAnimationFrame(() => {
@@ -301,7 +305,7 @@ class Home extends Component {
       this.setState({ filter: filteredState, showPicker: false }, () => {
         this.getBadleeByGlobe();
       });
-    } else {
+    } else if (this.state.type === "category") {
       let category = "";
       if (submittedVal && submittedVal.length) {
         category = submittedVal[0].name;
@@ -311,6 +315,14 @@ class Home extends Component {
       });
       this.setState({ filter: filteredState, showPicker: false }, () => {
         this.getBadleeByGlobe();
+      });
+    } else {
+      this.setState({ showPicker: false }, () => {
+        let reason =
+          submittedVal && submittedVal.length ? submittedVal[0].name : null;
+        if (reason) {
+          // this.props.reportPost();
+        }
       });
     }
   }
@@ -365,10 +377,19 @@ class Home extends Component {
                 onClickWish={this.onClickWish}
                 onClickComment={this.onClickComment}
                 onClickDelete={this.onClickDelete}
+                onClickReport={this.onClickReport}
                 onFlatListRefresh={this.onFlatListRefresh}
                 onListEnd={this.onListEnd}
                 loggedUserID={this.props.user.get("user_id")}
               />
+              {this.state.showPicker && (
+                <Picker
+                  type={this.state.type}
+                  multiselect={false}
+                  onPickerClose={this.closePicker.bind(this)}
+                  onPickerSubmit={this.onPickerSubmit.bind(this)}
+                />
+              )}
             </Tab>
             <Tab
               heading={
@@ -399,6 +420,14 @@ class Home extends Component {
                 onListEnd={this.onListEnd}
                 loggedUserID={this.props.user.get("user_id")}
               />
+              {this.state.showPicker && (
+                <Picker
+                  type={this.state.type}
+                  multiselect={false}
+                  onPickerClose={this.closePicker.bind(this)}
+                  onPickerSubmit={this.onPickerSubmit.bind(this)}
+                />
+              )}
             </Tab>
             <Tab
               heading={
@@ -458,11 +487,13 @@ class Home extends Component {
               onPress={this.closeFab}
             />
           )}
-          <BadleeFab
-            isActive={false}
-            onSelection={this.onFabSelect}
-            onFabToggle={this.onFabToggle}
-          />
+          {!this.state.showPicker && (
+            <BadleeFab
+              isActive={false}
+              onSelection={this.onFabSelect}
+              onFabToggle={this.onFabToggle}
+            />
+          )}
         </View>
       </StyleProvider>
     );

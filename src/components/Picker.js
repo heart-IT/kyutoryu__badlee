@@ -31,7 +31,7 @@ import { FlatList, TouchableOpacity } from "react-native";
 import Fuse from "fuse.js";
 import { Map } from "immutable";
 
-import { Categories, Locations } from "../constants";
+import { Categories, Locations, Report } from "../constants";
 import getTheme from "../theme/components";
 import Icon from "./Icon";
 
@@ -39,10 +39,18 @@ export default class Picker extends PureComponent {
   _keyExtractor = (item, index) => item.id;
   constructor(props) {
     super(props);
+    let allData = [];
+    if (this.props.type === "location") {
+      allData = Locations;
+    } else if (this.props.type === "category") {
+      allData = Categories;
+    } else {
+      allData = Report;
+    }
     this.state = {
       searchInputValue: "",
-      allData: this.props.type === "location" ? Locations : Categories,
-      currentData: this.props.type === "location" ? Locations : Categories,
+      allData: allData,
+      currentData: allData,
       fuseSearchKey:
         this.props.type === "location" ? ["city", "state"] : ["name"],
       multiselect: this.props.multiselect,

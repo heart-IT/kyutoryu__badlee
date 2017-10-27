@@ -34,6 +34,7 @@ class BadleeCard extends React.PureComponent {
     this.onClickUnwish = this._onClickUnwish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
+    this.onClickReport = this._onClickReport.bind(this);
   }
   _onClickUser = () => {
     this.props.onClickUser(this.props.userID);
@@ -55,6 +56,9 @@ class BadleeCard extends React.PureComponent {
   };
   _onClickDelete = () => {
     this.props.onClickDelete(this.props.id);
+  };
+  _onClickReport = () => {
+    this.props.onClickReport(this.props.id);
   };
   render() {
     let {
@@ -213,11 +217,16 @@ class BadleeCard extends React.PureComponent {
             </View>
           </Left>
           <Right>
-            <TouchableOpacity transparent onPress={this.onClickDelete}>
-              {userID === loggedUserID && (
+            {userID === loggedUserID && (
+              <TouchableOpacity transparent onPress={this.onClickDelete}>
                 <Icon name="postDelete" width="30" height="30" />
-              )}
-            </TouchableOpacity>
+              </TouchableOpacity>
+            )}
+            {userID !== loggedUserID && (
+              <TouchableOpacity transparent onPress={this.onClickReport}>
+                <Icon name="report" width="30" height="30" />
+              </TouchableOpacity>
+            )}
           </Right>
         </CardItem>
       </Card>

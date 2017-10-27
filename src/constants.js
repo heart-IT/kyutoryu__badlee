@@ -10,6 +10,21 @@
  */
 "use strict";
 
+export const Report = [
+  {
+    name: "Inappropriate post",
+    id: 0
+  },
+  {
+    name: "Irrelevant post",
+    id: 1
+  },
+  {
+    name: "Spam",
+    id: 2
+  }
+];
+
 export const Categories = [
   { name: "Cameras & accessories", id: 0 },
   { name: "Fashion & Accessories", id: 1 },

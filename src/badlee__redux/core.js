@@ -321,7 +321,8 @@ export function postComment(state, id, comment, timestamp) {
     content: comment,
     fname: loggedUser.get("fname"),
     user_id: loggedUser.get("user_id"),
-    timestamp: timestamp
+    timestamp: timestamp,
+    comment_id: id
   };
   return state.updateIn(["badlees", "data", badleeId], badlee => {
     return badlee.set(

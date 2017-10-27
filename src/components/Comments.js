@@ -11,15 +11,14 @@
 
 "use strict";
 
+import moment from "moment";
 import React, { PureComponent } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { Text, View, Thumbnail } from "native-base";
 import Icon from "./Icon";
 
 export default class Comments extends PureComponent {
-  _keyExtractor = (item, index) => {
-    return item.user_id + "," + item.timestamp;
-  };
+  _keyExtractor = (item, index) => item.comment_id;
   _renderItem = ({ item }) => (
     <Comment
       loggedUserID={this.props.loggedUserID}
@@ -28,6 +27,8 @@ export default class Comments extends PureComponent {
       avatar={item.avatar}
       fname={item.fname}
       comment={item.content}
+      commentID={item.comment_id}
+      timestamp={item.timestamp}
     />
   );
   render() {
@@ -71,21 +72,34 @@ class Comment extends PureComponent {
           >
             {this.props.fname}
           </Text>
-          <Text style={{ fontSize: 17, color: "rgba(0, 0, 0, 0.72)" }}>
+          <Text style={{ fontSize: 17, color: "rgba(0, 0, 0, 0.87)" }}>
             {this.props.comment}
           </Text>
-          {this.props.loggedUserID === this.props.userID && (
-            <TouchableOpacity>
-              <Icon
-                name="postDelete"
-                width="20"
-                height="24"
-                fill="none"
-                stroke="#000"
-                strokeWidth="17"
-              />
-            </TouchableOpacity>
-          )}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: "rgba(0, 0, 0, 0.67)",
+                marginRight: 12
+              }}
+            >
+              {moment(this.props.timestamp)
+                .add({ hours: 5, minutes: 30 })
+                .fromNow()}
+            </Text>
+            {this.props.loggedUserID === this.props.userID && (
+              <TouchableOpacity>
+                <Icon
+                  name="postDelete"
+                  width="21"
+                  height="24"
+                  fill="none"
+                  stroke="#000"
+                  strokeWidth="14"
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     );

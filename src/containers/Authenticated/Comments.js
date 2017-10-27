@@ -74,7 +74,11 @@ class Comment extends Component {
               <Text style={styles.headerText}>Comments</Text>
             </Left>
           </Header>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <Content
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flex: 1 }}
+            keyboardShouldPersistTaps="always"
+          >
             {comments.length === 0 && (
               <View style={styles.noComments}>
                 <Text style={styles.noCommentsText}>
@@ -83,7 +87,12 @@ class Comment extends Component {
               </View>
             )}
 
-            {comments.length > 0 && <Comments data={comments} />}
+            {comments.length > 0 && (
+              <Comments
+                data={comments}
+                loggedUserID={this.props.loggedUserID}
+              />
+            )}
             <View style={styles.commentInputWrapper}>
               <Form style={styles.commentForm}>
                 <Item style={styles.commentsInput} regular>

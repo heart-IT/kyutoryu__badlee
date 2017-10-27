@@ -8,16 +8,16 @@
  * 
  * @author- heartit pirates were here
  */
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
-import * as actionCreators from '../../action_creators';
+import * as actionCreators from "../../action_creators";
 
 ("use strict");
 async function doUnwish(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     let unwishRequest = await fetch(
-      `http:///mri2189.badlee.com/wish.php?postid=${postid}`,
+      `http://mri2189.badlee.com/wish.php?postid=${postid}`,
       {
         method: "DELETE",
         headers: {
@@ -38,7 +38,7 @@ async function doWish(postid) {
   try {
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     let wishRequest = await fetch(
-      `http:///mri2189.badlee.com/wish.php?postid=${postid}`,
+      `http://mri2189.badlee.com/wish.php?postid=${postid}`,
       {
         method: "POST",
         headers: {

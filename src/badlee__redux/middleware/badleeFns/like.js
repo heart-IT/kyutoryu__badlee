@@ -47,8 +47,10 @@ async function doLike(postid) {
         }
       }
     );
+    console.log(likeRequest);
     if (likeRequest.status === 200 && likeRequest.ok) {
       let requestJson = await likeRequest.json();
+      console.log(requestJson);
       return requestJson;
     }
   } catch (err) {

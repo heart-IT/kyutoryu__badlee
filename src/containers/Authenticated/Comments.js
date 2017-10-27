@@ -40,7 +40,8 @@ class Comment extends Component {
   constructor(props) {
     super(props);
     this.postComment = this.postComment.bind(this);
-    this.commentDelete = this.commentDelete.bind(this);
+    this.onCommentDelete = this.onCommentDelete.bind(this);
+
     this.state = {
       commentText: ""
     };
@@ -54,8 +55,8 @@ class Comment extends Component {
   onClickLike(hello, hel2) {
     console.log(hello, hel2);
   }
-  commentDelete(comment) {
-    console.log(comment);
+  onCommentDelete(commentId) {
+    this.props.deleteComment(commentId);
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];
@@ -91,6 +92,7 @@ class Comment extends Component {
               <Comments
                 data={comments}
                 loggedUserID={this.props.loggedUserID}
+                onCommentDelete={this.onCommentDelete}
               />
             )}
             <View style={styles.commentInputWrapper}>

@@ -331,3 +331,13 @@ export function postComment(state, id, comment, timestamp) {
     );
   });
 }
+export function deleteComment(state, id) {
+  var badleeId = state.getIn(["badlees", "currentShowing"]);
+  let oldComments = state.getIn(["badlees", "data", badleeId, "comments"]);
+  let newComments = oldComments.filter(
+    comment => comment.get("comment_id") !== id
+  );
+  return state.updateIn(["badlees", "data", badleeId], badlee => {
+    return badlee.set("comments", newComments);
+  });
+}

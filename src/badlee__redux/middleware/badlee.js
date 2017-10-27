@@ -8,12 +8,16 @@
  * 
  * @author- heartit pirates were here
  */
-import { postComment, showCommentPage } from './badleeFns/comment';
-import getBadlees from './badleeFns/get';
-import { onClickLike, onClickUnlike } from './badleeFns/like';
-import saveBadlee from './badleeFns/save';
-import { showBadleePage } from './badleeFns/single';
-import { onClickUnwish, onClickWish } from './badleeFns/wish';
+import {
+  postComment,
+  showCommentPage,
+  deleteComment
+} from "./badleeFns/comment";
+import getBadlees from "./badleeFns/get";
+import { onClickLike, onClickUnlike } from "./badleeFns/like";
+import saveBadlee from "./badleeFns/save";
+import { showBadleePage } from "./badleeFns/single";
+import { onClickUnwish, onClickWish } from "./badleeFns/wish";
 
 ("use strict");
 
@@ -42,6 +46,9 @@ export default store => next => action => {
       break;
     case "POST_COMMENT":
       return postComment(store, next, action);
+      break;
+    case "DELETE_COMMENT":
+      return deleteComment(store, next, action);
       break;
     case "SHOW_BADLEE_PAGE":
       return showBadleePage(store, next, action);

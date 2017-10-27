@@ -97,6 +97,9 @@ export function reducer(state = core.InitialState, action) {
         action.timestamp
       );
       break;
+    case "DELETE_COMMENT":
+      return core.deleteComment(state, action.id);
+      break;
     case "STORE_LIKE_BADLEE":
       return core.likeBadlee(state, action.id);
       break;

@@ -94,7 +94,9 @@ class BadleeCard extends React.PureComponent {
           </Text>
           <Text style={{ color: "#616161", fontSize: 15 }}>
             {" "}
-            {moment(time).fromNow()}
+            {moment(this.props.timestamp)
+              .add({ hours: 5, minutes: 30 })
+              .fromNow()}
           </Text>
           <Right>
             <Icon name="share" width="21" height="21" />

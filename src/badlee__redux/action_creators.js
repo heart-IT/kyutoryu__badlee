@@ -183,6 +183,10 @@ export const postComment = (id, comment) => ({
   comment: comment,
   type: "POST_COMMENT"
 });
+export const deleteComment = id => ({
+  id: id,
+  type: "DELETE_COMMENT"
+});
 export const currentShowingBadlee = id => ({
   id: id,
   type: "STORE_CURRENTSHOWINGBADLEE"

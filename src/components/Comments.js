@@ -19,18 +19,26 @@ import Icon from "./Icon";
 
 export default class Comments extends PureComponent {
   _keyExtractor = (item, index) => item.comment_id;
+  constructor(props) {
+    super(props);
+    this.onCommentDelete = this.onCommentDelete.bind(this);
+  }
+  onCommentDelete(commentId) {
+    this.props.onCommentDelete(commentId);
+  }
   _renderItem = ({ item }) => (
     <Comment
       loggedUserID={this.props.loggedUserID}
       userID={item.user_id}
-      id={item.id}
       avatar={item.avatar}
       fname={item.fname}
       comment={item.content}
       commentID={item.comment_id}
       timestamp={item.timestamp}
+      onCommentDelete={this.onCommentDelete}
     />
   );
+
   render() {
     return (
       <FlatList
@@ -44,6 +52,13 @@ export default class Comments extends PureComponent {
 }
 
 class Comment extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.onCommentDelete = this.onCommentDelete.bind(this);
+  }
+  onCommentDelete = () => {
+    this.props.onCommentDelete(this.props.commentID);
+  };
   render() {
     return (
       <View
@@ -88,7 +103,7 @@ class Comment extends PureComponent {
                 .fromNow()}
             </Text>
             {this.props.loggedUserID === this.props.userID && (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={this.onCommentDelete}>
                 <Icon
                   name="postDelete"
                   width="21"

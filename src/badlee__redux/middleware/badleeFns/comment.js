@@ -26,6 +26,29 @@ export async function showCommentPage(store, next, action) {
   }
 }
 
+async function deleteRequest(id) {
+  try {
+    let jollyroger = await AsyncStorage.getItem("jollyroger");
+    let response = await fetch(
+      `http://mri2189.badlee.com/comment.php?commentid=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          Authorization: jollyroger
+        }
+      }
+    );
+    if (response.status === 200 && response.ok) {
+      var responseJson = await response.json();
+      console.log(responseJson);
+      return responseJson;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function doComment(postid, content) {
   try {
     let data = {
@@ -64,6 +87,18 @@ export async function postComment(store, next, action) {
     next(action);
   } catch (err) {
     console.log("error in posting");
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
+  }
+}
+
+export async function deleteComment(store, next, action) {
+  try {
+    await store.dispatch(actionCreators.startLoading());
+    var req = await deleteRequest(action.id);
+    next(action);
+  } catch (err) {
+    console.log(err);
   } finally {
     await store.dispatch(actionCreators.finishLoading());
   }

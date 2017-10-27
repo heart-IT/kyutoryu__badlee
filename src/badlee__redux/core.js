@@ -1,5 +1,6 @@
 // @flow
 import { fromJS, Map, OrderedSet, Record, Set } from "immutable";
+import { locale } from "moment";
 
 /**
  * @name- core.js
@@ -264,43 +265,59 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
 
 export function likeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let likeObject = {
+    avatar: loggedUser.get("avatar"),
+    user_id: loggedUser.get("user_id"),
+    name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
+    username: loggedUser.get("username")
+  };
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "likes",
       badlee.get("likes")
-        ? badlee.get("likes").push(loggedUserID)
-        : fromJS([loggedUserID])
+        ? badlee.get("likes").push(fromJS(likeObject))
+        : fromJS([likeObject])
     );
   });
 }
 export function unlikeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
-    return badlee.set(
-      "likes",
-      badlee.get("likes").remove(badlee.get("likes").indexOf(loggedUserID))
+    let oldLikes = badlee.get("likes");
+    let newLikes = oldLikes.filter(
+      like => like.get("user_id") !== loggedUserID
     );
+    return badlee.set("likes", newLikes);
   });
 }
 
 export function wishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let wishObject = {
+    avatar: loggedUser.get("avatar"),
+    user_id: loggedUser.get("user_id"),
+    name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
+    username: loggedUser.get("username")
+  };
   return state.updateIn(["badlees", "data", String(id)], badlee => {
     return badlee.set(
       "wishes",
       badlee.get("wishes")
-        ? badlee.get("wishes").push(loggedUserID)
-        : fromJS([loggedUserID])
+        ? badlee.get("wishes").push(fromJS(wishObject))
+        : fromJS([likeObject])
     );
   });
 }
 export function unwishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
-    return badlee.set(
-      "wishes",
-      badlee.get("wishes").remove(badlee.get("wishes").indexOf(loggedUserID))
+    let oldWishes = badlee.get("wishes");
+    let newWishes = oldWishes.filter(
+      wish => wish.get("user_id") !== loggedUserID
     );
+    return badlee.set("wishes", newWishes);
   });
 }
 

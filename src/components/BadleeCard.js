@@ -76,6 +76,10 @@ class BadleeCard extends React.PureComponent {
       userID,
       loggedUserID
     } = this.props;
+    let reactionCount =
+      (likes ? likes.length : 0) + (wishes ? wishes.length : 0);
+    let userIdLikes = likes ? likes.map(like => like.user_id) : [];
+    let userIdWishes = wishes ? wishes.map(like => like.user_id) : [];
     return (
       <Card style={styles.card}>
         <Icon
@@ -134,8 +138,8 @@ class BadleeCard extends React.PureComponent {
         <CardItem footer style={{ marginBottom: 12 }}>
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
-              {likes &&
-                likes.indexOf(loggedUserID) > -1 && (
+              {userIdLikes &&
+                userIdLikes.indexOf(loggedUserID) > -1 && (
                   <TouchableOpacity transparent onPress={this.onClickUnlike}>
                     <Icon
                       name="postLiked"
@@ -146,7 +150,8 @@ class BadleeCard extends React.PureComponent {
                     />
                   </TouchableOpacity>
                 )}
-              {(!likes || (likes && likes.indexOf(loggedUserID) === -1)) && (
+              {(!userIdLikes ||
+                (userIdLikes && userIdLikes.indexOf(loggedUserID) === -1)) && (
                 <TouchableOpacity transparent onPress={this.onClickLike}>
                   <Icon
                     name="postUnliked"
@@ -159,8 +164,8 @@ class BadleeCard extends React.PureComponent {
                   />
                 </TouchableOpacity>
               )}
-              {wishes &&
-                wishes.indexOf(loggedUserID) > -1 && (
+              {userIdWishes &&
+                userIdWishes.indexOf(loggedUserID) > -1 && (
                   <TouchableOpacity transparent onPress={this.onClickUnwish}>
                     <Icon
                       name="postWished"
@@ -171,7 +176,9 @@ class BadleeCard extends React.PureComponent {
                     />
                   </TouchableOpacity>
                 )}
-              {(!wishes || (wishes && wishes.indexOf(loggedUserID) === -1)) && (
+              {(!userIdWishes ||
+                (userIdWishes &&
+                  userIdWishes.indexOf(loggedUserID) === -1)) && (
                 <TouchableOpacity transparent onPress={this.onClickWish}>
                   <Icon
                     name="postUnwished"
@@ -196,7 +203,9 @@ class BadleeCard extends React.PureComponent {
             </View>
             <View
               style={{
-                marginTop: 3
+                marginTop: 3,
+                flexDirection: "row",
+                alignItems: "center"
               }}
             >
               <TouchableOpacity transparent onPress={this.onClickComment}>
@@ -209,6 +218,21 @@ class BadleeCard extends React.PureComponent {
                   }}
                 >
                   View{" "}
+                  {reactionCount <= 1
+                    ? `${reactionCount} reaction`
+                    : `${reactionCount} reactions`}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity transparent onPress={this.onClickComment}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    marginLeft: 4,
+                    fontWeight: "bold",
+                    color: "rgba(0, 0, 0, 0.87)"
+                  }}
+                >
+                  ,
                   {commentCount <= 1
                     ? `${commentCount} comment`
                     : `${commentCount} comments`}

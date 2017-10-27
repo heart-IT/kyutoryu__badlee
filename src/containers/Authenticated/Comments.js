@@ -27,7 +27,6 @@ import {
 import React from "react";
 import { Component } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
-import { KeyboardAwareView } from "react-native-keyboard-aware-view";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../../badlee__redux/action_creators";

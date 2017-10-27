@@ -202,7 +202,10 @@ class BadleeCard extends React.PureComponent {
                     color: "rgba(0, 0, 0, 0.87)"
                   }}
                 >
-                  View {commentCount} comments{" "}
+                  View{" "}
+                  {commentCount === 0
+                    ? "0 comment"
+                    : `${commentCount} comments`}
                 </Text>
               </TouchableOpacity>
             </View>

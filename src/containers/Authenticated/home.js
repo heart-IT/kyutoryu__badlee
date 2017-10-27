@@ -26,7 +26,7 @@ import BadleeFab from "../../components/Fab";
 import SingleBadlee from "./singleBadlee";
 
 import User from "./user";
-import Comments from "./Comments";
+import Comments from "./comments";
 
 class Home extends Component {
   state = {

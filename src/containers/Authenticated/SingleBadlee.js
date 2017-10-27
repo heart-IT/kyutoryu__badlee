@@ -26,7 +26,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Icon from "../../components/Icon";
 import getTheme from "../../theme/components";
-import Comments from "./Comments";
+import Comments from "./comments";
 import User from "./user";
 import BadleeCard from "../../components/BadleeCard";
 

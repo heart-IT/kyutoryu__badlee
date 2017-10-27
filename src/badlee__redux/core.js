@@ -325,10 +325,12 @@ export function postComment(state, id, comment, timestamp) {
     comment_id: id
   };
   return state.updateIn(["badlees", "data", badleeId], badlee => {
-    return badlee.set(
-      "comments",
-      oldComments ? oldComments.unshift(commentObj) : fromJS([commentObj])
-    );
+    return badlee
+      .set(
+        "comments",
+        oldComments ? oldComments.unshift(commentObj) : fromJS([commentObj])
+      )
+      .set("comment_count", oldComments.size + 1);
   });
 }
 export function deleteComment(state, id) {
@@ -338,6 +340,8 @@ export function deleteComment(state, id) {
     comment => comment.get("comment_id") !== id
   );
   return state.updateIn(["badlees", "data", badleeId], badlee => {
-    return badlee.set("comments", newComments);
+    return badlee
+      .set("comments", newComments)
+      .set("comment_count", oldComments.size - 1);
   });
 }

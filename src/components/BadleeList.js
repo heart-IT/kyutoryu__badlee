@@ -28,6 +28,7 @@ class BadleeList extends React.PureComponent {
     this.onClickWish = this._onClickWish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
+    this.onClickReaction = this._onClickReaction.bind(this);
     this.onFlatListRefresh = this._onFlatListRefresh.bind(this);
     this.onListEnd = this._onListEnd.bind(this);
     this.onClickReport = this._onClickReport.bind(this);
@@ -43,6 +44,9 @@ class BadleeList extends React.PureComponent {
   };
   _onClickComment = id => {
     this.props.onClickComment(id);
+  };
+  _onClickReaction = id => {
+    this.props.onClickReaction(id);
   };
   _onClickDelete = id => {
     this.props.onClickDelete(id);
@@ -81,6 +85,7 @@ class BadleeList extends React.PureComponent {
           onClickLike={this.onClickLike}
           onClickWish={this.onClickWish}
           onClickComment={this.onClickComment}
+          onClickReaction={this.onClickReaction}
           onClickDelete={this.onClickDelete}
           onClickReport={this.onClickReport}
         />

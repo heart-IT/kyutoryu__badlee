@@ -19,6 +19,7 @@ import saveBadlee from "./badleeFns/save";
 import { showBadleePage } from "./badleeFns/single";
 import { onClickUnwish, onClickWish } from "./badleeFns/wish";
 import reportBadlee from "./badleeFns/reportBadlee";
+import showReactionPage from "./badleeFns/reaction";
 
 ("use strict");
 
@@ -50,6 +51,9 @@ export default store => next => action => {
       break;
     case "DELETE_COMMENT":
       return deleteComment(store, next, action);
+      break;
+    case "SHOW_REACTION_PAGE":
+      return showReactionPage(store, next, action);
       break;
     case "SHOW_BADLEE_PAGE":
       return showBadleePage(store, next, action);

@@ -33,6 +33,7 @@ class BadleeCard extends React.PureComponent {
     this.onClickWish = this._onClickWish.bind(this);
     this.onClickUnwish = this._onClickUnwish.bind(this);
     this.onClickComment = this._onClickComment.bind(this);
+    this.onClickReaction = this._onClickReaction.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
     this.onClickReport = this._onClickReport.bind(this);
   }
@@ -53,6 +54,9 @@ class BadleeCard extends React.PureComponent {
   };
   _onClickComment = () => {
     this.props.onClickComment(this.props.id);
+  };
+  _onClickReaction = () => {
+    this.props.onClickReaction(this.props.id);
   };
   _onClickDelete = () => {
     this.props.onClickDelete(this.props.id);
@@ -208,7 +212,7 @@ class BadleeCard extends React.PureComponent {
                 alignItems: "center"
               }}
             >
-              <TouchableOpacity transparent onPress={this.onClickComment}>
+              <TouchableOpacity transparent onPress={this.onClickReaction}>
                 <Text
                   style={{
                     fontSize: 12,

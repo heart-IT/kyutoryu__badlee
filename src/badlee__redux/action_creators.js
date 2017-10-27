@@ -177,6 +177,11 @@ export const showCommentPage = (id: Number, route: ?Object) => ({
   route: route,
   type: "SHOW_COMMENT_PAGE"
 });
+export const showReactionPage = (id, route) => ({
+  id: id,
+  route: route,
+  type: "SHOW_REACTION_PAGE"
+});
 
 export const postComment = (id, comment) => ({
   id: id,

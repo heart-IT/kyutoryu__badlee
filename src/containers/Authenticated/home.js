@@ -27,6 +27,7 @@ import SingleBadlee from "./singleBadlee";
 
 import User from "./user";
 import Comments from "./comments";
+import Reactions from "./reactions";
 
 class Home extends Component {
   state = {
@@ -55,6 +56,7 @@ class Home extends Component {
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickBadlee = this.onClickBadlee.bind(this);
+    this.onClickReaction = this.onClickReaction.bind(this);
     this.onClickReport = this.onClickReport.bind(this);
 
     this.openLocationPicker = this.openLocationPicker.bind(this);
@@ -241,6 +243,14 @@ class Home extends Component {
       });
     });
   }
+  onClickReaction(id) {
+    requestAnimationFrame(() => {
+      this.props.showReactionPage(id, {
+        navigator: this.props.navigator,
+        component: Reactions
+      });
+    });
+  }
   onClickDelete(id) {
     console.log(id);
   }
@@ -379,6 +389,7 @@ class Home extends Component {
                 onClickLike={this.onClickLike}
                 onClickWish={this.onClickWish}
                 onClickComment={this.onClickComment}
+                onClickReaction={this.onClickReaction}
                 onClickDelete={this.onClickDelete}
                 onClickReport={this.onClickReport}
                 onFlatListRefresh={this.onFlatListRefresh}

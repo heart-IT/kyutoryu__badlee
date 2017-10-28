@@ -30,6 +30,7 @@ import Loading from "../../components/LoadingView";
 import getTheme from "../../theme/components";
 import Home from "./home";
 import User from "./user";
+import Notification from "./notification";
 
 class GoingMerry extends Component {
   state = {
@@ -64,7 +65,9 @@ class GoingMerry extends Component {
                 heading={
                   <TabHeading>{returnIcon("notifications", 1)}</TabHeading>
                 }
-              />
+              >
+                <Notification />
+              </Tab>
               <Tab heading={<TabHeading>{returnIcon("user", 2)}</TabHeading>}>
                 <User params={{ isOtherUser: false }} />
               </Tab>

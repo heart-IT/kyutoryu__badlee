@@ -9,10 +9,15 @@
  * 
  * @author- heartit pirates were here
  */
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
-import * as actionCreators from '../../action_creators';
-import { application_id, application_secret, createFormData, saveMedia } from '../utility';
+import * as actionCreators from "../../action_creators";
+import {
+  application_id,
+  application_secret,
+  createFormData,
+  saveMedia
+} from "../utility";
 
 ("use strict");
 
@@ -30,7 +35,8 @@ export default async function saveBadlee(store, next, action) {
     let newBadlee = await badleeSaveRequest(badleeData);
     action.newBadlee = newBadlee;
     next(action);
-    await store.dispatch(actionCreators.navigate(action.route));
+    // await store.dispatch(actionCreators.currentShowingBadlee(newBadlee.id));
+    // await store.dispatch(actionCreators.navigate(action.route));
   } catch (err) {
     console.log(err);
   } finally {

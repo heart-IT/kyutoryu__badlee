@@ -24,10 +24,10 @@ export default class BadleeFab extends React.PureComponent {
     this.props.onSelection("exchange");
   }
   onshowOffClick() {
-    this.props.onSelection("showOff");
+    this.props.onSelection("showoff");
   }
   onshoutOutClick() {
-    this.props.onSelection("shoutOut");
+    this.props.onSelection("shoutout");
   }
   render() {
     return (

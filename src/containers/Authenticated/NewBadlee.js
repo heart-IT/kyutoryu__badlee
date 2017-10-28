@@ -9,16 +9,32 @@
  * 
  * @author- heartit pirates were here.
  */
-import { Container, Content, Header, Icon as IconX, Input, Item, Left, Right, StyleProvider, Text, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import {
+  Container,
+  Content,
+  Header,
+  Icon as IconX,
+  Input,
+  Item,
+  Left,
+  Form,
+  Right,
+  StyleProvider,
+  Text,
+  View,
+  Label,
+  Button
+} from "native-base";
+import { Component } from "react";
+import React from "react";
+import { Image, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import getTheme from '../../theme/components';
-import SingleBadlee from './singleBadlee';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import getTheme from "../../theme/components";
+import SingleBadlee from "./singleBadlee";
+import Picker from "../../components/Picker";
 
 var ImagePicker = require("react-native-image-picker");
 
@@ -34,8 +50,10 @@ class NewBadlee extends Component {
       title: null,
       description: null,
       category: null,
+      location: null,
       ip: "95.99.52.29.37",
-      showLocator: false
+      showLocator: false,
+      showPicker: false
     };
     this.backPress = this._backPress.bind(this);
     this.onPhotoTap = this._onPhotoTap.bind(this);
@@ -99,6 +117,14 @@ class NewBadlee extends Component {
     this.closeLocator();
   }
 
+  showLocationPicker() {
+    this.setState({ showPicker: true, type: "location" });
+  }
+
+  showCategoryPicker() {
+    this.setState({ showPicker: true, type: "category" });
+  }
+
   /**
    * 
    * validation.. xDD
@@ -113,21 +139,40 @@ class NewBadlee extends Component {
    */
   _saveBadlee() {
     let { purpose } = this.props.params;
-    if (purpose === "shoutOut" || this.state.badleePhotoUrl) {
-      var data = {
-        uri: this.state.badleePhotoUrl.uri,
-        imageType: this.state.badleePhotoType,
-        fileName: this.state.badleePhotoName,
-        description: this.state.description,
-        location: this.state.location,
-        category: this.state.category,
-        ip: this.state.ip,
-        purpose: purpose
-      };
-      this.props.saveBadlee(data, {
-        navigator: this.props.navigator,
-        component: SingleBadlee
-      });
+    var data = {
+      uri: this.state.badleePhotoUrl.uri,
+      imageType: this.state.badleePhotoType,
+      fileName: this.state.badleePhotoName,
+      description: this.state.description,
+      location: this.state.location,
+      category: this.state.category,
+      ip: this.state.ip,
+      purpose: purpose
+    };
+    this.props.saveBadlee(data, {
+      navigator: this.props.navigator,
+      component: SingleBadlee
+    });
+    this.setState({description: null, location: null, category: null})
+  }
+
+  closePicker() {
+    this.setState({ showPicker: false });
+  }
+
+  onPickerSubmit(submittedVal) {
+    if (this.state.type === "location") {
+      let location = "";
+      if (submittedVal && submittedVal.length) {
+        location = submittedVal[0].city;
+      }
+      this.setState({ location: location, showPicker: false });
+    } else if (this.state.type === "category") {
+      let category = "";
+      if (submittedVal && submittedVal.length) {
+        category = submittedVal[0].name;
+      }
+      this.setState({ category: category, showPicker: false });
     }
   }
 
@@ -137,32 +182,16 @@ class NewBadlee extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          <Header style={{ backgroundColor: "#611265" }}>
+          <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
-              {showLocator ? (
-                <Text style={{ color: "#fff", fontSize: 18 }}>
-                  Select a Location
-                </Text>
-              ) : (
-                <TouchableOpacity transparent onPress={this.backPress}>
-                  <IconX name="arrow-back" fill="#fff" />
-                </TouchableOpacity>
-              )}
+              <Icon name="menuBackIcon" width="16" height="16" stroke="#000" />
             </Left>
             <Right>
-              {showLocator ? (
-                <TouchableOpacity transparent onPress={this.closeLocator}>
-                  <Icon name="menuCloseIcon" width="15" height="15" />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity transparent onPress={this.saveBadlee}>
-                  <Text style={{ color: "#fff", fontSize: 15 }}>POST</Text>
-                </TouchableOpacity>
-              )}
+              <Icon name={purpose} width="28" height="28" />
             </Right>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <View>
+            <View style={{ flex: 1 }}>
               <View style={styles.badleePhotoWrapper}>
                 <Image
                   style={styles.avatar}
@@ -183,37 +212,71 @@ class NewBadlee extends Component {
                   </TouchableOpacity>
                 )}
               </View>
-              <View>
+              <Form>
                 <Item style={styles.inputItem}>
                   <Input
-                    placeholder="Title.."
-                    value={this.state.title}
-                    onChangeText={title => this.setState({ title })}
-                  />
-                </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Write a Caption"
+                    placeholder="DESCRIPTION"
                     value={this.state.description}
                     onChangeText={description => this.setState({ description })}
                   />
                 </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Where is it?"
-                    value={this.state.location}
-                    onFocus={this.onLocationInputTap.bind(this)}
-                  />
-                </Item>
-                <Item style={styles.inputItem}>
-                  <Input
-                    placeholder="Where does it fits?"
-                    value={this.state.category}
-                    onChangeText={category => this.setState({ category })}
-                  />
-                </Item>
-              </View>
+              </Form>
+              <TouchableOpacity
+                style={styles.pickerInput}
+                onPress={this.showLocationPicker.bind(this)}
+              >
+                <Text style={styles.pickerLabel}>
+                  {purpose === "shoutout"
+                    ? "WHERE IS IT NEEDED?"
+                    : "WHERE IS IT?"}
+                </Text>
+                <View style={styles.pickerInputStyle}>
+                  {this.state.location && <Text>{this.state.location}</Text>}
+                  {!this.state.location && (
+                    <Text style={styles.pickerPlaceholderText}>LOCATION</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.pickerInput}
+                onPress={this.showCategoryPicker.bind(this)}
+              >
+                <Text style={styles.pickerLabel}>WHERE DOES IT FITS?</Text>
+                <View style={styles.pickerInputStyle}>
+                  {this.state.category && <Text>{this.state.category}</Text>}
+                  {!this.state.category && (
+                    <Text style={styles.pickerPlaceholderText}>CATEGORY</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
             </View>
+            {!this.state.showPicker && (
+              <Button
+                primary
+                style={{
+                  marginBottom: 30,
+                  marginRight: 15,
+                  alignSelf: "flex-end"
+                }}
+                disabled={
+                  (purpose !== "shoutout" && !this.state.badleePhotoUrl) ||
+                  !this.state.description ||
+                  !this.state.location ||
+                  !this.state.category
+                }
+                onPress={this.saveBadlee}
+              >
+                <Text>{this.props.loading ? "Wait.." : "POST"}</Text>
+              </Button>
+            )}
+            {this.state.showPicker && (
+              <Picker
+                type={this.state.type}
+                multiselect={false}
+                onPickerClose={this.closePicker.bind(this)}
+                onPickerSubmit={this.onPickerSubmit.bind(this)}
+              />
+            )}
           </Content>
         </Container>
       </StyleProvider>
@@ -221,7 +284,7 @@ class NewBadlee extends Component {
   }
 }
 var styles = {
-  headerLeft: { flex: 1, paddingLeft: 6 },
+  headerLeft: { flex: 1 },
   badleePhotoWrapper: {
     paddingTop: 12,
     paddingBottom: 12
@@ -242,6 +305,24 @@ var styles = {
   },
   input: {
     height: 36
+  },
+  pickerInput: {
+    paddingLeft: 18,
+    marginTop: 18,
+    marginBottom: 12
+  },
+  pickerLabel: {
+    color: "rgba(0, 0, 0, 0.87)",
+    fontSize: 15
+  },
+  pickerInputStyle: {
+    marginTop: 6,
+    borderBottomWidth: 1,
+    borderColor: "rgb(226, 226, 226)"
+  },
+  pickerPlaceholderText: {
+    fontSize: 12,
+    color: "rgba(0, 0, 0, 0.54)"
   }
 };
 const _Wrapped = connect(

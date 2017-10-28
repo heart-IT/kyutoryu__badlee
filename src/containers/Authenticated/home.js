@@ -24,7 +24,7 @@ import getTheme from "../../theme/components";
 import Picker from "../../components/Picker";
 import BadleeFab from "../../components/Fab";
 import SingleBadlee from "./singleBadlee";
-
+import NewBadlee from "./newBadlee";
 import User from "./user";
 import Comments from "./comments";
 import Reactions from "./reactions";
@@ -163,8 +163,14 @@ class Home extends Component {
    * Component Events section
    */
 
-  onFabSelect(type) {
-    console.log(type);
+  onFabSelect(purpose) {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: NewBadlee,
+        params: { purpose }
+      });
+    });
   }
   onFabToggle(fabValue) {
     this.setState({ isActive: !fabValue });

@@ -105,8 +105,7 @@ class BadleeCard extends React.PureComponent {
             <Text style={{ fontWeight: "bold" }}> Thingy</Text>
           </Text>
           <Text style={{ color: "#616161", fontSize: 15 }}>
-            {" "}
-            {moment(this.props.timestamp)
+            {moment(time)
               .add({ hours: 5, minutes: 30 })
               .fromNow()}
           </Text>
@@ -221,7 +220,7 @@ class BadleeCard extends React.PureComponent {
                     color: "rgba(0, 0, 0, 0.87)"
                   }}
                 >
-                  View{" "}
+                  View
                   {reactionCount <= 1
                     ? `${reactionCount} reaction`
                     : `${reactionCount} reactions`}

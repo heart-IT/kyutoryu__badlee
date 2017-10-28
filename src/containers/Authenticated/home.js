@@ -67,6 +67,8 @@ class Home extends Component {
     this.onFabSelect = this.onFabSelect.bind(this);
     this.onFabToggle = this.onFabToggle.bind(this);
     this.closeFab = this.closeFab.bind(this);
+    this.closePicker = this.closePicker.bind(this);
+    this.onPickerSubmit = this.onPickerSubmit.bind(this);
   }
 
   // in case of props are changed, format and update state with currentData
@@ -111,6 +113,9 @@ class Home extends Component {
     let pagingEndsIn = this.props.pagingEndsIn.get(tabName);
     let badleeIDs = this.props.badleeIDs.get(tabName);
     let { page, limit } = this.state.paging;
+    if ((pagingEndsIn !== -1 && page < pagingEndsIn) || pagingEndsIn === -1) {
+      return true;
+    }
     // if pagingEnds and we are trying higher value, then we wont request.  !(A && B) = !A || !B
     if (
       (page + 1) * limit > badleeIDs.size &&
@@ -124,7 +129,7 @@ class Home extends Component {
     let { page, limit } = this.state.paging;
     if (
       this.props.user.get("following") &&
-      this.props.user.get("following").length
+      this.props.user.get("following").size
     ) {
       this.props.getBadlees({
         tabName: "following",
@@ -140,7 +145,7 @@ class Home extends Component {
     let { page, limit } = this.state.paging;
     this.props.getBadlees({
       tabName: "location",
-      currentLocation: this.props.user.get("location"),
+      currentLocation: this.props.user.get("location").split(",")[0],
       offset: page * limit,
       limit: limit
     });
@@ -188,11 +193,11 @@ class Home extends Component {
       },
       () => {
         let { tabNames, activeTabIndex } = this.state;
-        if (!this.checkForPagination(tabNames[activeTabIndex])) {
-          this.formatAndUpdatePropData(this.props);
-        } else {
-          this.getBadlees();
-        }
+        this.getBadlees();
+        // if (!this.checkForPagination(tabNames[activeTabIndex])) {
+        //   this.formatAndUpdatePropData(this.props);
+        // } else {
+        // }
       }
     );
   }
@@ -215,12 +220,11 @@ class Home extends Component {
       },
       () => {
         let { tabNames, activeTabIndex } = this.state;
-        if (!this.checkForPagination(tabNames[activeTabIndex])) {
-          alert("list end");
-          this.formatAndUpdatePropData(this.props);
-        } else {
-          this.getBadlees();
-        }
+        this.getBadlees();
+        // if (!this.checkForPagination(tabNames[activeTabIndex])) {
+        //   this.formatAndUpdatePropData(this.props);
+        // } else {
+        // }
       }
     );
   }
@@ -372,7 +376,7 @@ class Home extends Component {
                 </TabHeading>
               }
             >
-              {(!this.state.currentData || !this.state.currentData.length) && (
+              {!this.state.currentData.length && (
                 <View style={styles.NoDataView}>
                   <Icon name="noFollowIllustration" width="60" height="60" />
                   <Text style={styles.mainText}>
@@ -398,15 +402,6 @@ class Home extends Component {
                 onListEnd={this.onListEnd}
                 loggedUserID={this.props.user.get("user_id")}
               />
-              {this.state.showPicker && (
-                <Picker
-                  type={this.state.type}
-                  multiselect={false}
-                  badleeId={this.state.badleeId}
-                  onPickerClose={this.closePicker.bind(this)}
-                  onPickerSubmit={this.onPickerSubmit.bind(this)}
-                />
-              )}
             </Tab>
             <Tab
               heading={
@@ -415,7 +410,7 @@ class Home extends Component {
                 </TabHeading>
               }
             >
-              {(!this.state.currentData || !this.state.currentData.length) && (
+              {!this.state.currentData.length && (
                 <View style={styles.NoDataView}>
                   <Icon name="noLocationIllustration" width="60" height="60" />
                   <Text style={styles.mainText}>
@@ -433,19 +428,12 @@ class Home extends Component {
                 onClickWish={this.onClickWish}
                 onClickComment={this.onClickComment}
                 onClickDelete={this.onClickDelete}
+                onClickReaction={this.onClickReaction}
+                onClickReport={this.onClickReport}
                 onFlatListRefresh={this.onFlatListRefresh}
                 onListEnd={this.onListEnd}
                 loggedUserID={this.props.user.get("user_id")}
               />
-              {this.state.showPicker && (
-                <Picker
-                  type={this.state.type}
-                  badleeId={this.state.badleeId}
-                  multiselect={false}
-                  onPickerClose={this.closePicker.bind(this)}
-                  onPickerSubmit={this.onPickerSubmit.bind(this)}
-                />
-              )}
             </Tab>
             <Tab
               heading={
@@ -461,9 +449,10 @@ class Home extends Component {
                   globeSearchingFor={this.globeSearchingFor}
                   onPurposeSelect={this.onPurposeSelect}
                   onRadioUnselect={this.onRadioUnselect}
+                  style={{ flex: 1, zIndex: 44 }}
                 />
               )}
-              {(!this.state.currentData || !this.state.currentData.length) && (
+              {!this.state.currentData.length && (
                 <View style={styles.NoDataView}>
                   <Icon name="noGlobeIllustration" width="60" height="60" />
                   <Text style={styles.mainText}>Hmm, No badlees found.</Text>
@@ -482,15 +471,6 @@ class Home extends Component {
                 onListEnd={this.onListEnd}
                 loggedUserID={this.props.user.get("user_id")}
               />
-              {this.state.showPicker && (
-                <Picker
-                  type={this.state.type}
-                  multiselect={false}
-                  badleeId={this.state.badleeId}
-                  onPickerClose={this.closePicker.bind(this)}
-                  onPickerSubmit={this.onPickerSubmit.bind(this)}
-                />
-              )}
             </Tab>
           </Tabs>
           {this.state.isActive && (
@@ -511,6 +491,15 @@ class Home extends Component {
               isActive={false}
               onSelection={this.onFabSelect}
               onFabToggle={this.onFabToggle}
+            />
+          )}
+          {this.state.showPicker && (
+            <Picker
+              type={this.state.type}
+              multiselect={false}
+              badleeId={this.state.badleeId}
+              onPickerClose={this.closePicker}
+              onPickerSubmit={this.onPickerSubmit}
             />
           )}
         </View>

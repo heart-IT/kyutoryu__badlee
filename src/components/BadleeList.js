@@ -79,7 +79,7 @@ class BadleeList extends React.PureComponent {
           likes={item.likes}
           wishes={item.wishes}
           commentCount={item.comment_count}
-          userID={item.user}
+          userID={item.user_info.user_id}
           loggedUserID={this.props.loggedUserID}
           onClickUser={this.onClickUser}
           onClickLike={this.onClickLike}

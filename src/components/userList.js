@@ -33,6 +33,7 @@ class UserRow extends React.PureComponent {
     this.props.unfollow(this.props.userId);
   }
   render() {
+    console.log(this.props.userFollowing);
     return (
       <View
         style={{
@@ -56,14 +57,14 @@ class UserRow extends React.PureComponent {
         </TouchableOpacity>
         {this.props.loggedUserID !== this.props.userId &&
           this.props.userFollowing.indexOf(this.props.userId) > -1 && (
-            <TouchableOpacity onPress={this.follow}>
-              <Icon name="follow_add" width="27" height="27" />
+            <TouchableOpacity onPress={this.unfollow}>
+              <Icon name="following" width="27" height="27" />
             </TouchableOpacity>
           )}
         {this.props.loggedUserID !== this.props.userId &&
           this.props.userFollowing.indexOf(this.props.userId) === -1 && (
-            <TouchableOpacity onPress={this.unfollow}>
-              <Icon name="following" width="27" height="27" />
+            <TouchableOpacity onPress={this.follow}>
+              <Icon name="follow_add" width="27" height="27" />
             </TouchableOpacity>
           )}
       </View>

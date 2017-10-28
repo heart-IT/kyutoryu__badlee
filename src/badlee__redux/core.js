@@ -147,55 +147,92 @@ export function saveGuestUser(state, user) {
     )
     .setIn(["user", "guestUserID"], userID);
 }
-
+// let likeObject = {
+//   avatar: loggedUser.get("avatar"),
+//   user_id: loggedUser.get("user_id"),
+//   name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
+//   username: loggedUser.get("username")
+// };
+// return state.updateIn(["badlees", "data", String(id)], badlee => {
+//   return badlee.set(
+//     "likes",
+//     badlee.get("likes")
+//       ? badlee.get("likes").push(fromJS(likeObject))
+//       : fromJS([likeObject])
+//   );
+// });
 export function followUser(state, userID) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  let oldFollowers = state.getIn([
-    "user",
-    "usersInformation",
-    userID,
-    "follower"
-  ]);
-  let oldFollowing = state.getIn([
-    "user",
-    "usersInformation",
-    loggedUserID,
-    "following"
-  ]);
-  return state
-    .setIn(
-      ["user", "usersInformation", userID, "follower"],
-      oldFollowers ? oldFollowers.push(loggedUserID) : fromJS([loggedUserID])
-    )
-    .setIn(
-      ["user", "usersInformation", loggedUserID, "following"],
-      oldFollowing ? oldFollowing.push(userID) : fromJS([userID])
-    );
+  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let userFollowing = state.getIn(["user", "usersInformation", userID]);
+
+  let followingObject = {
+    user_id_following: userID
+  };
+  if (userFollowing) {
+    let followObject = {
+      avatar: loggedUser.get("avatar"),
+      user_id_follower: loggedUser.get("user_id"),
+      name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
+      username: loggedUser.get("username")
+    };
+    return state
+      .updateIn(["user", "usersInformation", userID], user => {
+        return user.set(
+          "follower",
+          user.get("follower")
+            ? user.get("follower").push(fromJS(followObject))
+            : fromJS([followObject])
+        );
+      })
+      .updateIn(["user", "usersInformation", loggedUserID], user => {
+        return user.set(
+          "following",
+          user.get("following")
+            ? user.get("following").push(fromJS(followingObject))
+            : fromJS([followingObject])
+        );
+      });
+  } else {
+    return state.updateIn(["user", "usersInformation", loggedUserID], user => {
+      return user.set(
+        "following",
+        user.get("following")
+          ? user.get("following").push(fromJS(followingObject))
+          : fromJS([followingObject])
+      );
+    });
+  }
 }
 
 export function unfollowUser(state, userID) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  let oldFollowers = state.getIn([
-    "user",
-    "usersInformation",
-    userID,
-    "follower"
-  ]);
-  let oldFollowing = state.getIn([
-    "user",
-    "usersInformation",
-    loggedUserID,
-    "following"
-  ]);
-  return state
-    .setIn(
-      ["user", "usersInformation", userID, "follower"],
-      oldFollowers.remove(oldFollowers.indexOf(loggedUserID))
-    )
-    .setIn(
-      ["user", "usersInformation", loggedUserID, "following"],
-      oldFollowing.remove(oldFollowing.indexOf(userID))
-    );
+  if (state.getIn(["user", "usersInformation", userID])) {
+    return state
+      .updateIn(["user", "usersInformation", userID], user => {
+        console.log(user);
+        let oldFollowers = user.get("follower");
+        let newFollowers = oldFollowers.filter(
+          follower => follower.get("user_id_following") !== loggedUserID
+        );
+        return user.set("follower", newFollowers);
+      })
+      .updateIn(["user", "usersInformation", loggedUserID], user => {
+        let oldFollowings = user.get("following");
+        let newFollowings = oldFollowings.filter(
+          following => following.get("user_id_following") !== loggedUserID
+        );
+        return user.set("following", newFollowings);
+      });
+  } else {
+    return state.updateIn(["user", "usersInformation", loggedUserID], user => {
+      let oldFollowings = user.get("following");
+      let newFollowings = oldFollowings.filter(
+        following => following.get("user_id_following") !== userID
+      );
+      return user.set("following", newFollowings);
+    });
+  }
 }
 
 /**

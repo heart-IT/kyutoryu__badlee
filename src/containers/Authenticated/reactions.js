@@ -59,14 +59,25 @@ class Reactions extends Component {
       });
     });
   }
-  onFollow(userId) {}
-  onUnfollow(userId) {}
+  onFollow(userId) {
+    this.props.followUser(userId);
+  }
+  onUnfollow(userId) {
+    this.props.unFollowUser(userId);
+  }
+
   render() {
     let userFollowing = this.props.userFollowing
       ? this.props.userFollowing
+          .map(user => {
+            console.log(user);
+            return user.get("user_id_following");
+          })
+          .toJS()
       : [];
     let likes = this.props.likes ? this.props.likes.toJS() : [];
     let wishes = this.props.wishes ? this.props.wishes.toJS() : [];
+    console.log(userFollowing);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

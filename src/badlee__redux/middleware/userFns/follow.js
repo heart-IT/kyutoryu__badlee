@@ -8,9 +8,9 @@
  * 
  * @author- heartit pirates
  */
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
-import * as actionCreators from '../../action_creators';
+import * as actionCreators from "../../action_creators";
 
 ("use strict");
 
@@ -28,6 +28,7 @@ export async function unFollowUser(store, next, action) {
         }
       }
     );
+    console.log(unFollowReq);
     if (!unFollowReq.status === 200 || !unFollowReq.ok) {
       store.dispatch(actionCreators.followUser(action.id));
     }

@@ -81,6 +81,7 @@ export async function postComment(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     var req = await doComment(action.id, action.comment);
+    console.log(req);
     action.comment_id = req.comment_id;
     action.content = req.content;
     action.timestamp = req.timestamp;

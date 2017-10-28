@@ -387,7 +387,7 @@ export function postComment(state, id, comment, timestamp) {
         "comments",
         oldComments ? oldComments.unshift(commentObj) : fromJS([commentObj])
       )
-      .set("comment_count", oldComments.size + 1);
+      .set("comment_count", oldComments ? oldComments.size + 1 : 1);
   });
 }
 export function deleteComment(state, id) {

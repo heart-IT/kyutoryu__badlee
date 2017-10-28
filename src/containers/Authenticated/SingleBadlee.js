@@ -29,6 +29,7 @@ import getTheme from "../../theme/components";
 import Comments from "./comments";
 import User from "./user";
 import BadleeCard from "../../components/BadleeCard";
+import Reactions from "./reactions";
 
 class SingleBadlee extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class SingleBadlee extends Component {
     this.onClickWish = this.onClickWish.bind(this);
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
+    this.onClickReaction = this.onClickReaction.bind(this);
   }
   onBackPress() {
     this.props.goBack();
@@ -67,6 +69,14 @@ class SingleBadlee extends Component {
     });
   }
   onClickDelete(id) {}
+  onClickReaction(id) {
+    requestAnimationFrame(() => {
+      this.props.showReactionPage(id, {
+        navigator: this.props.navigator,
+        component: Reactions
+      });
+    });
+  }
   render() {
     let cardData = this.props.badlee.toJS();
 
@@ -109,6 +119,7 @@ class SingleBadlee extends Component {
               onClickUser={this.onClickUser}
               onClickLike={this.onClickLike}
               onClickWish={this.onClickWish}
+              onClickReaction={this.onClickReaction}
               onClickComment={this.onClickComment}
               onClickDelete={this.onClickDelete}
             />

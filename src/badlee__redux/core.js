@@ -261,18 +261,18 @@ export function getBadlees(
     });
     var updatedBadlees = state.getIn(["badlees", "data"]).merge(badleeObject);
     var updatedBadleeIDS;
-    if (isSearching) {
-      updatedBadleeIDS = OrderedSet(badleeIDs);
-    } else {
-      if (offset === 0) {
+    if (offset === 0) {
+      if (isSearching) {
+        updatedBadleeIDS = OrderedSet(badleeIDs);
+      } else {
         updatedBadleeIDS = OrderedSet(badleeIDs).union(
           state.getIn(["badlees", "tabs", tabName])
         );
-      } else {
-        updatedBadleeIDS = state
-          .getIn(["badlees", "tabs", tabName])
-          .union(badleeIDs);
       }
+    } else {
+      updatedBadleeIDS = state
+        .getIn(["badlees", "tabs", tabName])
+        .union(badleeIDs);
     }
     return state
       .setIn(["badlees", "data"], updatedBadlees)
@@ -282,7 +282,6 @@ export function getBadlees(
 
 export function saveBadlee(state, newBadlee) {
   let obj = {};
-  console.log(newBadlee);
   obj[newBadlee.id] = newBadlee;
   var updatedBadlees = state.getIn(["badlees", "data"]).merge(obj);
   return state.setIn(["badlees", "data"], updatedBadlees);

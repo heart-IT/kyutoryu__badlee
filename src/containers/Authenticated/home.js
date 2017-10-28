@@ -184,7 +184,7 @@ class Home extends Component {
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
-    let limit = i.i === 2 ? 32 : 5;
+    let limit = i.i === 2 ? 30 : 5;
     this.setState(
       {
         activeTabIndex: i.i,
@@ -278,26 +278,43 @@ class Home extends Component {
     var filteredState = Object.assign({}, this.state.filter, {
       search: searchString
     });
-    this.setState({ filter: filteredState }, () => {
-      this.getBadleeByGlobe();
-    });
+    this.setState(
+      { filter: filteredState, paging: { page: 0, limit: 30 } },
+      () => {
+        this.getBadleeByGlobe();
+      }
+    );
   }
 
   onPurposeSelect(purpose) {
     var filteredState = Object.assign({}, this.state.filter, {
       purpose: purpose
     });
-    this.setState({ filter: filteredState, toShowPurpose: false }, () => {
-      this.getBadleeByGlobe();
-    });
+    this.setState(
+      {
+        filter: filteredState,
+        toShowPurpose: false,
+        paging: { page: 0, limit: 30 }
+      },
+      () => {
+        this.getBadleeByGlobe();
+      }
+    );
   }
   onRadioUnselect() {
     var filteredState = Object.assign({}, this.state.filter, {
       purpose: ""
     });
-    this.setState({ filter: filteredState, toShowPurpose: true }, () => {
-      this.getBadleeByGlobe();
-    });
+    this.setState(
+      {
+        filter: filteredState,
+        toShowPurpose: true,
+        paging: { page: 0, limit: 30 }
+      },
+      () => {
+        this.getBadleeByGlobe();
+      }
+    );
   }
 
   openLocationPicker() {
@@ -319,9 +336,16 @@ class Home extends Component {
       let filteredState = Object.assign({}, this.state.filter, {
         location: location
       });
-      this.setState({ filter: filteredState, showPicker: false }, () => {
-        this.getBadleeByGlobe();
-      });
+      this.setState(
+        {
+          filter: filteredState,
+          showPicker: false,
+          paging: { page: 0, limit: 30 }
+        },
+        () => {
+          this.getBadleeByGlobe();
+        }
+      );
     } else if (this.state.type === "category") {
       let category = "";
       if (submittedVal && submittedVal.length) {
@@ -330,9 +354,16 @@ class Home extends Component {
       let filteredState = Object.assign({}, this.state.filter, {
         category: category
       });
-      this.setState({ filter: filteredState, showPicker: false }, () => {
-        this.getBadleeByGlobe();
-      });
+      this.setState(
+        {
+          filter: filteredState,
+          showPicker: false,
+          paging: { page: 0, limit: 30 }
+        },
+        () => {
+          this.getBadleeByGlobe();
+        }
+      );
     } else {
       this.setState({ showPicker: false }, () => {
         let reason =

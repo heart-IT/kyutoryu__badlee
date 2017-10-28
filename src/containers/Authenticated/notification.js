@@ -30,7 +30,7 @@ class Notification extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <View>
+        <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
           <NotificationComponent data={this.state.notificationData} />
         </View>
       </StyleProvider>

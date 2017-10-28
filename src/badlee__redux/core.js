@@ -406,7 +406,6 @@ export function deleteComment(state, id) {
 export function checkNotification(state, notificationByID, order) {
   let currentData = state.getIn(["notifications", "dataByID"]);
   let updatedData = currentData.merge(notificationByID);
-
   let currentOrder = state.getIn(["notifications", "order"]);
   let updatedOrder = OrderedSet(order).union(currentOrder);
   return state

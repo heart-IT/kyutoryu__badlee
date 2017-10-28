@@ -10,37 +10,77 @@
  */
 
 "use strict";
-
+import moment from "moment";
 import React, { PureComponent } from "react";
-import { FlatList } from "react-native";
-import { Text } from "native-base";
+import { FlatList, TouchableOpacity } from "react-native";
+import { Card, CardItem, Body, Text, Thumbnail, View, Left } from "native-base";
 
 class NotificationItem extends React.PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.id);
-  };
   render() {
-    return <Text>lol</Text>;
+    return (
+      <Card>
+        <CardItem>
+          <Body
+            style={{
+              paddingTop: 12,
+              paddingBottom: 16,
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <TouchableOpacity>
+              <Thumbnail source={{ uri: this.props.userAvatar }} />
+            </TouchableOpacity>
+            <View style={{ flex: 1, paddingLeft: 6 }}>
+              {this.props.type === "like" && (
+                <Text style={{ lineHeight: 24 }}>
+                  <Text>You received a like from </Text>
+                  <Text style={{ fontWeight: "bold" }}>{this.props.name}</Text>
+                </Text>
+              )}
+              {this.props.type === "wish" && (
+                <Text style={{ lineHeight: 24 }}>
+                  <Text style={{ fontWeight: "bold" }}>{this.props.name} </Text>
+                  <Text>wished for your post </Text>
+                </Text>
+              )}
+              {this.props.type === "comment" && (
+                <Text style={{ lineHeight: 24 }}>
+                  <Text>You received a comment from </Text>
+                  <Text style={{ fontWeight: "bold" }}>{this.props.name} </Text>
+                </Text>
+              )}
+              {this.props.type === "follow" && (
+                <Text style={{ lineHeight: 24 }}>
+                  <Text style={{ fontWeight: "bold" }}>{this.props.name} </Text>
+                  <Text>started following you </Text>
+                </Text>
+              )}
+              <Text style={{ fontSize: 14, color: "#bababa" }}>
+                {moment(this.props.time)
+                  .add({ hours: 5, minutes: 30 })
+                  .fromNow()}
+              </Text>
+            </View>
+          </Body>
+        </CardItem>
+      </Card>
+    );
   }
 }
 
 export default class NotificationList extends React.PureComponent {
-  state = { selected: new Map() };
-  _keyExtractor = (item, index) => item.id;
-  _onPressItem = id => {
-    // updater functions are preferred for transactional updates
-    this.setState(state => {
-      // copy the map rather than modifying state.
-      const selected = new Map(state.selected);
-      selected.set(id, !selected.get(id)); // toggle
-      return { selected };
-    });
-  };
+  _keyExtractor = (item, index) => item.notification_id;
   _renderItem = ({ item }) => (
     <NotificationItem
-      id={item.id}
-      onPressItem={this._onPressItem}
-      selected={!!this.state.selected.get(item.id)}
+      id={item.notification_id}
+      type={item.type}
+      userAvatar={item.source_user_info.avatar}
+      name={item.source_user_info.fname + " " + item.source_user_info.lname}
+      userID={item.source_user_info.user_id}
+      typeID={item.type_id}
+      time={item.timestamp}
+      stauts={item.status}
     />
   );
   render() {
@@ -48,7 +88,6 @@ export default class NotificationList extends React.PureComponent {
     return (
       <FlatList
         data={this.props.data}
-        extraData={this.state}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
       />

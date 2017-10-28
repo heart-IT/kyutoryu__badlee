@@ -48,9 +48,6 @@ export default class BadleeGridItem extends React.PureComponent {
               height: 84,
               margin: 3
             }}
-            onError={e => {
-              console.log(e);
-            }}
           />
         </TouchableOpacity>
       </View>

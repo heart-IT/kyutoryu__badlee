@@ -33,7 +33,6 @@ class UserRow extends React.PureComponent {
     this.props.unfollow(this.props.userId);
   }
   render() {
-    console.log(this.props.userFollowing);
     return (
       <View
         style={{

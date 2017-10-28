@@ -29,12 +29,14 @@ import navigateMiddleware from "./middleware/navigate";
 import authMiddleWare from "./middleware/auth";
 import badleeMiddleware from "./middleware/badlee";
 import userMiddleware from "./middleware/user";
+import notificationMiddleware from "./middleware/notification";
 
 const middleware = [
   navigateMiddleware,
   authMiddleWare,
   badleeMiddleware,
-  userMiddleware
+  userMiddleware,
+  notificationMiddleware
 ];
 
 // In dev enivorement, add logger for redux.

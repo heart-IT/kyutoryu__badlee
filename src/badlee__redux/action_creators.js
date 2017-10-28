@@ -213,3 +213,7 @@ export const reportPost = (id, reason) => ({
   reason: reason,
   type: "REPORT_BADLEE"
 });
+
+export const checkForNotification = () => ({
+  type: "CHECK_NOTIFICATION"
+});

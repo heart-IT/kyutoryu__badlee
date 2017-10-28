@@ -36,6 +36,12 @@ class GoingMerry extends Component {
   state = {
     activeTabIndex: 0
   };
+  componentDidMount() {
+    let props = this.props;
+    setInterval(function() {
+      props.checkForNotification();
+    }, 10000);
+  }
   render() {
     let _this = this;
     function returnIcon(name, position, width = 22, height = 22) {

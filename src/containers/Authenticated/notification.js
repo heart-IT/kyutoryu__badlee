@@ -12,9 +12,38 @@
 "use strict";
 
 import React, { Component } from "react";
-import { Text } from "native-base";
-export default class Notification extends Component {
+import { connect } from "react-redux";
+import { View, StyleProvider, Text } from "native-base";
+import * as actionCreators from "../../badlee__redux/action_creators";
+import getTheme from "../../theme/components";
+import NotificationComponent from "../../components/notification_comp";
+class Notification extends Component {
+  state = {
+    notificationData: []
+  };
+  componentWillReceiveProps(nextProps) {
+    let data = nextProps.notificationByID.toJS();
+    let order = nextProps.order.toJS();
+    let notificationData = order.map(notificationID => data[notificationID]);
+    this.setState({ notificationData: notificationData });
+  }
   render() {
-    return <Text>Notifications</Text>;
+    return (
+      <StyleProvider style={getTheme()}>
+        <View>
+          <NotificationComponent data={this.state.notificationData} />
+        </View>
+      </StyleProvider>
+    );
   }
 }
+
+const _Wrapped = connect(
+  state => ({
+    notificationByID: state.getIn(["notifications", "dataByID"]),
+    order: state.getIn(["notifications", "order"])
+  }),
+  actionCreators
+)(Notification);
+
+export default _Wrapped;

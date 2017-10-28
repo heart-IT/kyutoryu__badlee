@@ -38,6 +38,7 @@ class GoingMerry extends Component {
   };
   componentDidMount() {
     let props = this.props;
+    props.checkForNotification();
     setInterval(function() {
       props.checkForNotification();
     }, 10000);

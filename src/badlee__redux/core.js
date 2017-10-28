@@ -56,6 +56,10 @@ const StateRecord = Record({
         globe: -1
       })
     })
+  }),
+  notifications: new Map({
+    dataByID: fromJS({}),
+    order: new OrderedSet()
   })
 });
 
@@ -397,4 +401,15 @@ export function deleteComment(state, id) {
       .set("comments", newComments)
       .set("comment_count", oldComments.size - 1);
   });
+}
+
+export function checkNotification(state, notificationByID, order) {
+  let currentData = state.getIn(["notifications", "dataByID"]);
+  let updatedData = currentData.merge(notificationByID);
+
+  let currentOrder = state.getIn(["notifications", "order"]);
+  let updatedOrder = OrderedSet(order).union(currentOrder);
+  return state
+    .setIn(["notifications", "dataByID"], updatedData)
+    .setIn(["notifications", "order"], updatedOrder);
 }

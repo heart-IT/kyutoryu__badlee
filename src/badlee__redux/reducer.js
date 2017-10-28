@@ -115,6 +115,12 @@ export function reducer(state = core.InitialState, action) {
     case "STORE_CURRENTSHOWINGBADLEE":
       return core.currentShowingBadlee(state, action.id);
       break;
+    case "CHECK_NOTIFICATION":
+      return core.checkNotification(
+        state,
+        action.notificationByID,
+        action.order
+      );
     default:
       return state;
   }

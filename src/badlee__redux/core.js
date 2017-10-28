@@ -343,7 +343,7 @@ export function wishBadlee(state, id) {
       "wishes",
       badlee.get("wishes")
         ? badlee.get("wishes").push(fromJS(wishObject))
-        : fromJS([likeObject])
+        : fromJS([wishObject])
     );
   });
 }

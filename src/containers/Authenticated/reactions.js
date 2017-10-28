@@ -27,6 +27,7 @@ import {
   Tab
 } from "native-base";
 
+import User from "./user";
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Icon from "../../components/Icon";
 import getTheme from "../../theme/components";
@@ -38,6 +39,9 @@ class Reactions extends Component {
       activeTabIndex: 0
     };
     this.onTabChange = this.onTabChange.bind(this);
+    this.onClickUser = this.onClickUser.bind(this);
+    this.onFollow = this.onFollow.bind(this);
+    this.onUnfollow = this.onUnfollow.bind(this);
   }
   goBack() {
     this.props.goBack();
@@ -47,6 +51,16 @@ class Reactions extends Component {
       activeTabIndex: i.i
     });
   }
+  onClickUser(userId) {
+    requestAnimationFrame(() => {
+      this.props.showUserPage(userId, {
+        navigator: this.props.navigator,
+        component: User
+      });
+    });
+  }
+  onFollow(userId) {}
+  onUnfollow(userId) {}
   render() {
     let userFollowing = this.props.userFollowing
       ? this.props.userFollowing
@@ -96,7 +110,14 @@ class Reactions extends Component {
                 </TabHeading>
               }
             >
-              <UserList data={likes} following={userFollowing} />
+              <UserList
+                data={likes}
+                following={userFollowing}
+                loggedUserID={this.props.loggedUserID}
+                onClickUser={this.onClickUser}
+                onFollow={this.onFollow}
+                onUnfollow={this.onUnfollow}
+              />
             </Tab>
             <Tab
               heading={
@@ -114,7 +135,14 @@ class Reactions extends Component {
                 </TabHeading>
               }
             >
-              <UserList data={wishes} following={userFollowing} />
+              <UserList
+                data={wishes}
+                following={userFollowing}
+                loggedUserID={this.props.loggedUserID}
+                onClickUser={this.onClickUser}
+                onFollow={this.onFollow}
+                onUnfollow={this.onUnfollow}
+              />
             </Tab>
           </Tabs>
         </Container>
@@ -138,6 +166,7 @@ var styles = {
 
 const _Wrapped = connect(
   state => ({
+    loggedUserID: state.getIn(["user", "loggedUserID"]),
     userFollowing: state.getIn([
       "user",
       "usersInformation",

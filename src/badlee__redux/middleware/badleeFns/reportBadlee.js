@@ -36,7 +36,8 @@ export default async function reportBadlee(store, next, action) {
     if (request.status === 200 && request.ok) {
       var response = await request.json();
       console.log(response);
-      return response;
+      action.reportItem = response;
+      next(action);
     } else {
       throw "Error happened in reporting";
     }

@@ -78,7 +78,8 @@ class BadleeCard extends React.PureComponent {
       wishes,
       commentCount,
       userID,
-      loggedUserID
+      loggedUserID,
+      isReported
     } = this.props;
     let reactionCount =
       (likes ? likes.length : 0) + (wishes ? wishes.length : 0);
@@ -86,12 +87,14 @@ class BadleeCard extends React.PureComponent {
     let userIdWishes = wishes ? wishes.map(like => like.user_id) : [];
     return (
       <Card style={styles.card}>
-        <Icon
-          name={purpose}
-          width="45"
-          height="45"
-          style={styles.purposeIcon}
-        />
+        {this.props.toShowPurpose && (
+          <Icon
+            name={purpose}
+            width="42"
+            height="42"
+            style={styles.purposeIcon}
+          />
+        )}
         <CardItem header>
           <TouchableOpacity
             onPress={this.onClickUser}
@@ -100,11 +103,11 @@ class BadleeCard extends React.PureComponent {
             <Thumbnail source={{ uri: userAvatar }} style={styles.userAvatar} />
             <Text style={styles.userName}>{userName}</Text>
           </TouchableOpacity>
-          <Text style={{ fontSize: 12 }}>
-            <Text>'s</Text>
-            <Text style={{ fontWeight: "bold" }}> Thingy</Text>
+          <Text>
+            <Text style={{ fontSize: 15 }}>'s</Text>
+            <Text style={{ fontSize: 15 }}> Thingy </Text>
           </Text>
-          <Text style={{ color: "#616161", fontSize: 15 }}>
+          <Text style={{ color: "#616161", fontSize: 13 }}>
             {moment(time)
               .add({ hours: 5, minutes: 30 })
               .fromNow()}
@@ -249,11 +252,22 @@ class BadleeCard extends React.PureComponent {
                 <Icon name="postDelete" width="30" height="30" />
               </TouchableOpacity>
             )}
-            {userID !== loggedUserID && (
-              <TouchableOpacity transparent onPress={this.onClickReport}>
-                <Icon name="report" width="30" height="30" />
-              </TouchableOpacity>
-            )}
+            {userID !== loggedUserID &&
+              !isReported && (
+                <TouchableOpacity transparent onPress={this.onClickReport}>
+                  <Icon name="report" width="30" height="30" />
+                </TouchableOpacity>
+              )}
+            {userID !== loggedUserID &&
+              isReported && (
+                <Icon
+                  name="report"
+                  width="30"
+                  height="30"
+                  fill="green"
+                  stroke="green"
+                />
+              )}
           </Right>
         </CardItem>
       </Card>

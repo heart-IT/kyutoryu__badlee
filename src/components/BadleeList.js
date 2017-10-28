@@ -66,6 +66,15 @@ class BadleeList extends React.PureComponent {
 
   _renderItem = ({ item }) => {
     if (this.props.type === "card") {
+      let isItemReport = this.props.reports.filter(report => {
+        if (
+          report.report_type === "badlee" &&
+          report.report_id == item.id &&
+          report.user == this.props.loggedUserID
+        ) {
+          return true;
+        }
+      });
       return (
         <BadleeCard
           id={item.id}
@@ -78,16 +87,18 @@ class BadleeList extends React.PureComponent {
           description={item.description}
           likes={item.likes}
           wishes={item.wishes}
+          isReported={!!isItemReport.length}
+          toShowPurpose={this.props.toShowPurpose}
           commentCount={item.comment_count}
           userID={item.user_info.user_id}
           loggedUserID={this.props.loggedUserID}
           onClickUser={this.onClickUser}
           onClickLike={this.onClickLike}
           onClickWish={this.onClickWish}
-          onClickComment={this.onClickComment}
-          onClickReaction={this.onClickReaction}
-          onClickDelete={this.onClickDelete}
           onClickReport={this.onClickReport}
+          onClickReaction={this.onClickReaction}
+          onClickComment={this.onClickComment}
+          onClickDelete={this.onClickDelete}
         />
       );
     } else {

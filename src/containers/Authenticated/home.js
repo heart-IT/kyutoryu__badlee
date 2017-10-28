@@ -378,6 +378,7 @@ class Home extends Component {
   }
 
   render() {
+    let reports = this.props.reports ? this.props.reports.toJS() : [];
     let _this = this;
     function returnIcon(name, position, width = 21, height = 21) {
       return (
@@ -422,6 +423,8 @@ class Home extends Component {
               <BadleeList
                 data={this.state.currentData}
                 type="card"
+                toShowPurpose={true}
+                reports={reports}
                 onClickUser={this.onClickUser}
                 onClickLike={this.onClickLike}
                 onClickWish={this.onClickWish}
@@ -454,6 +457,7 @@ class Home extends Component {
               <BadleeList
                 data={this.state.currentData}
                 type="card"
+                toShowPurpose={true}
                 onClickUser={this.onClickUser}
                 onClickLike={this.onClickLike}
                 onClickWish={this.onClickWish}
@@ -579,7 +583,8 @@ const _Wrapped = connect(
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
     badleeIDs: state.getIn(["badlees", "tabs"]),
-    pagingEndsIn: state.getIn(["badlees", "pagingEndsIn", "tabs"])
+    pagingEndsIn: state.getIn(["badlees", "pagingEndsIn", "tabs"]),
+    reports: state.get("reports")
   }),
   actionCreators
 )(Home);

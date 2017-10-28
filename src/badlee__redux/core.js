@@ -60,7 +60,8 @@ const StateRecord = Record({
   notifications: new Map({
     dataByID: fromJS({}),
     order: new OrderedSet()
-  })
+  }),
+  reports: fromJS([])
 });
 
 export const InitialState = new StateRecord();
@@ -411,4 +412,8 @@ export function checkNotification(state, notificationByID, order) {
   return state
     .setIn(["notifications", "dataByID"], updatedData)
     .setIn(["notifications", "order"], updatedOrder);
+}
+
+export function reportBadlee(state, reportItem) {
+  return state.set("reports", state.get("reports").push(reportItem));
 }

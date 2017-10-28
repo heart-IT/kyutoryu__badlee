@@ -30,8 +30,12 @@ import Comments from "./comments";
 import User from "./user";
 import BadleeCard from "../../components/BadleeCard";
 import Reactions from "./reactions";
+import Picker from "../../components/Picker";
 
 class SingleBadlee extends Component {
+  state = {
+    showPicker: false
+  };
   constructor(props) {
     super(props);
     this.onBackPress = this.onBackPress.bind(this);
@@ -41,6 +45,9 @@ class SingleBadlee extends Component {
     this.onClickComment = this.onClickComment.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickReaction = this.onClickReaction.bind(this);
+    this.onClickReport = this.onClickReport.bind(this);
+    this.closePicker = this.closePicker.bind(this);
+    this.onPickerSubmit = this.onPickerSubmit.bind(this);
   }
   onBackPress() {
     this.props.goBack();
@@ -69,6 +76,24 @@ class SingleBadlee extends Component {
     });
   }
   onClickDelete(id) {}
+  onClickReport(id) {
+    this.setState({ showPicker: true, type: "report", badleeId: id });
+  }
+  closePicker() {
+    this.setState({ showPicker: false });
+  }
+  onPickerSubmit(submittedVal) {
+    this.setState({ showPicker: false }, () => {
+      let reason =
+        submittedVal && submittedVal.length ? submittedVal[0].name : null;
+      let badleeId =
+        submittedVal && submittedVal.length ? submittedVal[0].badleeId : null;
+      if (reason) {
+        this.props.reportPost(badleeId, reason);
+      }
+    });
+  }
+
   onClickReaction(id) {
     requestAnimationFrame(() => {
       this.props.showReactionPage(id, {
@@ -79,7 +104,16 @@ class SingleBadlee extends Component {
   }
   render() {
     let cardData = this.props.badlee.toJS();
-
+    let reports = this.props.reports ? this.props.reports.toJS() : [];
+    let isItemReport = reports.filter(report => {
+      if (
+        report.report_type === "badlee" &&
+        report.report_id == cardData.id &&
+        report.user == this.props.loggedUserID
+      ) {
+        return true;
+      }
+    });
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -90,10 +124,10 @@ class SingleBadlee extends Component {
               </TouchableOpacity>
             </Left>
             <Right>
-              {cardData.purpose === "showOff" && (
+              {cardData.purpose === "showoff" && (
                 <Icon name="showoff" width="39" height="39" />
               )}
-              {cardData.purpose === "shoutOut" && (
+              {cardData.purpose === "shoutout" && (
                 <Icon name="shoutout" width="33" height="33" />
               )}
               {cardData.purpose === "exchange" && (
@@ -102,27 +136,41 @@ class SingleBadlee extends Component {
             </Right>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <BadleeCard
-              id={cardData.id}
-              media={cardData.media}
-              purpose={cardData.purpose}
-              userAvatar={cardData.user_info.avatar}
-              userName={cardData.user_info.username}
-              time={cardData.timestamp}
-              location={cardData.location}
-              description={cardData.description}
-              likes={cardData.likes}
-              wishes={cardData.wishes}
-              commentCount={cardData.comment_count}
-              userID={cardData.user}
-              loggedUserID={this.props.loggedUserID}
-              onClickUser={this.onClickUser}
-              onClickLike={this.onClickLike}
-              onClickWish={this.onClickWish}
-              onClickReaction={this.onClickReaction}
-              onClickComment={this.onClickComment}
-              onClickDelete={this.onClickDelete}
-            />
+            {!this.state.showPicker && (
+              <BadleeCard
+                id={cardData.id}
+                media={cardData.media}
+                purpose={cardData.purpose}
+                userAvatar={cardData.user_info.avatar}
+                userName={cardData.user_info.username}
+                time={cardData.timestamp}
+                location={cardData.location}
+                description={cardData.description}
+                likes={cardData.likes}
+                wishes={cardData.wishes}
+                isReported={!!isItemReport.length}
+                toShowPurpose={false}
+                commentCount={cardData.comment_count}
+                userID={cardData.user}
+                loggedUserID={this.props.loggedUserID}
+                onClickUser={this.onClickUser}
+                onClickLike={this.onClickLike}
+                onClickWish={this.onClickWish}
+                onClickReport={this.onClickReport}
+                onClickReaction={this.onClickReaction}
+                onClickComment={this.onClickComment}
+                onClickDelete={this.onClickDelete}
+              />
+            )}
+            {this.state.showPicker && (
+              <Picker
+                type={this.state.type}
+                multiselect={false}
+                badleeId={this.state.badleeId}
+                onPickerClose={this.closePicker}
+                onPickerSubmit={this.onPickerSubmit}
+              />
+            )}
           </Content>
         </Container>
       </StyleProvider>
@@ -179,7 +227,8 @@ const _Wrapped = connect(
       "data",
       state.getIn(["badlees", "currentShowing"])
     ]),
-    loggedUserID: state.getIn(["user", "loggedUserID"])
+    loggedUserID: state.getIn(["user", "loggedUserID"]),
+    reports: state.get("reports")
   }),
   actionCreators
 )(SingleBadlee);

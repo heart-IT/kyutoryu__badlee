@@ -53,7 +53,6 @@ class SingleBadlee extends Component {
   }
 
   onClickLike(id, didLike) {
-    console.log(id);
     didLike ? this.props.onClickLike(id) : this.props.onClickUnlike(id);
   }
   onClickWish(id, didWish) {
@@ -67,12 +66,10 @@ class SingleBadlee extends Component {
       });
     });
   }
-  onClickDelete(id) {
-    console.log(id);
-  }
+  onClickDelete(id) {}
   render() {
     let cardData = this.props.badlee.toJS();
-    console.log(cardData);
+
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

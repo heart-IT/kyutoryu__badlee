@@ -235,7 +235,6 @@ class Home extends Component {
   }
 
   onClickLike(id, didLike) {
-    console.log(id);
     didLike ? this.props.onClickLike(id) : this.props.onClickUnlike(id);
   }
   onClickWish(id, didWish) {
@@ -257,9 +256,7 @@ class Home extends Component {
       });
     });
   }
-  onClickDelete(id) {
-    console.log(id);
-  }
+  onClickDelete(id) {}
   onClickReport(id) {
     this.setState({ showPicker: true, type: "report", badleeId: id });
   }
@@ -334,7 +331,6 @@ class Home extends Component {
       });
     } else {
       this.setState({ showPicker: false }, () => {
-        console.log(submittedVal);
         let reason =
           submittedVal && submittedVal.length ? submittedVal[0].name : null;
         let badleeId =

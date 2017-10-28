@@ -70,14 +70,12 @@ class Reactions extends Component {
     let userFollowing = this.props.userFollowing
       ? this.props.userFollowing
           .map(user => {
-            console.log(user);
             return user.get("user_id_following");
           })
           .toJS()
       : [];
     let likes = this.props.likes ? this.props.likes.toJS() : [];
     let wishes = this.props.wishes ? this.props.wishes.toJS() : [];
-    console.log(userFollowing);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

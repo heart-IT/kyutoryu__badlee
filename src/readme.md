@@ -1,3 +1,20 @@
+@chill- A great elephant does not walk on a rabbit's path. Enlightenment goes far beyond our intellect. Do not use a tiny blade of grass to measure the heavens. -Yoka Daishi
+
+
+Logue Town Arc -
+Sixth and final story arc in East Blue. The birth and death place of Gol D Roger.
+
+Work:
+1. Luffy's First Bounty-> Notifications
+2. New and Old faces: White Hunter Smoker and Buggy the Clown-> Fix leftover badlee and user page issues
+3. The Unexpected Rescue: Enter Monkey D. Dragon-> Chat
+4. The Journey continues: To The Grand line-> Make the ultimate entry to the Grand line with a release..
+
+reward:
+1. We will finally enter Grand Line. World is so big.
+
+
+
 @chill- Not knowing why, not knowing why- This is my foundation: Not knowing why- Saichi
 
 Arlong Park Arc work:

@@ -330,6 +330,8 @@ class Search extends Component {
                     openCategoryPicker={this.openCategoryPicker}
                     onPurposeSelect={this.onPurposeSelect}
                     onRadioUnselect={this.onRadioUnselect}
+                    isLocationActive={!!this.state.filter.location}
+                    isCategoryActive={!!this.state.filter.category}
                   />
                 </View>
               )}

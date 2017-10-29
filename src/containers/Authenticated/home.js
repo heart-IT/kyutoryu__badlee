@@ -532,6 +532,8 @@ class Home extends Component {
                     globeSearchingFor={this.globeSearchingFor}
                     onPurposeSelect={this.onPurposeSelect}
                     onRadioUnselect={this.onRadioUnselect}
+                    isLocationActive={!!this.state.filter.location}
+                    isCategoryActive={!!this.state.filter.category}
                     style={{ flex: 1 }}
                   />
                 </View>

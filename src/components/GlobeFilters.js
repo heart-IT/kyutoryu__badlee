@@ -64,6 +64,7 @@ export default class GlobeFilters extends Component {
   }
 
   render() {
+    console.log(this.props.isLocationActive);
     return (
       <StyleProvider style={getTheme()}>
         <View style={styles.filterWrapper}>
@@ -92,15 +93,55 @@ export default class GlobeFilters extends Component {
               style={styles.centerRow}
               onPress={this.openLocationPicker.bind(this)}
             >
-              <Text style={styles.filterText}>Location</Text>
-              <Icon name="drop_arrow" width="16" height="10" />
+              {this.props.isLocationActive && (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={{ ...styles.filterText, ...{ color: "#611265" } }}
+                  >
+                    Location
+                  </Text>
+                  <Icon
+                    name="drop_arrow"
+                    width="16"
+                    height="10"
+                    fill="#611265"
+                    stroke="#611265"
+                  />
+                </View>
+              )}
+              {!this.props.isLocationActive && (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.filterText}>Location</Text>
+                  <Icon name="drop_arrow" width="16" height="10" />
+                </View>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.centerRow}
               onPress={this.openCategoryPicker.bind(this)}
             >
-              <Text style={styles.filterText}>Category</Text>
-              <Icon name="drop_arrow" width="16" height="10" />
+              {this.props.isCategoryActive && (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={{ ...styles.filterText, ...{ color: "#611265" } }}
+                  >
+                    Category
+                  </Text>
+                  <Icon
+                    name="drop_arrow"
+                    width="16"
+                    height="10"
+                    fill="#611265"
+                    stroke="#611265"
+                  />
+                </View>
+              )}
+              {!this.props.isCategoryActive && (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.filterText}>Category</Text>
+                  <Icon name="drop_arrow" width="16" height="10" />
+                </View>
+              )}
             </TouchableOpacity>
           </View>
         </View>

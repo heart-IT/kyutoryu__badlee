@@ -73,7 +73,10 @@ class UserRow extends React.PureComponent {
 
 export default class UserList extends React.PureComponent {
   state = { following: new Map() };
-  _keyExtractor = (item, index) => item.user_id;
+  _keyExtractor = (item, index) =>
+    item.user_id
+      ? item.user_id
+      : item.user_id_following ? item.user_id_following : item.user_id_follower;
   constructor(props) {
     super(props);
     this.onUserClicked = this.onUserClicked.bind(this);
@@ -92,7 +95,13 @@ export default class UserList extends React.PureComponent {
 
   _renderItem = ({ item }) => (
     <UserRow
-      userId={item.user_id}
+      userId={
+        item.user_id
+          ? item.user_id
+          : item.user_id_following
+            ? item.user_id_following
+            : item.user_id_follower
+      }
       userName={item.name ? item.name : item.fname + " " + item.lname}
       avatar={item.avatar}
       userFollowing={this.props.following}
@@ -103,6 +112,7 @@ export default class UserList extends React.PureComponent {
     />
   );
   render() {
+    console.log(this.props.data);
     return (
       <FlatList
         data={this.props.data}

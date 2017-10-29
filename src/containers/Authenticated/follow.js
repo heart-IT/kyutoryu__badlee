@@ -36,6 +36,10 @@ class Follow extends Component {
     this.onClickUser = this.onClickUser.bind(this);
     this.onFollow = this.onFollow.bind(this);
     this.onUnfollow = this.onUnfollow.bind(this);
+    let { type } = props.params;
+    this.state = {
+      type: type
+    };
   }
   goBack() {
     this.props.goBack();
@@ -68,6 +72,7 @@ class Follow extends Component {
     let userFollower = this.props.userFollower
       ? this.props.userFollower.toJS()
       : [];
+    let data = this.state.type === "following" ? userFollowing : userFollower;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -81,12 +86,15 @@ class Follow extends Component {
                   height="16"
                 />
               </TouchableOpacity>
-              <Text style={styles.headerText}>Following</Text>
+              <Text style={styles.headerText}>
+                {this.state.type === "following" && "Following"}
+                {this.state.type === "follower" && "Follower"}
+              </Text>
             </Left>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <UserList
-              data={userFollowing}
+              data={data}
               following={loggedUserFollowing}
               loggedUserID={this.props.loggedUserID}
               onClickUser={this.onClickUser}

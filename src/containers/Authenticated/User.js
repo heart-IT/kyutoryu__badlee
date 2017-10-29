@@ -55,6 +55,8 @@ class User extends Component {
     this.unFollowUser = this.unFollowUser.bind(this);
     this.followUser = this.followUser.bind(this);
     this.onClickFollower = this.onClickFollower.bind(this);
+    this.onClickFollowing = this.onClickFollowing.bind(this);
+
     this.onTabChange = this.onTabChange.bind(this);
 
     this.onClickBadlee = this.onClickBadlee.bind(this);
@@ -136,7 +138,21 @@ class User extends Component {
     requestAnimationFrame(() => {
       this.props.navigate({
         navigator: this.props.navigator,
-        component: Follow
+        component: Follow,
+        params: {
+          type: "follower"
+        }
+      });
+    });
+  }
+  onClickFollowing() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Follow,
+        params: {
+          type: "following"
+        }
       });
     });
   }
@@ -239,12 +255,15 @@ class User extends Component {
                 <Text style={styles.user__location}>{user.location}</Text>
               </View>
               <View style={styles.user__supporters}>
-                <View style={styles.user__following}>
+                <TouchableOpacity
+                  style={styles.user__following}
+                  onPress={this.onClickFollowing}
+                >
                   <Text style={styles.supporters__label}>Following</Text>
                   <Text style={styles.supporters__value}>
                     {user.following ? user.following.length : 0}
                   </Text>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.user__follower}
                   onPress={this.onClickFollower}

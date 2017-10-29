@@ -34,6 +34,7 @@ import Icon from "../../components/Icon";
 import BadleeList from "../../components/BadleeList";
 import getTheme from "../../theme/components";
 import Login from "../Not__Authenticated/login";
+import Picker from "../../components/Picker";
 
 class User extends Component {
   constructor(props) {
@@ -60,6 +61,9 @@ class User extends Component {
     this.onClickBadlee = this.onClickBadlee.bind(this);
     this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
     this.onListEnd = this.onListEnd.bind(this);
+    this.openMenu = this.openMenu.bind(this);
+    this.closePicker = this.closePicker.bind(this);
+    this.onPickerSubmit = this.onPickerSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -99,6 +103,18 @@ class User extends Component {
     this.props.getUserBadlees(userID, activeTab, page * limit, limit);
   }
 
+  openMenu(id) {
+    this.setState({ showPicker: true, type: "userMenu" });
+  }
+  closePicker() {
+    this.setState({ showPicker: false });
+  }
+  onPickerSubmit(submittedVal) {
+    console.log(submittedVal);
+    let response = submittedVal && submittedVal[0].name;
+    console.log(response);
+    this.setState({ showPicker: false });
+  }
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,
@@ -196,10 +212,10 @@ class User extends Component {
               {!this.state.isOtherUser && (
                 <TouchableOpacity
                   transparent
-                  onPress={this.handleLogout}
+                  onPress={this.openMenu}
                   style={styles.logout}
                 >
-                  {returnIcon("logout")}
+                  {returnIcon("hamburger", 48, 48)}
                 </TouchableOpacity>
               )}
               <View>
@@ -311,6 +327,14 @@ class User extends Component {
                   />
                 </Tab>
               </Tabs>
+              {this.state.showPicker && (
+                <Picker
+                  type={this.state.type}
+                  multiselect={false}
+                  onPickerClose={this.closePicker}
+                  onPickerSubmit={this.onPickerSubmit}
+                />
+              )}
             </View>
           </Content>
         </Container>

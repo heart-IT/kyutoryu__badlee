@@ -25,6 +25,13 @@ export const Report = [
   }
 ];
 
+export const UserMenu = [
+  { name: "See T&C", id: 0 },
+  { name: "Change Password", id: 1 },
+  { name: "Edit Profile", id: 2 },
+  { name: "Log out", id: 3 }
+];
+
 export const Categories = [
   { name: "Cameras & accessories", id: 0 },
   { name: "Fashion & Accessories", id: 1 },

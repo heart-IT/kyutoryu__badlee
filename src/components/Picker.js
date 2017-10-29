@@ -60,7 +60,7 @@ export default class Picker extends PureComponent {
       selected: this.props.selectedValue
         ? new Map().set(+this.props.selectedValue, true)
         : new Map(),
-      needSearch: this.props.type === "userMenu" ? false : true,
+      needSearch: this.props.needSearch,
       needSubmitButton: this.props.type === "userMenu" ? false : true,
       onePunchGo: this.props.type === "userMenu" ? true : false
     };

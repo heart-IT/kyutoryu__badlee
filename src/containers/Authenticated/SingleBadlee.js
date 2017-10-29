@@ -77,7 +77,11 @@ class SingleBadlee extends Component {
   }
   onClickDelete(id) {}
   onClickReport(id) {
-    this.setState({ showPicker: true, type: "report", badleeId: id });
+    this.setState({
+      showPicker: true,
+      type: "report",
+      badleeId: id
+    });
   }
   closePicker() {
     this.setState({ showPicker: false });
@@ -167,6 +171,7 @@ class SingleBadlee extends Component {
                 type={this.state.type}
                 multiselect={false}
                 badleeId={this.state.badleeId}
+                needSearch={false}
                 onPickerClose={this.closePicker}
                 onPickerSubmit={this.onPickerSubmit}
               />

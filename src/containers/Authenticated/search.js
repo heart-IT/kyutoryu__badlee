@@ -375,6 +375,7 @@ class Search extends Component {
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
                   selectedValue={this.state.pickerSelectedValue}
+                  needSearch={true}
                 />
               )}
             </Tab>

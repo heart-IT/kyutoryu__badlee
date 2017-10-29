@@ -333,6 +333,7 @@ class User extends Component {
                   multiselect={false}
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
+                  needSearch={false}
                 />
               )}
             </View>

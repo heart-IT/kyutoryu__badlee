@@ -265,7 +265,12 @@ class Home extends Component {
   }
   onClickDelete(id) {}
   onClickReport(id) {
-    this.setState({ showPicker: true, type: "report", badleeId: id });
+    this.setState({
+      showPicker: true,
+      type: "report",
+      badleeId: id,
+      needSearch: false
+    });
   }
 
   onClickBadlee(id) {
@@ -483,6 +488,7 @@ class Home extends Component {
                 data={this.state.currentData}
                 type="card"
                 toShowPurpose={true}
+                reports={reports}
                 onClickUser={this.onClickUser}
                 onClickLike={this.onClickLike}
                 onClickWish={this.onClickWish}
@@ -600,6 +606,7 @@ class Home extends Component {
               badleeId={this.state.badleeId}
               selectedValue={this.state.pickerSelectedValue}
               onPickerClose={this.closePicker}
+              needSearch={this.state.activeTabIndex === 2 ? true : false}
               onPickerSubmit={this.onPickerSubmit}
             />
           )}

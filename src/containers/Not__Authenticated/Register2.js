@@ -217,6 +217,7 @@ class Register2 extends Component {
                   maximumValues={this.state.maximumValues}
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
+                  needSearch={true}
                 />
               )}
               {!this.state.showPicker && (

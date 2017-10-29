@@ -153,7 +153,7 @@ class NewBadlee extends Component {
       navigator: this.props.navigator,
       component: SingleBadlee
     });
-    this.setState({description: null, location: null, category: null})
+    this.setState({ description: null, location: null, category: null });
   }
 
   closePicker() {
@@ -275,6 +275,7 @@ class NewBadlee extends Component {
                 multiselect={false}
                 onPickerClose={this.closePicker.bind(this)}
                 onPickerSubmit={this.onPickerSubmit.bind(this)}
+                needSearch={true}
               />
             )}
           </Content>

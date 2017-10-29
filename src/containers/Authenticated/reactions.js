@@ -21,7 +21,6 @@ import {
   Left,
   StyleProvider,
   Text,
-  Thumbnail,
   View,
   Tabs,
   Tab

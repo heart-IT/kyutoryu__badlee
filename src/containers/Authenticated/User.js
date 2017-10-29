@@ -42,11 +42,9 @@ class User extends Component {
     this.state = {
       activeTabIndex: 0,
       currentData: [],
-      isOtherUser: props.params && props.params.isOtherUser,
-      userProfile:
-        props.params && props.params.isOtherUser
-          ? props.guestUser.toJS()
-          : props.user.toJS(),
+      isOtherUser:
+        props.user.get("user_id") !== props.loggedUser.get("user_id"),
+      userProfile: props.user.toJS(),
       paging: { page: 0, limit: 32 }
     };
 
@@ -446,12 +444,12 @@ const _Wrapped = connect(
     user: state.getIn([
       "user",
       "usersInformation",
-      state.getIn(["user", "loggedUserID"])
+      state.getIn(["user", "showing"])
     ]),
-    guestUser: state.getIn([
+    loggedUser: state.getIn([
       "user",
       "usersInformation",
-      state.getIn(["user", "guestUserID"])
+      state.getIn(["user", "loggedUserID"])
     ]),
     badlees: state.getIn(["badlees", "data"]),
     badleeUserIDs: state.getIn(["badlees", "users"])

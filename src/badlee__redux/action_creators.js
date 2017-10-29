@@ -224,3 +224,8 @@ export const reportPost = (id, reason) => ({
 export const checkForNotification = () => ({
   type: "CHECK_NOTIFICATION"
 });
+
+export const userShowing = userID => ({
+  type: "USER_SHOWING",
+  userID: userID
+});

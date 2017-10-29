@@ -39,7 +39,8 @@ const StateRecord = Record({
     loggedUserID: null,
     guestUserID: null,
     usersInformation: fromJS({}),
-    searching: fromJS([])
+    searching: fromJS([]),
+    showing: -1
   }),
   badlees: new Map({
     data: fromJS({}),
@@ -133,7 +134,8 @@ export function addLoggedUser(state, user) {
     .setIn(
       ["user", "usersInformation"],
       state.getIn(["user", "usersInformation"]).merge(userInformation)
-    );
+    )
+    .setIn(["user", "showing"], userID);
 }
 
 export function clearUser(state) {
@@ -426,4 +428,8 @@ export function searchUser(state, users, usersID) {
       state.getIn(["user", "usersInformation"]).merge(users)
     )
     .setIn(["user", "searching"], usersID);
+}
+
+export function userShowing(state, userID) {
+  return state.setIn(["user", "showing"], userID);
 }

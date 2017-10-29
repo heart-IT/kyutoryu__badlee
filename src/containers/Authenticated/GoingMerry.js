@@ -36,12 +36,22 @@ class GoingMerry extends Component {
   state = {
     activeTabIndex: 0
   };
+  constructor(props) {
+    super(props);
+    this.onChangeTab = this.onChangeTab.bind(this);
+  }
   componentDidMount() {
     let props = this.props;
     props.checkForNotification();
     setInterval(function() {
       props.checkForNotification();
     }, 10000);
+  }
+  onChangeTab(i, ref) {
+    if (i * i === 3) {
+      this.props.userShowing(this.props.loggedUserID);
+    }
+    this.setState({ activeTabIndex: i.i });
   }
   render() {
     let _this = this;
@@ -62,7 +72,7 @@ class GoingMerry extends Component {
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <Tabs
               locked={true}
-              onChangeTab={(i, ref) => this.setState({ activeTabIndex: i.i })}
+              onChangeTab={this.onChangeTab}
               tabBarUnderlineStyle={{ opacity: 0 }}
             >
               <Tab heading={<TabHeading>{returnIcon("home", 0)}</TabHeading>}>
@@ -90,11 +100,7 @@ class GoingMerry extends Component {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    user: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"])
-    ])
+    loggedUserID: state.getIn(["user", "loggedUserID"])
   }),
   actionCreators
 )(GoingMerry);

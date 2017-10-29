@@ -127,6 +127,9 @@ export function reducer(state = core.InitialState, action) {
     case "SEARCH_USER":
       return core.searchUser(state, action.users, action.usersID);
       break;
+    case "USER_SHOWING":
+      return core.userShowing(state, action.userID);
+      break;
     default:
       return state;
   }

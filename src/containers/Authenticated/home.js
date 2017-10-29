@@ -478,14 +478,51 @@ class Home extends Component {
               }
             >
               {!this.state.showPicker && (
-                <GlobeFilters
-                  openLocationPicker={this.openLocationPicker}
-                  openCategoryPicker={this.openCategoryPicker}
-                  globeSearchingFor={this.globeSearchingFor}
-                  onPurposeSelect={this.onPurposeSelect}
-                  onRadioUnselect={this.onRadioUnselect}
-                  style={{ flex: 1, zIndex: 44 }}
-                />
+                <View
+                  style={{
+                    padding: 12,
+                    paddingBottom: 6,
+                    backgroundColor: "#f5f5f5",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 1
+                  }}
+                >
+                  <View
+                    style={{
+                      height: 42,
+                      borderWidth: 1,
+                      borderColor: "#e0e0e0",
+                      paddingLeft: 12,
+                      backgroundColor: "#eeeeee",
+                      borderRadius: 21,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginBottom: 12
+                    }}
+                  >
+                    <Icon name="search" width="15" height="15" />
+                    <Text
+                      style={{
+                        color: "rgba(0, 0, 0, 0.70)",
+                        fontSize: 15,
+                        marginLeft: 6
+                      }}
+                    >
+                      Search for folks or thingies
+                    </Text>
+                  </View>
+                  <GlobeFilters
+                    openLocationPicker={this.openLocationPicker}
+                    openCategoryPicker={this.openCategoryPicker}
+                    globeSearchingFor={this.globeSearchingFor}
+                    onPurposeSelect={this.onPurposeSelect}
+                    onRadioUnselect={this.onRadioUnselect}
+                    style={{ flex: 1 }}
+                  />
+                </View>
               )}
               {!this.state.currentData.length && (
                 <View style={styles.NoDataView}>

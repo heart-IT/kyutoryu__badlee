@@ -71,57 +71,42 @@ export default class GlobeFilters extends Component {
   render() {
     return (
       <StyleProvider style={getTheme()}>
-        <View>
-          <View style={styles.filterWrapper}>
-            <View style={styles.inputWrapper}>
-              <Item rounded style={styles.searchItem}>
-                <Icon name="search" width="15" height="15" />
-                <Input
-                  placeholder="Search for folks or thingies.."
-                  style={styles.searchInput}
-                  value={this.state.search}
-                  onChangeText={searchString =>
-                    this.setState({ search: searchString })}
-                  onEndEditing={this.searchInputChanged.bind(this)}
-                />
-              </Item>
+        <View style={styles.filterWrapper}>
+          <View style={styles.subFilterWrapper}>
+            <View style={styles.centerRow}>
+              <Icon name="exchange" width="21" height="21" />
+              <Radio
+                style={styles.purposeRadio}
+                selected={this.state.purpose === "exchange" ? true : false}
+                onPress={this.onRadioExchangeSelect.bind(this)}
+              />
+              <Icon name="showoff" width="24" height="24" />
+              <Radio
+                style={styles.purposeRadio}
+                selected={this.state.purpose === "showoff" ? true : false}
+                onPress={this.onRadioShowoffSelect.bind(this)}
+              />
+              <Icon name="shoutout" width="21" height="21" />
+              <Radio
+                style={styles.purposeRadio}
+                selected={this.state.purpose === "shoutout" ? true : false}
+                onPress={this.onRadioShoutoutSelect.bind(this)}
+              />
             </View>
-            <View style={styles.subFilterWrapper}>
-              <View style={styles.centerRow}>
-                <Icon name="exchange" width="21" height="21" />
-                <Radio
-                  style={styles.purposeRadio}
-                  selected={this.state.purpose === "exchange" ? true : false}
-                  onPress={this.onRadioExchangeSelect.bind(this)}
-                />
-                <Icon name="showoff" width="24" height="24" />
-                <Radio
-                  style={styles.purposeRadio}
-                  selected={this.state.purpose === "showoff" ? true : false}
-                  onPress={this.onRadioShowoffSelect.bind(this)}
-                />
-                <Icon name="shoutout" width="21" height="21" />
-                <Radio
-                  style={styles.purposeRadio}
-                  selected={this.state.purpose === "shoutout" ? true : false}
-                  onPress={this.onRadioShoutoutSelect.bind(this)}
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.centerRow}
-                onPress={this.openLocationPicker.bind(this)}
-              >
-                <Text style={styles.filterText}>Location</Text>
-                <Icon name="drop_arrow" width="16" height="10" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.centerRow}
-                onPress={this.openCategoryPicker.bind(this)}
-              >
-                <Text style={styles.filterText}>Category</Text>
-                <Icon name="drop_arrow" width="16" height="10" />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={styles.centerRow}
+              onPress={this.openLocationPicker.bind(this)}
+            >
+              <Text style={styles.filterText}>Location</Text>
+              <Icon name="drop_arrow" width="16" height="10" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.centerRow}
+              onPress={this.openCategoryPicker.bind(this)}
+            >
+              <Text style={styles.filterText}>Category</Text>
+              <Icon name="drop_arrow" width="16" height="10" />
+            </TouchableOpacity>
           </View>
         </View>
       </StyleProvider>
@@ -131,12 +116,7 @@ export default class GlobeFilters extends Component {
 
 var styles = {
   filterWrapper: {
-    backgroundColor: "#f5f5f5",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 1
+    backgroundColor: "#f5f5f5"
   },
   inputWrapper: {
     padding: 12
@@ -150,9 +130,6 @@ var styles = {
   },
   searchInput: { height: 42, lineHeight: 42, fontSize: 15 },
   subFilterWrapper: {
-    paddingLeft: 12,
-    paddingRight: 12,
-    marginBottom: 9,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"

@@ -49,6 +49,7 @@ export default class Picker extends PureComponent {
     } else {
       allData = Report;
     }
+    console.log(this.props.selectedValue);
     this.state = {
       searchInputValue: "",
       allData: allData,
@@ -56,11 +57,14 @@ export default class Picker extends PureComponent {
       fuseSearchKey:
         this.props.type === "location" ? ["city", "state"] : ["name"],
       multiselect: this.props.multiselect,
-      selected: new Map(),
+      selected: this.props.selectedValue
+        ? new Map().set(+this.props.selectedValue, true)
+        : new Map(),
       needSearch: this.props.type === "userMenu" ? false : true,
       needSubmitButton: this.props.type === "userMenu" ? false : true,
       onePunchGo: this.props.type === "userMenu" ? true : false
     };
+    console.log(this.state.selected);
     this.closeIconClicked = this.closeIconClicked.bind(this);
     this.onSearchType = this.onSearchType.bind(this);
     this._onPressSubmit = this._onPressSubmit.bind(this);
@@ -82,7 +86,6 @@ export default class Picker extends PureComponent {
             oldSelected = oldSelected.clear().set(item.id, itemOldValue);
           }
           const selected = oldSelected.set(item.id, !oldSelected.get(item.id)); // toggle
-          console.log(selected.toJS());
           return { selected };
         },
         () => {

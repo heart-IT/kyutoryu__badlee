@@ -43,7 +43,8 @@ class Home extends Component {
       category: ""
     },
     toShowPurpose: true,
-    isActive: false
+    isActive: false,
+    pickerSelectedValue: ""
   };
 
   constructor(props) {
@@ -159,8 +160,8 @@ class Home extends Component {
       tabName: "globe",
       search: this.state.filter.search,
       purpose: this.state.filter.purpose,
-      location: this.state.filter.location,
-      category: this.state.filter.category,
+      location: this.state.filter.location.city,
+      category: this.state.filter.category.name,
       offset: page * limit,
       limit: limit
     });
@@ -186,7 +187,7 @@ class Home extends Component {
 
   // on tab change, update tabIndex and pagination values. After updating, get list of badlees.
   onTabChange(i, ref) {
-    let limit = i.i === 2 ? 30 : 5;
+    let limit = i.i === 2 ? 32 : 5;
     this.setState(
       {
         activeTabIndex: i.i,
@@ -290,7 +291,7 @@ class Home extends Component {
       search: searchString
     });
     this.setState(
-      { filter: filteredState, paging: { page: 0, limit: 30 } },
+      { filter: filteredState, paging: { page: 0, limit: 32 } },
       () => {
         this.getBadleeByGlobe();
       }
@@ -305,7 +306,7 @@ class Home extends Component {
       {
         filter: filteredState,
         toShowPurpose: false,
-        paging: { page: 0, limit: 30 }
+        paging: { page: 0, limit: 32 }
       },
       () => {
         this.getBadleeByGlobe();
@@ -320,7 +321,7 @@ class Home extends Component {
       {
         filter: filteredState,
         toShowPurpose: true,
-        paging: { page: 0, limit: 30 }
+        paging: { page: 0, limit: 32 }
       },
       () => {
         this.getBadleeByGlobe();
@@ -329,10 +330,22 @@ class Home extends Component {
   }
 
   openLocationPicker() {
-    this.setState({ showPicker: true, type: "location" });
+    this.setState({
+      showPicker: true,
+      type: "location",
+      pickerSelectedValue: this.state.filter.location
+        ? String(this.state.filter.location.id)
+        : ""
+    });
   }
   openCategoryPicker() {
-    this.setState({ showPicker: true, type: "category" });
+    this.setState({
+      showPicker: true,
+      type: "category",
+      pickerSelectedValue: this.state.filter.category
+        ? String(this.state.filter.category.id)
+        : ""
+    });
   }
   closePicker() {
     this.setState({ showPicker: false });
@@ -342,7 +355,7 @@ class Home extends Component {
     if (this.state.type === "location") {
       let location = "";
       if (submittedVal && submittedVal.length) {
-        location = submittedVal[0].city;
+        location = submittedVal[0];
       }
       let filteredState = Object.assign({}, this.state.filter, {
         location: location
@@ -351,7 +364,7 @@ class Home extends Component {
         {
           filter: filteredState,
           showPicker: false,
-          paging: { page: 0, limit: 30 }
+          paging: { page: 0, limit: 32 }
         },
         () => {
           this.getBadleeByGlobe();
@@ -360,7 +373,7 @@ class Home extends Component {
     } else if (this.state.type === "category") {
       let category = "";
       if (submittedVal && submittedVal.length) {
-        category = submittedVal[0].name;
+        category = submittedVal[0];
       }
       let filteredState = Object.assign({}, this.state.filter, {
         category: category
@@ -369,7 +382,7 @@ class Home extends Component {
         {
           filter: filteredState,
           showPicker: false,
-          paging: { page: 0, limit: 30 }
+          paging: { page: 0, limit: 32 }
         },
         () => {
           this.getBadleeByGlobe();
@@ -404,6 +417,7 @@ class Home extends Component {
         />
       );
     }
+    console.log(this.state.pickerSelectedValue);
 
     return (
       <StyleProvider style={getTheme()}>
@@ -584,6 +598,7 @@ class Home extends Component {
               type={this.state.type}
               multiselect={false}
               badleeId={this.state.badleeId}
+              selectedValue={this.state.pickerSelectedValue}
               onPickerClose={this.closePicker}
               onPickerSubmit={this.onPickerSubmit}
             />

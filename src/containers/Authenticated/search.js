@@ -54,7 +54,8 @@ class Search extends Component {
     search: "",
     toShowPurpose: true,
     activeTabIndex: 0,
-    usersData: []
+    usersData: [],
+    pickerSelectedValue: ""
   };
   constructor(props) {
     super(props);
@@ -98,8 +99,8 @@ class Search extends Component {
       tabName: "globe",
       search: this.state.filter.search,
       purpose: this.state.filter.purpose,
-      location: this.state.filter.location,
-      category: this.state.filter.category,
+      location: this.state.filter.location.city,
+      category: this.state.filter.category.name,
       offset: page * limit,
       limit: limit
     });
@@ -178,10 +179,22 @@ class Search extends Component {
     }
   }
   openLocationPicker() {
-    this.setState({ showPicker: true, type: "location" });
+    this.setState({
+      showPicker: true,
+      type: "location",
+      pickerSelectedValue: this.state.filter.location
+        ? String(this.state.filter.location.id)
+        : ""
+    });
   }
   openCategoryPicker() {
-    this.setState({ showPicker: true, type: "category" });
+    this.setState({
+      showPicker: true,
+      type: "category",
+      pickerSelectedValue: this.state.filter.category
+        ? String(this.state.filter.category.id)
+        : ""
+    });
   }
   closePicker() {
     this.setState({ showPicker: false });
@@ -190,7 +203,7 @@ class Search extends Component {
     if (this.state.type === "location") {
       let location = "";
       if (submittedVal && submittedVal.length) {
-        location = submittedVal[0].city;
+        location = submittedVal[0];
       }
       let filteredState = Object.assign({}, this.state.filter, {
         location: location
@@ -208,7 +221,7 @@ class Search extends Component {
     } else if (this.state.type === "category") {
       let category = "";
       if (submittedVal && submittedVal.length) {
-        category = submittedVal[0].name;
+        category = submittedVal[0];
       }
       let filteredState = Object.assign({}, this.state.filter, {
         category: category
@@ -361,6 +374,7 @@ class Search extends Component {
                   badleeId={this.state.badleeId}
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
+                  selectedValue={this.state.pickerSelectedValue}
                 />
               )}
             </Tab>
@@ -373,7 +387,12 @@ class Search extends Component {
             >
               {this.state.search.length < 3 &&
                 !this.state.usersData.length && (
-                  <View style={styles.NoDataView}>
+                  <View
+                    style={{
+                      ...styles.NoDataView,
+                      ...{ backgroundColor: "#fff" }
+                    }}
+                  >
                     <Icon
                       name="noLocationIllustration"
                       width="60"
@@ -385,7 +404,12 @@ class Search extends Component {
                 )}
               {this.state.search.length >= 3 &&
                 !this.state.usersData.length && (
-                  <View style={styles.NoDataView}>
+                  <View
+                    style={{
+                      ...styles.NoDataView,
+                      ...{ backgroundColor: "#fff" }
+                    }}
+                  >
                     <Icon
                       name="noLocationIllustration"
                       width="60"
@@ -423,7 +447,7 @@ var styles = {
     justifyContent: "center",
     paddingLeft: "12%",
     paddingRight: "12%",
-    backgroundColor: "#fff"
+    backgroundColor: "#eeeeee"
   },
   mainText: {
     textAlign: "center",

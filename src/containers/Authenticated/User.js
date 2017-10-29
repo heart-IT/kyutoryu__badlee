@@ -36,7 +36,7 @@ import getTheme from "../../theme/components";
 import Login from "../Not__Authenticated/login";
 import Picker from "../../components/Picker";
 import Follow from "./follow";
-
+import TnC from "../../components/tnc";
 class User extends Component {
   constructor(props) {
     super(props);
@@ -65,6 +65,7 @@ class User extends Component {
     this.openMenu = this.openMenu.bind(this);
     this.closePicker = this.closePicker.bind(this);
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
+    this.onTnCPressed = this.onTnCPressed.bind(this);
   }
 
   componentDidMount() {
@@ -103,7 +104,14 @@ class User extends Component {
     let userID = this.state.userProfile.user_id;
     this.props.getUserBadlees(userID, activeTab, page * limit, limit);
   }
-
+  onTnCPressed() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: TnC
+      });
+    });
+  }
   openMenu(id) {
     this.setState({ showPicker: true, type: "userMenu" });
   }
@@ -111,10 +119,13 @@ class User extends Component {
     this.setState({ showPicker: false });
   }
   onPickerSubmit(submittedVal) {
-    console.log(submittedVal);
-    let response = submittedVal && submittedVal[0].name;
-    console.log(response);
     this.setState({ showPicker: false });
+    let response = submittedVal && submittedVal[0].id;
+    if (response === 0) {
+      this.onTnCPressed();
+    } else if (response === 3) {
+      this.handleLogout();
+    }
   }
   handleLogout() {
     this.props.logout({
@@ -246,7 +257,12 @@ class User extends Component {
                   onPress={this.openMenu}
                   style={styles.logout}
                 >
-                  {returnIcon("hamburger", 48, 48)}
+                  <Icon
+                    name="hamburger"
+                    width="48"
+                    height="48"
+                    fill="#939393"
+                  />
                 </TouchableOpacity>
               )}
               <View>

@@ -188,6 +188,7 @@ class User extends Component {
       return <Icon name={name} width={width} height={height} />;
     }
     let user = this.state.userProfile;
+    console.log(user);
     const loggedUserID = this.props.loggedUser.get("user_id");
     let isGuestFollower = false;
     if (user.follower) {
@@ -197,6 +198,7 @@ class User extends Component {
         }
       });
     }
+    console.log(user.follower);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -483,6 +485,7 @@ const _Wrapped = connect(
       "usersInformation",
       state.getIn(["user", "showing"])
     ]),
+    userShowing: state.getIn(["user", "showing"]),
     loggedUser: state.getIn([
       "user",
       "usersInformation",

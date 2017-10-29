@@ -54,21 +54,85 @@ class Follow extends Component {
   onUnfollow(userId) {
     this.props.unFollowUser(userId);
   }
-  render() {}
+  render() {
+    let loggedUserFollowing = this.props.loggedUserFollowing
+      ? this.props.loggedUserFollowing
+          .map(user => {
+            return user.get("user_id_following");
+          })
+          .toJS()
+      : [];
+    let userFollowing = this.props.userFollowing
+      ? this.props.userFollowing.toJS()
+      : [];
+    let userFollower = this.props.userFollower
+      ? this.props.userFollower.toJS()
+      : [];
+    return (
+      <StyleProvider style={getTheme()}>
+        <Container style={{ flex: 1 }}>
+          <Header style={{ backgroundColor: "#fff" }}>
+            <Left style={styles.headerLeft}>
+              <TouchableOpacity onPress={this.goBack}>
+                <Icon
+                  name="menuBackIcon"
+                  stroke="rgba(0, 0, 0, 0.81)"
+                  width="16"
+                  height="16"
+                />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>Following</Text>
+            </Left>
+          </Header>
+          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <UserList
+              data={userFollowing}
+              following={loggedUserFollowing}
+              loggedUserID={this.props.loggedUserID}
+              onClickUser={this.onClickUser}
+              onFollow={this.onFollow}
+              onUnfollow={this.onUnfollow}
+            />
+          </Content>
+        </Container>
+      </StyleProvider>
+    );
+  }
 }
+
+var styles = {
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  headerText: {
+    color: "rgba(0, 0, 0, 0.87)",
+    marginLeft: 6,
+    fontSize: 18,
+    fontWeight: "bold"
+  }
+};
 
 const _Wrapped = connect(
   state => ({
     loggedUserID: state.getIn(["user", "loggedUserID"]),
-    user: state.getIn([
+    userFollower: state.getIn([
       "user",
       "usersInformation",
-      state.getIn(["user", "loggedUserID"])
+      state.getIn(["user", "showing"]),
+      "follower"
     ]),
-    guestUser: state.getIn([
+    userFollowing: state.getIn([
       "user",
       "usersInformation",
-      state.getIn(["user", "guestUserID"])
+      state.getIn(["user", "showing"]),
+      "following"
+    ]),
+    loggedUserFollowing: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"]),
+      "following"
     ])
   }),
   actionCreators

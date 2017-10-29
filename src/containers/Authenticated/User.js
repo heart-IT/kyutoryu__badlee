@@ -35,6 +35,7 @@ import BadleeList from "../../components/BadleeList";
 import getTheme from "../../theme/components";
 import Login from "../Not__Authenticated/login";
 import Picker from "../../components/Picker";
+import Follow from "./follow";
 
 class User extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class User extends Component {
 
     this.unFollowUser = this.unFollowUser.bind(this);
     this.followUser = this.followUser.bind(this);
-
+    this.onClickFollower = this.onClickFollower.bind(this);
     this.onTabChange = this.onTabChange.bind(this);
 
     this.onClickBadlee = this.onClickBadlee.bind(this);
@@ -130,6 +131,14 @@ class User extends Component {
   }
   unFollowUser() {
     this.props.unFollowUser(this.state.userProfile.user_id);
+  }
+  onClickFollower() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Follow
+      });
+    });
   }
 
   onClickBadlee(id) {
@@ -236,12 +245,15 @@ class User extends Component {
                     {user.following ? user.following.length : 0}
                   </Text>
                 </View>
-                <View style={styles.user__follower}>
+                <TouchableOpacity
+                  style={styles.user__follower}
+                  onPress={this.onClickFollower}
+                >
                   <Text style={styles.supporters__label}>Follower</Text>
                   <Text style={styles.supporters__value}>
                     {user.follower ? user.follower.length : 0}
                   </Text>
-                </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.user__interestedin}>
                 <Text style={styles.interestedin__label}>Interested in : </Text>

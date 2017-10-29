@@ -218,17 +218,16 @@ export function unfollowUser(state, userID) {
   if (state.getIn(["user", "usersInformation", userID])) {
     return state
       .updateIn(["user", "usersInformation", userID], user => {
-        console.log(user);
         let oldFollowers = user.get("follower");
         let newFollowers = oldFollowers.filter(
-          follower => follower.get("user_id_following") !== loggedUserID
+          follower => follower.get("user_id_follower") !== loggedUserID
         );
         return user.set("follower", newFollowers);
       })
       .updateIn(["user", "usersInformation", loggedUserID], user => {
         let oldFollowings = user.get("following");
         let newFollowings = oldFollowings.filter(
-          following => following.get("user_id_following") !== loggedUserID
+          following => following.get("user_id_following") !== userID
         );
         return user.set("following", newFollowings);
       });

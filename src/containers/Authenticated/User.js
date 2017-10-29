@@ -188,9 +188,15 @@ class User extends Component {
       return <Icon name={name} width={width} height={height} />;
     }
     let user = this.state.userProfile;
-    const loggedUserID = this.props.user.get("user_id");
-    const isGuestFollower =
-      user.follower && user.follower.indexOf(loggedUserID) !== -1;
+    const loggedUserID = this.props.loggedUser.get("user_id");
+    let isGuestFollower = false;
+    if (user.follower) {
+      user.follower.map(follower => {
+        if (follower.user_id_follower == loggedUserID) {
+          isGuestFollower = true;
+        }
+      });
+    }
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

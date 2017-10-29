@@ -45,7 +45,8 @@ class User extends Component {
       userProfile:
         props.params && props.params.isOtherUser
           ? props.guestUser.toJS()
-          : props.user.toJS()
+          : props.user.toJS(),
+      paging: { page: 0, limit: 32 }
     };
 
     this.onBackPress = this.onBackPress.bind(this);
@@ -57,6 +58,8 @@ class User extends Component {
     this.onTabChange = this.onTabChange.bind(this);
 
     this.onClickBadlee = this.onClickBadlee.bind(this);
+    this.onFlatListRefresh = this.onFlatListRefresh.bind(this);
+    this.onListEnd = this.onListEnd.bind(this);
   }
 
   componentDidMount() {
@@ -65,7 +68,7 @@ class User extends Component {
 
   componentWillReceiveProps(nextProps) {
     let { badlees, badleeUserIDs, params, user, guestUser } = nextProps;
-    let activeTabs = ["exchange", "shoutout", "showoff"];
+    let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
     let user_id = this.state.userProfile.user_id;
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
@@ -89,10 +92,11 @@ class User extends Component {
     });
   }
   getUserBadlees() {
-    let activeTabs = ["exchange", "shoutout", "showoff"];
+    let { page, limit } = this.state.paging;
+    let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
     let activeTab = activeTabs[this.state.activeTabIndex];
     let userID = this.state.userProfile.user_id;
-    this.props.getUserBadlees(userID, activeTab);
+    this.props.getUserBadlees(userID, activeTab, page * limit, limit);
   }
 
   handleLogout() {
@@ -116,6 +120,28 @@ class User extends Component {
 
   onClickBadlee(id) {
     console.log(id);
+  }
+  onFlatListRefresh() {
+    let { page, limit } = this.state.paging;
+    this.setState({ paging: { page: 0, limit: limit } }, () => {
+      this.getUserBadlees();
+    });
+  }
+
+  onListEnd() {
+    let { page, limit } = this.state.paging;
+    this.setState(
+      {
+        paging: {
+          page: page + 1,
+          limit: limit
+        }
+      },
+      () => {
+        let { tabNames, activeTabIndex } = this.state;
+        this.getUserBadlees();
+      }
+    );
   }
 
   render() {
@@ -223,7 +249,15 @@ class User extends Component {
                     </TabHeading>
                   }
                 >
-                  <BadleeList data={this.state.currentData} type="grid" />
+                  <BadleeList
+                    data={this.state.currentData}
+                    type="grid"
+                    toShowPurpose={false}
+                    onClickBadlee={this.onClickBadlee}
+                    onFlatListRefresh={this.onFlatListRefresh}
+                    onListEnd={this.onListEnd}
+                    loggedUserID={loggedUserID}
+                  />
                 </Tab>
                 <Tab
                   heading={
@@ -231,14 +265,51 @@ class User extends Component {
                       {returnIcon("shoutout", 30, 30)}
                     </TabHeading>
                   }
-                />
+                >
+                  <BadleeList
+                    data={this.state.currentData}
+                    type="grid"
+                    toShowPurpose={false}
+                    onClickBadlee={this.onClickBadlee}
+                    onFlatListRefresh={this.onFlatListRefresh}
+                    onListEnd={this.onListEnd}
+                    loggedUserID={loggedUserID}
+                  />
+                </Tab>
                 <Tab
                   heading={
                     <TabHeading style={styles.inventorytype__head}>
                       {returnIcon("showoff", 36, 36)}
                     </TabHeading>
                   }
-                />
+                >
+                  <BadleeList
+                    data={this.state.currentData}
+                    type="grid"
+                    toShowPurpose={false}
+                    onClickBadlee={this.onClickBadlee}
+                    onFlatListRefresh={this.onFlatListRefresh}
+                    onListEnd={this.onListEnd}
+                    loggedUserID={loggedUserID}
+                  />
+                </Tab>
+                <Tab
+                  heading={
+                    <TabHeading style={styles.inventorytype__head}>
+                      <Icon name="wish" height="36" width="36" fill="#EF5454" />
+                    </TabHeading>
+                  }
+                >
+                  <BadleeList
+                    data={this.state.currentData}
+                    type="grid"
+                    toShowPurpose={false}
+                    onClickBadlee={this.onClickBadlee}
+                    onFlatListRefresh={this.onFlatListRefresh}
+                    onListEnd={this.onListEnd}
+                    loggedUserID={loggedUserID}
+                  />
+                </Tab>
               </Tabs>
             </View>
           </Content>

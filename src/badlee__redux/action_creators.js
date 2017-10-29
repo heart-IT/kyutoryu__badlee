@@ -207,9 +207,11 @@ export const showBadleePage = (id: Number, route: ?Object) => ({
   type: "SHOW_BADLEE_PAGE"
 });
 
-export const getUserBadlees = (id, purpose) => ({
+export const getUserBadlees = (id, purpose, offset, limit) => ({
   id: id,
   purpose: purpose,
+  offset: offset,
+  limit: limit,
   type: "GET_USER_BADLEES"
 });
 

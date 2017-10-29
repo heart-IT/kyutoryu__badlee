@@ -19,15 +19,10 @@ import Icon from "./Icon";
 import { TouchableOpacity } from "react-native";
 export default class GlobeFilters extends Component {
   state = {
-    search: "",
     purpose: "",
     location: "",
     category: ""
   };
-  searchInputChanged() {
-    var search = this.state.search;
-    this.props.globeSearchingFor(search);
-  }
   onRadioExchangeSelect() {
     if (this.state.purpose === "exchange") {
       this.setState({ purpose: "" }, () => {

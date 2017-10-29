@@ -28,6 +28,7 @@ import NewBadlee from "./newBadlee";
 import User from "./user";
 import Comments from "./comments";
 import Reactions from "./reactions";
+import Search from "./search";
 
 class Home extends Component {
   state = {
@@ -61,6 +62,7 @@ class Home extends Component {
 
     this.openLocationPicker = this.openLocationPicker.bind(this);
     this.openCategoryPicker = this.openCategoryPicker.bind(this);
+    this.onSearchPressed = this.onSearchPressed.bind(this);
     this.globeSearchingFor = this.globeSearchingFor.bind(this);
     this.onPurposeSelect = this.onPurposeSelect.bind(this);
     this.onRadioUnselect = this.onRadioUnselect.bind(this);
@@ -270,6 +272,15 @@ class Home extends Component {
       this.props.showBadleePage(id, {
         navigator: this.props.navigator,
         component: SingleBadlee
+      });
+    });
+  }
+
+  onSearchPressed() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Search
       });
     });
   }
@@ -490,7 +501,8 @@ class Home extends Component {
                     elevation: 1
                   }}
                 >
-                  <View
+                  <TouchableOpacity
+                    onPress={this.onSearchPressed}
                     style={{
                       height: 42,
                       borderWidth: 1,
@@ -513,7 +525,7 @@ class Home extends Component {
                     >
                       Search for folks or thingies
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                   <GlobeFilters
                     openLocationPicker={this.openLocationPicker}
                     openCategoryPicker={this.openCategoryPicker}

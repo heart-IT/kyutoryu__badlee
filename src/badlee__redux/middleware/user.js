@@ -1,7 +1,8 @@
 // @flow
-import { followUser, unFollowUser } from './userFns/follow';
-import getBadlees from './userFns/getBadlees';
-import showUserPage from './userFns/show';
+import { followUser, unFollowUser } from "./userFns/follow";
+import getBadlees from "./userFns/getBadlees";
+import showUserPage from "./userFns/show";
+import searchUser from "./userFns/search";
 
 /**
  * @name- user.js
@@ -29,6 +30,10 @@ export default store => (next: Function) => (action: Action) => {
       break;
     case "GET_USER_BADLEES":
       return getBadlees(store, next, action);
+      break;
+    case "SEARCH_USER":
+      return searchUser(store, next, action);
+      break;
     default:
       return next(action);
   }

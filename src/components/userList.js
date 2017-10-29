@@ -93,7 +93,7 @@ export default class UserList extends React.PureComponent {
   _renderItem = ({ item }) => (
     <UserRow
       userId={item.user_id}
-      userName={item.name}
+      userName={item.name ? item.name : item.fname + " " + item.lname}
       avatar={item.avatar}
       userFollowing={this.props.following}
       loggedUserID={this.props.loggedUserID}
@@ -109,7 +109,6 @@ export default class UserList extends React.PureComponent {
         extraData={this.props.following}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
-        style={{ padding: 18 }}
       />
     );
   }

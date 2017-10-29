@@ -37,6 +37,8 @@ import GlobeFilters from "../../components/GlobeFilters";
 import BadleeList from "../../components/BadleeList";
 import SingleBadlee from "./singleBadlee";
 import { TouchableOpacity } from "react-native";
+import User from "./user";
+import UserList from "../../components/userList";
 class Search extends Component {
   state = {
     showPicker: false,
@@ -50,7 +52,9 @@ class Search extends Component {
     },
     type: "",
     search: "",
-    toShowPurpose: true
+    toShowPurpose: true,
+    activeTabIndex: 0,
+    usersData: []
   };
   constructor(props) {
     super(props);
@@ -66,9 +70,18 @@ class Search extends Component {
     this.onTabChange = this.onTabChange.bind(this);
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
     this.closePicker = this.closePicker.bind(this);
+    this.onClickUser = this.onClickUser.bind(this);
+    this.onFollow = this.onFollow.bind(this);
+    this.onUnfollow = this.onUnfollow.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    this.formatAndUpdatePropData(nextProps);
+    if (this.state.activeTabIndex === 0) {
+      this.formatAndUpdatePropData(nextProps);
+    } else {
+      let { users, searchingFor } = nextProps;
+      let usersData = searchingFor.map(userID => users.get(userID).toJS());
+      this.setState({ usersData: usersData });
+    }
   }
   // format and update state with propData
   formatAndUpdatePropData(propData) {
@@ -96,12 +109,15 @@ class Search extends Component {
       this.setState(
         {
           paging: { page: 0, limit: 32 },
-          currentData: []
+          currentData: [],
+          activeTabIndex: i * i
         },
         () => {
           this.getBadleeByGlobe();
         }
       );
+    } else {
+      this.setState({ activeTabIndex: i * i });
     }
   }
   goBack() {
@@ -128,16 +144,38 @@ class Search extends Component {
       }
     );
   }
-  searchingFor() {
-    var filteredState = Object.assign({}, this.state.filter, {
-      search: this.state.search
+  onClickUser(userId) {
+    requestAnimationFrame(() => {
+      this.props.showUserPage(userId, {
+        navigator: this.props.navigator,
+        component: User
+      });
     });
-    this.setState(
-      { filter: filteredState, paging: { page: 0, limit: 32 } },
-      () => {
-        this.getBadleeByGlobe();
+  }
+  onFollow(userId) {
+    this.props.followUser(userId);
+  }
+  onUnfollow(userId) {
+    this.props.unFollowUser(userId);
+  }
+  searchingFor() {
+    if (this.state.activeTabIndex === 0) {
+      var filteredState = Object.assign({}, this.state.filter, {
+        search: this.state.search
+      });
+      this.setState(
+        { filter: filteredState, paging: { page: 0, limit: 32 } },
+        () => {
+          this.getBadleeByGlobe();
+        }
+      );
+    } else {
+      if (this.state.search) {
+        if (this.state.search.length >= 3) {
+          this.props.searchForUser(this.state.search.replace(" ", "+"));
+        }
       }
-    );
+    }
   }
   openLocationPicker() {
     this.setState({ showPicker: true, type: "location" });
@@ -226,6 +264,13 @@ class Search extends Component {
     });
   }
   render() {
+    let userFollowing = this.props.userFollowing
+      ? this.props.userFollowing
+          .map(user => {
+            return user.get("user_id_following");
+          })
+          .toJS()
+      : [];
     return (
       <StyleProvider style={getTheme()}>
         <Container>
@@ -258,77 +303,107 @@ class Search extends Component {
               </Form>
             </Left>
           </Header>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <Tabs initialPage={0} onChangeTab={this.onTabChange}>
-              <Tab
-                heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
-                    <Text>THINGIES</Text>
-                  </TabHeading>
-                }
-              >
-                {!this.state.showPicker && (
-                  <View
-                    style={{
-                      backgroundColor: "#f5f5f5",
-                      padding: 12,
-                      paddingBottom: 6,
-                      paddingTop: 6,
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.8,
-                      shadowRadius: 2,
-                      elevation: 1
-                    }}
-                  >
-                    <GlobeFilters
-                      openLocationPicker={this.openLocationPicker}
-                      openCategoryPicker={this.openCategoryPicker}
-                      onPurposeSelect={this.onPurposeSelect}
-                      onRadioUnselect={this.onRadioUnselect}
-                    />
-                  </View>
-                )}
-                {!this.state.currentData.length && (
-                  <View style={styles.NoDataView}>
-                    <Icon name="noGlobeIllustration" width="60" height="60" />
-                    <Text style={styles.mainText}>Hmm, No badlees found.</Text>
-                    <Text style={styles.subText}>That's weird..</Text>
-                    <Text style={styles.subText}>
-                      Try changing the filters :D
-                    </Text>
-                  </View>
-                )}
-                <BadleeList
-                  data={this.state.currentData}
-                  type="grid"
-                  toShowPurpose={this.state.toShowPurpose}
-                  onClickBadlee={this.onClickBadlee}
-                  onFlatListRefresh={this.onFlatListRefresh}
-                  onListEnd={this.onListEnd}
-                  loggedUserID={this.props.user.get("user_id")}
-                />
-                {this.state.showPicker && (
-                  <Picker
-                    type={this.state.type}
-                    multiselect={false}
-                    badleeId={this.state.badleeId}
-                    onPickerClose={this.closePicker}
-                    onPickerSubmit={this.onPickerSubmit}
+          <Tabs initialPage={0} onChangeTab={this.onTabChange}>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <Text>THINGIES</Text>
+                </TabHeading>
+              }
+            >
+              {!this.state.showPicker && (
+                <View
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    padding: 12,
+                    paddingBottom: 6,
+                    paddingTop: 6,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 1
+                  }}
+                >
+                  <GlobeFilters
+                    openLocationPicker={this.openLocationPicker}
+                    openCategoryPicker={this.openCategoryPicker}
+                    onPurposeSelect={this.onPurposeSelect}
+                    onRadioUnselect={this.onRadioUnselect}
                   />
+                </View>
+              )}
+              {!this.state.currentData.length && (
+                <View style={styles.NoDataView}>
+                  <Icon name="noGlobeIllustration" width="60" height="60" />
+                  <Text style={styles.mainText}>Hmm, No badlees found.</Text>
+                  <Text style={styles.subText}>That's weird..</Text>
+                  <Text style={styles.subText}>
+                    Try changing the filters :D
+                  </Text>
+                </View>
+              )}
+              <BadleeList
+                data={this.state.currentData}
+                type="grid"
+                toShowPurpose={this.state.toShowPurpose}
+                onClickBadlee={this.onClickBadlee}
+                onFlatListRefresh={this.onFlatListRefresh}
+                onListEnd={this.onListEnd}
+                loggedUserID={this.props.user.get("user_id")}
+              />
+              {this.state.showPicker && (
+                <Picker
+                  type={this.state.type}
+                  multiselect={false}
+                  badleeId={this.state.badleeId}
+                  onPickerClose={this.closePicker}
+                  onPickerSubmit={this.onPickerSubmit}
+                />
+              )}
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#fff" }}>
+                  <Text>FOLKS</Text>
+                </TabHeading>
+              }
+            >
+              {this.state.search.length < 3 &&
+                !this.state.usersData.length && (
+                  <View style={styles.NoDataView}>
+                    <Icon
+                      name="noLocationIllustration"
+                      width="60"
+                      height="60"
+                    />
+                    <Text style={styles.mainText}>Search for a username.</Text>
+                    <Text style={styles.subText}>Minimum 3 characters.</Text>
+                  </View>
                 )}
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading style={{ backgroundColor: "#fff" }}>
-                    <Text>FOLKS</Text>
-                  </TabHeading>
-                }
-              >
-                <Text>2</Text>
-              </Tab>
-            </Tabs>
-          </Content>
+              {this.state.search.length >= 3 &&
+                !this.state.usersData.length && (
+                  <View style={styles.NoDataView}>
+                    <Icon
+                      name="noLocationIllustration"
+                      width="60"
+                      height="60"
+                    />
+                    <Text style={styles.mainText}>No user found.</Text>
+                    <Text style={styles.subText}>Try changing search..</Text>
+                  </View>
+                )}
+
+              <UserList
+                data={this.state.usersData}
+                following={userFollowing}
+                loggedUserID={this.props.loggedUserID}
+                onClickUser={this.onClickUser}
+                onFollow={this.onFollow}
+                onUnfollow={this.onUnfollow}
+              />
+            </Tab>
+          </Tabs>
         </Container>
       </StyleProvider>
     );
@@ -343,10 +418,10 @@ var styles = {
     flex: 1,
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     paddingLeft: "12%",
     paddingRight: "12%",
-    backgroundColor: "#eeeeee"
+    backgroundColor: "#fff"
   },
   mainText: {
     textAlign: "center",
@@ -372,6 +447,15 @@ const _Wrapped = connect(
       "user",
       "usersInformation",
       state.getIn(["user", "loggedUserID"])
+    ]),
+    users: state.getIn(["user", "usersInformation"]),
+    searchingFor: state.getIn(["user", "searching"]),
+    loggedUserID: state.getIn(["user", "loggedUserID"]),
+    userFollowing: state.getIn([
+      "user",
+      "usersInformation",
+      state.getIn(["user", "loggedUserID"]),
+      "following"
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
     badleeIDs: state.getIn(["badlees", "tabs", "globe"]),

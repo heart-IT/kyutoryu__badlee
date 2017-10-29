@@ -162,6 +162,11 @@ export const showUserPage = (id: Number, route: ?Object): SHOW_USER_PAGE => ({
   route: route
 });
 
+export const searchForUser = search => ({
+  type: "SEARCH_USER",
+  search: search
+});
+
 export const followUser = (id: Number) => ({
   id: id,
   type: "FOLLOW_USER"

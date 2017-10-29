@@ -38,7 +38,8 @@ const StateRecord = Record({
     isLoggedIn: false,
     loggedUserID: null,
     guestUserID: null,
-    usersInformation: fromJS({})
+    usersInformation: fromJS({}),
+    searching: fromJS([])
   }),
   badlees: new Map({
     data: fromJS({}),
@@ -416,4 +417,13 @@ export function checkNotification(state, notificationByID, order) {
 
 export function reportBadlee(state, reportItem) {
   return state.set("reports", state.get("reports").push(reportItem));
+}
+
+export function searchUser(state, users, usersID) {
+  return state
+    .setIn(
+      ["user", "usersInformation"],
+      state.getIn(["user", "usersInformation"]).merge(users)
+    )
+    .setIn(["user", "searching"], usersID);
 }

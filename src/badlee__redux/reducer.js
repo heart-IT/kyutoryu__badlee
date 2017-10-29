@@ -124,6 +124,9 @@ export function reducer(state = core.InitialState, action) {
         action.notificationByID,
         action.order
       );
+    case "SEARCH_USER":
+      return core.searchUser(state, action.users, action.usersID);
+      break;
     default:
       return state;
   }

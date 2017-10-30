@@ -141,6 +141,7 @@ class Register2 extends Component {
         wish: selectedValues.join(", "),
         showPicker: false
       });
+      this.props.clearAllErrors();
     }
   }
   closePicker() {
@@ -149,26 +150,30 @@ class Register2 extends Component {
 
   // Event triggered when User submits the form.
   submittingUser() {
-    let { userInfo } = this.props.params;
-    var data = {
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      password: userInfo.password,
-      uniqueName: userInfo.uniqueName,
-      email: userInfo.email,
-      avatarName: this.state.avatarName,
-      avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
-      avatarType: this.state.avatarType,
-      dob: this.state.date,
-      gender: this.state.gender,
-      location: this.state.location,
-      wish: this.state.wish
-    };
-    this.props.register(data, {
-      navigator: this.props.navigator,
-      component: Welcome,
-      reset: true
-    });
+    if (!this.state.location) {
+      this.props.addError("Enter a location");
+    } else {
+      let { userInfo } = this.props.params;
+      var data = {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        password: userInfo.password,
+        uniqueName: userInfo.uniqueName,
+        email: userInfo.email,
+        avatarName: this.state.avatarName,
+        avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
+        avatarType: this.state.avatarType,
+        dob: this.state.date,
+        gender: this.state.gender,
+        location: this.state.location,
+        wish: this.state.wish
+      };
+      this.props.register(data, {
+        navigator: this.props.navigator,
+        component: Welcome,
+        reset: true
+      });
+    }
   }
 
   onTnCPressed() {
@@ -195,6 +200,7 @@ class Register2 extends Component {
       "11": "NOV",
       "12": "DEC"
     };
+    let { errors } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -214,7 +220,6 @@ class Register2 extends Component {
                 <Picker
                   type={this.state.pickerType}
                   multiselect={this.state.isMultiselect}
-                  maximumValues={this.state.maximumValues}
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
                   needSearch={true}
@@ -397,7 +402,7 @@ class Register2 extends Component {
                         >
                           {this.state.location
                             ? this.state.location
-                            : "Select a location"}
+                            : "Select a location (required)"}
                         </Text>
                       </View>
                     </View>
@@ -439,7 +444,7 @@ class Register2 extends Component {
                   </View>
                   <View>
                     <Button
-                      disabled={!this.state.location || !this.state.gender}
+                      disabled={!this.state.location || !(errors.size === 0)}
                       style={styles.submitButton}
                     >
                       <Text onPress={this.submittingUser}>Submit</Text>
@@ -528,7 +533,8 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    loading: state.getIn(["application", "isLoading"])
+    loading: state.getIn(["application", "isLoading"]),
+    errors: state.getIn(["application", "errors"])
   }),
   actionCreators
 )(Register2);

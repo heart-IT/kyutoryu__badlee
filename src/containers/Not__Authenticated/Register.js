@@ -279,7 +279,7 @@ class Register extends Component {
               </Button>
             </BackgroundImage>
           </Content>
-          {this.props.loading && <Loading message="Moving on.." />}
+          {this.props.loading && <Loading />}
         </Container>
       </StyleProvider>
     );

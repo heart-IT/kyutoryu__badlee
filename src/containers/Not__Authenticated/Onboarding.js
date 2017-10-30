@@ -1,24 +1,33 @@
 /**
+ * @name- Onboarding.js
+ * 
  * @chill- All is silent, lucid, and self-illumination: There is no exertion, no waste of energy- This is where thinking never attains.
  * This is where the imagination fails to measure. - Seng-t'san
  * 
- * @file- Onboarding.js
+ * 
  * @description- This file is the Onboarding page. This is what shown to user first time.
+ * 
  * @author- heartIT pirates were here
  */
-import { Button, Container, Content, StyleProvider, Text, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image } from 'react-native';
-import Swiper from 'react-native-swiper';
-import { connect } from 'react-redux';
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import getTheme from '../../theme/components';
-import Login from './login';
+"use strict";
+import {
+  Button,
+  Container,
+  Content,
+  StyleProvider,
+  Text,
+  View
+} from "native-base";
+import React, { Component } from "react";
+import { Image } from "react-native";
+import Swiper from "react-native-swiper";
+import { connect } from "react-redux";
 
-("use strict");
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import getTheme from "../../theme/components";
+import Login from "./login";
 
 class BackgroundImage extends Component {
   render() {

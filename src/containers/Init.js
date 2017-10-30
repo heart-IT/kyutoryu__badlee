@@ -9,9 +9,9 @@
  * redirecting user to right place.
  * 
  * @author- heartit pirates were here.
- * 
- * @todo- 1. Onboarding only comes first time.
  */
+
+"use strict";
 import { Container, Content, StyleProvider } from "native-base";
 import { Component } from "react";
 import React from "react";
@@ -22,8 +22,6 @@ import getTheme from "../theme/components";
 import Loading from "./../components/LoadingView";
 import BadleeAuthApp from "./Authenticated/goingMerry";
 import Onboarding from "./Not__Authenticated/onboarding";
-
-("use strict");
 
 class Init extends Component {
   componentDidMount() {

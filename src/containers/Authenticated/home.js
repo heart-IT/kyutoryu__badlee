@@ -649,15 +649,10 @@ var styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"])
-    ]),
+    user: state.getIn(["user", "data", state.getIn(["user", "loggedUserID"])]),
     allBadlees: state.getIn(["badlees", "data"]),
-    badleeIDs: state.getIn(["badlees", "tabs"]),
-    pagingEndsIn: state.getIn(["badlees", "pagingEndsIn", "tabs"]),
-    reports: state.get("reports")
+    badleeIDs: state.getIn(["badlees", "purposeTabs"]),
+    reports: state.getIn(["badlees", "reports"])
   }),
   actionCreators
 )(Home);

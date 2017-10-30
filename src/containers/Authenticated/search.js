@@ -470,23 +470,17 @@ var styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"])
-    ]),
-    users: state.getIn(["user", "usersInformation"]),
-    searchingFor: state.getIn(["user", "searching"]),
     loggedUserID: state.getIn(["user", "loggedUserID"]),
+    users: state.getIn(["user", "data"]),
+    searchingFor: state.getIn(["user", "searching"]),
     userFollowing: state.getIn([
       "user",
-      "usersInformation",
+      "data",
       state.getIn(["user", "loggedUserID"]),
       "following"
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
-    badleeIDs: state.getIn(["badlees", "tabs", "globe"]),
-    pagingEndsIn: state.getIn(["badlees", "pagingEndsIn", "tabs", "globe"])
+    badleeIDs: state.getIn(["badlees", "tabs", "globe"])
   }),
   actionCreators
 )(Search);

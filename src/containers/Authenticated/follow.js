@@ -126,19 +126,19 @@ const _Wrapped = connect(
     loggedUserID: state.getIn(["user", "loggedUserID"]),
     userFollower: state.getIn([
       "user",
-      "usersInformation",
-      state.getIn(["user", "showing"]),
+      "data",
+      state.getIn(["user", "activeUserID"]),
       "follower"
     ]),
     userFollowing: state.getIn([
       "user",
-      "usersInformation",
-      state.getIn(["user", "showing"]),
+      "data",
+      state.getIn(["user", "activeUserID"]),
       "following"
     ]),
     loggedUserFollowing: state.getIn([
       "user",
-      "usersInformation",
+      "data",
       state.getIn(["user", "loggedUserID"]),
       "following"
     ])

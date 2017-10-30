@@ -230,10 +230,10 @@ const _Wrapped = connect(
     badlee: state.getIn([
       "badlees",
       "data",
-      state.getIn(["badlees", "currentShowing"])
+      state.getIn(["badlees", "activeBadleeID"])
     ]),
     loggedUserID: state.getIn(["user", "loggedUserID"]),
-    reports: state.get("reports")
+    reports: state.get(["badlees", "reports"])
   }),
   actionCreators
 )(SingleBadlee);

@@ -34,7 +34,6 @@ const StateRecord = Record({
   }),
   user: new Map({
     activeUserID: null,
-    guestUserID: null,
     loggedUserID: null,
     data: fromJS({}),
     searching: fromJS([])

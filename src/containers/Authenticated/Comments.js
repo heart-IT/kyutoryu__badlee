@@ -200,7 +200,7 @@ const _Wrapped = connect(
     comments: state.getIn([
       "badlees",
       "data",
-      state.getIn(["badlees", "currentShowing"]),
+      state.getIn(["badlees", "activeBadleeID"]),
       "comments"
     ]),
     loggedUserID: state.getIn(["user", "loggedUserID"])

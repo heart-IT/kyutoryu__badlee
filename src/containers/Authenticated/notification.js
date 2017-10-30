@@ -40,7 +40,7 @@ class Notification extends Component {
 
 const _Wrapped = connect(
   state => ({
-    notificationByID: state.getIn(["notifications", "dataByID"]),
+    notificationByID: state.getIn(["notifications", "data"]),
     order: state.getIn(["notifications", "order"])
   }),
   actionCreators

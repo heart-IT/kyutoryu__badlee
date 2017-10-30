@@ -78,8 +78,8 @@ class User extends Component {
     let user_id = this.state.userProfile.user_id;
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
-      user_id,
-      activeTabs[this.state.activeTabIndex]
+      activeTabs[this.state.activeTabIndex],
+      user_id
     ]);
     let badleesToShow = [];
     if (badleesToShowIDS) {
@@ -496,15 +496,10 @@ let styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "showing"])
-    ]),
-    userShowing: state.getIn(["user", "showing"]),
+    user: state.getIn(["user", "data", state.getIn(["user", "activeUserID"])]),
     loggedUser: state.getIn([
       "user",
-      "usersInformation",
+      "data",
       state.getIn(["user", "loggedUserID"])
     ]),
     badlees: state.getIn(["badlees", "data"]),

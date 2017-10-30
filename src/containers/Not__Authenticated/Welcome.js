@@ -5,16 +5,16 @@
  * @description- Welcoming User Screen
  * @author- heartIT pirates were here.
  */
-import { Button, Content, StyleProvider, Text, View } from 'native-base';
-import React from 'react';
-import { Component } from 'react';
-import { Image } from 'react-native';
-import { connect } from 'react-redux';
+import { Button, Content, StyleProvider, Text, View } from "native-base";
+import React from "react";
+import { Component } from "react";
+import { Image } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import getTheme from '../../theme/components';
-import AuthContainer from '../Authenticated/goingMerry';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import getTheme from "../../theme/components";
+import AuthContainer from "../Authenticated/goingMerry";
 
 ("use strict");
 
@@ -180,11 +180,7 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    user: state.getIn([
-      "user",
-      "usersInformation",
-      state.getIn(["user", "loggedUserID"])
-    ])
+    user: state.getIn(["user", "data", state.getIn(["user", "loggedUserID"])])
   }),
   actionCreators
 )(Welcome);

@@ -64,7 +64,6 @@ export default class GlobeFilters extends Component {
   }
 
   render() {
-    console.log(this.props.isLocationActive);
     return (
       <StyleProvider style={getTheme()}>
         <View style={styles.filterWrapper}>

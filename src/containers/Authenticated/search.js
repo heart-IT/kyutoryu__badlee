@@ -365,7 +365,7 @@ class Search extends Component {
                 onClickBadlee={this.onClickBadlee}
                 onFlatListRefresh={this.onFlatListRefresh}
                 onListEnd={this.onListEnd}
-                loggedUserID={this.props.user.get("user_id")}
+                loggedUserID={this.props.loggedUserID}
               />
               {this.state.showPicker && (
                 <Picker

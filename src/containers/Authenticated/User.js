@@ -211,7 +211,6 @@ class User extends Component {
         }
       });
     }
-    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

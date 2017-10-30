@@ -15,6 +15,7 @@ import { AsyncStorage } from "react-native";
 export default async function getBadlees(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
+    console.log(action);
     let url = `http://mri2189.badlee.com/posts.php?userid=${action.userID}&purpose=${action.purpose}&limit=${action.limit}&offset=${action.offset}`;
     if (action.purpose === "wish") {
       url = `http://mri2189.badlee.com/wish.php?userid=${action.userID}&limit=${action.limit}&offset=${action.offset}`;

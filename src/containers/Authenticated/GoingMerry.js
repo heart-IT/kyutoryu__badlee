@@ -86,7 +86,7 @@ class GoingMerry extends Component {
                 <Notification />
               </Tab>
               <Tab heading={<TabHeading>{returnIcon("user", 2)}</TabHeading>}>
-                <User params={{ isOtherUser: false }} />
+                <User isMyProfile={true} />
               </Tab>
             </Tabs>
           </Content>

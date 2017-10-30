@@ -4,7 +4,6 @@
  * @chill- We open our mind so the light of concentration will reveal what is there and liberate what is there. It is the same as untying knots in thread. We have to be calm, and we need to take time.
  * 
  * 
- *
  * @description- This file contains User Profile page of the App
  * 
  * @author- heartit pirates
@@ -23,7 +22,8 @@ import {
   TabHeading,
   Tabs,
   Text,
-  View
+  View,
+  Button
 } from "native-base";
 import React, { Component } from "react";
 import { TouchableOpacity, Image } from "react-native";
@@ -44,8 +44,11 @@ class User extends Component {
       activeTabIndex: 0,
       currentData: [],
       isOtherUser:
+        !props.isMyProfile ||
         props.user.get("user_id") !== props.loggedUser.get("user_id"),
-      userProfile: props.user.toJS(),
+      userProfile: props.isMyProfile
+        ? props.loggedUser.toJS()
+        : props.user.toJS(),
       paging: { page: 0, limit: 32 }
     };
 
@@ -73,9 +76,9 @@ class User extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { badlees, badleeUserIDs, user } = nextProps;
+    let { badlees, badleeUserIDs } = nextProps;
     let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
-    let user_id = user.get("user_id");
+    let { user_id } = this.state.userProfile;
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
       activeTabs[this.state.activeTabIndex],
@@ -98,10 +101,10 @@ class User extends Component {
     });
   }
   getUserBadlees() {
-    let { page, limit } = this.state.paging;
-    let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
+    const { page, limit } = this.state.paging;
+    const { userID } = this.state.userProfile;
+    const activeTabs = ["exchange", "shoutout", "showoff", "wish"];
     let activeTab = activeTabs[this.state.activeTabIndex];
-    let userID = this.state.userProfile.user_id;
     this.props.getUserBadlees(userID, activeTab, page * limit, limit);
   }
   onTnCPressed() {
@@ -208,6 +211,7 @@ class User extends Component {
         }
       });
     }
+    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -268,6 +272,19 @@ class User extends Component {
                   source={{ uri: user.avatar }}
                   style={styles.user__photo}
                 />
+                {!user.avatar && (
+                  <Button
+                    transparent
+                    style={{
+                      width: 160,
+                      height: 120,
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  >
+                    <Icon name="userPlaceholder" width="120" height="120" />
+                  </Button>
+                )}
               </View>
               <View style={styles.user__knowledge}>
                 <Text

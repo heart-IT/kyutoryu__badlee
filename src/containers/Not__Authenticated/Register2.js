@@ -19,8 +19,7 @@ import {
   Right,
   StyleProvider,
   Text,
-  View,
-  ScrollView
+  View
 } from "native-base";
 import React from "react";
 import { Component } from "react";
@@ -144,7 +143,7 @@ class Register2 extends Component {
           return `${val.name}`;
         });
         this.setState({
-          wish: selectedValues.join(", ").substring(0, 25) + "..",
+          wish: selectedValues.join(", "),
           selectedWish: selectedVal,
           showPicker: false
         });
@@ -445,7 +444,7 @@ class Register2 extends Component {
                           onPress={this.categoryInputFocussed}
                         >
                           {this.state.wish
-                            ? this.state.wish
+                            ? this.state.wish.substring(0, 25) + ".."
                             : "(Fashion, Gaming, Cameras, etc)"}
                         </Text>
                       </View>

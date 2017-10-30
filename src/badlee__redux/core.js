@@ -433,3 +433,17 @@ export function searchUser(state, users, usersID) {
 export function userShowing(state, userID) {
   return state.setIn(["user", "activeUserID"], userID);
 }
+
+export function updateUser(state, avatar, dob, location, interests, gender) {
+  return state.updateIn(
+    ["user", "data", state.getIn(["user", "loggedUserID"])],
+    user => {
+      return user
+        .set("avatar", avatar)
+        .set("interests", interests)
+        .set("gender", gender)
+        .set("location", location)
+        .set("dob", dob);
+    }
+  );
+}

@@ -337,3 +337,14 @@ export const setActiveUserID = userID => ({
   userID: userID,
   type: "USER_SHOWING"
 });
+
+export const updateUser = data => ({
+  avatarName: data.avatarName,
+  avatarSource: data.avatarSource,
+  avatarType: data.avatarType,
+  dob: data.dob,
+  gender: data.gender,
+  location: data.location,
+  interests: data.wish,
+  type: "UPDATE_USER"
+});

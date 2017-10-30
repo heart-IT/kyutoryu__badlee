@@ -3,6 +3,7 @@ import { followUser, unFollowUser } from "./userFns/follow";
 import getBadlees from "./userFns/getBadlees";
 import showUserPage from "./userFns/show";
 import searchUser from "./userFns/search";
+import updateUser from "./userFns/update";
 
 /**
  * @name- user.js
@@ -33,6 +34,9 @@ export default store => (next: Function) => (action: Action) => {
       break;
     case "SEARCH_USER":
       return searchUser(store, next, action);
+      break;
+    case "UPDATE_USER":
+      return updateUser(store, next, action);
       break;
     default:
       return next(action);

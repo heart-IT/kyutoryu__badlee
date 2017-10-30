@@ -94,7 +94,16 @@ export function reducer(state = core.InitialState, action) {
     case "UNFOLLOW_USER":
       return core.unfollowUser(state, action.userID);
       break;
-
+    case "UPDATE_USER":
+      return core.updateUser(
+        state,
+        action.avatar,
+        action.dob,
+        action.location,
+        action.interests,
+        action.gender
+      );
+      break;
     case "GET_USER_BADLEES":
       return core.saveUserBadlees(
         state,

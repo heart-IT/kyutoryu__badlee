@@ -30,6 +30,9 @@ export default async function getBadlees(store, next, action) {
       let badlees = await badleeRequest.json();
       action.badlees = badlees;
       next(action);
+    } else if (badleeRequest.status === 403) {
+      action.badlees = [];
+      next(action);
     } else {
       throw "error happened in get badlee";
     }

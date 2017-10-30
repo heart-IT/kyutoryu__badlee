@@ -107,7 +107,7 @@ export function reducer(state = core.InitialState, action) {
     case "GET_USER_BADLEES":
       return core.saveUserBadlees(
         state,
-        action.id,
+        action.userID,
         action.purpose,
         action.badlees
       );

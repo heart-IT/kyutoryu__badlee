@@ -39,6 +39,7 @@ import Follow from "./follow";
 import TnC from "../../components/tnc";
 import ChangePassword from "./changePassword";
 import EditProfile from "./editProfile";
+import SingleBadlee from "./singleBadlee";
 class User extends Component {
   constructor(props) {
     super(props);
@@ -100,7 +101,7 @@ class User extends Component {
   }
 
   onTabChange(i, ref) {
-    this.setState({ activeTabIndex: i.i }, () => {
+    this.setState({ activeTabIndex: i.i, currentData: [] }, () => {
       this.getUserBadlees();
     });
   }
@@ -197,7 +198,12 @@ class User extends Component {
   }
 
   onClickBadlee(id) {
-    console.log(id);
+    requestAnimationFrame(() => {
+      this.props.showBadleePage(id, {
+        navigator: this.props.navigator,
+        component: SingleBadlee
+      });
+    });
   }
   onFlatListRefresh() {
     let { page, limit } = this.state.paging;

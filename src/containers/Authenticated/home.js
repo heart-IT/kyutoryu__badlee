@@ -148,7 +148,9 @@ class Home extends Component {
     let { page, limit } = this.state.paging;
     this.props.getBadlees({
       tabName: "location",
-      currentLocation: this.props.user.get("location").split(",")[0],
+      currentLocation: this.props.user.get("location")
+        ? this.props.user.get("location").split(",")[0]
+        : "Jaipur",
       offset: page * limit,
       limit: limit
     });

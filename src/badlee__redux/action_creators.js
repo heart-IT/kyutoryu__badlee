@@ -109,7 +109,7 @@ export const getBadlees = params => ({
  */
 export const onClickLike = (badleeID, force) => ({
   type: "ON_CLICK_LIKE",
-  id: badleeID,
+  badleeID: badleeID,
   force: force
 });
 /**
@@ -119,7 +119,7 @@ export const onClickLike = (badleeID, force) => ({
  */
 export const onClickUnlike = (badleeID, force) => ({
   type: "ON_CLICK_UNLIKE",
-  id: badleeID,
+  badleeID: badleeID,
   force: force
 });
 /**

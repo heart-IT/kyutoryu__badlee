@@ -29,7 +29,7 @@ async function doRequest(badleeID, actionType) {
       }
     });
     if (request.ok && request.status === 200) {
-      return response;
+      return true;
     }
   } catch (err) {
     throw err;

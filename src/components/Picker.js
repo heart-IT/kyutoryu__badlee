@@ -57,18 +57,31 @@ export default class Picker extends PureComponent {
       fuseSearchKey:
         this.props.type === "location" ? ["city", "state"] : ["name"],
       multiselect: this.props.multiselect,
-      selected: this.props.selectedValue
-        ? new Map().set(+this.props.selectedValue, true)
-        : new Map(),
       needSearch: this.props.needSearch,
       needSubmitButton: this.props.type === "userMenu" ? false : true,
       onePunchGo: this.props.type === "userMenu" ? true : false
     };
-    console.log(this.state.selected);
     this.closeIconClicked = this.closeIconClicked.bind(this);
     this.onSearchType = this.onSearchType.bind(this);
     this._onPressSubmit = this._onPressSubmit.bind(this);
+
+    let selected = new Map();
+    let selectedValue = this.props.selectedValue;
+    if (selectedValue) {
+      if (this.props.multiselect) {
+        selectedValue.map(value => {
+          selected = selected.set(value.id, true);
+        });
+      } else {
+        if (selectedValue.id) {
+          selected = selected.set(selectedValue.id, true);
+        }
+      }
+      this.state.selected = selected;
+    }
   }
+
+  componentDidMount() {}
 
   _onPressItem = item => {
     // updater functions are preferred for transactional updates
@@ -148,6 +161,7 @@ export default class Picker extends PureComponent {
     if (this.props.badleeId) {
       selectedValues[0].badleeId = this.props.badleeId;
     }
+    console.log(selectedValues);
     this.props.onPickerSubmit(selectedValues);
   }
 

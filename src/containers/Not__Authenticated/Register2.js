@@ -19,7 +19,8 @@ import {
   Right,
   StyleProvider,
   Text,
-  View
+  View,
+  ScrollView
 } from "native-base";
 import React from "react";
 import { Component } from "react";
@@ -116,7 +117,8 @@ class Register2 extends Component {
     this.setState({
       showPicker: true,
       pickerType: "location",
-      isMultiselect: false
+      isMultiselect: false,
+      pickerSelectedValue: this.state.location ? this.state.location : {}
     });
   }
   categoryInputFocussed() {
@@ -124,24 +126,38 @@ class Register2 extends Component {
       showPicker: true,
       pickerType: "category",
       isMultiselect: true,
-      maximumValues: 3
+      pickerSelectedValue: this.state.selectedWish
+        ? this.state.selectedWish
+        : []
     });
   }
   onPickerSubmit(selectedVal) {
-    if (this.state.pickerType === "location") {
-      this.setState({
-        location: `${selectedVal[0].city}, ${selectedVal[0].state}`,
-        showPicker: false
-      });
+    if (selectedVal && selectedVal.length) {
+      if (this.state.pickerType === "location") {
+        this.props.clearAllErrors();
+        this.setState({
+          location: selectedVal[0],
+          showPicker: false
+        });
+      } else {
+        let selectedValues = selectedVal.map(function(val) {
+          return `${val.name}`;
+        });
+        this.setState({
+          wish: selectedValues.join(", ").substring(0, 25) + "..",
+          selectedWish: selectedVal,
+          showPicker: false
+        });
+      }
     } else {
-      let selectedValues = selectedVal.map(function(val) {
-        return `${val.name}`;
-      });
-      this.setState({
-        wish: selectedValues.join(", "),
-        showPicker: false
-      });
-      this.props.clearAllErrors();
+      if (this.state.pickerType === "location") {
+        this.setState({
+          location: null,
+          showPicker: false
+        });
+      } else {
+        this.setState({ showPicker: false, wish: null, selectedWish: [] });
+      }
     }
   }
   closePicker() {
@@ -151,29 +167,28 @@ class Register2 extends Component {
   // Event triggered when User submits the form.
   submittingUser() {
     if (!this.state.location) {
-      this.props.addError("Enter a location");
-    } else {
-      let { userInfo } = this.props.params;
-      var data = {
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        password: userInfo.password,
-        uniqueName: userInfo.uniqueName,
-        email: userInfo.email,
-        avatarName: this.state.avatarName,
-        avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
-        avatarType: this.state.avatarType,
-        dob: this.state.date,
-        gender: this.state.gender,
-        location: this.state.location,
-        wish: this.state.wish
-      };
-      this.props.register(data, {
-        navigator: this.props.navigator,
-        component: Welcome,
-        reset: true
-      });
+      return;
     }
+    let { userInfo } = this.props.params;
+    var data = {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      password: userInfo.password,
+      uniqueName: userInfo.uniqueName,
+      email: userInfo.email,
+      avatarName: this.state.avatarName,
+      avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
+      avatarType: this.state.avatarType,
+      dob: this.state.date,
+      gender: this.state.gender,
+      location: this.state.location.city,
+      wish: this.state.wish
+    };
+    this.props.register(data, {
+      navigator: this.props.navigator,
+      component: Welcome,
+      reset: true
+    });
   }
 
   onTnCPressed() {
@@ -200,7 +215,6 @@ class Register2 extends Component {
       "11": "NOV",
       "12": "DEC"
     };
-    let { errors } = this.props;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
@@ -223,6 +237,11 @@ class Register2 extends Component {
                   onPickerClose={this.closePicker}
                   onPickerSubmit={this.onPickerSubmit}
                   needSearch={true}
+                  selectedValue={
+                    this.state.pickerSelectedValue
+                      ? this.state.pickerSelectedValue
+                      : {}
+                  }
                 />
               )}
               {!this.state.showPicker && (
@@ -401,7 +420,7 @@ class Register2 extends Component {
                           onPress={this.locationInputFocussed}
                         >
                           {this.state.location
-                            ? this.state.location
+                            ? this.state.location.city
                             : "Select a location (required)"}
                         </Text>
                       </View>
@@ -444,7 +463,7 @@ class Register2 extends Component {
                   </View>
                   <View>
                     <Button
-                      disabled={!this.state.location || !(errors.size === 0)}
+                      disabled={!this.state.location}
                       style={styles.submitButton}
                     >
                       <Text onPress={this.submittingUser}>Submit</Text>
@@ -474,7 +493,8 @@ const styles = {
     width: "100%",
     paddingTop: 12,
     zIndex: 99,
-    flex: 1
+    flex: 1,
+    height: "100%"
   },
   avatar: {
     borderRadius: 60,
@@ -533,8 +553,7 @@ const styles = {
 
 const _Wrapped = connect(
   state => ({
-    loading: state.getIn(["application", "isLoading"]),
-    errors: state.getIn(["application", "errors"])
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Register2);

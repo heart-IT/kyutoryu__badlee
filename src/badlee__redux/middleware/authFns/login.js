@@ -38,7 +38,7 @@ export default async function login(store, next, action) {
       next(action);
       await store.dispatch(
         actionCreators.navigate(
-          getNextRoute(action.route, user.isVerified ? true : false)
+          getNextRoute(action.route, response.isVerified ? true : false)
         )
       );
     } else {

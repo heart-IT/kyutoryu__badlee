@@ -49,7 +49,6 @@ export default class Picker extends PureComponent {
     } else {
       allData = Report;
     }
-    console.log(this.props.selectedValue);
     this.state = {
       searchInputValue: "",
       allData: allData,
@@ -77,8 +76,8 @@ export default class Picker extends PureComponent {
           selected = selected.set(selectedValue.id, true);
         }
       }
-      this.state.selected = selected;
     }
+    this.state.selected = selected;
   }
 
   componentDidMount() {}

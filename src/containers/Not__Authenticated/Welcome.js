@@ -5,6 +5,7 @@
  * @description- Welcoming User Screen
  * @author- heartIT pirates were here.
  */
+"use strict";
 import { Button, Content, StyleProvider, Text, View } from "native-base";
 import React from "react";
 import { Component } from "react";
@@ -15,8 +16,6 @@ import * as actionCreators from "../../badlee__redux/action_creators";
 import Icon from "../../components/Icon";
 import getTheme from "../../theme/components";
 import AuthContainer from "../Authenticated/goingMerry";
-
-("use strict");
 
 class BackgroundImage extends Component {
   render() {

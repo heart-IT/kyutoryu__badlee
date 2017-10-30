@@ -73,9 +73,9 @@ class User extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { badlees, badleeUserIDs, params, user, guestUser } = nextProps;
+    let { badlees, badleeUserIDs, user } = nextProps;
     let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
-    let user_id = this.state.userProfile.user_id;
+    let user_id = user.get("user_id");
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
       activeTabs[this.state.activeTabIndex],
@@ -503,7 +503,7 @@ const _Wrapped = connect(
       state.getIn(["user", "loggedUserID"])
     ]),
     badlees: state.getIn(["badlees", "data"]),
-    badleeUserIDs: state.getIn(["badlees", "users"])
+    badleeUserIDs: state.getIn(["badlees", "userTabs"])
   }),
   actionCreators
 )(User);

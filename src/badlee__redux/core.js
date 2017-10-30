@@ -182,7 +182,9 @@ export function followUser(state, userID) {
     name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
     username: loggedUser.get("username")
   };
-  return state
+  let targetUser= state.getIn(["user", "usersInformation", userID]);
+  if(targetUser) {
+    return state
     .updateIn(["user", "usersInformation", userID], user => {
       return user.set(
         "follower",
@@ -199,6 +201,26 @@ export function followUser(state, userID) {
           : fromJS([followingObject])
       );
     });
+  } else {
+    return state
+      .setIn(["user", "usersInformation", userID], user => {
+        return user.set(
+          "follower",
+          user.get("follower")
+            ? user.get("follower").push(fromJS(followObject))
+            : fromJS([followObject])
+        );
+      })
+      .updateIn(["user", "usersInformation", loggedUserID], user => {
+        return user.set(
+          "following",
+          user.get("following")
+            ? user.get("following").push(fromJS(followingObject))
+            : fromJS([followingObject])
+        );
+      });
+
+  }
 }
 
 export function unfollowUser(state, userID) {

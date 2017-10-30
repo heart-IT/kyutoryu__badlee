@@ -43,7 +43,6 @@ export async function followUser(store, next, action) {
   try {
     action.userID = action.id;
     next(action);
-    return;
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     var followReq = await fetch(
       `http://mri2189.badlee.com/follow.php?userid=${action.id}`,
@@ -54,7 +53,7 @@ export async function followUser(store, next, action) {
         }
       }
     );
-    console.log(followReq);
+    console.log(followReq)
     if (!followReq.status === 200 || !followReq.ok) {
       store.dispatch(actionCreators.unFollowUser(action.id));
     }

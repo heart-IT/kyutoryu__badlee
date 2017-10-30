@@ -8,15 +8,25 @@
  * @author- heartit pirates were here
  */
 "use strict";
-import { Button, Container, Content, Form, Input, Item, StyleProvider, Text, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image } from 'react-native';
-import { connect } from 'react-redux';
+import {
+  Button,
+  Container,
+  Content,
+  Form,
+  Input,
+  Item,
+  StyleProvider,
+  Text,
+  View
+} from "native-base";
+import { Component } from "react";
+import React from "react";
+import { Image } from "react-native";
+import { connect } from "react-redux";
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Loading from '../../components/LoadingView';
-import getTheme from '../../theme/components';
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Loading from "../../components/LoadingView";
+import getTheme from "../../theme/components";
 
 ("use strict");
 
@@ -39,6 +49,12 @@ class ForgotPassword extends Component {
       email: null,
       error: null
     };
+    this.onChangeText = this.onChangeText.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+  }
+  onChangeText(email) {
+    this.setState({ email });
+    this.validateEmail();
   }
   handleFormSubmit() {
     if (this.state.email) {
@@ -63,7 +79,11 @@ class ForgotPassword extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <Content
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flex: 1 }}
+            keyboardShouldPersistTaps="always"
+          >
             <BackgroundImage>
               <Text style={styles.heading}>Don't worry!</Text>
               <Text style={styles.formLabel}>
@@ -72,8 +92,7 @@ class ForgotPassword extends Component {
               <Form>
                 <Item style={styles.boxWrapper}>
                   <Input
-                    onChangeText={email => this.setState({ email })}
-                    onEndEditing={this.validateEmail.bind(this)}
+                    onChangeText={this.onChangeText}
                     keyboardType={"email-address"}
                     value={this.state.email}
                     placeholderTextColor="#7d5c85"
@@ -112,7 +131,16 @@ class ForgotPassword extends Component {
                     onPress={this.handleFormSubmit.bind(this)}
                     disabled={!this.state.email || !!this.state.error}
                   >
-                    <Text style={styles.submitButtonText}>Submit</Text>
+                    <Text
+                      style={styles.submitButtonText}
+                      disabled={
+                        !!this.state.error ||
+                        !!this.state.error ||
+                        this.state.loading
+                      }
+                    >
+                      Submit
+                    </Text>
                   </Button>
                 </View>
                 {notification.includes("Email sent") && (
@@ -145,7 +173,7 @@ const styles = {
     fontFamily: "Righteous-Regular"
   },
   formLabel: {
-    marginTop: 120,
+    marginTop: 60,
     paddingLeft: 30,
     fontFamily: "PoiretOne-Regular",
     fontSize: 18,

@@ -101,9 +101,12 @@ class User extends Component {
   }
 
   onTabChange(i, ref) {
-    this.setState({ activeTabIndex: i.i, currentData: [] }, () => {
-      this.getUserBadlees();
-    });
+    this.setState(
+      { activeTabIndex: i.i, currentData: [], paging: { page: 0, limit: 32 } },
+      () => {
+        this.getUserBadlees();
+      }
+    );
   }
   getUserBadlees() {
     const { page, limit } = this.state.paging;

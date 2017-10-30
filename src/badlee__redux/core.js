@@ -301,10 +301,16 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
     tempObj[badlee.id] = badlee;
     return badlee.id;
   });
+  let oldIDS = state.getIn(["badlees", "userTabs", purpose, userID])
+    ? state.getIn(["badlees", "userTabs", purpose, userID])
+    : OrderedSet([]);
 
   return state
     .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
-    .setIn(["badlees", "userTabs", purpose, userID], fromJS(ids));
+    .setIn(
+      ["badlees", "userTabs", purpose, userID],
+      OrderedSet(ids).union(oldIDS)
+    );
 }
 
 export function likeBadlee(state, id) {

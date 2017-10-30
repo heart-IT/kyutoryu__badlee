@@ -14,12 +14,10 @@ import * as actionCreators from "../../action_creators";
 
 export async function unFollowUser(store, next, action) {
   try {
-    action.userID = action.userID;
     next(action);
-    return;
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     var unFollowReq = await fetch(
-      `http://mri2189.badlee.com/follow.php?userid=${action.id}`,
+      `http://mri2189.badlee.com/follow.php?userid=${action.userID}`,
       {
         method: "DELETE",
         headers: {
@@ -27,7 +25,6 @@ export async function unFollowUser(store, next, action) {
         }
       }
     );
-    console.log(unFollowReq);
     if (!unFollowReq.status === 200 || !unFollowReq.ok) {
       store.dispatch(actionCreators.followUser(action.id));
     }
@@ -39,11 +36,10 @@ export async function unFollowUser(store, next, action) {
 
 export async function followUser(store, next, action) {
   try {
-    action.userID = action.userID;
     next(action);
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     var followReq = await fetch(
-      `http://mri2189.badlee.com/follow.php?userid=${action.id}`,
+      `http://mri2189.badlee.com/follow.php?userid=${action.userID}`,
       {
         method: "POST",
         headers: {
@@ -51,7 +47,6 @@ export async function followUser(store, next, action) {
         }
       }
     );
-    console.log(followReq);
     if (!followReq.status === 200 || !followReq.ok) {
       store.dispatch(actionCreators.unFollowUser(action.id));
     }

@@ -269,6 +269,9 @@ export const checkForNotification = () => ({
 export const clearAllErrors = () => ({
   type: "CLEAR_ALL_ERRORS"
 });
+export const clearAllNotification = () => ({
+  type: "CLEAR_NOTIFICATION"
+});
 export const clearError = error => ({
   type: "CLEAR_ERROR",
   error: error

@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * @name- forgot_password.js
  * 
@@ -12,17 +10,10 @@
  */
 
 "use strict";
-
-import type { Action, FORGOT_PASSWORD } from "../../types";
 import * as actionCreators from "../../action_creators";
-
 import { application_id, application_secret, createFormData } from "../utility";
 
-export default async function forgot_password(
-  store,
-  next: Function,
-  action: FORGOT_PASSWORD
-) {
+export default async function forgot_password(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
 

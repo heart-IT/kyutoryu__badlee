@@ -61,6 +61,9 @@ class Login extends Component {
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
   handleFormSubmit() {
+    if (this.props.loading) {
+      return;
+    }
     this.props.clearAllErrors();
     try {
       if (!this.state.username) {

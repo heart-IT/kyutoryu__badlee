@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * @name- login.js
  * 
@@ -15,38 +13,29 @@
 
 import { AsyncStorage } from "react-native";
 import base64 from "base-64";
-
-import type { Action, LOGIN } from "../../types";
-
 import * as actionCreators from "../../action_creators";
 import { getNextRoute, saveUserInStorage } from "../utility";
 
-export default async function login(store, next: Function, action: LOGIN) {
+export default async function login(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-
-    let { username, password } = action;
-
-    var authorizedCode = `Basic ${base64.encode(username + ":" + password)}`;
-
-    let response = await fetch("http://mri2189.badlee.com/login.php", {
+    const { username, password } = action;
+    const jollyroger = `Basic ${base64.encode(username + ":" + password)}`;
+    let request = await fetch("http://mri2189.badlee.com/login.php", {
       headers: {
-        Authorization: authorizedCode,
+        Authorization: jollyroger,
         "Content-Type": "application/json"
       },
       method: "POST"
     });
-    var responseJson = await response.json();
-    if (response.status === 403) {
-      throw responseJson;
-    } else if (response.status === 200 && response.ok === true) {
-      let user = responseJson;
-      let jollyroger = authorizedCode;
-      await saveUserInStorage(user, jollyroger);
-
-      action.user = user;
+    if (request.status === 403) {
+      let response = await request.json();
+      throw response;
+    } else if (request.status === 200 && request.ok) {
+      let response = await request.json();
+      await saveUserInStorage(response, jollyroger);
+      action.user = response;
       next(action);
-
       await store.dispatch(
         actionCreators.navigate(
           getNextRoute(action.route, user.isVerified ? true : false)

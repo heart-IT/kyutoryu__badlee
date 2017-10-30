@@ -4,33 +4,42 @@
  * All the senses are aflame, all thoughts are aflame-- aflame with the fire of desire. There is anger, there is ignorance, there is hatred, 
  * and as long as the fire finds fuel upon which it can feed, so long will it burn. - Buddha
  * 
+ * 
  * @description- This file is Login Screen of badlee App.
  * 
  * @author- heartit pirates were here
  */
-import { Button, Container, Content, Form, Input, Item, StyleProvider, Text, View } from 'native-base';
-import { Component } from 'react';
-import React from 'react';
-import { Image } from 'react-native';
-import { connect } from 'react-redux';
 
-import * as actionCreators from '../../badlee__redux/action_creators';
-import Icon from '../../components/Icon';
-import Loading from '../../components/LoadingView';
-import getTheme from '../../theme/components';
-import BadleeAuthApp from '../Authenticated/goingMerry';
-import ForgotPassword from './forgotPassword';
-import Register from './register';
-import Welcome from './welcome';
+"use strict";
+import {
+  Button,
+  Container,
+  Content,
+  Form,
+  Input,
+  Item,
+  StyleProvider,
+  Text,
+  View
+} from "native-base";
+import React, { Component } from "react";
+import { Image } from "react-native";
+import { connect } from "react-redux";
 
-("use strict");
+import * as actionCreators from "../../badlee__redux/action_creators";
+import Icon from "../../components/Icon";
+import Loading from "../../components/LoadingView";
+import getTheme from "../../theme/components";
+import BadleeAuthApp from "../Authenticated/goingMerry";
+import ForgotPassword from "./forgotPassword";
+import Register from "./register";
+import Welcome from "./welcome";
 
 class BackgroundImage extends Component {
   render() {
     let image = require("../../images/login__bg.png");
     return (
       <Image source={image} style={styles.backgroundImage}>
-        <Text>{this.props.src}</Text>
         {this.props.children}
       </Image>
     );
@@ -52,16 +61,14 @@ class Login extends Component {
    * Called when login form is submitted. Here, we check form authencitation, and redirect user based on that.
    */
   handleFormSubmit() {
+    this.props.clearAllErrors();
     try {
       if (!this.state.username) {
         throw "Enter username..";
       }
-      this.props.clearError("Enter username..");
       if (!this.state.password) {
         throw "Enter password..";
       }
-      this.props.clearError("Enter password..");
-
       var formData = {
         username: this.state.username,
         password: this.state.password
@@ -108,7 +115,11 @@ class Login extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <Content
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flex: 1 }}
+            keyboardShouldPersistTaps="always"
+          >
             <BackgroundImage>
               <View style={styles.logoWrapper}>
                 <Image
@@ -142,12 +153,12 @@ class Login extends Component {
                   {error.includes("User Does Not Exist") ? (
                     <Text style={styles.errorMsg}>User Does Not Exist</Text>
                   ) : (
-                    <Text />
+                    <Text style={styles.errorMsg}> </Text>
                   )}
                   {error.includes("Enter username..") ? (
                     <Text style={styles.errorMsg}>Enter username..</Text>
                   ) : (
-                    <Text />
+                    <Text style={styles.errorMsg}> </Text>
                   )}
                 </View>
 
@@ -177,12 +188,12 @@ class Login extends Component {
                   {error.includes("Wrong Password") ? (
                     <Text style={styles.errorMsg}>Wrong Password</Text>
                   ) : (
-                    <Text />
+                    <Text style={styles.errorMsg}> </Text>
                   )}
                   {error.includes("Enter password..") ? (
                     <Text style={styles.errorMsg}>Enter password..</Text>
                   ) : (
-                    <Text />
+                    <Text style={styles.errorMsg}> </Text>
                   )}
                 </View>
                 <View style={styles.submitButtonWrapper}>
@@ -192,7 +203,9 @@ class Login extends Component {
                     style={styles.submitButton}
                     onPress={this.handleFormSubmit}
                   >
-                    <Text style={styles.submitButtonText}>Login</Text>
+                    <Text style={styles.submitButtonText}>
+                      {this.props.loading ? "wait.." : "Login"}
+                    </Text>
                   </Button>
                 </View>
               </Form>
@@ -213,7 +226,6 @@ class Login extends Component {
               </View>
             </BackgroundImage>
           </Content>
-          {this.props.loading && <Loading message="" />}
         </Container>
       </StyleProvider>
     );
@@ -295,7 +307,8 @@ const styles = {
     color: "#611265",
     fontFamily: "PoiretOne-Regular",
     fontSize: 15,
-    lineHeight: 24
+    lineHeight: 24,
+    minWidth: 45
   },
   forgotPasswordText: {
     color: "#fff",

@@ -128,15 +128,15 @@ export function clearAllError(state) {
 
 export function addLoggedUser(state, user) {
   let userID = user.user_id;
+  let userLoggedIDPath = ["user", "loggedUserID"];
+  let userActiveIDPath = ["user", "activeUserID"];
+  let userDataPath = ["user", "data"];
   let userInformation = {};
   userInformation[userID] = user;
   return state
-    .setIn(["user", "loggedUserID"], userID)
-    .setIn(
-      ["user", "data"],
-      state.getIn(["user", "data"]).merge(userInformation)
-    )
-    .setIn(["user", "activeUserID"], userID);
+    .setIn(userLoggedIDPath, userID)
+    .setIn(userActiveIDPath, userID)
+    .setIn(userDataPath, state.getIn(userDataPath).merge(userInformation));
 }
 
 export function clearUser(state) {

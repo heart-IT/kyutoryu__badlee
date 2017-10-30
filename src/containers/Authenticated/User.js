@@ -235,7 +235,9 @@ class User extends Component {
     function returnIcon(name, width = 21, height = 21) {
       return <Icon name={name} width={width} height={height} />;
     }
-    let user = this.props.user.toJS();
+    let user = this.props.isMyProfile
+      ? this.props.loggedUser.toJS()
+      : this.props.user.toJS();
     const loggedUserID = this.props.loggedUser.get("user_id");
     let isGuestFollower = false;
     if (user.follower) {

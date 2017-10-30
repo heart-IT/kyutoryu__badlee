@@ -312,7 +312,7 @@ class Home extends Component {
     this.setState(
       {
         filter: filteredState,
-        toShowPurpose: false,
+        toShowPurpose: purpose ? false : true,
         paging: { page: 0, limit: 32 }
       },
       () => {
@@ -322,7 +322,7 @@ class Home extends Component {
   }
   onRadioUnselect() {
     var filteredState = Object.assign({}, this.state.filter, {
-      purpose: ""
+      purpose: null
     });
     this.setState(
       {

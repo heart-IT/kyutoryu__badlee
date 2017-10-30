@@ -33,6 +33,7 @@ import Comments from "../../components/Comments";
 import Icon from "../../components/Icon";
 import LoadingView from "../../components/LoadingView";
 import getTheme from "../../theme/components";
+import User from "./user";
 
 ("use strict");
 
@@ -41,7 +42,7 @@ class Comment extends Component {
     super(props);
     this.postComment = this.postComment.bind(this);
     this.onCommentDelete = this.onCommentDelete.bind(this);
-
+    this.onPressUser = this.onPressUser.bind(this);
     this.state = {
       commentText: ""
     };
@@ -57,6 +58,14 @@ class Comment extends Component {
   }
   onCommentDelete(commentId) {
     this.props.onCommentDelete(commentId);
+  }
+  onPressUser(userID) {
+    requestAnimationFrame(() => {
+      this.props.showUserPage(userID, {
+        navigator: this.props.navigator,
+        component: User
+      });
+    });
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];
@@ -95,6 +104,7 @@ class Comment extends Component {
                 data={comments}
                 loggedUserID={this.props.loggedUserID}
                 onCommentDelete={this.onCommentDelete}
+                onPressUser={this.onPressUser}
               />
             )}
             <View style={styles.commentInputWrapper}>

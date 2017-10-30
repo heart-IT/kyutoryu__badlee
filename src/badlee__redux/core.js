@@ -97,7 +97,7 @@ export function addNotification(state, notification) {
 export function clearNotification(state, notification) {
   return state.setIn(
     ["application", "notifications"],
-    state.getIn(["application", "notifications"]).delete(notification)
+    state.getIn(["application", "notifications"]).clear()
   );
 }
 

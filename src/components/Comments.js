@@ -22,9 +22,13 @@ export default class Comments extends PureComponent {
   constructor(props) {
     super(props);
     this.onCommentDelete = this.onCommentDelete.bind(this);
+    this.onPressUser = this.onPressUser.bind(this);
   }
   onCommentDelete(commentId) {
     this.props.onCommentDelete(commentId);
+  }
+  onPressUser(userID) {
+    this.props.onPressUser(userID);
   }
   _renderItem = ({ item }) => (
     <Comment
@@ -36,6 +40,7 @@ export default class Comments extends PureComponent {
       commentID={item.comment_id}
       timestamp={item.timestamp}
       onCommentDelete={this.onCommentDelete}
+      onPressUser={this.onPressUser}
     />
   );
 
@@ -55,9 +60,13 @@ class Comment extends PureComponent {
   constructor(props) {
     super(props);
     this.onCommentDelete = this.onCommentDelete.bind(this);
+    this.onPressUser = this.onPressUser.bind(this);
   }
   onCommentDelete = () => {
     this.props.onCommentDelete(this.props.commentID);
+  };
+  onPressUser = () => {
+    this.props.onPressUser(this.props.userID);
   };
   render() {
     return (
@@ -71,22 +80,26 @@ class Comment extends PureComponent {
         }}
       >
         <View style={{ paddingLeft: 6, paddingRight: 9 }}>
-          <Thumbnail
-            source={{ uri: this.props.avatar }}
-            style={{ width: 42, height: 42 }}
-          />
+          <TouchableOpacity onPress={this.onPressUser}>
+            <Thumbnail
+              source={{ uri: this.props.avatar }}
+              style={{ width: 42, height: 42 }}
+            />
+          </TouchableOpacity>
         </View>
         <View>
-          <Text
-            style={{
-              color: "rgba(0, 0, 0, 0.87)",
-              fontWeight: "bold",
-              fontSize: 16,
-              lineHeight: 30
-            }}
-          >
-            {this.props.fname}
-          </Text>
+          <TouchableOpacity onPress={this.onPressUser}>
+            <Text
+              style={{
+                color: "rgba(0, 0, 0, 0.87)",
+                fontWeight: "bold",
+                fontSize: 16,
+                lineHeight: 30
+              }}
+            >
+              {this.props.fname}
+            </Text>
+          </TouchableOpacity>
           <Text style={{ fontSize: 17, color: "rgba(0, 0, 0, 0.87)" }}>
             {this.props.comment}
           </Text>

@@ -439,7 +439,7 @@ export function updateUser(state, avatar, dob, location, interests, gender) {
     ["user", "data", state.getIn(["user", "loggedUserID"])],
     user => {
       return user
-        .set("avatar", avatar)
+        .set("avatar", avatar ? avatar : user.get("avatar"))
         .set("interests", interests)
         .set("gender", gender)
         .set("location", location)

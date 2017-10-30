@@ -44,10 +44,12 @@ export default async function updateUser(store, next, action) {
       application_id,
       application_secret
     };
-    action.avatar =
-      uploadMedia && uploadMedia.url
-        ? "http://mri2189.badlee.com/" + uploadMedia.url
-        : "";
+    if (action.avatarSource) {
+      action.avatar =
+        uploadMedia && uploadMedia.url
+          ? "http://mri2189.badlee.com/" + uploadMedia.url
+          : "";
+    }
     let formBody = createFormData(data);
     let request = await fetch("http://mri2189.badlee.com/userupdate.php", {
       method: "POST",

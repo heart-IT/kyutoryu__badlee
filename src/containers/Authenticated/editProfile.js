@@ -164,6 +164,9 @@ class EditProfile extends Component {
   closePicker() {
     this.setState({ showPicker: false });
   }
+  goBack() {
+    this.props.goBack();
+  }
 
   // Event triggered when User submits the form.
   submittingUser() {
@@ -204,13 +207,15 @@ class EditProfile extends Component {
             <Left
               style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
             >
-              <Icon
-                name="menuBackIcon"
-                width="18"
-                height="18"
-                fill="#fff"
-                style={{ marginRight: 12 }}
-              />
+              <TouchableOpacity onPress={this.goBack.bind(this)}>
+                <Icon
+                  name="menuBackIcon"
+                  width="18"
+                  height="18"
+                  fill="#fff"
+                  style={{ marginRight: 12 }}
+                />
+              </TouchableOpacity>
               <Text style={{ color: "#fff", fontSize: 18 }}>Edit Profile</Text>
             </Left>
           </Header>
@@ -232,29 +237,34 @@ class EditProfile extends Component {
             {!this.state.showPicker && (
               <Form style={styles.register2form}>
                 <View style={styles.specialRow}>
-                  {this.state.avatar && (
-                    <Image style={styles.avatar} source={this.state.avatar} />
-                  )}
+                  {!this.state.avatarSource &&
+                    this.state.avatar && (
+                      <Image
+                        style={styles.avatar}
+                        source={{ uri: this.state.avatar }}
+                      />
+                    )}
                   {this.state.avatarSource && (
                     <Image
                       style={styles.avatar}
                       source={this.state.avatarSource}
                     />
                   )}
-                  {(!this.state.avatarSource || !this.state.avatar) && (
-                    <Button
-                      transparent
-                      onPress={this.selectPhotoTapped}
-                      style={{
-                        width: 160,
-                        height: 120,
-                        marginLeft: "auto",
-                        marginRight: "auto"
-                      }}
-                    >
-                      <Icon name="userPlaceholder" width="120" height="120" />
-                    </Button>
-                  )}
+                  {!this.state.avatarSource &&
+                    !this.state.avatar && (
+                      <Button
+                        transparent
+                        onPress={this.selectPhotoTapped}
+                        style={{
+                          width: 160,
+                          height: 120,
+                          marginLeft: "auto",
+                          marginRight: "auto"
+                        }}
+                      >
+                        <Icon name="userPlaceholder" width="120" height="120" />
+                      </Button>
+                    )}
                   <Text
                     style={{
                       color: "#4f0554",

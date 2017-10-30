@@ -37,6 +37,7 @@ import Login from "../Not__Authenticated/login";
 import Picker from "../../components/Picker";
 import Follow from "./follow";
 import TnC from "../../components/tnc";
+import ChangePassword from "./changePassword";
 class User extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +70,7 @@ class User extends Component {
     this.closePicker = this.closePicker.bind(this);
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
     this.onTnCPressed = this.onTnCPressed.bind(this);
+    this.onChangePasswordPressed = this.onChangePasswordPressed.bind(this);
   }
 
   componentDidMount() {
@@ -126,10 +128,21 @@ class User extends Component {
     let response = submittedVal && submittedVal[0].id;
     if (response === 0) {
       this.onTnCPressed();
+    } else if (response === 1) {
+      this.onChangePasswordPressed();
     } else if (response === 3) {
       this.handleLogout();
     }
   }
+  onChangePasswordPressed() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: ChangePassword
+      });
+    });
+  }
+
   handleLogout() {
     this.props.logout({
       navigator: this.props.navigator,

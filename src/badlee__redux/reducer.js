@@ -17,9 +17,6 @@ import * as core from "./core";
 
 export function reducer(state = core.InitialState, action) {
   switch (action.type) {
-    case "SET_NAVIGATOR":
-      return core.setNavigator(state, action.navigator);
-      break;
     case "START_LOADING":
       return core.startLoading(state);
       break;
@@ -29,41 +26,17 @@ export function reducer(state = core.InitialState, action) {
     case "INTERNET_CONNECTION":
       return core.changeInternetConnectionStatus(state, action.status);
       break;
-    case "ADD_NOTIFICATION":
-      return core.addNotification(state, action.notification);
-      break;
-    case "CLEAR_NOTIFICATION":
-      return core.clearNotification(state);
-      break;
-    case "ADD_ERROR":
-      return core.addError(state, action.error);
-      break;
-    case "CLEAR_ERROR":
-      return core.clearError(state, action.error);
-      break;
-    case "CLEAR_ALL_ERRORS":
-      return core.clearAllError(state);
-      break;
-    case "RESTORE_AUTH":
-      return core.addLoggedUser(state, action.user);
-      break;
     case "LOGIN":
-      return core.addLoggedUser(state, action.user);
-      break;
-    case "REGISTER":
       return core.addLoggedUser(state, action.user);
       break;
     case "LOGOUT":
       return core.clearUser(state);
       break;
-    case "SHOW_USER_PAGE":
-      return core.saveGuestUser(state, action.user);
+    case "REGISTER":
+      return core.addLoggedUser(state, action.user);
       break;
-    case "FOLLOW_USER":
-      return core.followUser(state, action.userID);
-      break;
-    case "UNFOLLOW_USER":
-      return core.unfollowUser(state, action.userID);
+    case "RESTORE_AUTH":
+      return core.addLoggedUser(state, action.user);
       break;
     case "GET_BADLEES":
       return core.getBadlees(
@@ -75,9 +48,53 @@ export function reducer(state = core.InitialState, action) {
         action.limit,
         action.isSearching
       );
+    case "ON_CLICK_LIKE":
+      return core.likeBadlee(state, action.badleeID);
+      break;
+    case "ON_CLICK_UNLIKE":
+      return core.unlikeBadlee(state, action.badleeID);
+      break;
+    case "ON_CLICK_WISH":
+      return core.wishBadlee(state, action.badleeID);
+      break;
+    case "ON_CLICK_UNWISH":
+      return core.unwishBadlee(state, action.badleeID);
+      break;
     case "SAVE_BADLEE":
       return core.saveBadlee(state, action.newBadlee);
       break;
+    case "SET_ACTIVE_BADLEE_ID":
+      return core.setActiveBadleeID(state, action.badleeID);
+      break;
+    case "SET_NAVIGATOR":
+      return core.setNavigator(state, action.navigator);
+      break;
+    case "ADD_ERROR":
+      return core.addError(state, action.error);
+      break;
+    case "ADD_NOTIFICATION":
+      return core.addNotification(state, action.notification);
+      break;
+    case "CLEAR_ALL_ERRORS":
+      return core.clearAllError(state);
+      break;
+    case "CLEAR_ERROR":
+      return core.clearError(state, action.error);
+      break;
+    case "CLEAR_NOTIFICATION":
+      return core.clearNotification(state);
+      break;
+
+    case "SHOW_USER_PAGE":
+      return core.saveGuestUser(state, action.user);
+      break;
+    case "FOLLOW_USER":
+      return core.followUser(state, action.userID);
+      break;
+    case "UNFOLLOW_USER":
+      return core.unfollowUser(state, action.userID);
+      break;
+
     case "GET_USER_BADLEES":
       return core.saveUserBadlees(
         state,
@@ -86,9 +103,7 @@ export function reducer(state = core.InitialState, action) {
         action.badlees
       );
       break;
-    case "ON_CLICK_UNLIKE":
-      return core.unlikeBadlee(state, action.id);
-      break;
+
     case "POST_COMMENT":
       return core.postComment(
         state,
@@ -100,24 +115,10 @@ export function reducer(state = core.InitialState, action) {
     case "DELETE_COMMENT":
       return core.deleteComment(state, action.id);
       break;
-    case "STORE_LIKE_BADLEE":
-      return core.likeBadlee(state, action.id);
-      break;
-    case "STORE_UNLIKE_BADLEE":
-      return core.unlikeBadlee(state, action.id);
-      break;
-    case "STORE_WISH_BADLEE":
-      return core.wishBadlee(state, action.id);
-      break;
-    case "STORE_UNWISH_BADLEE":
-      return core.unwishBadlee(state, action.id);
-      break;
     case "REPORT_BADLEE":
       return core.reportBadlee(state, action.reportItem);
       break;
-    case "STORE_CURRENTSHOWINGBADLEE":
-      return core.currentShowingBadlee(state, action.id);
-      break;
+
     case "CHECK_NOTIFICATION":
       return core.checkNotification(
         state,

@@ -51,12 +51,12 @@ class Comment extends Component {
   }
   postComment() {
     if (this.state.commentText) {
-      this.props.postComment(this.props.params.id, this.state.commentText);
+      this.props.onCommentPost(this.props.params.id, this.state.commentText);
       this.setState({ commentText: "" });
     }
   }
   onCommentDelete(commentId) {
-    this.props.deleteComment(commentId);
+    this.props.onCommentDelete(commentId);
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];

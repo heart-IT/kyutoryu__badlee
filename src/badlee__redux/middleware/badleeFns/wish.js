@@ -8,47 +8,28 @@
  * 
  * @author- heartit pirates were here
  */
+"use strict";
 import { AsyncStorage } from "react-native";
-
 import * as actionCreators from "../../action_creators";
 
-("use strict");
-async function doUnwish(postid) {
+/**
+ * Fn to call API to wish/unwish a badlee
+ * @param {string} badleeID Id of the badlee wish/unwish action was done
+ * @param {string} actionType Type of action done [wish, unwish]
+ */
+async function doRequest(badleeID, actionType) {
   try {
-    let jollyroger = await AsyncStorage.getItem("jollyroger");
-    let unwishRequest = await fetch(
-      `http://mri2189.badlee.com/wish.php?postid=${postid}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: jollyroger
-        }
+    const jollyroger = await AsyncStorage.getItem("jollyroger");
+    const url = `http://mri2189.badlee.com/wish.php?postid=${badleeID}`;
+    const requestType = actionType === "wish" ? "POST" : "DELETE";
+    const request = await fetch(url, {
+      method: requestType,
+      headers: {
+        Authorization: jollyroger
       }
-    );
-    if (unwishRequest.status === 200 && unwishRequest.ok) {
-      let requestJson = await unwishRequest.json();
-      return requestJson;
-    }
-  } catch (err) {
-    throw err;
-  }
-}
-
-async function doWish(postid) {
-  try {
-    let jollyroger = await AsyncStorage.getItem("jollyroger");
-    let wishRequest = await fetch(
-      `http://mri2189.badlee.com/wish.php?postid=${postid}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: jollyroger
-        }
-      }
-    );
-    if (wishRequest.status === 200 && wishRequest.ok) {
-      let requestJson = await wishRequest.json();
-      return requestJson;
+    });
+    if (request.ok && request.status === 200) {
+      return response;
     }
   } catch (err) {
     throw err;
@@ -57,20 +38,24 @@ async function doWish(postid) {
 
 export async function onClickWish(store, next, action) {
   try {
-    await store.dispatch(actionCreators.store_wishBadlee(action.id));
-    await doWish(action.id);
+    next(action);
+    if (action.force === undefined || action.force === false) {
+      await doRequest(action.badleeID, "wish");
+    }
   } catch (err) {
-    await store.dispatch(actionCreators.store_unwishBadlee(action.id));
+    await store.dispatch(actionCreators.onClickUnwish(action.badleeID), true);
     console.log(err);
   }
 }
 
 export async function onClickUnwish(store, next, action) {
   try {
-    await store.dispatch(actionCreators.store_unwishBadlee(action.id));
-    await doUnwish(action.id);
+    next(action);
+    if (action.force === undefined || action.force === false) {
+      await doRequest(action.badleeID, "unwish");
+    }
   } catch (err) {
-    await store.dispatch(actionCreators.store_wishBadlee(action.id));
+    await store.dispatch(actionCreators.onClickWish(action.badleeID), true);
     console.log(err);
   }
 }

@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * @name- action_creators.js
  * 
@@ -13,16 +11,6 @@
 
 "use strict";
 
-export const setNavigator = navigator => ({
-  type: "SET_NAVIGATOR",
-  navigator: navigator
-});
-
-export const restoreAuth = route => ({
-  type: "RESTORE_AUTH",
-  route: route
-});
-
 export const startLoading = () => ({ type: "START_LOADING" });
 export const finishLoading = () => ({ type: "FINISH_LOADING" });
 
@@ -31,201 +19,318 @@ export const changeInternetConnectionStatus = status => ({
   status: status
 });
 
-export const navigate = (route: ?Object): NAVIGATE_TO => ({
-  type: "NAVIGATE_TO",
-  route: route
+// Auth Middleware Actions
+/**
+ * Fn to check if a given email is unique
+ * @param {string} email Email address which needs to be check for uniqueness
+ */
+export const checkEmailUniqueness = email => ({
+  type: "CHECK_EMAIL_UNIQUENESS",
+  email
 });
-
-export const goBack = () => ({
-  type: "GO_BACK"
+/**
+ * Fn to check if a given username is unique
+ * @param {string} username Username which needs to be check for uniqueness
+ */
+export const checkUsernameUniqueness = username => ({
+  type: "CHECK_USERNAME_UNIQUENESS",
+  username
 });
-
-export const login = (formData: Object, route: ?Object): LOGIN => ({
+/**
+ * Fn triggered when user clicks on Forgot Password
+ * @param {string} email Email adderss entered by the user
+ */
+export const forgotPassword = email => ({
+  type: "FORGOT_PASSWORD",
+  email: email
+});
+/**
+ * Fn to login a user based on given formData
+ * @param {Object} formData Login Form Data
+ * @param {Object} route Screen to go to in case of Success login
+ */
+export const login = (formData, route) => ({
   type: "LOGIN",
   username: formData.username,
   password: formData.password,
   route: route
 });
-
-export const register = (userObject: Object, route: ?Object): REGISTER => ({
-  type: "REGISTER",
-  username: userObject.uniqueName,
-  fname: userObject.firstName,
-  lname: userObject.lastName,
-  email: userObject.email,
-  password: userObject.password,
-  avatarName: userObject.avatarName,
-  avatarSource: userObject.avatarSource,
-  avatarType: userObject.avatarType,
-  dob: userObject.date,
-  gender: userObject.gender,
-  location: userObject.location,
-  interests: userObject.wish,
-  route: route
-});
-
-export const checkEmailUniqueness = email => ({
-  type: "CHECK_EMAIL_UNIQUENESS",
-  email
-});
-
-export const checkUsernameUniqueness = username => ({
-  type: "CHECK_USERNAME_UNIQUENESS",
-  username
-});
-
-export const logout = (route: ?Object): LOGOUT => ({
+/**
+ * Fn to logout a user
+ * @param {Object} route Route to go to in case of success Logout
+ */
+export const logout = route => ({
   type: "LOGOUT",
   route: route
 });
-
-export const forgotPassword = (email: String): FORGOT_PASSWORD => ({
-  type: "FORGOT_PASSWORD",
-  email: email
+/**
+ * Fn to register a user based on given formData
+ * @param {Object} formData Register Form Data
+ * @param {Object} route Screen to go to in case of Success registration
+ */
+export const register = (formData, route) => ({
+  type: "REGISTER",
+  username: formData.uniqueName,
+  fname: formData.firstName,
+  lname: formData.lastName,
+  email: formData.email,
+  password: formData.password,
+  avatarName: formData.avatarName,
+  avatarSource: formData.avatarSource,
+  avatarType: formData.avatarType,
+  dob: formData.dob,
+  gender: formData.gender,
+  location: formData.location,
+  interests: formData.wish,
+  route: route
+});
+/**
+ * Fn to check if user was logged from before, if yes auto login him/her
+ * @param {Object} route Success route in case of Auth is restored, ie user was logged from before
+ */
+export const restoreAuth = route => ({
+  type: "RESTORE_AUTH",
+  route: route
 });
 
-export const addNotification = (notification: String): ADD_NOTIFICATION => ({
-  type: "ADD_NOTIFICATION",
-  notification: notification
-});
-
-export const clearNotification = (): CLEAR_NOTIFICATION => ({
-  type: "CLEAR_NOTIFICATION"
-});
-
-export const addError = (error: String): ADD_ERROR => ({
-  type: "ADD_ERROR",
-  error: error
-});
-
-export const clearError = (error: String): CLEAR_ERROR => ({
-  type: "CLEAR_ERROR",
-  error: error
-});
-
-export const clearAllErrors = (): CLEAR_ALL_ERRORS => ({
-  type: "CLEAR_ALL_ERRORS"
-});
-
-// badlee section
-export const getBadlees = (params: Object): GET_BADLEES => ({
+// Badlee Middleware Actions
+/**
+ * Fn to fetch badlee data from the server.
+ * @param {Object} params Parameter according to which badlees are to be fetched
+ */
+export const getBadlees = params => ({
   type: "GET_BADLEES",
   params: params
 });
-
-export const saveBadlee = (data, route) => ({
-  type: "SAVE_BADLEE",
-  data: data,
-  route: route
-});
-
-export const onClickLike = (id: Number) => ({
+/**
+ * Fn to like a badlee in store as well as API request
+ * @param {string} badleeID ID of the badlee like was done
+ * @param {Boolean} force Whether to force update like in store without calling API.
+ */
+export const onClickLike = (badleeID, force) => ({
   type: "ON_CLICK_LIKE",
-  id: id
+  id: badleeID,
+  force: force
 });
-export const store_likeBadlee = id => ({
-  type: "STORE_LIKE_BADLEE",
-  id: id
-});
-
-export const onClickUnlike = (id: Number) => ({
+/**
+ * Fn to unlike a badlee in store as well as API request
+ * @param {string} badleeID ID of the badlee unlike was done
+ * @param {Boolean} force Whether to force update unlike in store without calling API.
+ */
+export const onClickUnlike = (badleeID, force) => ({
   type: "ON_CLICK_UNLIKE",
-  id: id
+  id: badleeID,
+  force: force
 });
-export const store_unlikeBadlee = id => ({
-  type: "STORE_UNLIKE_BADLEE",
-  id: id
-});
-
-export const onClickWish = (id: Number) => ({
+/**
+ * Fn to wish a badlee in store as well as API request
+ * @param {string} badleeID ID of the badlee wish was done
+ * @param {Boolean} force Whether to force update wish in store without calling API.
+ */
+export const onClickWish = (badleeID, force) => ({
   type: "ON_CLICK_WISH",
-  id: id
+  badleeID: badleeID,
+  force: force
 });
-export const store_wishBadlee = id => ({
-  type: "STORE_WISH_BADLEE",
-  id: id
-});
-
-export const onClickUnwish = (id: Number) => ({
+/**
+ * Fn to unwish a badlee in store as well as API request
+ * @param {string} badleeID ID of the badlee unwish was done
+ * @param {Boolean} force Whether to force update unwish in store without calling API.
+ */
+export const onClickUnwish = (badleeID, force) => ({
   type: "ON_CLICK_UNWISH",
-  id: id
+  badleeID: badleeID,
+  force: force
 });
-export const store_unwishBadlee = id => ({
-  type: "STORE_UNWISH_BADLEE",
-  id: id
+/**
+ * Fn to post comment on badlee
+ * @param {string} badleeID ID of the badlee on which comment was done 
+ * @param {string} comment Comment added by user
+ */
+export const onCommentPost = (badleeID, comment) => ({
+  badleeID: badleeID,
+  comment: comment,
+  type: "POST_COMMENT"
 });
-
-// user section
-export const showUserPage = (id: Number, route: ?Object): SHOW_USER_PAGE => ({
-  type: "SHOW_USER_PAGE",
-  id: id,
+/**
+ * Fn to delete comment on badlee
+ * @param {string} commentID ID of the comment
+ */
+export const onCommentDelete = commentID => ({
+  commentID: commentID,
+  type: "DELETE_COMMENT"
+});
+/**
+ * Fn to report a badlee
+ * @param {string} badleeID ID of the badlee reported
+ * @param {string} reason Reason of reporting
+ */
+export const reportPost = (badleeID, reason) => ({
+  badleeID: badleeID,
+  reason: reason,
+  type: "REPORT_BADLEE"
+});
+/**
+ * Fn to Save a badlee based on given formData
+ * @param {Object} formData Badlee Form Data
+ * @param {Object} route Screen to go to in case of Badlee Registration
+ */
+export const saveBadlee = (formData, route) => ({
+  type: "SAVE_BADLEE",
+  uri: formData.uri,
+  imageType: formData.imageType,
+  fileName: formData.fileName,
+  description: formData.description,
+  ip: formData.ip,
+  location: formData.location,
+  purpose: formData.purpose,
+  category: formData.category,
   route: route
 });
-
-export const searchForUser = search => ({
-  type: "SEARCH_USER",
-  search: search
+/**
+ * Fn to set BadleeID in store so that it can be used for other pages, like reaction and comments etc
+ * @param {string} badleeID ID of the badlee to be setted active
+ */
+export const setActiveBadleeID = badleeID => ({
+  badleeID: badleeID,
+  type: "SET_ACTIVE_BADLEE_ID"
 });
-
-export const followUser = (id: Number) => ({
-  id: id,
-  type: "FOLLOW_USER"
+/**
+ * Fn to show Badlee Page
+ * @param {String} badleeID ID of the badlee showing
+ * @param {Object} route badlee Page
+ */
+export const showBadleePage = (badleeID, route) => ({
+  badleeID: badleeID,
+  route: route,
+  type: "SHOW_BADLEE_PAGE"
 });
-
-export const unFollowUser = (id: Number) => ({
-  id: id,
-  type: "UNFOLLOW_USER"
-});
-
-export const showCommentPage = (id: Number, route: ?Object) => ({
-  id: id,
+/**
+ * Fn to show Comment Page
+ * @param {String} badleeID ID of the badlee showing
+ * @param {Object} route Comment Page
+ */
+export const showCommentPage = (badleeID, route) => ({
+  badleeID: badleeID,
   route: route,
   type: "SHOW_COMMENT_PAGE"
 });
-export const showReactionPage = (id, route) => ({
-  id: id,
+/**
+ * Fn to show Reaction Page
+ * @param {String} badleeID ID of the badlee showing
+ * @param {Object} route Reaction Page
+ */
+export const showReactionPage = (badleeID, route) => ({
+  badleeID: badleeID,
   route: route,
   type: "SHOW_REACTION_PAGE"
 });
 
-export const postComment = (id, comment) => ({
-  id: id,
-  comment: comment,
-  type: "POST_COMMENT"
+// Navigator Middleware Actions
+/**
+ * Fn to back back to previous screen
+ */
+export const goBack = () => ({
+  type: "GO_BACK"
 });
-export const deleteComment = id => ({
-  id: id,
-  type: "DELETE_COMMENT"
+/**
+ * Fn to navigate to a different screen(route)
+ * @param {Object} route Information of route to navigate to
+ */
+export const navigate = route => ({
+  type: "NAVIGATE_TO",
+  route: route
 });
-export const currentShowingBadlee = id => ({
-  id: id,
-  type: "STORE_CURRENTSHOWINGBADLEE"
-});
-export const showBadleePage = (id: Number, route: ?Object) => ({
-  id: id,
-  route: route,
-  type: "SHOW_BADLEE_PAGE"
+/**
+ * Fn to set navigator object in store
+ * @param {Navigator Object} navigator 
+ */
+export const setNavigator = navigator => ({
+  type: "SET_NAVIGATOR",
+  navigator: navigator
 });
 
-export const getUserBadlees = (id, purpose, offset, limit) => ({
-  id: id,
+// Notification Middleware Action
+/**
+ * Fn to add notification 
+ * @param {string} notification Notification to add
+ */
+export const addError = error => ({
+  type: "ADD_ERROR",
+  error: error
+});
+export const addNotification = notification => ({
+  type: "ADD_NOTIFICATION",
+  notification: notification
+});
+export const checkForNotification = () => ({
+  type: "CHECK_NOTIFICATION"
+});
+export const clearAllErrors = () => ({
+  type: "CLEAR_ALL_ERRORS"
+});
+export const clearError = error => ({
+  type: "CLEAR_ERROR",
+  error: error
+});
+export const clearNotification = () => ({
+  type: "CLEAR_NOTIFICATION"
+});
+
+// User Middleware Action
+/**
+ * 
+ * @param {string} userID ID of the user
+ * @param {string} purpose Purpose of which badlees are to be fetched [showoff, exchange, ..]
+ * @param {number} offset Offset
+ * @param {number} limit Limit
+ */
+export const getUserBadlees = (userID, purpose, offset, limit) => ({
+  userID: userID,
   purpose: purpose,
   offset: offset,
   limit: limit,
   type: "GET_USER_BADLEES"
 });
-
-export const reportPost = (id, reason) => ({
-  id: id,
-  reason: reason,
-  type: "REPORT_BADLEE"
+/**
+ * Fn to follow given user
+ * @param {string} userID ID of the user to follow
+ */
+export const onFollowUser = userID => ({
+  userID: userID,
+  type: "FOLLOW_USER"
 });
-
-export const checkForNotification = () => ({
-  type: "CHECK_NOTIFICATION"
+/**
+ * Fn to unfollow given user
+ * @param {string} userID ID of the user to unfollow
+ */
+export const onUnfollowUser = userID => ({
+  userID: userID,
+  type: "UNFOLLOW_USER"
 });
-
-export const userShowing = userID => ({
-  type: "USER_SHOWING",
-  userID: userID
+/**
+ * Fn to search User based on given string
+ * @param {string} search Search string inputted by user.
+ */
+export const searchForUser = search => ({
+  type: "SEARCH_USER",
+  search: search
+});
+/**
+ * Fn to show User Page
+ * @param {String} userID ID of the user showing
+ * @param {Object} route Single User Page
+ */
+export const showUserPage = (userID, route) => ({
+  type: "SHOW_USER_PAGE",
+  userID: userID,
+  route: route
+});
+/**
+ * Fn to set Active User
+ * @param {string} userID ID of the user currently watching
+ */
+export const setActiveUserID = userID => ({
+  userID: userID,
+  type: "USER_SHOWING"
 });

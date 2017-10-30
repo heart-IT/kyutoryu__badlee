@@ -159,7 +159,7 @@ class Register2 extends Component {
       avatarName: this.state.avatarName,
       avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
       avatarType: this.state.avatarType,
-      date: this.state.date,
+      dob: this.state.date,
       gender: this.state.gender,
       location: this.state.location,
       wish: this.state.wish

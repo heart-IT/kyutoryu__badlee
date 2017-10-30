@@ -59,10 +59,10 @@ class Reactions extends Component {
     });
   }
   onFollow(userId) {
-    this.props.followUser(userId);
+    this.props.onFollowUser(userId);
   }
   onUnfollow(userId) {
-    this.props.unFollowUser(userId);
+    this.props.onUnfollowUser(userId);
   }
 
   render() {

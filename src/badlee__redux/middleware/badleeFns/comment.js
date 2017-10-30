@@ -18,8 +18,8 @@ import { application_id, application_secret, createFormData } from "../utility";
 
 export async function showCommentPage(store, next, action) {
   try {
-    action.route.params = { id: action.id };
-    await store.dispatch(actionCreators.currentShowingBadlee(action.id));
+    action.route.params = { id: action.badleeID };
+    await store.dispatch(actionCreators.setActiveBadleeID(action.badleeID));
     await store.dispatch(actionCreators.navigate(action.route));
   } catch (err) {
     console.log(err);
@@ -80,7 +80,7 @@ async function doComment(postid, content) {
 export async function postComment(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    var req = await doComment(action.id, action.comment);
+    var req = await doComment(action.badleeID, action.comment);
     console.log(req);
     action.comment_id = req.comment_id;
     action.content = req.content;
@@ -96,7 +96,7 @@ export async function postComment(store, next, action) {
 export async function deleteComment(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    var req = await deleteRequest(action.id);
+    var req = await deleteRequest(action.commentID);
     next(action);
   } catch (err) {
     console.log(err);

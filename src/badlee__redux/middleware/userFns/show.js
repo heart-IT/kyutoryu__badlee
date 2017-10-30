@@ -25,11 +25,11 @@ export default async function showUserPage(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
 
-    let user = await getUser(action.id);
+    let user = await getUser(action.userID);
     if (user) {
       action.user = user;
       next(action);
-      await store.dispatch(actionCreators.userShowing(user.user_id));
+      await store.dispatch(actionCreators.setActiveUserID(user.user_id));
       action.route.params = { isOtherUser: true };
       await store.dispatch(actionCreators.navigate(action.route));
     }

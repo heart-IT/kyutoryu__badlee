@@ -9,49 +9,28 @@
  * 
  * @author- heartit pirates were here
  */
+"use strict";
 import { AsyncStorage } from "react-native";
-
 import * as actionCreators from "../../action_creators";
 
-("use strict");
-async function doUnlike(postid) {
+/**
+ * Fn to call API to like/unlike a badlee
+ * @param {string} badleeID Id of the badlee like/unlike action was done
+ * @param {string} actionType Type of action done [like, unlike]
+ */
+async function doRequest(badleeID, actionType) {
   try {
-    let jollyroger = await AsyncStorage.getItem("jollyroger");
-    let unlikeRequest = await fetch(
-      `http://mri2189.badlee.com/like.php?postid=${postid}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: jollyroger
-        }
+    const jollyroger = await AsyncStorage.getItem("jollyroger");
+    const url = `http://mri2189.badlee.com/like.php?postid=${badleeID}`;
+    const requestType = actionType === "like" ? "POST" : "DELETE";
+    const request = await fetch(url, {
+      method: requestType,
+      headers: {
+        Authorization: jollyroger
       }
-    );
-    if (unlikeRequest.status === 200 && unlikeRequest.ok) {
-      let requestJson = await unlikeRequest.json();
-      return requestJson;
-    }
-  } catch (err) {
-    throw err;
-  }
-}
-
-async function doLike(postid) {
-  try {
-    let jollyroger = await AsyncStorage.getItem("jollyroger");
-    let likeRequest = await fetch(
-      `http://mri2189.badlee.com/like.php?postid=${postid}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: jollyroger
-        }
-      }
-    );
-    console.log(likeRequest);
-    if (likeRequest.status === 200 && likeRequest.ok) {
-      let requestJson = await likeRequest.json();
-      console.log(requestJson);
-      return requestJson;
+    });
+    if (request.ok && request.status === 200) {
+      return response;
     }
   } catch (err) {
     throw err;
@@ -60,20 +39,24 @@ async function doLike(postid) {
 
 export async function onClickLike(store, next, action) {
   try {
-    await store.dispatch(actionCreators.store_likeBadlee(action.id));
-    await doLike(action.id);
+    next(action);
+    if (action.force === undefined || action.force === false) {
+      await doRequest(action.badleeID, "like");
+    }
   } catch (err) {
-    await store.dispatch(actionCreators.store_unlikeBadlee(action.id));
+    await store.dispatch(actionCreators.onClickUnlike(action.badleeID, true));
     console.log(err);
   }
 }
 
 export async function onClickUnlike(store, next, action) {
   try {
-    await store.dispatch(actionCreators.store_unlikeBadlee(action.id));
-    await doUnlike(action.id);
+    next(action);
+    if (action.force === undefined || action.force === false) {
+      await doRequest(action.badleeID, "unlike");
+    }
   } catch (err) {
-    await store.dispatch(actionCreators.store_likeBadlee(action.id));
+    await store.dispatch(actionCreators.onClickLike(action.badleeID, true));
     console.log(err);
   }
 }

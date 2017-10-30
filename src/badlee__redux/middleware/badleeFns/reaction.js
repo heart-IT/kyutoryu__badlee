@@ -12,8 +12,8 @@
 import * as actionCreators from "../../action_creators";
 export default async function showReactionPage(store, next, action) {
   try {
-    action.route.params = { id: action.id };
-    await store.dispatch(actionCreators.currentShowingBadlee(action.id));
+    action.route.params = { id: action.badleeID };
+    await store.dispatch(actionCreators.setActiveBadleeID(action.badleeID));
     await store.dispatch(actionCreators.navigate(action.route));
   } catch (err) {
     console.log(err);

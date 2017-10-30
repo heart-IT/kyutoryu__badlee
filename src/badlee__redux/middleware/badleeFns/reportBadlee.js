@@ -15,7 +15,7 @@ import { application_id, application_secret, createFormData } from "../utility";
 export default async function reportBadlee(store, next, action) {
   try {
     const data = {
-      itemid: action.id,
+      itemid: action.badleeID,
       itemtype: "badlee",
       message: action.reason,
       application_id,

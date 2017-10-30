@@ -140,10 +140,10 @@ class User extends Component {
   }
 
   followUser() {
-    this.props.followUser(this.state.userProfile.user_id);
+    this.props.onFollowUser(this.state.userProfile.user_id);
   }
   unFollowUser() {
-    this.props.unFollowUser(this.state.userProfile.user_id);
+    this.props.onUnfollowUser(this.state.userProfile.user_id);
   }
   onClickFollower() {
     requestAnimationFrame(() => {

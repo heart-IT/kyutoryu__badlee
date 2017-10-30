@@ -1,5 +1,4 @@
 /**
- * 
  * @name- save.js
  * 
  * @chill- The little cares that fretted me, I lost them yesterday. Among the fields about the sea, Among the winds at play. -Elizabeth Barrett Browning
@@ -9,6 +8,7 @@
  * 
  * @author- heartit pirates were here
  */
+"use strict";
 import { AsyncStorage } from "react-native";
 
 import * as actionCreators from "../../action_creators";
@@ -19,24 +19,36 @@ import {
   saveMedia
 } from "../utility";
 
-("use strict");
-
 export default async function saveBadlee(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
-    let badleeData = action.data;
-    let { uri, imageType, fileName } = badleeData;
-    let uploadMedia = await saveMedia({
-      uri: uri,
-      imageType: imageType,
-      fileName: fileName
-    });
-    badleeData.uri = uploadMedia.url;
-    let newBadlee = await badleeSaveRequest(badleeData);
+    let uploadMedia;
+    if (action.avatarSource) {
+      uploadMedia = await saveMedia({
+        uri: action.uri,
+        imageType: action.imageType,
+        fileName: action.fileName
+      });
+      if (uploadMedia.error) {
+        throw "Image couldn't be uploaded..";
+      }
+    }
+    const data = {
+      media:
+        uploadMedia && uploadMedia.url
+          ? "http://mri2189.badlee.com/" + uploadMedia.url
+          : "",
+      description: action.description,
+      ip: action.ip,
+      location: action.location,
+      purpose: action.purpose,
+      category: action.category,
+      application_id,
+      application_secret
+    };
+    let newBadlee = await badleeSaveRequest(data);
     action.newBadlee = newBadlee;
     next(action);
-    // await store.dispatch(actionCreators.currentShowingBadlee(newBadlee.id));
-    // await store.dispatch(actionCreators.navigate(action.route));
   } catch (err) {
     console.log(err);
   } finally {
@@ -44,21 +56,11 @@ export default async function saveBadlee(store, next, action) {
   }
 }
 
-async function badleeSaveRequest(badleeData) {
+async function badleeSaveRequest(data) {
   try {
-    const data = {
-      media: "http://mri2189.badlee.com/" + badleeData.uri,
-      description: badleeData.description,
-      ip: badleeData.ip,
-      location: badleeData.location,
-      purpose: badleeData.purpose,
-      category: badleeData.category,
-      application_id,
-      application_secret
-    };
     const jolly_roger = await AsyncStorage.getItem("jollyroger");
     let formBody = createFormData(data);
-    let response = await fetch("http://mri2189.badlee.com/posts.php", {
+    let request = await fetch("http://mri2189.badlee.com/posts.php", {
       method: "POST",
       headers: {
         Authorization: jolly_roger,
@@ -67,13 +69,13 @@ async function badleeSaveRequest(badleeData) {
       },
       body: formBody
     });
-    if (response.status === 200 && response.ok === true) {
-      var respnseJson = await response.json();
-      return respnseJson;
+    if (request.status === 200 && request.ok === true) {
+      let response = await response.json();
+      return response;
     } else {
       throw "Error happened in Saving Request";
     }
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }

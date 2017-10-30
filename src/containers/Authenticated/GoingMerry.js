@@ -49,7 +49,7 @@ class GoingMerry extends Component {
   }
   onChangeTab(i, ref) {
     if (i * i === 3) {
-      this.props.userShowing(this.props.loggedUserID);
+      this.props.setActiveUserID(this.props.loggedUserID);
     }
     this.setState({ activeTabIndex: i.i });
   }

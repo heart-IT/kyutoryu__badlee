@@ -182,25 +182,25 @@ export function followUser(state, userID) {
     name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
     username: loggedUser.get("username")
   };
-  let targetUser= state.getIn(["user", "usersInformation", userID]);
-  if(targetUser) {
+  let targetUser = state.getIn(["user", "usersInformation", userID]);
+  if (targetUser) {
     return state
-    .updateIn(["user", "usersInformation", userID], user => {
-      return user.set(
-        "follower",
-        user.get("follower")
-          ? user.get("follower").push(fromJS(followObject))
-          : fromJS([followObject])
-      );
-    })
-    .updateIn(["user", "usersInformation", loggedUserID], user => {
-      return user.set(
-        "following",
-        user.get("following")
-          ? user.get("following").push(fromJS(followingObject))
-          : fromJS([followingObject])
-      );
-    });
+      .updateIn(["user", "usersInformation", userID], user => {
+        return user.set(
+          "follower",
+          user.get("follower")
+            ? user.get("follower").push(fromJS(followObject))
+            : fromJS([followObject])
+        );
+      })
+      .updateIn(["user", "usersInformation", loggedUserID], user => {
+        return user.set(
+          "following",
+          user.get("following")
+            ? user.get("following").push(fromJS(followingObject))
+            : fromJS([followingObject])
+        );
+      });
   } else {
     return state
       .setIn(["user", "usersInformation", userID], user => {
@@ -219,7 +219,6 @@ export function followUser(state, userID) {
             : fromJS([followingObject])
         );
       });
-
   }
 }
 
@@ -368,8 +367,8 @@ export function unwishBadlee(state, id) {
   });
 }
 
-export function currentShowingBadlee(state, id) {
-  return state.setIn(["badlees", "currentShowing"], String(id));
+export function setActiveBadleeID(state, badleeID) {
+  return state.setIn(["badlees", "currentShowing"], String(badleeID));
 }
 
 export function postComment(state, id, comment, timestamp) {

@@ -1,7 +1,3 @@
-// @flow
-import { fromJS, Map, OrderedSet, Record, Set } from "immutable";
-import { locale } from "moment";
-
 /**
  * @name- core.js
  * 
@@ -14,7 +10,9 @@ import { locale } from "moment";
  * @author - heartit pirates were here.
  */
 
-("use strict");
+"use strict";
+import { fromJS, Map, OrderedSet, Record, Set } from "immutable";
+import { locale } from "moment";
 
 /**
  * Imp[o]rts Definition :-
@@ -35,22 +33,27 @@ const StateRecord = Record({
     notifications: new Set()
   }),
   user: new Map({
-    isLoggedIn: false,
-    loggedUserID: null,
+    activeUserID: null,
     guestUserID: null,
-    usersInformation: fromJS({}),
-    searching: fromJS([]),
-    showing: -1
+    loggedUserID: null,
+    data: fromJS({}),
+    searching: fromJS([])
   }),
   badlees: new Map({
+    activeBadleeID: null,
     data: fromJS({}),
-    tabs: new Map({
+    reports: fromJS([]),
+    purposeTabs: new Map({
       following: new OrderedSet(),
       location: new OrderedSet(),
       globe: new OrderedSet()
     }),
-    users: fromJS({}),
-    currentShowing: null,
+    userTabs: new Map({
+      exchange: new Map({}),
+      shoutoff: new Map({}),
+      shoutout: new Map({}),
+      wish: new Map({})
+    }),
     pagingEndsIn: new Map({
       tabs: new Map({
         following: -1,
@@ -60,10 +63,9 @@ const StateRecord = Record({
     })
   }),
   notifications: new Map({
-    dataByID: fromJS({}),
+    data: fromJS({}),
     order: new OrderedSet()
-  }),
-  reports: fromJS([])
+  })
 });
 
 export const InitialState = new StateRecord();
@@ -129,19 +131,16 @@ export function addLoggedUser(state, user) {
   let userInformation = {};
   userInformation[userID] = user;
   return state
-    .setIn(["user", "isLoggedIn"], true)
     .setIn(["user", "loggedUserID"], userID)
     .setIn(
-      ["user", "usersInformation"],
-      state.getIn(["user", "usersInformation"]).merge(userInformation)
+      ["user", "data"],
+      state.getIn(["user", "data"]).merge(userInformation)
     )
-    .setIn(["user", "showing"], userID);
+    .setIn(["user", "activeUserID"], userID);
 }
 
 export function clearUser(state) {
-  return state
-    .setIn(["user", "isLoggedIn"], false)
-    .setIn(["user", "loggedUserID"], null);
+  return state.setIn(["user", "loggedUserID"], null);
 }
 
 export function saveGuestUser(state, user) {
@@ -150,8 +149,8 @@ export function saveGuestUser(state, user) {
   userInformation[userID] = user;
   return state
     .setIn(
-      ["user", "usersInformation"],
-      state.getIn(["user", "usersInformation"]).merge(userInformation)
+      ["user", "data"],
+      state.getIn(["user", "data"]).merge(userInformation)
     )
     .setIn(["user", "guestUserID"], userID);
 }
@@ -171,7 +170,7 @@ export function saveGuestUser(state, user) {
 // });
 export function followUser(state, userID) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let loggedUser = state.getIn(["user", "data", loggedUserID]);
 
   let followingObject = {
     user_id_following: userID
@@ -182,10 +181,10 @@ export function followUser(state, userID) {
     name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
     username: loggedUser.get("username")
   };
-  let targetUser = state.getIn(["user", "usersInformation", userID]);
+  let targetUser = state.getIn(["user", "data", userID]);
   if (targetUser) {
     return state
-      .updateIn(["user", "usersInformation", userID], user => {
+      .updateIn(["user", "data", userID], user => {
         return user.set(
           "follower",
           user.get("follower")
@@ -193,7 +192,7 @@ export function followUser(state, userID) {
             : fromJS([followObject])
         );
       })
-      .updateIn(["user", "usersInformation", loggedUserID], user => {
+      .updateIn(["user", "data", loggedUserID], user => {
         return user.set(
           "following",
           user.get("following")
@@ -203,7 +202,7 @@ export function followUser(state, userID) {
       });
   } else {
     return state
-      .setIn(["user", "usersInformation", userID], user => {
+      .setIn(["user", "data", userID], user => {
         return user.set(
           "follower",
           user.get("follower")
@@ -211,7 +210,7 @@ export function followUser(state, userID) {
             : fromJS([followObject])
         );
       })
-      .updateIn(["user", "usersInformation", loggedUserID], user => {
+      .updateIn(["user", "data", loggedUserID], user => {
         return user.set(
           "following",
           user.get("following")
@@ -225,7 +224,7 @@ export function followUser(state, userID) {
 export function unfollowUser(state, userID) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state
-    .updateIn(["user", "usersInformation", userID], user => {
+    .updateIn(["user", "data", userID], user => {
       let oldFollowers = user.get("follower")
         ? user.get("follower")
         : fromJS([]);
@@ -234,7 +233,7 @@ export function unfollowUser(state, userID) {
       );
       return user.set("follower", newFollowers);
     })
-    .updateIn(["user", "usersInformation", loggedUserID], user => {
+    .updateIn(["user", "data", loggedUserID], user => {
       let oldFollowings = user.get("following")
         ? user.get("following")
         : fromJS([]);
@@ -276,17 +275,17 @@ export function getBadlees(
         updatedBadleeIDS = OrderedSet(badleeIDs);
       } else {
         updatedBadleeIDS = OrderedSet(badleeIDs).union(
-          state.getIn(["badlees", "tabs", tabName])
+          state.getIn(["badlees", "purposeTabs", tabName])
         );
       }
     } else {
       updatedBadleeIDS = state
-        .getIn(["badlees", "tabs", tabName])
+        .getIn(["badlees", "purposeTabs", tabName])
         .union(badleeIDs);
     }
     return state
       .setIn(["badlees", "data"], updatedBadlees)
-      .setIn(["badlees", "tabs", tabName], updatedBadleeIDS);
+      .setIn(["badlees", "purposeTabs", tabName], updatedBadleeIDS);
   }
 }
 
@@ -306,12 +305,12 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
 
   return state
     .setIn(["badlees", "data"], state.getIn(["badlees", "data"]).merge(tempObj))
-    .setIn(["badlees", "users", userID, purpose], fromJS(ids));
+    .setIn(["badlees", "userTabs", purpose, userID], fromJS(ids));
 }
 
 export function likeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let loggedUser = state.getIn(["user", "data", loggedUserID]);
   let likeObject = {
     avatar: loggedUser.get("avatar"),
     user_id: loggedUser.get("user_id"),
@@ -340,7 +339,7 @@ export function unlikeBadlee(state, id) {
 
 export function wishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  let loggedUser = state.getIn(["user", "usersInformation", loggedUserID]);
+  let loggedUser = state.getIn(["user", "data", loggedUserID]);
   let wishObject = {
     avatar: loggedUser.get("avatar"),
     user_id: loggedUser.get("user_id"),
@@ -368,15 +367,15 @@ export function unwishBadlee(state, id) {
 }
 
 export function setActiveBadleeID(state, badleeID) {
-  return state.setIn(["badlees", "currentShowing"], String(badleeID));
+  return state.setIn(["badlees", "activeBadleeID"], String(badleeID));
 }
 
 export function postComment(state, id, comment, timestamp) {
-  var badleeId = state.getIn(["badlees", "currentShowing"]);
+  var badleeId = state.getIn(["badlees", "activeBadleeID"]);
   let oldComments = state.getIn(["badlees", "data", badleeId, "comments"]);
   let loggedUser = state.getIn([
     "user",
-    "usersInformation",
+    "data",
     state.getIn(["user", "loggedUserID"])
   ]);
   var commentObj = {
@@ -397,7 +396,7 @@ export function postComment(state, id, comment, timestamp) {
   });
 }
 export function deleteComment(state, id) {
-  var badleeId = state.getIn(["badlees", "currentShowing"]);
+  var badleeId = state.getIn(["badlees", "activeBadleeID"]);
   let oldComments = state.getIn(["badlees", "data", badleeId, "comments"]);
   let newComments = oldComments.filter(
     comment => comment.get("comment_id") !== id
@@ -410,28 +409,28 @@ export function deleteComment(state, id) {
 }
 
 export function checkNotification(state, notificationByID, order) {
-  let currentData = state.getIn(["notifications", "dataByID"]);
+  let currentData = state.getIn(["notifications", "data"]);
   let updatedData = currentData.merge(notificationByID);
   let currentOrder = state.getIn(["notifications", "order"]);
   let updatedOrder = OrderedSet(order).union(currentOrder);
   return state
-    .setIn(["notifications", "dataByID"], updatedData)
+    .setIn(["notifications", "data"], updatedData)
     .setIn(["notifications", "order"], updatedOrder);
 }
 
 export function reportBadlee(state, reportItem) {
-  return state.set("reports", state.get("reports").push(reportItem));
+  return state.setIn(
+    ["badlees", "reports"],
+    state.getIn(["badlees", "reports"]).push(reportItem)
+  );
 }
 
 export function searchUser(state, users, usersID) {
   return state
-    .setIn(
-      ["user", "usersInformation"],
-      state.getIn(["user", "usersInformation"]).merge(users)
-    )
+    .setIn(["user", "data"], state.getIn(["user", "data"]).merge(users))
     .setIn(["user", "searching"], usersID);
 }
 
 export function userShowing(state, userID) {
-  return state.setIn(["user", "showing"], userID);
+  return state.setIn(["user", "activeUserID"], userID);
 }

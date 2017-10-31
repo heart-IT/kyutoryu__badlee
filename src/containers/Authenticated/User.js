@@ -301,8 +301,8 @@ class User extends Component {
                 >
                   <Icon
                     name="hamburger"
-                    width="48"
-                    height="48"
+                    width="24"
+                    height="24"
                     fill="#939393"
                   />
                 </TouchableOpacity>
@@ -420,7 +420,7 @@ class User extends Component {
                 <Tab
                   heading={
                     <TabHeading style={styles.inventorytype__head}>
-                      <Icon name="wish" height="36" width="36" fill="#EF5454" />
+                      {returnIcon("wishMenu", 36, 36)}
                     </TabHeading>
                   }
                 >

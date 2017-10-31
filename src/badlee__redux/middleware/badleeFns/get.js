@@ -115,13 +115,11 @@ async function getBadleesByGlobe(
   url += `${location ? "&location=" + location : ""}`;
   url += `${category ? "&category=" + category : ""}`;
   url += `&offset=${offset}&limit=${limit}`;
-  console.log(url);
   let badleeFetch = await fetch(url, {
     headers: {
       Authorization: jollyroger
     }
   });
-  console.log(badleeFetch);
   if (badleeFetch.ok && badleeFetch.status === 200) {
     var badlees = await badleeFetch.json();
     if (badlees) {

@@ -9,6 +9,8 @@
  * 
  * @author- heartit pirates were here.
  */
+
+"use strict";
 import {
   Container,
   Content,
@@ -25,8 +27,7 @@ import {
   Label,
   Button
 } from "native-base";
-import { Component } from "react";
-import React from "react";
+import React, { Component } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
@@ -37,8 +38,6 @@ import SingleBadlee from "./singleBadlee";
 import Picker from "../../components/Picker";
 
 var ImagePicker = require("react-native-image-picker");
-
-("use strict");
 
 class NewBadlee extends Component {
   constructor(props) {
@@ -53,7 +52,8 @@ class NewBadlee extends Component {
       location: null,
       ip: "95.99.52.29.37",
       showLocator: false,
-      showPicker: false
+      showPicker: false,
+      pickerSelectedValue: ""
     };
     this.backPress = this._backPress.bind(this);
     this.onPhotoTap = this._onPhotoTap.bind(this);
@@ -144,8 +144,8 @@ class NewBadlee extends Component {
       imageType: this.state.badleePhotoType,
       fileName: this.state.badleePhotoName,
       description: this.state.description,
-      location: this.state.location,
-      category: this.state.category,
+      location: this.state.location.city + ", " + this.state.location.state,
+      category: this.state.category.name,
       ip: this.state.ip,
       purpose: purpose
     };
@@ -153,7 +153,6 @@ class NewBadlee extends Component {
       navigator: this.props.navigator,
       component: SingleBadlee
     });
-    this.setState({ description: null, location: null, category: null });
   }
 
   closePicker() {
@@ -162,15 +161,15 @@ class NewBadlee extends Component {
 
   onPickerSubmit(submittedVal) {
     if (this.state.type === "location") {
-      let location = "";
+      let location = {};
       if (submittedVal && submittedVal.length) {
-        location = submittedVal[0].city;
+        location = submittedVal[0];
       }
       this.setState({ location: location, showPicker: false });
     } else if (this.state.type === "category") {
-      let category = "";
+      let category = {};
       if (submittedVal && submittedVal.length) {
-        category = submittedVal[0].name;
+        category = submittedVal[0];
       }
       this.setState({ category: category, showPicker: false });
     }
@@ -184,7 +183,9 @@ class NewBadlee extends Component {
         <Container style={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
-              <Icon name="menuBackIcon" width="18" height="18" />
+              <TouchableOpacity onPress={this.backPress}>
+                <Icon name="menuBackIcon" width="18" height="18" />
+              </TouchableOpacity>
             </Left>
             <Right>
               <Icon name={purpose} width="30" height="30" />
@@ -208,16 +209,22 @@ class NewBadlee extends Component {
                       marginRight: "auto"
                     }}
                   >
-                    <Icon name="thingy" width="160" height="100" />
+                    <Icon name="upload" width="160" height="100" />
                   </TouchableOpacity>
                 )}
+                <TouchableOpacity onPress={this.onPhotoTap}>
+                  <Text style={{ color: "rgba(0, 0, 0, 0.67)" }}>
+                    Upload Photo
+                  </Text>
+                </TouchableOpacity>
               </View>
               <Form>
                 <Item style={styles.inputItem}>
                   <Input
-                    placeholder="DESCRIPTION"
+                    placeholder="ENTER DESCRIPTION HERE"
                     value={this.state.description}
                     onChangeText={description => this.setState({ description })}
+                    style={{ fontSize: 15 }}
                   />
                 </Item>
               </Form>
@@ -231,7 +238,9 @@ class NewBadlee extends Component {
                     : "WHERE IS IT?"}
                 </Text>
                 <View style={styles.pickerInputStyle}>
-                  {this.state.location && <Text>{this.state.location}</Text>}
+                  {this.state.location && (
+                    <Text>{this.state.location.city}</Text>
+                  )}
                   {!this.state.location && (
                     <Text style={styles.pickerPlaceholderText}>LOCATION</Text>
                   )}
@@ -243,8 +252,9 @@ class NewBadlee extends Component {
               >
                 <Text style={styles.pickerLabel}>WHERE DOES IT FITS?</Text>
                 <View style={styles.pickerInputStyle}>
-                  {this.state.category && <Text>{this.state.category}</Text>}
-                  {!this.state.category && (
+                  {this.state.category ? (
+                    <Text>{this.state.category.name}</Text>
+                  ) : (
                     <Text style={styles.pickerPlaceholderText}>CATEGORY</Text>
                   )}
                 </View>
@@ -276,6 +286,11 @@ class NewBadlee extends Component {
                 onPickerClose={this.closePicker.bind(this)}
                 onPickerSubmit={this.onPickerSubmit.bind(this)}
                 needSearch={true}
+                selectedValue={
+                  this.state.type === "location"
+                    ? this.state.location
+                    : this.state.category
+                }
               />
             )}
           </Content>
@@ -288,7 +303,8 @@ var styles = {
   headerLeft: { flex: 1 },
   badleePhotoWrapper: {
     paddingTop: 12,
-    paddingBottom: 12
+    paddingBottom: 12,
+    alignItems: "center"
   },
   avatar: {
     width: 180,
@@ -301,7 +317,8 @@ var styles = {
     paddingRight: 12
   },
   inputItem: {
-    marginBottom: 9,
+    marginTop: 12,
+    marginBottom: 3,
     marginRight: 12
   },
   input: {

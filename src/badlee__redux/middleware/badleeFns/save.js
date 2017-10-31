@@ -46,9 +46,11 @@ export default async function saveBadlee(store, next, action) {
       application_id,
       application_secret
     };
+    console.log(data);
     let newBadlee = await badleeSaveRequest(data);
     action.newBadlee = newBadlee;
     next(action);
+    await store.dispatch(actionCreators.goBack());
   } catch (err) {
     console.log(err);
   } finally {
@@ -64,13 +66,12 @@ async function badleeSaveRequest(data) {
       method: "POST",
       headers: {
         Authorization: jolly_roger,
-        Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: formBody
     });
-    if (request.status === 200 && request.ok === true) {
-      let response = await response.json();
+    if (request.status === 200 && request.ok) {
+      let response = await request.json();
       return response;
     } else {
       throw "Error happened in Saving Request";

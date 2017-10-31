@@ -95,6 +95,7 @@ class Search extends Component {
   }
   getBadleeByGlobe() {
     let { page, limit } = this.state.paging;
+    console.log("is here");
     this.props.getBadlees({
       tabName: "globe",
       search: this.state.filter.search,
@@ -110,7 +111,6 @@ class Search extends Component {
       this.setState(
         {
           paging: { page: 0, limit: 32 },
-          currentData: [],
           activeTabIndex: i * i
         },
         () => {
@@ -118,7 +118,9 @@ class Search extends Component {
         }
       );
     } else {
-      this.setState({ activeTabIndex: i * i });
+      this.setState({
+        activeTabIndex: i * i
+      });
     }
   }
   goBack() {
@@ -159,22 +161,31 @@ class Search extends Component {
   onUnfollow(userId) {
     this.props.unFollowUser(userId);
   }
-  searchingFor() {
+  searchingFor(searchString) {
+    this.setState({ search: searchString });
     if (this.state.activeTabIndex === 0) {
-      var filteredState = Object.assign({}, this.state.filter, {
-        search: this.state.search
-      });
+      let filteredState;
+      if (searchString && searchString.length >= 3) {
+        filteredState = Object.assign({}, this.state.filter, {
+          search: searchString
+        });
+      } else {
+        filteredState = Object.assign({}, this.state.filter, {
+          search: ""
+        });
+      }
       this.setState(
-        { filter: filteredState, paging: { page: 0, limit: 32 } },
+        {
+          filter: filteredState,
+          paging: { page: 0, limit: 32 }
+        },
         () => {
           this.getBadleeByGlobe();
         }
       );
     } else {
-      if (this.state.search) {
-        if (this.state.search.length >= 3) {
-          this.props.searchForUser(this.state.search.replace(" ", "+"));
-        }
+      if (searchString && searchString.length >= 3) {
+        this.props.searchForUser(searchString.replace(" ", "+"));
       }
     }
   }
@@ -308,9 +319,7 @@ class Search extends Component {
                     placeholderTextColor="#8a8a8a"
                     style={{ fontSize: 15 }}
                     value={this.state.search}
-                    onChangeText={searchString =>
-                      this.setState({ search: searchString })}
-                    onEndEditing={this.searchingFor}
+                    onChangeText={this.searchingFor}
                   />
                 </Item>
               </Form>

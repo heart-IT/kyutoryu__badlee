@@ -295,7 +295,6 @@ export function getBadlees(
         .getIn(["badlees", "purposeTabs", tabName])
         .union(badleeIDs);
     }
-    console.log(updatedBadleeIDS.toJS());
     return state
       .setIn(["badlees", "data"], updatedBadlees)
       .setIn(["badlees", "purposeTabs", tabName], updatedBadleeIDS);

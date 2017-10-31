@@ -47,6 +47,7 @@ export async function followUser(store, next, action) {
         }
       }
     );
+    console.log(followReq);
     if (!followReq.status === 200 || !followReq.ok) {
       store.dispatch(actionCreators.unFollowUser(action.id));
     }

@@ -222,17 +222,29 @@ export function followUser(state, userID) {
 
 export function unfollowUser(state, userID) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
-  return state
-    .updateIn(["user", "data", userID], user => {
-      let oldFollowers = user.get("follower")
-        ? user.get("follower")
-        : fromJS([]);
-      let newFollowers = oldFollowers.filter(
-        follower => follower.get("user_id_follower") !== loggedUserID
-      );
-      return user.set("follower", newFollowers);
-    })
-    .updateIn(["user", "data", loggedUserID], user => {
+  let targetUser = state.getIn(["user", "data", userID]);
+  if (targetUser) {
+    return state
+      .updateIn(["user", "data", userID], user => {
+        let oldFollowers = user.get("follower")
+          ? user.get("follower")
+          : fromJS([]);
+        let newFollowers = oldFollowers.filter(
+          follower => follower.get("user_id_follower") !== loggedUserID
+        );
+        return user.set("follower", newFollowers);
+      })
+      .updateIn(["user", "data", loggedUserID], user => {
+        let oldFollowings = user.get("following")
+          ? user.get("following")
+          : fromJS([]);
+        let newFollowings = oldFollowings.filter(
+          following => following.get("user_id_following") !== userID
+        );
+        return user.set("following", newFollowings);
+      });
+  } else {
+    return state.updateIn(["user", "data", loggedUserID], user => {
       let oldFollowings = user.get("following")
         ? user.get("following")
         : fromJS([]);
@@ -241,6 +253,7 @@ export function unfollowUser(state, userID) {
       );
       return user.set("following", newFollowings);
     });
+  }
 }
 
 /**

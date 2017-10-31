@@ -183,7 +183,8 @@ class User extends Component {
         navigator: this.props.navigator,
         component: Follow,
         params: {
-          type: "follower"
+          type: "follower",
+          isMyProfile: this.props.isMyProfile
         }
       });
     });
@@ -194,7 +195,8 @@ class User extends Component {
         navigator: this.props.navigator,
         component: Follow,
         params: {
-          type: "following"
+          type: "following",
+          isMyProfile: this.props.isMyProfile
         }
       });
     });
@@ -238,6 +240,7 @@ class User extends Component {
     let user = this.props.isMyProfile
       ? this.props.loggedUser.toJS()
       : this.props.user.toJS();
+    console.log(user);
     const loggedUserID = this.props.loggedUser.get("user_id");
     let isGuestFollower = false;
     if (user.follower) {
@@ -250,7 +253,7 @@ class User extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>
-          {this.state.isOtherUser && (
+          {!this.props.isMyProfile && (
             <Header style={{ backgroundColor: "#fff", height: 48 }}>
               <Left
                 style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
@@ -288,7 +291,7 @@ class User extends Component {
                 position: "relative"
               }}
             >
-              {!this.state.isOtherUser && (
+              {this.props.isMyProfile && (
                 <TouchableOpacity
                   transparent
                   onPress={this.openMenu}

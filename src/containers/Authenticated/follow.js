@@ -36,9 +36,12 @@ class Follow extends Component {
     this.onClickUser = this.onClickUser.bind(this);
     this.onFollow = this.onFollow.bind(this);
     this.onUnfollow = this.onUnfollow.bind(this);
-    let { type } = props.params;
+    let { type, isMyProfile } = props.params;
     this.state = {
-      type: type
+      type: type,
+      isMyProfile: isMyProfile,
+      isOtherUser:
+        !props.isMyProfile || props.loggedUserID !== props.activeUserID
     };
   }
   goBack() {
@@ -66,12 +69,16 @@ class Follow extends Component {
           })
           .toJS()
       : [];
-    let userFollowing = this.props.userFollowing
-      ? this.props.userFollowing.toJS()
-      : [];
-    let userFollower = this.props.userFollower
-      ? this.props.userFollower.toJS()
-      : [];
+    let userFollowing = this.state.isMyProfile
+      ? this.props.loggedUserFollowing
+        ? this.props.loggedUserFollowing.toJS()
+        : []
+      : this.props.userFollowing ? this.props.userFollowing.toJS() : [];
+    let userFollower = this.state.isMyProfile
+      ? this.props.loggedUserFollower
+        ? this.props.loggedUserFollower.toJS()
+        : []
+      : this.props.userFollower ? this.props.userFollower.toJS() : [];
     let data = this.state.type === "following" ? userFollowing : userFollower;
     return (
       <StyleProvider style={getTheme()}>
@@ -124,6 +131,7 @@ var styles = {
 const _Wrapped = connect(
   state => ({
     loggedUserID: state.getIn(["user", "loggedUserID"]),
+    activeUserID: state.getIn(["user", "activeUserID"]),
     userFollower: state.getIn([
       "user",
       "data",
@@ -135,6 +143,12 @@ const _Wrapped = connect(
       "data",
       state.getIn(["user", "activeUserID"]),
       "following"
+    ]),
+    loggedUserFollower: state.getIn([
+      "user",
+      "data",
+      state.getIn(["user", "loggedUserID"]),
+      "follower"
     ]),
     loggedUserFollowing: state.getIn([
       "user",

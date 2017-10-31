@@ -226,8 +226,9 @@ export const showReactionPage = (badleeID, route) => ({
   type: "SHOW_REACTION_PAGE"
 });
 
-export const deleteBadlee = badleeID => ({
+export const deleteBadlee = (badleeID, goBack) => ({
   badleeID: badleeID,
+  goBack: goBack,
   type: "DELETE_BADLEE"
 });
 

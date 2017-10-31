@@ -10,6 +10,7 @@
  */
 "use strict";
 import { AsyncStorage } from "react-native";
+import * as actionCreators from "../../action_creators";
 
 export default async function deleteBadlee(store, next, action) {
   try {
@@ -24,10 +25,11 @@ export default async function deleteBadlee(store, next, action) {
         }
       }
     );
-    console.log(request);
     if (request.status === 200 && request.ok) {
-      let response = await request.json();
-      console.log(response);
+      next(action);
+      if (action.goBack) {
+        await store.dispatch(actionCreators.goBack());
+      }
     }
   } catch (err) {
     console.log(err);

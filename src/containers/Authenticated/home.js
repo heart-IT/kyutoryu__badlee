@@ -270,7 +270,7 @@ class Home extends Component {
     });
   }
   onClickDelete(id) {
-    this.props.deleteBadlee(id);
+    this.props.deleteBadlee(id, false);
   }
   onClickReport(id) {
     this.setState({

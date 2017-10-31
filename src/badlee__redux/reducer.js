@@ -140,6 +140,9 @@ export function reducer(state = core.InitialState, action) {
     case "USER_SHOWING":
       return core.userShowing(state, action.userID);
       break;
+    case "DELETE_BADLEE":
+      return core.deleteBadlee(state, action.badleeID);
+      break;
     default:
       return state;
   }

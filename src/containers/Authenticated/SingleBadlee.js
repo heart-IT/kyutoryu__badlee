@@ -77,7 +77,7 @@ class SingleBadlee extends Component {
   }
   onClickDelete(id) {
     requestAnimationFrame(() => {
-      this.props.deleteBadlee(id);
+      this.props.deleteBadlee(id, true);
     });
   }
   onClickReport(id) {

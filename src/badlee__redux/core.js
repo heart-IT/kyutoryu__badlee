@@ -466,3 +466,62 @@ export function updateUser(state, avatar, dob, location, interests, gender) {
     }
   );
 }
+
+export function deleteBadlee(state, badleeID) {
+  let loggedUserID = state.getIn(["user", "loggedUserID"]);
+  let followingTab = state.getIn(["badlees", "purposeTabs", "following"]);
+  let locationTab = state.getIn(["badlees", "purposeTabs", "location"]);
+  let globeTab = state.getIn(["badlees", "purposeTabs", "globe"]);
+  let exchangeTab = state.getIn([
+    "badlees",
+    "userTabs",
+    "exchange",
+    loggedUserID
+  ]);
+  let showoffTab = state.getIn([
+    "badlees",
+    "userTabs",
+    "showoff",
+    loggedUserID
+  ]);
+  let shoutoutTab = state.getIn([
+    "badlees",
+    "userTabs",
+    "shoutout",
+    loggedUserID
+  ]);
+  let wishTab = state.getIn(["badlees", "userTabs", "wish", loggedUserID]);
+  return state
+    .setIn(
+      ["badlees", "data"],
+      state.getIn(["badlees", "data"]).delete(badleeID)
+    )
+    .setIn(
+      ["badlees", "purposeTabs", "following"],
+      followingTab ? followingTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "purposeTabs", "location"],
+      locationTab ? locationTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "purposeTabs", "globe"],
+      globeTab ? globeTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "userTabs", "exchange", loggedUserID],
+      exchangeTab ? exchangeTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "userTabs", "showoff", loggedUserID],
+      showoffTab ? showoffTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "userTabs", "shoutout", loggedUserID],
+      shoutoutTab ? shoutoutTab.delete(badleeID) : OrderedSet([])
+    )
+    .setIn(
+      ["badlees", "userTabs", "wish", loggedUserID],
+      wishTab ? wishTab.delete(badleeID) : OrderedSet([])
+    );
+}

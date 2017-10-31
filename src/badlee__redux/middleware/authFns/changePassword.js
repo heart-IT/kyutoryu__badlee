@@ -40,6 +40,8 @@ export default async function changePassword(store, next, action) {
     console.log(`Basic ${base64.encode(username + ":" + action.old)}`);
     console.log(req);
     if (req.ok && req.status) {
+      let res = await req.json();
+      console.log(res);
       const newJollyroger = `Basic ${base64.encode(
         username + ":" + action.new
       )}`;

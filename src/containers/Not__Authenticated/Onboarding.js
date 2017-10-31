@@ -98,7 +98,6 @@ class Onboarding extends Component {
                     </Text>
                     <Icon
                       name="exchange"
-                      viewBox="0 0 60 60"
                       style={styles.image}
                       width="135"
                       height="135"
@@ -124,8 +123,8 @@ class Onboarding extends Component {
                     <Icon
                       name="showoff"
                       style={styles.image}
-                      width="150"
-                      height="150"
+                      width="135"
+                      height="135"
                     />
                     <View>
                       <Text style={styles.content}>
@@ -143,7 +142,6 @@ class Onboarding extends Component {
                     </Text>
                     <Icon
                       name="shoutout"
-                      viewBox="0 0 60 60"
                       width="135"
                       height="135"
                       style={styles.image}
@@ -168,8 +166,7 @@ class Onboarding extends Component {
                         like
                       </Text>
                       <Icon
-                        name="like"
-                        viewBox="0 0 800 800"
+                        name="postLiked"
                         width="135"
                         height="135"
                         style={styles.image}
@@ -184,8 +181,7 @@ class Onboarding extends Component {
                         wish
                       </Text>
                       <Icon
-                        name="wish"
-                        viewBox="0 0 800 800"
+                        name="postWished"
                         width="135"
                         height="135"
                         fill="#EF5454"

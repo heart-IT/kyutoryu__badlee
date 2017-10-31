@@ -25,8 +25,20 @@ export async function unFollowUser(store, next, action) {
         }
       }
     );
+
     if (!unFollowReq.status === 200 || !unFollowReq.ok) {
       store.dispatch(actionCreators.followUser(action.id));
+    } else {
+      let user = await AsyncStorage.getItem("user");
+      let userData = JSON.parse(user);
+      let userFollowing = userData.following;
+      let removeUnFollowedUser = userFollowing.filter(
+        following => following.user_id_following !== action.userID
+      );
+      let newUserData = Object.assign({}, userData, {
+        following: removeUnFollowedUser
+      });
+      await AsyncStorage.setItem("user", newUserData);
     }
   } catch (err) {
     console.log(err);
@@ -47,9 +59,19 @@ export async function followUser(store, next, action) {
         }
       }
     );
-    console.log(followReq);
     if (!followReq.status === 200 || !followReq.ok) {
       store.dispatch(actionCreators.unFollowUser(action.id));
+    } else {
+      // let user = await AsyncStorage.getItem("user");
+      // let userData = JSON.parse(user);
+      // let userFollowing = userData.following;
+      // let removeUnFollowedUser = userFollowing.filter(
+      //   following => following.user_id_following !== action.userID
+      // );
+      // let newUserData = Object.assign({}, userData, {
+      //   following: removeUnFollowedUser
+      // });
+      await AsyncStorage.setItem("user", newUserData);
     }
   } catch (err) {
     console.log(err);

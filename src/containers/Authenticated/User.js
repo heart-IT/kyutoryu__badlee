@@ -131,7 +131,7 @@ class User extends Component {
   onPickerSubmit(submittedVal) {
     this.setState({ showPicker: false });
     let response = submittedVal && submittedVal[0].id;
-    if (response === 0) {
+    if (response === 10) {
       this.onTnCPressed();
     } else if (response === 1) {
       this.onChangePasswordPressed();
@@ -250,6 +250,7 @@ class User extends Component {
     }
     let isOtherUser =
       this.props.user.get("user_id") !== this.props.loggedUser.get("user_id");
+    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

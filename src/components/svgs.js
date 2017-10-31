@@ -369,7 +369,7 @@ export default {
         <Path
           fill="none"
           stroke="none"
-          stroke-width="2.852"
+          strokeWidth="2.852"
           stroke-miterlimit="10"
           d="M48.396 54.702l3.787-24.022c2.35-12.646-3.188-18.46-9.236-20.62l-7.762-2.7c-10.77-2.945-17.188 2.93-21.542 9.91L6.31 35.992"
         />
@@ -380,7 +380,7 @@ export default {
         <Path
           fill="none"
           stroke="none"
-          stroke-width="2.735"
+          strokeWidth="2.735"
           stroke-miterlimit="10"
           d="M29.733 6.217c.754-2.877 5.893-5.44 10.645-4.185 4.79 1.26 6.915 6.51 6.163 9.388"
         />

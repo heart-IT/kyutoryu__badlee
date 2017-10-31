@@ -44,33 +44,36 @@ class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null,
+      old: null,
+      new: null,
+      renew: null,
       error: null
     };
-    this.onChangeText = this.onChangeText.bind(this);
-    this.validateEmail = this.validateEmail.bind(this);
+    this.onChangeNewpassword = this.onChangeNewpassword.bind(this);
+    this.onChangeNewRepassword = this.onChangeNewRepassword.bind(this);
   }
-  onChangeText(email) {
-    this.setState({ email });
-    this.validateEmail();
+  onChangeNewpassword() {
+    if (this.state.new !== this.state.renew) {
+      this.setState({ error: "Password dont match" });
+    } else {
+      this.setState({ error: null });
+    }
+  }
+  onChangeNewRepassword() {
+    if (this.state.new !== this.state.renew) {
+      this.setState({ error: "Password dont match" });
+    } else {
+      this.setState({ error: null });
+    }
   }
   handleFormSubmit() {
-    if (this.state.email) {
-      requestAnimationFrame(() => {
-        this.props.forgotPassword(this.state.email);
-      });
-    } else {
-      this.setState({ error: "Enter email.." });
-    }
-  }
-  validateEmail() {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var valid = re.test(this.state.email);
-    if (valid) {
-      this.setState({ error: null });
-    } else {
-      this.setState({ error: "Invalid Email" });
-    }
+    requestAnimationFrame(() => {
+      this.props.changePassword(
+        this.state.old,
+        this.state.new,
+        this.state.renew
+      );
+    });
   }
   render() {
     let { notification } = this.props;
@@ -83,22 +86,21 @@ class ChangePassword extends Component {
             keyboardShouldPersistTaps="always"
           >
             <BackgroundImage>
-              <Text style={styles.heading}>Don't worry!</Text>
-              <Text style={styles.formLabel}>
-                Enter registered e-mail id to change password
-              </Text>
+              <Text style={styles.heading}>Change Password</Text>
               <Form>
                 <Item style={styles.boxWrapper}>
                   <Input
-                    onChangeText={this.onChangeText}
-                    keyboardType={"email-address"}
-                    value={this.state.email}
+                    onChangeText={text => this.setState({ old: text })}
+                    secureTextEntry={true}
+                    value={this.state.old}
                     placeholderTextColor="#7d5c85"
                     fontFamily="PoiretOne-Regular"
                     style={styles.inputBox}
+                    placeholder="Old Password"
                   />
                 </Item>
-                {this.state.error === "Invalid Email" ? (
+                {this.props.errors &&
+                this.props.errors.includes("Wrong Password given") ? (
                   <View
                     style={{
                       display: "flex",
@@ -115,7 +117,54 @@ class ChangePassword extends Component {
                         marginRight: 18
                       }}
                     >
-                      Invalid Email
+                      Wrong Password given
+                    </Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
+                <Item style={styles.boxWrapper}>
+                  <Input
+                    onChangeText={text => this.setState({ new: text })}
+                    onEndEditing={this.onChangeNewpassword}
+                    secureTextEntry={true}
+                    value={this.state.new}
+                    placeholderTextColor="#7d5c85"
+                    fontFamily="PoiretOne-Regular"
+                    style={styles.inputBox}
+                    placeholder="New Password(min 6 characters)"
+                  />
+                </Item>
+                <Item style={styles.boxWrapper}>
+                  <Input
+                    onChangeText={text => this.setState({ renew: text })}
+                    onEndEditing={this.onChangeNewRepassword}
+                    secureTextEntry={true}
+                    value={this.state.renew}
+                    placeholderTextColor="#7d5c85"
+                    fontFamily="PoiretOne-Regular"
+                    style={styles.inputBox}
+                    placeholder="Reenter New Password"
+                  />
+                </Item>
+                {this.state.error === "Password dont match" ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#b27fe7",
+                        fontSize: 13,
+                        marginLeft: 3,
+                        marginRight: 18
+                      }}
+                    >
+                      Password dont match
                     </Text>
                   </View>
                 ) : (
@@ -127,24 +176,19 @@ class ChangePassword extends Component {
                     action="submit"
                     style={styles.submitButton}
                     onPress={this.handleFormSubmit.bind(this)}
-                    disabled={!this.state.email || !!this.state.error}
+                    disabled={
+                      !this.state.old ||
+                      !this.state.new ||
+                      !this.state.renew ||
+                      (this.state.new && this.state.new.length < 6) ||
+                      !!this.state.error
+                    }
                   >
-                    <Text
-                      style={styles.submitButtonText}
-                      disabled={
-                        !!this.state.error ||
-                        !!this.state.error ||
-                        this.state.loading
-                      }
-                    >
-                      Submit
-                    </Text>
+                    <Text style={styles.submitButtonText}>Submit</Text>
                   </Button>
                 </View>
-                {notification.includes("Email sent") && (
-                  <Text style={styles.successMessage}>
-                    Check your inbox. We must have send you email.
-                  </Text>
+                {notification.includes("Password Updated") && (
+                  <Text style={styles.successMessage}>Updated password.</Text>
                 )}
               </Form>
             </BackgroundImage>
@@ -168,7 +212,8 @@ const styles = {
     paddingLeft: 30,
     fontSize: 30,
     color: "#611265",
-    fontFamily: "Righteous-Regular"
+    fontFamily: "Righteous-Regular",
+    marginBottom: 60
   },
   formLabel: {
     marginTop: 60,
@@ -208,7 +253,8 @@ const styles = {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    notification: state.getIn(["application", "notifications"])
+    notification: state.getIn(["application", "notifications"]),
+    errors: state.getIn(["application", "errors"])
   }),
   actionCreators
 )(ChangePassword);

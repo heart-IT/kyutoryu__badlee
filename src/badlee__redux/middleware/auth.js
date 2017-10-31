@@ -19,6 +19,7 @@ import {
   checkEmailUniqueness,
   checkUsernameUniqueness
 } from "./authFns/uniqueFns";
+import changePasswordFn from "./authFns/changePassword";
 
 export default store => next => action => {
   switch (action.type) {
@@ -42,6 +43,9 @@ export default store => next => action => {
       break;
     case "RESTORE_AUTH":
       return restoreAuth(store, next, action);
+      break;
+    case "CHANGE_PASSWORD":
+      return changePasswordFn(store, next, action);
       break;
     default:
       return next(action);

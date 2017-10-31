@@ -354,3 +354,10 @@ export const updateUser = data => ({
   interests: data.wish,
   type: "UPDATE_USER"
 });
+
+export const changePassword = (old, newpass, renew) => ({
+  old: old,
+  new: newpass,
+  renew: renew,
+  type: "CHANGE_PASSWORD"
+});

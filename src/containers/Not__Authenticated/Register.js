@@ -221,7 +221,7 @@ class Register extends Component {
                   <Item style={styles.inputBox}>
                     <Input
                       style={{ fontSize: 15, color: "#fff" }}
-                      placeholder="Create a password"
+                      placeholder="Create a password(min 6 characters)"
                       placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       secureTextEntry={true}
                       onChangeText={password => this.setState({ password })}
@@ -271,6 +271,7 @@ class Register extends Component {
                   !this.state.email ||
                   !this.state.password ||
                   !this.state.rePassword ||
+                  (this.state.password && this.state.password.length < 6) ||
                   !(errors.size === 0)
                 }
                 onPress={this.goToPageTwo.bind(this)}

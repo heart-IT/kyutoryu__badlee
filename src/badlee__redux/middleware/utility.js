@@ -10,8 +10,8 @@
  * 
  * @author- heartit pirates were here
  */
-import base64 from 'base-64';
-import { AsyncStorage } from 'react-native';
+import base64 from "base-64";
+import { AsyncStorage } from "react-native";
 
 export const application_id = "xYqBgc1Xcf2Ufyhir5ab";
 export const application_secret = "vh4tyy74xAnNLtGagto4";

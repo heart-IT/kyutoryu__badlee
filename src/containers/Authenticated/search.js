@@ -107,11 +107,21 @@ class Search extends Component {
     });
   }
   onTabChange(i, ref) {
-    if (i * i === 0) {
+    if (i.i === 0) {
       this.setState(
         {
           paging: { page: 0, limit: 32 },
-          activeTabIndex: i * i
+          activeTabIndex: i.i,
+          filter: {
+            search: "",
+            purpose: "",
+            location: "",
+            category: ""
+          },
+          search: "",
+          pickerSelectedValue: "",
+          toShowPurpose: true,
+          currentData: []
         },
         () => {
           this.getBadleeByGlobe();
@@ -119,7 +129,9 @@ class Search extends Component {
       );
     } else {
       this.setState({
-        activeTabIndex: i * i
+        activeTabIndex: i.i,
+        currentData: [],
+        search: ""
       });
     }
   }

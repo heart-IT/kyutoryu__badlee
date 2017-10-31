@@ -101,8 +101,9 @@ class GoingMerry extends Component {
                           name="notificationSelect"
                           width="22"
                           height="22"
-                          fill="#fff"
-                          stroke="#fff"
+                          fill="#A071A3"
+                          stroke="#A071A3"
+                          strokeWidth="2.852"
                         />
                       )}
                     {this.state.isNotificationActive &&
@@ -113,6 +114,7 @@ class GoingMerry extends Component {
                           height="22"
                           fill="#A071A3"
                           stroke="#A071A3"
+                          strokeWidth="2.852"
                         />
                       )}
                     {!this.state.isNotificationActive &&

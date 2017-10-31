@@ -9,14 +9,14 @@
 import { Button, Content, StyleProvider, Text, View } from "native-base";
 import React from "react";
 import { Component } from "react";
-import { Image } from "react-native";
+import { Image, WebView, Linking, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Icon from "../../components/Icon";
 import getTheme from "../../theme/components";
 import AuthContainer from "../Authenticated/goingMerry";
-
+import Tips from "./tips";
 class BackgroundImage extends Component {
   render() {
     let image = require("../../images/welcome__bg.png");
@@ -29,6 +29,18 @@ class BackgroundImage extends Component {
 }
 
 class Welcome extends Component {
+  constructor(props) {
+    super(props);
+    this.onTipsPressed = this.onTipsPressed.bind(this);
+  }
+  onTipsPressed() {
+    requestAnimationFrame(() => {
+      this.props.navigate({
+        navigator: this.props.navigator,
+        component: Tips
+      });
+    });
+  }
   onEnterBtnPress() {
     requestAnimationFrame(() => {
       this.props.navigate({
@@ -79,17 +91,17 @@ class Welcome extends Component {
                 </Button>
               </View>
               <View style={styles.footer}>
-                <Text style={{ textAlign: "center" }}>
-                  <Text style={styles.footerText}>
-                    Note: we recommend you to read these
-                  </Text>
+                <Text style={styles.footerText}>
+                  Note: we recommend you to read these
+                </Text>
+                <TouchableOpacity onPress={this.onTipsPressed}>
                   <Text style={{ ...styles.footerText, ...styles.footerLink }}>
                     {" "}
                     tips{" "}
                   </Text>
-                  <Text style={styles.footerText}>
-                    for better and safer transaction.
-                  </Text>
+                </TouchableOpacity>
+                <Text style={styles.footerText}>
+                  for better and safer transaction.
                 </Text>
               </View>
             </View>
@@ -164,7 +176,10 @@ const styles = {
     borderTopWidth: 1,
     borderColor: "#9331ac",
     paddingBottom: 6,
-    paddingTop: 3
+    paddingTop: 3,
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap"
   },
   footerText: {
     fontSize: 12,

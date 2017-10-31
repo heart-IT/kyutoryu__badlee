@@ -43,6 +43,7 @@ class EditProfile extends Component {
     let user = props.user.toJS();
     let location = {};
     let interests = [];
+    console.log(user);
     if (typeof user.location === "string") {
       location = Locations.filter(location => {
         return location.city === user.location.split(",")[0];
@@ -63,13 +64,12 @@ class EditProfile extends Component {
       avatarType: null,
       avatar: user.avatar,
       gender: user.gender,
-      date: "01-01-1990", //dd-mm-yyyy
+      date: user.dob, //dd-mm-yyyy
       location: location,
       selectedWish: interests,
       wish: user.interests,
       showPicker: false
     };
-    console.log(this.state);
     this.closePicker = this.closePicker.bind(this);
     this.onPickerSubmit = this.onPickerSubmit.bind(this);
     this.locationInputFocussed = this.locationInputFocussed.bind(this);
@@ -177,9 +177,10 @@ class EditProfile extends Component {
       avatarName: this.state.avatarName,
       avatarSource: this.state.avatarSource && this.state.avatarSource.uri,
       avatarType: this.state.avatarType,
+      avatar: this.state.avatar,
       dob: this.state.date,
       gender: this.state.gender,
-      location: this.state.location.city,
+      location: this.state.location.city + ", " + this.state.location.state,
       wish: this.state.wish
     };
     this.props.updateUser(data);
@@ -453,13 +454,35 @@ class EditProfile extends Component {
                 </View>
                 <View>
                   <Button
-                    disabled={!this.state.location}
+                    disabled={!this.state.location || this.props.loading}
                     style={styles.submitButton}
                   >
-                    <Text onPress={this.submittingUser}>Submit</Text>
+                    <Text onPress={this.submittingUser}>
+                      {this.props.loading ? "Wait" : "Submit"}
+                    </Text>
                   </Button>
                 </View>
               </Form>
+            )}
+            {this.props.notifications.includes("Profile Updated") && (
+              <View
+                style={{
+                  backgroundColor: "#6e6e6e",
+                  padding: 6,
+                  paddingBottom: 3,
+                  paddingTop: 6
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#fff",
+                    marginBottom: 6
+                  }}
+                >
+                  Profile Updated
+                </Text>
+              </View>
             )}
           </Content>
           {this.props.loading && <LoadingView message="Registering you.." />}
@@ -543,7 +566,8 @@ const styles = {
 const _Wrapped = connect(
   state => ({
     user: state.getIn(["user", "data", state.getIn(["user", "loggedUserID"])]),
-    loading: state.getIn(["application", "isLoading"])
+    loading: state.getIn(["application", "isLoading"]),
+    notifications: state.getIn(["application", "notifications"])
   }),
   actionCreators
 )(EditProfile);

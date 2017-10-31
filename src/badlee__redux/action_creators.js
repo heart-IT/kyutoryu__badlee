@@ -342,6 +342,7 @@ export const updateUser = data => ({
   avatarName: data.avatarName,
   avatarSource: data.avatarSource,
   avatarType: data.avatarType,
+  avatar: data.avatar,
   dob: data.dob,
   gender: data.gender,
   location: data.location,

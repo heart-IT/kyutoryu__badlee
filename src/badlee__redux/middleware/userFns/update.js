@@ -30,13 +30,15 @@ export default async function updateUser(store, next, action) {
       if (uploadMedia.error) {
         throw "Image couldn't be uploaded..";
       }
+      action.avatar =
+        uploadMedia &&
+        uploadMedia.url &&
+        "http://mri2189.badlee.com/" + uploadMedia.url;
     }
     let jollyroger = await AsyncStorage.getItem("jollyroger");
+
     var data = {
-      avatar:
-        uploadMedia && uploadMedia.url
-          ? "http://mri2189.badlee.com/" + uploadMedia.url
-          : "",
+      avatar: action.avatar,
       dob: action.dob,
       location: action.location,
       interests: action.interests,
@@ -44,21 +46,29 @@ export default async function updateUser(store, next, action) {
       application_id,
       application_secret
     };
-    if (action.avatarSource) {
-      action.avatar =
-        uploadMedia && uploadMedia.url
-          ? "http://mri2189.badlee.com/" + uploadMedia.url
-          : "";
-    }
     let formBody = createFormData(data);
     let request = await fetch("http://mri2189.badlee.com/userupdate.php", {
       method: "POST",
       headers: {
-        Authorization: jollyroger
+        Authorization: jollyroger,
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       body: formBody
     });
     if (request.ok && request.status === 200) {
+      let response = await request.json();
+      let storedUserData = await AsyncStorage.getItem("user");
+      let userData = JSON.parse(storedUserData);
+      let newUserData = Object.assign({}, userData, {
+        dob: response.dob,
+        avatar: response.avatar,
+        gender: response.gender,
+        location: response.location,
+        interests: response.interests
+      });
+      await AsyncStorage.setItem("user", JSON.stringify(newUserData));
+      await store.dispatch(actionCreators.addNotification("Profile Updated"));
       next(action);
     }
   } catch (err) {

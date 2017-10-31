@@ -65,15 +65,19 @@ export async function followUser(store, next, action) {
       if (!followReq.status === 200 || !followReq.ok) {
         store.dispatch(actionCreators.unFollowUser(action.id, true));
       } else {
-        // let user = await AsyncStorage.getItem("user");
-        // let userData = JSON.parse(user);
-        // let userFollowing = userData.following;
-        // let removeUnFollowedUser = userFollowing.filter(
-        //   following => following.user_id_following !== action.userID
-        // );
-        // let newUserData = Object.assign({}, userData, {
-        //   following: removeUnFollowedUser
-        // });
+        let response = await followReq.json();
+        console.log(response);
+        let user = await AsyncStorage.getItem("user");
+        let userData = JSON.parse(user);
+        let userFollowing = userData.following;
+        let removeUnFollowedUser = userFollowing
+          ? userFollowing.filter(
+              following => following.user_id_following !== action.userID
+            )
+          : [];
+        let newUserData = Object.assign({}, userData, {
+          following: removeUnFollowedUser
+        });
         await AsyncStorage.setItem("user", newUserData);
       }
     }

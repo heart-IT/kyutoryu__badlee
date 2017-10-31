@@ -92,6 +92,11 @@ class Register extends Component {
 
   validatePassword() {
     if (this.state.password && this.state.rePassword) {
+      if (this.state.password.length < 6) {
+        this.addError("Minimum 6 characters");
+      } else {
+        this.removeError("Minimum 6 characters");
+      }
       if (this.state.password !== this.state.rePassword) {
         this.setState({ passwordMatch: false });
         this.addError("Password does not match");
@@ -221,7 +226,7 @@ class Register extends Component {
                   <Item style={styles.inputBox}>
                     <Input
                       style={{ fontSize: 15, color: "#fff" }}
-                      placeholder="Create a password(min 6 characters)"
+                      placeholder="Create a password (min 6 char)"
                       placeholderTextColor="rgba(255, 255, 255, 0.67)"
                       secureTextEntry={true}
                       onChangeText={password => this.setState({ password })}
@@ -229,6 +234,20 @@ class Register extends Component {
                     />
                   </Item>
                 </View>
+                {errors.includes("Minimum 6 characters") ? (
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={styles.errorMsg}>Minimum 6 characters</Text>
+                  </View>
+                ) : (
+                  <Text />
+                )}
                 <View style={styles.inputRow}>
                   <Item style={styles.inputBox}>
                     <Input

@@ -266,8 +266,7 @@ class Home extends Component {
     });
   }
   onClickDelete(id) {
-    console.log("home delet");
-    // this.props.deleteBadlee(id);
+    this.props.deleteBadlee(id);
   }
   onClickReport(id) {
     this.setState({
@@ -427,7 +426,6 @@ class Home extends Component {
         />
       );
     }
-    console.log(this.state.pickerSelectedValue);
 
     return (
       <StyleProvider style={getTheme()}>

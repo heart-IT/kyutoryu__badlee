@@ -33,7 +33,6 @@ export default class BadleeGridItem extends React.PureComponent {
         />
       );
     }
-    console.log(this.props);
     return (
       <View style={{ position: "relative" }}>
         <TouchableOpacity onPress={this._onPress}>

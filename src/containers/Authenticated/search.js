@@ -95,7 +95,6 @@ class Search extends Component {
   }
   getBadleeByGlobe() {
     let { page, limit } = this.state.paging;
-    console.log("is here");
     this.props.getBadlees({
       tabName: "globe",
       search: this.state.filter.search,

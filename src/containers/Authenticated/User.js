@@ -250,7 +250,6 @@ class User extends Component {
     }
     let isOtherUser =
       this.props.user.get("user_id") !== this.props.loggedUser.get("user_id");
-    console.log(user);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

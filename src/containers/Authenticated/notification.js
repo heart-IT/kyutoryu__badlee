@@ -39,7 +39,6 @@ class Notification extends Component {
     this.setState({ notificationData: notificationData });
   }
   onFlatListRefresh() {
-    console.log("list refresh");
     this.props.checkForNotification();
   }
   notificationPressed(badleeID) {

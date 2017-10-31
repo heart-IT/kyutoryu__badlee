@@ -51,9 +51,7 @@ class GoingMerry extends Component {
   }
   componentWillReceiveProps(nextProps) {
     let newNotificationLength = nextProps.notificationsOrder.size;
-    console.log("receiving props");
     if (newNotificationLength - this.state.notificationLength > 0) {
-      console.log("isNotificationActive");
       this.setState({
         isNotificationActive: true,
         notificationLength: newNotificationLength

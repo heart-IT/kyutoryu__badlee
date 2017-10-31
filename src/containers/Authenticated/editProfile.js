@@ -43,7 +43,6 @@ class EditProfile extends Component {
     let user = props.user.toJS();
     let location = {};
     let interests = [];
-    console.log(user);
     if (typeof user.location === "string") {
       location = Locations.filter(location => {
         return location.city === user.location.split(",")[0];

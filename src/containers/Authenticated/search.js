@@ -99,7 +99,11 @@ class Search extends Component {
       tabName: "globe",
       search: this.state.filter.search,
       purpose: this.state.filter.purpose,
-      location: this.state.filter.location.city,
+      location: this.state.filter.location
+        ? this.state.filter.location.city +
+          ", " +
+          this.state.filter.location.state
+        : "",
       category: this.state.filter.category.name,
       offset: page * limit,
       limit: limit
@@ -268,6 +272,7 @@ class Search extends Component {
       {
         filter: filteredState,
         toShowPurpose: false,
+        currentData: [],
         paging: { page: 0, limit: 32 }
       },
       () => {
@@ -283,6 +288,7 @@ class Search extends Component {
       {
         filter: filteredState,
         toShowPurpose: true,
+        currentData: [],
         paging: { page: 0, limit: 32 }
       },
       () => {

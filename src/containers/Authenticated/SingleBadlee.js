@@ -133,7 +133,7 @@ class SingleBadlee extends Component {
             </Left>
             <Right>
               {cardData.purpose === "showoff" && (
-                <Icon name="showoff" width="39" height="39" />
+                <Icon name="showoff" width="33" height="33" />
               )}
               {cardData.purpose === "shoutout" && (
                 <Icon name="shoutout" width="33" height="33" />

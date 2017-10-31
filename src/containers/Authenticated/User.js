@@ -403,7 +403,7 @@ class User extends Component {
                 <Tab
                   heading={
                     <TabHeading style={styles.inventorytype__head}>
-                      {returnIcon("showoff", 36, 36)}
+                      {returnIcon("showoff", 30, 30)}
                     </TabHeading>
                   }
                 >

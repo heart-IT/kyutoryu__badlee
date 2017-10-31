@@ -62,6 +62,11 @@ class Notification extends Component {
     return (
       <StyleProvider style={getTheme()}>
         <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
+          {this.state.notificationData.length === 0 && (
+            <View style={{ alignItems: "center" }}>
+              <Text>No notification</Text>
+            </View>
+          )}
           <NotificationComponent
             data={this.state.notificationData}
             onFlatListRefresh={this.onFlatListRefresh}

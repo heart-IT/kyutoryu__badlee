@@ -33,12 +33,14 @@ import User from "./user";
 import Notification from "./notification";
 
 class GoingMerry extends Component {
-  state = {
-    activeTabIndex: 0
-  };
   constructor(props) {
     super(props);
     this.onChangeTab = this.onChangeTab.bind(this);
+    this.state = {
+      activeTabIndex: 0,
+      notificationLength: props.notificationsOrder.size,
+      isNotificationActive: false
+    };
   }
   componentDidMount() {
     let props = this.props;
@@ -47,11 +49,23 @@ class GoingMerry extends Component {
       props.checkForNotification();
     }, 10000);
   }
-  onChangeTab(i, ref) {
-    if (i * i === 3) {
-      this.props.setActiveUserID(this.props.loggedUserID);
+  componentWillReceiveProps(nextProps) {
+    let newNotificationLength = nextProps.notificationsOrder.size;
+    console.log("receiving props");
+    if (newNotificationLength - this.state.notificationLength > 0) {
+      console.log("isNotificationActive");
+      this.setState({
+        isNotificationActive: true,
+        notificationLength: newNotificationLength
+      });
     }
-    this.setState({ activeTabIndex: i.i });
+  }
+  onChangeTab(i, ref) {
+    if (i.i === 1) {
+      this.setState({ activeTabIndex: i.i, isNotificationActive: false });
+    } else {
+      this.setState({ activeTabIndex: i.i });
+    }
   }
   render() {
     let _this = this;
@@ -80,7 +94,11 @@ class GoingMerry extends Component {
               </Tab>
               <Tab
                 heading={
-                  <TabHeading>{returnIcon("notifications", 1)}</TabHeading>
+                  <TabHeading>
+                    {this.state.isNotificationActive
+                      ? returnIcon("notifications", 1, 30, 30)
+                      : returnIcon("notifications", 1)}
+                  </TabHeading>
                 }
               >
                 <Notification />
@@ -100,7 +118,8 @@ class GoingMerry extends Component {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    loggedUserID: state.getIn(["user", "loggedUserID"])
+    loggedUserID: state.getIn(["user", "loggedUserID"]),
+    notificationsOrder: state.getIn(["notifications", "order"])
   }),
   actionCreators
 )(GoingMerry);

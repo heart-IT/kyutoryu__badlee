@@ -297,12 +297,9 @@ var styles = {
   userName: {
     fontWeight: "bold",
     fontSize: 15,
-    color: "rgba(0, 0, 0, 0.87)",
-    textDecorationLine: "underline",
-    textDecorationStyle: "solid",
-    textDecorationColor: "#611265"
+    color: "rgba(0, 0, 0, 0.87)"
   },
-  badleeImage: { width: "100%", zIndex: 1, flex: 0, height: 210 },
+  badleeImage: { width: "100%", zIndex: 1, flex: 0, height: 300 },
   badleeLocation: {
     fontSize: 13,
     fontWeight: "bold",

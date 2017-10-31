@@ -95,9 +95,28 @@ class GoingMerry extends Component {
               <Tab
                 heading={
                   <TabHeading>
-                    {this.state.isNotificationActive
-                      ? returnIcon("notifications", 1, 30, 30)
-                      : returnIcon("notifications", 1)}
+                    {this.state.isNotificationActive &&
+                      this.state.activeTabIndex === 1 && (
+                        <Icon
+                          name="notificationSelect"
+                          width="22"
+                          height="22"
+                          fill="#fff"
+                          stroke="#fff"
+                        />
+                      )}
+                    {this.state.isNotificationActive &&
+                      this.state.activeTabIndex !== 1 && (
+                        <Icon
+                          name="notificationSelect"
+                          width="22"
+                          height="22"
+                          fill="#A071A3"
+                          stroke="#A071A3"
+                        />
+                      )}
+                    {!this.state.isNotificationActive &&
+                      returnIcon("notifications", 1)}
                   </TabHeading>
                 }
               >

@@ -13,7 +13,7 @@
 export const Report = [
   {
     name: "Inappropriate post",
-    id: 0
+    id: 3
   },
   {
     name: "Irrelevant post",
@@ -26,14 +26,14 @@ export const Report = [
 ];
 
 export const UserMenu = [
-  { name: "See T&C", id: 0 },
+  { name: "See T&C", id: 10 },
   { name: "Change Password", id: 1 },
   { name: "Edit Profile", id: 2 },
   { name: "Log out", id: 3 }
 ];
 
 export const Categories = [
-  { name: "Cameras & accessories", id: 0 },
+  { name: "Cameras & accessories", id: 10 },
   { name: "Fashion & Accessories", id: 1 },
   { name: "Home & furniture", id: 2 },
   { name: "Appliances & tools", id: 3 },
@@ -46,7 +46,7 @@ export const Categories = [
 ];
 
 export const Locations = [
-  { city: "Mumbai", state: "Maharashtra", id: 0 },
+  { city: "Mumbai", state: "Maharashtra", id: 497 },
   { city: "New Delhi", state: "Delhi", id: 1 },
   { city: "Bengaluru", state: "Karnataka", id: 2 },
   { city: "Hyderabad", state: "Telangana", id: 3 },

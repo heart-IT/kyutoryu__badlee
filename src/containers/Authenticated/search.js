@@ -183,8 +183,8 @@ class Search extends Component {
       showPicker: true,
       type: "location",
       pickerSelectedValue: this.state.filter.location
-        ? String(this.state.filter.location.id)
-        : ""
+        ? this.state.filter.location
+        : {}
     });
   }
   openCategoryPicker() {
@@ -192,8 +192,8 @@ class Search extends Component {
       showPicker: true,
       type: "category",
       pickerSelectedValue: this.state.filter.category
-        ? String(this.state.filter.category.id)
-        : ""
+        ? this.state.filter.category
+        : []
     });
   }
   closePicker() {
@@ -480,7 +480,7 @@ const _Wrapped = connect(
       "following"
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
-    badleeIDs: state.getIn(["badlees", "tabs", "globe"])
+    badleeIDs: state.getIn(["badlees", "purposeTabs", "globe"])
   }),
   actionCreators
 )(Search);

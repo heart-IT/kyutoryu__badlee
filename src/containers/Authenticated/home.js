@@ -341,8 +341,8 @@ class Home extends Component {
       showPicker: true,
       type: "location",
       pickerSelectedValue: this.state.filter.location
-        ? String(this.state.filter.location.id)
-        : ""
+        ? this.state.filter.location
+        : {}
     });
   }
   openCategoryPicker() {
@@ -350,8 +350,8 @@ class Home extends Component {
       showPicker: true,
       type: "category",
       pickerSelectedValue: this.state.filter.category
-        ? String(this.state.filter.category.id)
-        : ""
+        ? this.state.filter.category
+        : []
     });
   }
   closePicker() {

@@ -240,7 +240,6 @@ class User extends Component {
     let user = this.props.isMyProfile
       ? this.props.loggedUser.toJS()
       : this.props.user.toJS();
-    console.log(user);
     const loggedUserID = this.props.loggedUser.get("user_id");
     let isGuestFollower = false;
     if (user.follower) {
@@ -266,16 +265,18 @@ class User extends Component {
                 </Text>
               </Left>
               <Right>
-                {isGuestFollower && (
-                  <TouchableOpacity transparent onPress={this.unFollowUser}>
-                    {returnIcon("following", 27, 27)}
-                  </TouchableOpacity>
-                )}
-                {!isGuestFollower && (
-                  <TouchableOpacity transparent onPress={this.followUser}>
-                    {returnIcon("follow_add", 27, 27)}
-                  </TouchableOpacity>
-                )}
+                {this.props.isOtherUser &&
+                  isGuestFollower && (
+                    <TouchableOpacity transparent onPress={this.unFollowUser}>
+                      {returnIcon("following", 27, 27)}
+                    </TouchableOpacity>
+                  )}
+                {this.props.isOtherUser &&
+                  !isGuestFollower && (
+                    <TouchableOpacity transparent onPress={this.followUser}>
+                      {returnIcon("follow_add", 27, 27)}
+                    </TouchableOpacity>
+                  )}
               </Right>
             </Header>
           )}
@@ -291,20 +292,21 @@ class User extends Component {
                 position: "relative"
               }}
             >
-              {this.props.isMyProfile && (
-                <TouchableOpacity
-                  transparent
-                  onPress={this.openMenu}
-                  style={styles.logout}
-                >
-                  <Icon
-                    name="hamburger"
-                    width="48"
-                    height="48"
-                    fill="#939393"
-                  />
-                </TouchableOpacity>
-              )}
+              {this.props.isMyProfile ||
+                (!this.props.isOtherUser && (
+                  <TouchableOpacity
+                    transparent
+                    onPress={this.openMenu}
+                    style={styles.logout}
+                  >
+                    <Icon
+                      name="hamburger"
+                      width="48"
+                      height="48"
+                      fill="#939393"
+                    />
+                  </TouchableOpacity>
+                ))}
               <View>
                 <Image
                   source={{ uri: user.avatar }}

@@ -90,8 +90,8 @@ class BadleeCard extends React.PureComponent {
         {this.props.toShowPurpose && (
           <Icon
             name={purpose}
-            width="42"
-            height="42"
+            width="36"
+            height="36"
             style={styles.purposeIcon}
           />
         )}
@@ -112,9 +112,6 @@ class BadleeCard extends React.PureComponent {
               .add({ hours: 5, minutes: 30 })
               .fromNow()}
           </Text>
-          <Right>
-            <Icon name="share" width="21" height="21" />
-          </Right>
         </CardItem>
         <CardItem cardBody style={{ flexDirection: "column", marginTop: 3 }}>
           <Image source={{ uri: media }} style={styles.badleeImage} />
@@ -214,16 +211,21 @@ class BadleeCard extends React.PureComponent {
                 alignItems: "center"
               }}
             >
+              <Text
+                style={{
+                  fontSize: 12,
+                  marginLeft: 3
+                }}
+              >
+                View:{" "}
+              </Text>
               <TouchableOpacity transparent onPress={this.onClickReaction}>
                 <Text
                   style={{
                     fontSize: 12,
-                    marginLeft: 4,
-                    fontWeight: "bold",
-                    color: "rgba(0, 0, 0, 0.87)"
+                    fontWeight: "bold"
                   }}
                 >
-                  View
                   {reactionCount <= 1
                     ? `${reactionCount} reaction`
                     : `${reactionCount} reactions`}
@@ -233,15 +235,13 @@ class BadleeCard extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 12,
-                    marginLeft: 4,
-                    fontWeight: "bold",
-                    color: "rgba(0, 0, 0, 0.87)"
+                    fontWeight: "bold"
                   }}
                 >
                   ,
                   {commentCount <= 1
-                    ? `${commentCount} comment`
-                    : `${commentCount} comments`}
+                    ? ` ${commentCount} comment`
+                    : ` ${commentCount} comments`}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -291,11 +291,17 @@ var styles = {
     shadowOffset: { width: 10, height: 10 },
     shadowOpacity: 0.8,
     shadowRadius: 100,
-    width: 36,
-    height: 36
+    elevation: 1
   },
   userAvatar: { height: 32, width: 32, marginLeft: 12, marginRight: 3 },
-  userName: { fontWeight: "bold", fontSize: 15, color: "rgba(0, 0, 0, 0.87)" },
+  userName: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "rgba(0, 0, 0, 0.87)",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#611265"
+  },
   badleeImage: { width: "100%", zIndex: 1, flex: 0, height: 210 },
   badleeLocation: {
     fontSize: 13,

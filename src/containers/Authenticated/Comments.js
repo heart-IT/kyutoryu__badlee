@@ -79,8 +79,8 @@ class Comment extends Component {
                 <Icon
                   name="menuBackIcon"
                   stroke="rgba(0, 0, 0, 0.81)"
-                  width="16"
-                  height="16"
+                  width="18"
+                  height="18"
                 />
               </TouchableOpacity>
               <Text style={styles.headerText}>Comments</Text>
@@ -140,7 +140,7 @@ let styles = {
   },
   headerText: {
     color: "rgba(0, 0, 0, 0.87)",
-    marginLeft: 6,
+    marginLeft: 12,
     fontSize: 18,
     fontWeight: "bold"
   },

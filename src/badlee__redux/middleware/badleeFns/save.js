@@ -23,7 +23,7 @@ export default async function saveBadlee(store, next, action) {
   try {
     await store.dispatch(actionCreators.startLoading());
     let uploadMedia;
-    if (action.avatarSource) {
+    if (action.uri) {
       uploadMedia = await saveMedia({
         uri: action.uri,
         imageType: action.imageType,

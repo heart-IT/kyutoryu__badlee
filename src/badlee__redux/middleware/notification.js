@@ -24,12 +24,14 @@ async function checkForNotification(store, next, action) {
     if (request.status === 200 && request.ok) {
       let notifications = await request.json();
       let notificationByID = {};
-      let order = notifications.map(notification => {
-        notificationByID[notification.notification_id] = notification;
-        return notification.notification_id;
-      });
+      let order =
+        notifications &&
+        notifications.map(notification => {
+          notificationByID[notification.notification_id] = notification;
+          return notification.notification_id;
+        });
       action.notificationByID = notificationByID;
-      action.order = order;
+      action.order = order ? order : [];
       next(action);
     }
   } catch (err) {

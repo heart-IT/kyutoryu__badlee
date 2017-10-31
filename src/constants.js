@@ -33,15 +33,16 @@ export const UserMenu = [
 ];
 
 export const Categories = [
-  { name: "Cameras & accessories", id: 10 },
+  { name: "Cameras & Accessories", id: 10 },
   { name: "Fashion & Accessories", id: 1 },
-  { name: "Home & furniture", id: 2 },
-  { name: "Appliances & tools", id: 3 },
+  { name: "Home & Furniture", id: 2 },
+  { name: "Appliances & Tools", id: 3 },
   { name: "Games & Sports", id: 4 },
   { name: "Books & Stationary", id: 5 },
   { name: "Music & Instruments", id: 6 },
   { name: "Medical", id: 7 },
   { name: "Lifesstyle & Leisure", id: 8 },
+  { name: "Computer & Gadgets", id: 10 },
   { name: "Others", id: 9 }
 ];
 

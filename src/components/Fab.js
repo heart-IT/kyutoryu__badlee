@@ -59,8 +59,8 @@ export default class BadleeFab extends React.PureComponent {
           onPress={this.onshowOffClick.bind(this)}
           style={{
             backgroundColor: "transparent",
-            width: 36,
-            height: 36,
+            width: 40,
+            height: 40,
             zIndex: 1001
           }}
         >

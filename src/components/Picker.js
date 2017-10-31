@@ -183,7 +183,7 @@ export default class Picker extends PureComponent {
     let items = this.state.currentData;
     let headText = "Select Location";
     if (this.props.type === "category") {
-      headText = "Select Category";
+      headText = "Select Interest";
     }
     if (this.props.type === "report") {
       headText = "Choose a reason";

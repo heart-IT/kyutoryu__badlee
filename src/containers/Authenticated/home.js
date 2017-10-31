@@ -448,7 +448,7 @@ class Home extends Component {
                   </Text>
                   <Text style={styles.subText}>Follow lot of people</Text>
                   <Text style={styles.subText}>
-                    to see lots of badlee here :D
+                    to see lots of thingies here :D
                   </Text>
                 </View>
               )}
@@ -480,7 +480,7 @@ class Home extends Component {
                 <View style={styles.NoDataView}>
                   <Icon name="noLocationIllustration" width="60" height="60" />
                   <Text style={styles.mainText}>
-                    Hmm, No badlees in your location.
+                    Hmm, No thingies in your location.
                   </Text>
                   <Text style={styles.subText}>Why dont you be the first!</Text>
                   <Text style={styles.subText}>and start a trend :D</Text>
@@ -563,11 +563,9 @@ class Home extends Component {
               {!this.state.currentData.length && (
                 <View style={styles.NoDataView}>
                   <Icon name="noGlobeIllustration" width="60" height="60" />
-                  <Text style={styles.mainText}>Hmm, No badlees found.</Text>
+                  <Text style={styles.mainText}>Hmm, No thingies found.</Text>
                   <Text style={styles.subText}>That's weird..</Text>
-                  <Text style={styles.subText}>
-                    Try changing the filters :D
-                  </Text>
+                  <Text style={styles.subText}>Try changing the filters</Text>
                 </View>
               )}
               <BadleeList

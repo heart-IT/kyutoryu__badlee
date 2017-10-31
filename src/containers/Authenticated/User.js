@@ -259,9 +259,9 @@ class User extends Component {
                 style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
               >
                 <TouchableOpacity transparent onPress={this.onBackPress}>
-                  {returnIcon("menuBackIcon")}
+                  {returnIcon("menuBackIcon", 18, 18)}
                 </TouchableOpacity>
-                <Text style={{ marginLeft: 6, fontSize: 20 }}>
+                <Text style={{ marginLeft: 12, fontSize: 18 }}>
                   {user.username}
                 </Text>
               </Left>

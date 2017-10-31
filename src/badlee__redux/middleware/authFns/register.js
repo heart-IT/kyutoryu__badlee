@@ -1,8 +1,14 @@
 // @flow
-import base64 from 'base-64';
+import base64 from "base-64";
 
-import * as actionCreators from '../../action_creators';
-import { application_id, application_secret, createFormData, saveMedia, saveUserInStorage } from '../utility';
+import * as actionCreators from "../../action_creators";
+import {
+  application_id,
+  application_secret,
+  createFormData,
+  saveMedia,
+  saveUserInStorage
+} from "../utility";
 
 /**
  * @name- register.js

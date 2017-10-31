@@ -184,10 +184,10 @@ class NewBadlee extends Component {
         <Container style={{ flex: 1 }}>
           <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
-              <Icon name="menuBackIcon" width="16" height="16" stroke="#000" />
+              <Icon name="menuBackIcon" width="18" height="18" />
             </Left>
             <Right>
-              <Icon name={purpose} width="28" height="28" />
+              <Icon name={purpose} width="30" height="30" />
             </Right>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>

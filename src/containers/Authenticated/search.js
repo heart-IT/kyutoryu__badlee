@@ -296,10 +296,10 @@ class Search extends Component {
               </TouchableOpacity>
               <Icon
                 name="search"
-                width="21"
-                height="21"
+                width="18"
+                height="18"
                 fill="#8a8a8a"
-                style={{ marginLeft: 9, marginRight: 3 }}
+                style={{ marginLeft: 12, marginRight: 3 }}
               />
               <Form style={{ flex: 1, height: 36 }}>
                 <Item style={{ marginLeft: 0, height: 36 }}>

@@ -76,12 +76,7 @@ class Comment extends Component {
           <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
               <TouchableOpacity onPress={this.onPressBack.bind(this)}>
-                <Icon
-                  name="menuBackIcon"
-                  stroke="rgba(0, 0, 0, 0.81)"
-                  width="18"
-                  height="18"
-                />
+                <Icon name="menuBackIcon" width="18" height="18" />
               </TouchableOpacity>
               <Text style={styles.headerText}>Comments</Text>
             </Left>
@@ -139,7 +134,6 @@ let styles = {
     alignItems: "center"
   },
   headerText: {
-    color: "rgba(0, 0, 0, 0.87)",
     marginLeft: 12,
     fontSize: 18,
     fontWeight: "bold"

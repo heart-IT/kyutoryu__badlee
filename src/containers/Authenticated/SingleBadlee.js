@@ -124,7 +124,7 @@ class SingleBadlee extends Component {
           <Header style={{ backgroundColor: "#fff" }}>
             <Left>
               <TouchableOpacity onPress={this.onBackPress}>
-                <Icon name="menuBackIcon" width="21" height="21" />
+                <Icon name="menuBackIcon" width="18" height="18" />
               </TouchableOpacity>
             </Left>
             <Right>

@@ -86,12 +86,7 @@ class Follow extends Component {
           <Header style={{ backgroundColor: "#fff" }}>
             <Left style={styles.headerLeft}>
               <TouchableOpacity onPress={this.goBack}>
-                <Icon
-                  name="menuBackIcon"
-                  stroke="rgba(0, 0, 0, 0.81)"
-                  width="16"
-                  height="16"
-                />
+                <Icon name="menuBackIcon" width="18" height="18" />
               </TouchableOpacity>
               <Text style={styles.headerText}>
                 {this.state.type === "following" && "Following"}
@@ -121,10 +116,8 @@ var styles = {
     alignItems: "center"
   },
   headerText: {
-    color: "rgba(0, 0, 0, 0.87)",
-    marginLeft: 6,
-    fontSize: 18,
-    fontWeight: "bold"
+    marginLeft: 12,
+    fontSize: 18
   }
 };
 

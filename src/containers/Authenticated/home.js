@@ -130,18 +130,18 @@ class Home extends Component {
 
   getBadleeByFollowing() {
     let { page, limit } = this.state.paging;
-    if (
-      this.props.user.get("following") &&
-      this.props.user.get("following").size
-    ) {
-      this.props.getBadlees({
-        tabName: "following",
-        offset: page * limit,
-        limit: limit
-      });
-    } else {
-      this.setState({ currentData: [] });
-    }
+    this.props.getBadlees({
+      tabName: "following",
+      offset: page * limit,
+      limit: limit
+    });
+    // if (
+    //   this.props.user.get("following") &&
+    //   this.props.user.get("following").size
+    // ) {
+    // } else {
+    //   this.setState({ currentData: [] });
+    // }
   }
 
   getBadleeByLocation() {
@@ -265,7 +265,10 @@ class Home extends Component {
       });
     });
   }
-  onClickDelete(id) {}
+  onClickDelete(id) {
+    console.log("home delet");
+    // this.props.deleteBadlee(id);
+  }
   onClickReport(id) {
     this.setState({
       showPicker: true,

@@ -20,6 +20,7 @@ import { showBadleePage } from "./badleeFns/single";
 import { onClickUnwish, onClickWish } from "./badleeFns/wish";
 import reportBadlee from "./badleeFns/reportBadlee";
 import showReactionPage from "./badleeFns/reaction";
+import deleteBadlee from "./badleeFns/delete";
 
 ("use strict");
 
@@ -60,6 +61,9 @@ export default store => next => action => {
       break;
     case "REPORT_BADLEE":
       return reportBadlee(store, next, action);
+      break;
+    case "DELETE_BADLEE":
+      return deleteBadlee(store, next, action);
       break;
     default:
       return next(action);

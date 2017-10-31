@@ -49,6 +49,7 @@ class BadleeList extends React.PureComponent {
     this.props.onClickReaction(id);
   };
   _onClickDelete = id => {
+    console.log("list delete");
     this.props.onClickDelete(id);
   };
   _onClickReport = id => {

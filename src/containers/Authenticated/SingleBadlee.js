@@ -75,7 +75,11 @@ class SingleBadlee extends Component {
       });
     });
   }
-  onClickDelete(id) {}
+  onClickDelete(id) {
+    requestAnimationFrame(() => {
+      this.props.deleteBadlee(id);
+    });
+  }
   onClickReport(id) {
     this.setState({
       showPicker: true,

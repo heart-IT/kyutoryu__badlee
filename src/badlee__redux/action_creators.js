@@ -226,6 +226,11 @@ export const showReactionPage = (badleeID, route) => ({
   type: "SHOW_REACTION_PAGE"
 });
 
+export const deleteBadlee = badleeID => ({
+  badleeID: badleeID,
+  type: "DELETE_BADLEE"
+});
+
 // Navigator Middleware Actions
 /**
  * Fn to back back to previous screen

@@ -75,7 +75,7 @@ export default class GlobeFilters extends Component {
                 selected={this.state.purpose === "exchange" ? true : false}
                 onPress={this.onRadioExchangeSelect.bind(this)}
               />
-              <Icon name="showoff" width="24" height="24" />
+              <Icon name="showoff" width="21" height="21" />
               <Radio
                 style={styles.purposeRadio}
                 selected={this.state.purpose === "showoff" ? true : false}

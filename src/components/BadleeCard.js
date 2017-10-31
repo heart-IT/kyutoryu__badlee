@@ -199,7 +199,10 @@ class BadleeCard extends React.PureComponent {
                   name="postComment"
                   width="30"
                   height="30"
-                  fill="#fff"
+                  stroke="#000"
+                  fill="none"
+                  strokeWidth="13"
+                  strokeMiterLimit="10"
                   style={{ margin: 3 }}
                 />
               </TouchableOpacity>

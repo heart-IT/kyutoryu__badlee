@@ -42,7 +42,7 @@ export const Categories = [
   { name: "Music & Instruments", id: 6 },
   { name: "Medical", id: 7 },
   { name: "Lifesstyle & Leisure", id: 8 },
-  { name: "Computer & Gadgets", id: 10 },
+  { name: "Computer & Gadgets", id: 11 },
   { name: "Others", id: 9 }
 ];
 

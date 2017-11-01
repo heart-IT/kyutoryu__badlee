@@ -156,7 +156,8 @@ const _Wrapped = connect(
       "data",
       state.getIn(["user", "loggedUserID"]),
       "following"
-    ])
+    ]),
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Follow);

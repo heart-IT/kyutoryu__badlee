@@ -199,7 +199,8 @@ const _Wrapped = connect(
       "data",
       state.getIn(["badlees", "activeBadleeID"]),
       "wishes"
-    ])
+    ]),
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Reactions);

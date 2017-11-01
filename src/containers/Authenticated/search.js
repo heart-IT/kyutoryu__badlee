@@ -507,7 +507,8 @@ const _Wrapped = connect(
       "following"
     ]),
     allBadlees: state.getIn(["badlees", "data"]),
-    badleeIDs: state.getIn(["badlees", "purposeTabs", "globe"])
+    badleeIDs: state.getIn(["badlees", "purposeTabs", "globe"]),
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(Search);

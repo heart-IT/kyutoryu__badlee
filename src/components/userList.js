@@ -15,6 +15,9 @@ import React, { PureComponent } from "react";
 import { Text, View, Thumbnail } from "native-base";
 import { FlatList, TouchableOpacity } from "react-native";
 import Icon from "./Icon";
+import { connect } from "react-redux";
+import * as actionCreators from "../badlee__redux/action_creators";
+
 class UserRow extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -55,24 +58,35 @@ class UserRow extends React.PureComponent {
           <Text style={{ fontSize: 18 }}>{this.props.userName}</Text>
         </TouchableOpacity>
         {this.props.loggedUserID !== this.props.userId &&
-          this.props.userFollowing.indexOf(this.props.userId) > -1 && (
-            <TouchableOpacity onPress={this.unfollow}>
+          this.props.userFollowing.indexOf(this.props.userId) > -1 &&
+          (this.props.loading ? (
+            <TouchableOpacity transparent>
+              <Icon name="follow_add_low" width="27" height="27" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity transparent onPress={this.unfollow}>
               <Icon name="following" width="27" height="27" />
             </TouchableOpacity>
-          )}
+          ))}
+
         {this.props.loggedUserID !== this.props.userId &&
-          this.props.userFollowing.indexOf(this.props.userId) === -1 && (
-            <TouchableOpacity onPress={this.follow}>
+          this.props.userFollowing.indexOf(this.props.userId) === -1 &&
+          (this.props.loading ? (
+            <TouchableOpacity transparent>
+              <Icon name="following_low" width="27" height="27" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity transparent onPress={this.follow}>
               <Icon name="follow_add" width="27" height="27" />
             </TouchableOpacity>
-          )}
+          ))}
       </View>
     );
   }
 }
 
-export default class UserList extends React.PureComponent {
-  state = { following: new Map() };
+class UserList extends React.PureComponent {
+  state = { following: new Map(), clickedUserID: -1 };
   _keyExtractor = (item, index) =>
     item.user_id
       ? item.user_id
@@ -84,13 +98,19 @@ export default class UserList extends React.PureComponent {
     this.unfollow = this.unfollow.bind(this);
   }
   onUserClicked(userId) {
-    this.props.onClickUser(userId);
+    this.setState({ clickedUserID: userId }, () => {
+      this.props.onClickUser(userId);
+    });
   }
   follow(userId) {
-    this.props.onFollow(userId);
+    this.setState({ clickedUserID: userId }, () => {
+      this.props.onFollow(userId);
+    });
   }
   unfollow(userId) {
-    this.props.onUnfollow(userId);
+    this.setState({ clickedUserID: userId }, () => {
+      this.props.onUnfollow(userId);
+    });
   }
 
   _renderItem = ({ item }) => (
@@ -109,9 +129,15 @@ export default class UserList extends React.PureComponent {
       onUserClicked={this.onUserClicked}
       follow={this.follow}
       unfollow={this.unfollow}
+      loading={
+        this.props.loading &&
+        this.state.clickedUserID ===
+          (item.user_id || item.user_id_following || item.user_id_follower)
+      }
     />
   );
   render() {
+    console.log(this.props.data);
     return (
       <FlatList
         data={this.props.data}
@@ -122,3 +148,12 @@ export default class UserList extends React.PureComponent {
     );
   }
 }
+
+const _Wrapped = connect(
+  state => ({
+    loading: state.getIn(["application", "isLoading"])
+  }),
+  actionCreators
+)(UserList);
+
+export default _Wrapped;

@@ -308,11 +308,79 @@ export function getBadlees(
 }
 
 export function saveBadlee(state, newBadlee) {
+  let user = state.getIn([
+    "user",
+    "data",
+    state.getIn(["user", "loggedUserID"])
+  ]);
+  let followingTab = state.getIn(["badlees", "purposeTabs", "following"]);
+  let locationTab = state.getIn(["badlees", "purposeTabs", "location"]);
+  let globeTab = state.getIn(["badlees", "purposeTabs", "globe"]);
   let obj = {};
+  newBadlee.comment_count = 0;
+  newBadlee["user_info"] = {
+    avatar: user.get("avatar"),
+    username: user.get("username"),
+    user_id: user.get("user_id"),
+    First_name: user.get("fname"),
+    Last_name: user.get("lname")
+  };
+  newBadlee["wishes"] = [];
+  newBadlee["user"] = user.get("user_id");
+  newBadlee["likes"] = [];
+  newBadlee["comments"] = [];
+
   obj[newBadlee.id] = newBadlee;
   var updatedBadlees = state.getIn(["badlees", "data"]).merge(obj);
-  return state.setIn(["badlees", "data"], updatedBadlees);
+  if (user.get("location") === newBadlee.location) {
+    return state
+      .setIn(["badlees", "data"], updatedBadlees)
+      .setIn(
+        ["badlees", "purposeTabs", "following"],
+        followingTab
+          ? OrderedSet([newBadlee.id]).merge(followingTab)
+          : OrderedSet([newBadlee.id])
+      )
+      .setIn(
+        ["badlees", "purposeTabs", "following"],
+        locationTab
+          ? OrderedSet([newBadlee.id]).merge(locationTab)
+          : OrderedSet([newBadlee.id])
+      )
+      .setIn(
+        ["badlees", "purposeTabs", "globe"],
+        globeTab
+          ? OrderedSet([newBadlee.id]).merge(globeTab)
+          : OrderedSet([newBadlee.id])
+      );
+  } else {
+    return state
+      .setIn(["badlees", "data"], updatedBadlees)
+      .setIn(
+        ["badlees", "purposeTabs", "following"],
+        followingTab
+          ? OrderedSet([newBadlee.id]).merge(followingTab)
+          : OrderedSet([newBadlee.id])
+      )
+      .setIn(
+        ["badlees", "purposeTabs", "globe"],
+        globeTab
+          ? OrderedSet([newBadlee.id]).merge(globeTab)
+          : OrderedSet([newBadlee.id])
+      );
+  }
 }
+// purposeTabs: new Map({
+//   following: new OrderedSet(),
+//   location: new OrderedSet(),
+//   globe: new OrderedSet()
+// }),
+// userTabs: new Map({
+//   exchange: new Map({}),
+//   shoutoff: new Map({}),
+//   shoutout: new Map({}),
+//   wish: new Map({})
+// }),
 
 export function saveUserBadlees(state, userID, purpose, badlees) {
   let tempObj = {};

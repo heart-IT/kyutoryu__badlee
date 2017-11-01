@@ -33,19 +33,20 @@ export default async function changePassword(store, next, action) {
       method: "POST",
       headers: {
         Authorization: `Basic ${base64.encode(username + ":" + action.old)}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json"
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
       },
       data: formData
     });
+    console.log(req);
     if (req.ok && req.status) {
       let res = await req.text();
       console.log(res);
-      const newJollyroger = `Basic ${base64.encode(
-        username + ":" + action.new
-      )}`;
-      AsyncStorage.setItem("jollyroger", newJollyroger);
-      store.dispatch(actionCreators.addNotification("Password Updated"));
+      // const newJollyroger = `Basic ${base64.encode(
+      //   username + ":" + action.new
+      // )}`;
+      // AsyncStorage.setItem("jollyroger", newJollyroger);
+      // store.dispatch(actionCreators.addNotification("Password Updated"));
     } else if (req.status === 403) {
       throw "Wrong Password given";
     }

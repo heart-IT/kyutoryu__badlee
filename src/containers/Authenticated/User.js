@@ -275,17 +275,27 @@ class User extends Component {
               </Left>
               <Right>
                 {isOtherUser &&
-                  isFollowingGuest && (
+                  isFollowingGuest &&
+                  (this.props.loading ? (
+                    <TouchableOpacity transparent>
+                      {returnIcon("follow_add_low", 27, 27)}
+                    </TouchableOpacity>
+                  ) : (
                     <TouchableOpacity transparent onPress={this.unFollowUser}>
                       {returnIcon("following", 27, 27)}
                     </TouchableOpacity>
-                  )}
+                  ))}
                 {isOtherUser &&
-                  !isFollowingGuest && (
+                  !isFollowingGuest &&
+                  (this.props.loading ? (
+                    <TouchableOpacity transparent>
+                      {returnIcon("following_low", 27, 27)}
+                    </TouchableOpacity>
+                  ) : (
                     <TouchableOpacity transparent onPress={this.followUser}>
                       {returnIcon("follow_add", 27, 27)}
                     </TouchableOpacity>
-                  )}
+                  ))}
               </Right>
             </Header>
           )}
@@ -566,7 +576,8 @@ const _Wrapped = connect(
       state.getIn(["user", "loggedUserID"])
     ]),
     badlees: state.getIn(["badlees", "data"]),
-    badleeUserIDs: state.getIn(["badlees", "userTabs"])
+    badleeUserIDs: state.getIn(["badlees", "userTabs"]),
+    loading: state.getIn(["application", "isLoading"])
   }),
   actionCreators
 )(User);

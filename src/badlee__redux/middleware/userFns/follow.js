@@ -14,6 +14,7 @@ import * as actionCreators from "../../action_creators";
 
 export async function unFollowUser(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     var unFollowReq = await fetch(
       `http://mri2189.badlee.com/follow.php?userid=${action.userID}`,
@@ -41,11 +42,13 @@ export async function unFollowUser(store, next, action) {
   } catch (err) {
     console.log(err);
   } finally {
+    await store.dispatch(actionCreators.finishLoading());
   }
 }
 
 export async function followUser(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
     let jollyroger = await AsyncStorage.getItem("jollyroger");
     var followReq = await fetch(
       `http://mri2189.badlee.com/follow.php?userid=${action.userID}`,

@@ -180,7 +180,7 @@ class Register2 extends Component {
       avatarType: this.state.avatarType,
       dob: this.state.date,
       gender: this.state.gender,
-      location: this.state.location.city,
+      location: this.state.location.city + ", " + this.state.location.state,
       wish: this.state.wish
     };
     this.props.register(data, {

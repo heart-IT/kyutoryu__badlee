@@ -84,7 +84,7 @@ class Onboarding extends Component {
                         An exclusive social network for your commodity needs.
                       </Text>
                       <Text style={styles.content}>
-                        See what they have, see what they've got.
+                        Show what you have, See what they've got.
                       </Text>
                       <Text style={styles.content}>
                         It's your personal bank of things, where Borrowing and

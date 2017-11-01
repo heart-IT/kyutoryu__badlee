@@ -23,6 +23,8 @@ import {
 import React, { Component } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import Icon from "./Icon";
+import { connect } from "react-redux";
+import * as actionCreators from "../badlee__redux/action_creators";
 
 class BadleeCard extends React.PureComponent {
   constructor(props) {
@@ -250,11 +252,14 @@ class BadleeCard extends React.PureComponent {
             </View>
           </Left>
           <Right>
-            {userID === loggedUserID && (
-              <TouchableOpacity transparent onPress={this.onClickDelete}>
-                <Icon name="postDelete" width="30" height="30" />
-              </TouchableOpacity>
-            )}
+            {userID === loggedUserID &&
+              (this.props.loading ? (
+                <Icon name="postDeleteFade" width="30" height="30" />
+              ) : (
+                <TouchableOpacity transparent onPress={this.onClickDelete}>
+                  <Icon name="postDelete" width="30" height="30" />
+                </TouchableOpacity>
+              ))}
             {userID !== loggedUserID &&
               !isReported && (
                 <TouchableOpacity transparent onPress={this.onClickReport}>
@@ -317,4 +322,11 @@ var styles = {
   }
 };
 
-export default BadleeCard;
+const _Wrapped = connect(
+  state => ({
+    loading: state.getIn(["application", "isLoading"])
+  }),
+  actionCreators
+)(BadleeCard);
+
+export default _Wrapped;

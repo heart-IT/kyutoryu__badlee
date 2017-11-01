@@ -1,8 +1,8 @@
 // @flow
-import { AsyncStorage, NetInfo } from 'react-native';
+import { AsyncStorage, NetInfo } from "react-native";
 
-import * as actionCreators from '../../action_creators';
-import { getRestoreAuthNextRoute } from './../utility';
+import * as actionCreators from "../../action_creators";
+import { getRestoreAuthNextRoute } from "./../utility";
 
 /**
  * @name- restore_auth.js
@@ -28,7 +28,7 @@ export default async function restoreAuth(store, next, action) {
 
     let { route } = action;
     let user = await AsyncStorage.getItem("user");
-
+    console.log(JSON.parse(user));
     if (user) {
       action.user = JSON.parse(user);
       next(action);

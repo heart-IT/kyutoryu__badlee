@@ -40,20 +40,21 @@ import TnC from "../../components/tnc";
 import ChangePassword from "./changePassword";
 import EditProfile from "./editProfile";
 import SingleBadlee from "./singleBadlee";
+
 class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeTabIndex: 0,
       currentData: [],
+      paging: { page: 0, limit: 32 },
       isOtherUser:
         props.user.get("user_id") !== props.loggedUser.get("user_id"),
       userProfile:
         props.isMyProfile === true ||
         props.user.get("user_id") === props.loggedUser.get("user_id")
           ? props.loggedUser.toJS()
-          : props.user.toJS(),
-      paging: { page: 0, limit: 32 }
+          : props.user.toJS()
     };
 
     this.onBackPress = this.onBackPress.bind(this);
@@ -82,6 +83,7 @@ class User extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.user.toJS());
     let { badlees, badleeUserIDs } = nextProps;
     let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
     let { user_id } = this.state.userProfile;
@@ -98,7 +100,14 @@ class User extends Component {
         })
         .toJS();
     }
-    this.setState({ currentData: badleesToShow });
+    this.setState({
+      currentData: badleesToShow,
+      userProfile:
+        nextProps.isMyProfile === true ||
+        nextProps.user.get("user_id") === nextProps.loggedUser.get("user_id")
+          ? nextProps.loggedUser.toJS()
+          : nextProps.user.toJS()
+    });
   }
 
   onTabChange(i, ref) {
@@ -240,11 +249,11 @@ class User extends Component {
     }
     let user = this.state.userProfile;
     const loggedUserID = this.props.loggedUser.get("user_id");
-    let isGuestFollower = false;
+    let isFollowingGuest = false;
     if (user.follower) {
       user.follower.map(follower => {
         if (follower.user_id_follower == loggedUserID) {
-          isGuestFollower = true;
+          isFollowingGuest = true;
         }
       });
     }
@@ -266,13 +275,13 @@ class User extends Component {
               </Left>
               <Right>
                 {isOtherUser &&
-                  isGuestFollower && (
+                  isFollowingGuest && (
                     <TouchableOpacity transparent onPress={this.unFollowUser}>
                       {returnIcon("following", 27, 27)}
                     </TouchableOpacity>
                   )}
                 {isOtherUser &&
-                  !isGuestFollower && (
+                  !isFollowingGuest && (
                     <TouchableOpacity transparent onPress={this.followUser}>
                       {returnIcon("follow_add", 27, 27)}
                     </TouchableOpacity>

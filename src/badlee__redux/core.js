@@ -139,7 +139,13 @@ export function addLoggedUser(state, user) {
 }
 
 export function clearUser(state) {
-  return state.setIn(["user", "loggedUserID"], null);
+  return state.setIn(["user", "loggedUserID"], null).set(
+    "notifications",
+    new Map({
+      data: fromJS({}),
+      order: new OrderedSet()
+    })
+  );
 }
 
 export function saveGuestUser(state, user) {

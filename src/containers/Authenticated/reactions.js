@@ -113,6 +113,12 @@ class Reactions extends Component {
                 </TabHeading>
               }
             >
+              {!likes ||
+                (likes.length === 0 && (
+                  <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style={{ textAlign: "center" }}>No likes</Text>
+                  </View>
+                ))}
               <UserList
                 data={likes}
                 following={userFollowing}
@@ -138,6 +144,12 @@ class Reactions extends Component {
                 </TabHeading>
               }
             >
+              {!wishes ||
+                (wishes.length === 0 && (
+                  <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style={{ textAlign: "center" }}>No wishes</Text>
+                  </View>
+                ))}
               <UserList
                 data={wishes}
                 following={userFollowing}

@@ -95,6 +95,14 @@ class Follow extends Component {
             </Left>
           </Header>
           <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            {!data ||
+              (data.length === 0 && (
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                    No User
+                  </Text>
+                </View>
+              ))}
             <UserList
               data={data}
               following={loggedUserFollowing}

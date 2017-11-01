@@ -28,6 +28,7 @@ export default async function changePassword(store, next, action) {
       application_secret,
       password: action.new
     };
+    console.log(action);
     let formData = createFormData(data);
     let req = await fetch("http://mri2189.badlee.com/passupdate.php", {
       method: "POST",

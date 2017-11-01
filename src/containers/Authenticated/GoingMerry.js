@@ -46,7 +46,7 @@ class GoingMerry extends Component {
     let props = this.props;
     props.checkForNotification();
     setInterval(function() {
-      props.checkForNotification();
+      props.checkForNotification(true);
     }, 10000);
   }
   componentWillReceiveProps(nextProps) {

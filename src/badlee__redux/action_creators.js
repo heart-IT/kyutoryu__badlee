@@ -269,7 +269,8 @@ export const addNotification = notification => ({
   type: "ADD_NOTIFICATION",
   notification: notification
 });
-export const checkForNotification = () => ({
+export const checkForNotification = toRecord => ({
+  toRecord: toRecord,
   type: "CHECK_NOTIFICATION"
 });
 export const clearAllErrors = () => ({

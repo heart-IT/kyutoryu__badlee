@@ -62,7 +62,10 @@ class NotificationItem extends React.PureComponent {
               )}
               {this.props.type === "wish" && (
                 <View style={styles.notificationRow}>
-                  <TouchableOpacity style={styles.notificationOpacity}>
+                  <TouchableOpacity
+                    style={styles.notificationOpacity}
+                    onPress={this.onPressUser}
+                  >
                     <Text style={{ fontWeight: "bold" }}>
                       {this.props.name}{" "}
                     </Text>
@@ -73,7 +76,10 @@ class NotificationItem extends React.PureComponent {
               {this.props.type === "comment" && (
                 <View style={styles.notificationRow}>
                   <Text>You received a comment from </Text>
-                  <TouchableOpacity style={styles.notificationOpacity}>
+                  <TouchableOpacity
+                    style={styles.notificationOpacity}
+                    onPress={this.onPressUser}
+                  >
                     <Text style={{ fontWeight: "bold" }}>
                       {this.props.name}{" "}
                     </Text>
@@ -82,7 +88,10 @@ class NotificationItem extends React.PureComponent {
               )}
               {this.props.type === "follow" && (
                 <View style={styles.notificationRow}>
-                  <TouchableOpacity style={styles.notificationOpacity}>
+                  <TouchableOpacity
+                    style={styles.notificationOpacity}
+                    onPress={this.onPressUser}
+                  >
                     <Text style={{ fontWeight: "bold" }}>
                       {this.props.name}{" "}
                     </Text>

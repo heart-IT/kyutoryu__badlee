@@ -127,7 +127,6 @@ class GoingMerry extends Component {
               </Tab>
             </Tabs>
           </Content>
-          {this.props.loading && <Loading />}
         </Container>
       </StyleProvider>
     );

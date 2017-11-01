@@ -38,21 +38,28 @@ class BadleeCard extends React.PureComponent {
     this.onClickReaction = this._onClickReaction.bind(this);
     this.onClickDelete = this._onClickDelete.bind(this);
     this.onClickReport = this._onClickReport.bind(this);
+    this.state = {
+      type: null
+    };
   }
   _onClickUser = () => {
     this.props.onClickUser(this.props.userID);
   };
   _onClickLike = () => {
-    this.props.onClickLike(this.props.id, true);
+    this.setState({ type: "like" });
+    this.props.onClickLike(this.props.id);
   };
   _onClickUnlike = () => {
-    this.props.onClickLike(this.props.id, false);
+    this.setState({ type: "unlike" });
+    this.props.onClickUnlike(this.props.id);
   };
   _onClickWish = () => {
-    this.props.onClickWish(this.props.id, true);
+    this.setState({ type: "wish" });
+    this.props.onClickWish(this.props.id);
   };
   _onClickUnwish = () => {
-    this.props.onClickWish(this.props.id, false);
+    this.setState({ type: "unwish" });
+    this.props.onClickUnwish(this.props.id);
   };
   _onClickComment = () => {
     this.props.onClickComment(this.props.id);
@@ -83,7 +90,6 @@ class BadleeCard extends React.PureComponent {
       isReported,
       wishes
     } = this.props;
-    console.log(this.props);
     let reactionCount =
       (likes ? likes.length : 0) + (wishes ? wishes.length : 0);
     let userIdLikes = likes ? likes.map(like => like.user_id) : [];
@@ -145,7 +151,16 @@ class BadleeCard extends React.PureComponent {
           <Left style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <View style={{ flexDirection: "row" }}>
               {userIdLikes &&
-                userIdLikes.indexOf(loggedUserID) > -1 && (
+                userIdLikes.indexOf(loggedUserID) > -1 &&
+                (this.props.loading && this.state.type === "unlike" ? (
+                  <Icon
+                    name="postLikedFade"
+                    width="30"
+                    height="30"
+                    style={{ margin: 3 }}
+                    strokeWidth="17"
+                  />
+                ) : (
                   <TouchableOpacity transparent onPress={this.onClickUnlike}>
                     <Icon
                       name="postLiked"
@@ -155,23 +170,43 @@ class BadleeCard extends React.PureComponent {
                       strokeWidth="17"
                     />
                   </TouchableOpacity>
-                )}
+                ))}
               {(!userIdLikes ||
-                (userIdLikes && userIdLikes.indexOf(loggedUserID) === -1)) && (
-                <TouchableOpacity transparent onPress={this.onClickLike}>
+                (userIdLikes && userIdLikes.indexOf(loggedUserID) === -1)) &&
+                (this.props.loading && this.state.type === "like" ? (
                   <Icon
-                    name="postUnliked"
+                    name="postLikedFade"
                     width="30"
                     height="30"
                     style={{ margin: 3 }}
-                    fill="none"
-                    stroke="#000"
                     strokeWidth="17"
                   />
-                </TouchableOpacity>
-              )}
+                ) : (
+                  <TouchableOpacity transparent onPress={this.onClickLike}>
+                    <Icon
+                      name="postUnliked"
+                      width="30"
+                      height="30"
+                      style={{ margin: 3 }}
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="17"
+                    />
+                  </TouchableOpacity>
+                ))}
+
               {userIdWishes &&
-                userIdWishes.indexOf(loggedUserID) > -1 && (
+                userIdWishes.indexOf(loggedUserID) > -1 &&
+                (this.props.loading && this.state.type === "unwish" ? (
+                  <Icon
+                    name="postWishedFade"
+                    width="30"
+                    height="30"
+                    fill="#EAA4A4"
+                    style={{ margin: 3 }}
+                    strokeWidth="17"
+                  />
+                ) : (
                   <TouchableOpacity transparent onPress={this.onClickUnwish}>
                     <Icon
                       name="postWished"
@@ -181,22 +216,31 @@ class BadleeCard extends React.PureComponent {
                       style={{ margin: 3 }}
                     />
                   </TouchableOpacity>
-                )}
+                ))}
               {(!userIdWishes ||
-                (userIdWishes &&
-                  userIdWishes.indexOf(loggedUserID) === -1)) && (
-                <TouchableOpacity transparent onPress={this.onClickWish}>
+                (userIdWishes && userIdWishes.indexOf(loggedUserID) === -1)) &&
+                (this.props.loading && this.state.type === "wish" ? (
                   <Icon
-                    name="postUnwished"
+                    name="postWishedFade"
                     width="30"
                     height="30"
+                    fill="#EAA4A4"
                     style={{ margin: 3 }}
-                    fill="none"
-                    stroke="#000"
-                    strokeWidth="10"
+                    strokeWidth="17"
                   />
-                </TouchableOpacity>
-              )}
+                ) : (
+                  <TouchableOpacity transparent onPress={this.onClickWish}>
+                    <Icon
+                      name="postUnwished"
+                      width="30"
+                      height="30"
+                      style={{ margin: 3 }}
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="10"
+                    />
+                  </TouchableOpacity>
+                ))}
               <TouchableOpacity transparent onPress={this.onClickComment}>
                 <Icon
                   name="postComment"

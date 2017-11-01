@@ -22,7 +22,7 @@ async function doRequest(badleeID, actionType) {
     const jollyroger = await AsyncStorage.getItem("jollyroger");
     const url = `http://mri2189.badlee.com/wish.php?postid=${badleeID}`;
     const requestType = actionType === "wish" ? "POST" : "DELETE";
-    const request = await fetch(url, {
+    let request = await fetch(url, {
       method: requestType,
       headers: {
         Authorization: jollyroger
@@ -30,6 +30,8 @@ async function doRequest(badleeID, actionType) {
     });
     if (request.ok && request.status === 200) {
       return true;
+    } else {
+      throw "error in request";
     }
   } catch (err) {
     throw err;
@@ -38,24 +40,24 @@ async function doRequest(badleeID, actionType) {
 
 export async function onClickWish(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
+    await doRequest(action.badleeID, "wish");
     next(action);
-    if (action.force === undefined || action.force === false) {
-      await doRequest(action.badleeID, "wish");
-    }
   } catch (err) {
-    await store.dispatch(actionCreators.onClickUnwish(action.badleeID), true);
     console.log(err);
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
   }
 }
 
 export async function onClickUnwish(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
+    let res = await doRequest(action.badleeID, "unwish");
     next(action);
-    if (action.force === undefined || action.force === false) {
-      await doRequest(action.badleeID, "unwish");
-    }
   } catch (err) {
-    await store.dispatch(actionCreators.onClickWish(action.badleeID), true);
     console.log(err);
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
   }
 }

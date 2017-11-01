@@ -446,7 +446,7 @@ export function wishBadlee(state, id) {
 export function unwishBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   return state.updateIn(["badlees", "data", String(id)], badlee => {
-    let oldWishes = badlee.get("wishes");
+    let oldWishes = badlee.get("wishes") ? badlee.get("wishes") : [];
     let newWishes = oldWishes.filter(
       wish => wish.get("user_id") !== loggedUserID
     );

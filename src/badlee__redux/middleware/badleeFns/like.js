@@ -31,6 +31,8 @@ async function doRequest(badleeID, actionType) {
     });
     if (request.ok && request.status === 200) {
       return true;
+    } else {
+      throw "error in request";
     }
   } catch (err) {
     throw err;
@@ -39,24 +41,24 @@ async function doRequest(badleeID, actionType) {
 
 export async function onClickLike(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
+    await doRequest(action.badleeID, "like");
     next(action);
-    if (action.force === undefined || action.force === false) {
-      await doRequest(action.badleeID, "like");
-    }
   } catch (err) {
-    await store.dispatch(actionCreators.onClickUnlike(action.badleeID, true));
     console.log(err);
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
   }
 }
 
 export async function onClickUnlike(store, next, action) {
   try {
+    await store.dispatch(actionCreators.startLoading());
+    await doRequest(action.badleeID, "unlike");
     next(action);
-    if (action.force === undefined || action.force === false) {
-      await doRequest(action.badleeID, "unlike");
-    }
   } catch (err) {
-    await store.dispatch(actionCreators.onClickLike(action.badleeID, true));
     console.log(err);
+  } finally {
+    await store.dispatch(actionCreators.finishLoading());
   }
 }

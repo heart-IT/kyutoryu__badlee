@@ -50,6 +50,7 @@ export async function unFollowUser(store, next, action) {
 
 export async function followUser(store, next, action) {
   try {
+    console.log(action.userID);
     next(action);
     if (action.force === undefined || action.force === false) {
       let jollyroger = await AsyncStorage.getItem("jollyroger");
@@ -78,7 +79,7 @@ export async function followUser(store, next, action) {
         let newUserData = Object.assign({}, userData, {
           following: removeUnFollowedUser
         });
-        await AsyncStorage.setItem("user", newUserData);
+        await AsyncStorage.setItem("user", JSON.stringify(newUserData));
       }
     }
   } catch (err) {

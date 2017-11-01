@@ -48,9 +48,11 @@ class User extends Component {
       currentData: [],
       isOtherUser:
         props.user.get("user_id") !== props.loggedUser.get("user_id"),
-      userProfile: !(props.isMyProfile === true)
-        ? props.loggedUser.toJS()
-        : props.user.toJS(),
+      userProfile:
+        props.isMyProfile === true ||
+        props.user.get("user_id") === props.loggedUser.get("user_id")
+          ? props.loggedUser.toJS()
+          : props.user.toJS(),
       paging: { page: 0, limit: 32 }
     };
 
@@ -82,6 +84,7 @@ class User extends Component {
   componentWillReceiveProps(nextProps) {
     let { badlees, badleeUserIDs } = nextProps;
     let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
+    console.log(nextProps, this.state);
     let { user_id } = this.state.userProfile;
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
@@ -236,9 +239,7 @@ class User extends Component {
     function returnIcon(name, width = 21, height = 21) {
       return <Icon name={name} width={width} height={height} />;
     }
-    let user = this.props.isMyProfile
-      ? this.props.loggedUser.toJS()
-      : this.props.user.toJS();
+    let user = this.state.userProfile;
     const loggedUserID = this.props.loggedUser.get("user_id");
     let isGuestFollower = false;
     if (user.follower) {

@@ -77,12 +77,13 @@ class BadleeCard extends React.PureComponent {
       location,
       description,
       likes,
-      wishes,
       commentCount,
       userID,
       loggedUserID,
-      isReported
+      isReported,
+      wishes
     } = this.props;
+    console.log(this.props);
     let reactionCount =
       (likes ? likes.length : 0) + (wishes ? wishes.length : 0);
     let userIdLikes = likes ? likes.map(like => like.user_id) : [];

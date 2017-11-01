@@ -116,6 +116,7 @@ class SingleBadlee extends Component {
   }
   render() {
     let cardData = this.props.badlee.toJS();
+    console.log(cardData);
     let reports = this.state.reports ? this.state.reports : [];
     let isItemReport = reports.filter(report => {
       if (
@@ -159,10 +160,12 @@ class SingleBadlee extends Component {
                 location={cardData.location}
                 description={cardData.description}
                 likes={cardData.likes}
-                wishes={cardData.wishes}
+                wishes={cardData.wish}
                 isReported={!!isItemReport.length}
                 toShowPurpose={false}
-                commentCount={cardData.comment_count}
+                commentCount={
+                  cardData.comments_count ? cardData.comments_count : 0
+                }
                 userID={cardData.user}
                 loggedUserID={this.props.loggedUserID}
                 onClickUser={this.onClickUser}

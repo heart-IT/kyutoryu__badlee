@@ -390,10 +390,9 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
 }
 
 export function saveSingleBadlee(state, badlee) {
-  let obj = {};
   return state.setIn(
     ["badlees", "data"],
-    state.getIn(["badlees", "data"]).set(obj)
+    state.getIn(["badlees", "data"]).set(String(badlee.id), fromJS(badlee))
   );
 }
 

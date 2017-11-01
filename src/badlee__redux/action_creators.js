@@ -305,16 +305,18 @@ export const getUserBadlees = (userID, purpose, offset, limit) => ({
  * Fn to follow given user
  * @param {string} userID ID of the user to follow
  */
-export const onFollowUser = userID => ({
+export const onFollowUser = (userID, force) => ({
   userID: userID,
+  force: force,
   type: "FOLLOW_USER"
 });
 /**
  * Fn to unfollow given user
  * @param {string} userID ID of the user to unfollow
  */
-export const onUnfollowUser = userID => ({
+export const onUnfollowUser = (userID, force) => ({
   userID: userID,
+  force: force,
   type: "UNFOLLOW_USER"
 });
 /**

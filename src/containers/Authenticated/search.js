@@ -305,6 +305,7 @@ class Search extends Component {
     });
   }
   render() {
+    console.log(this.props.userFollowing);
     let userFollowing = this.props.userFollowing
       ? this.props.userFollowing
           .map(user => {

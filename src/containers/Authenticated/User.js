@@ -84,7 +84,6 @@ class User extends Component {
   componentWillReceiveProps(nextProps) {
     let { badlees, badleeUserIDs } = nextProps;
     let activeTabs = ["exchange", "shoutout", "showoff", "wish"];
-    console.log(nextProps, this.state);
     let { user_id } = this.state.userProfile;
     let badleesJS = badlees.toJS();
     let badleesToShowIDS = badleeUserIDs.getIn([
@@ -249,9 +248,7 @@ class User extends Component {
         }
       });
     }
-    let isOtherUser =
-      this.props.user.get("user_id") !== this.props.loggedUser.get("user_id");
-    console.log(user);
+    let isOtherUser = this.state.isOtherUser;
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

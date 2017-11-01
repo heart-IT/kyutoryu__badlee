@@ -173,14 +173,12 @@ export function saveGuestUser(state, user) {
 //       : fromJS([likeObject])
 //   );
 // });
-export function followUser(state, userID) {
+export function followUser(state, userID, followObject) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   let loggedUser = state.getIn(["user", "data", loggedUserID]);
 
-  let followingObject = {
-    user_id_following: userID
-  };
-  let followObject = {
+  let followingObject = followObject;
+  let followerObject = {
     avatar: loggedUser.get("avatar"),
     user_id_follower: loggedUserID,
     name: loggedUser.get("fname") + " " + loggedUser.get("lname"),
@@ -193,8 +191,8 @@ export function followUser(state, userID) {
         return user.set(
           "follower",
           user.get("follower")
-            ? user.get("follower").push(fromJS(followObject))
-            : fromJS([followObject])
+            ? user.get("follower").push(fromJS(followerObject))
+            : fromJS([followerObject])
         );
       })
       .updateIn(["user", "data", loggedUserID], user => {
@@ -206,23 +204,14 @@ export function followUser(state, userID) {
         );
       });
   } else {
-    return state
-      .setIn(["user", "data", userID], user => {
-        return user.set(
-          "follower",
-          user.get("follower")
-            ? user.get("follower").push(fromJS(followObject))
-            : fromJS([followObject])
-        );
-      })
-      .updateIn(["user", "data", loggedUserID], user => {
-        return user.set(
-          "following",
-          user.get("following")
-            ? user.get("following").push(fromJS(followingObject))
-            : fromJS([followingObject])
-        );
-      });
+    return state.updateIn(["user", "data", loggedUserID], user => {
+      return user.set(
+        "following",
+        user.get("following")
+          ? user.get("following").push(fromJS(followingObject))
+          : fromJS([followingObject])
+      );
+    });
   }
 }
 

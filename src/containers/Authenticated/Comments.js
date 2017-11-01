@@ -69,7 +69,6 @@ class Comment extends Component {
   }
   render() {
     var comments = this.props.comments ? this.props.comments.toJS() : [];
-    console.log(comments);
     return (
       <StyleProvider style={getTheme()}>
         <Container style={{ flex: 1 }}>

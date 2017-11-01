@@ -89,7 +89,7 @@ export function reducer(state = core.InitialState, action) {
       return core.saveGuestUser(state, action.user);
       break;
     case "FOLLOW_USER":
-      return core.followUser(state, action.userID);
+      return core.followUser(state, action.userID, action.followObject);
       break;
     case "UNFOLLOW_USER":
       return core.unfollowUser(state, action.userID);

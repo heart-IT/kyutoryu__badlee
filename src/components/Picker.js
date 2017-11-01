@@ -160,7 +160,6 @@ export default class Picker extends PureComponent {
     if (this.props.badleeId) {
       selectedValues[0].badleeId = this.props.badleeId;
     }
-    console.log(selectedValues);
     this.props.onPickerSubmit(selectedValues);
   }
 

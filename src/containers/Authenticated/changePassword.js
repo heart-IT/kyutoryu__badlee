@@ -20,13 +20,16 @@ import {
   Text,
   View
 } from "native-base";
-import React, { Component } from "react";
+import { Component } from "react";
+import React from "react";
 import { Image } from "react-native";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../../badlee__redux/action_creators";
 import Loading from "../../components/LoadingView";
 import getTheme from "../../theme/components";
+
+("use strict");
 
 class BackgroundImage extends Component {
   render() {
@@ -44,36 +47,33 @@ class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      old: null,
-      new: null,
-      renew: null,
+      email: null,
       error: null
     };
-    this.onChangeNewpassword = this.onChangeNewpassword.bind(this);
-    this.onChangeNewRepassword = this.onChangeNewRepassword.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
   }
-  onChangeNewpassword() {
-    if (this.state.new !== this.state.renew) {
-      this.setState({ error: "Password dont match" });
-    } else {
-      this.setState({ error: null });
-    }
-  }
-  onChangeNewRepassword() {
-    if (this.state.new !== this.state.renew) {
-      this.setState({ error: "Password dont match" });
-    } else {
-      this.setState({ error: null });
-    }
+  onChangeText(email) {
+    this.setState({ email });
+    this.validateEmail();
   }
   handleFormSubmit() {
-    requestAnimationFrame(() => {
-      this.props.changePassword(
-        this.state.old,
-        this.state.new,
-        this.state.renew
-      );
-    });
+    if (this.state.email) {
+      requestAnimationFrame(() => {
+        this.props.forgotPassword(this.state.email);
+      });
+    } else {
+      this.setState({ error: "Enter email.." });
+    }
+  }
+  validateEmail() {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var valid = re.test(this.state.email);
+    if (valid) {
+      this.setState({ error: null });
+    } else {
+      this.setState({ error: "Invalid Email" });
+    }
   }
   render() {
     let { notification } = this.props;
@@ -86,21 +86,22 @@ class ChangePassword extends Component {
             keyboardShouldPersistTaps="always"
           >
             <BackgroundImage>
-              <Text style={styles.heading}>Change Password</Text>
+              <Text style={styles.heading}>Don't worry!</Text>
+              <Text style={styles.formLabel}>
+                Enter registered e-mail id to reset password
+              </Text>
               <Form>
                 <Item style={styles.boxWrapper}>
                   <Input
-                    onChangeText={text => this.setState({ old: text })}
-                    secureTextEntry={true}
-                    value={this.state.old}
+                    onChangeText={this.onChangeText}
+                    keyboardType={"email-address"}
+                    value={this.state.email}
                     placeholderTextColor="#7d5c85"
                     fontFamily="PoiretOne-Regular"
                     style={styles.inputBox}
-                    placeholder="Old Password"
                   />
                 </Item>
-                {this.props.errors &&
-                this.props.errors.includes("Wrong Password given") ? (
+                {this.state.error === "Invalid Email" ? (
                   <View
                     style={{
                       display: "flex",
@@ -117,54 +118,7 @@ class ChangePassword extends Component {
                         marginRight: 18
                       }}
                     >
-                      Wrong Password given
-                    </Text>
-                  </View>
-                ) : (
-                  <Text />
-                )}
-                <Item style={styles.boxWrapper}>
-                  <Input
-                    onChangeText={text => this.setState({ new: text })}
-                    onEndEditing={this.onChangeNewpassword}
-                    secureTextEntry={true}
-                    value={this.state.new}
-                    placeholderTextColor="#7d5c85"
-                    fontFamily="PoiretOne-Regular"
-                    style={styles.inputBox}
-                    placeholder="New Password(min 6 characters)"
-                  />
-                </Item>
-                <Item style={styles.boxWrapper}>
-                  <Input
-                    onChangeText={text => this.setState({ renew: text })}
-                    onEndEditing={this.onChangeNewRepassword}
-                    secureTextEntry={true}
-                    value={this.state.renew}
-                    placeholderTextColor="#7d5c85"
-                    fontFamily="PoiretOne-Regular"
-                    style={styles.inputBox}
-                    placeholder="Reenter New Password"
-                  />
-                </Item>
-                {this.state.error === "Password dont match" ? (
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "flex-end",
-                      alignItems: "center"
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "#b27fe7",
-                        fontSize: 13,
-                        marginLeft: 3,
-                        marginRight: 18
-                      }}
-                    >
-                      Password dont match
+                      Invalid Email
                     </Text>
                   </View>
                 ) : (
@@ -176,19 +130,35 @@ class ChangePassword extends Component {
                     action="submit"
                     style={styles.submitButton}
                     onPress={this.handleFormSubmit.bind(this)}
-                    disabled={
-                      !this.state.old ||
-                      !this.state.new ||
-                      !this.state.renew ||
-                      (this.state.new && this.state.new.length < 6) ||
-                      !!this.state.error
-                    }
+                    disabled={!this.state.email || !!this.state.error}
                   >
-                    <Text style={styles.submitButtonText}>Submit</Text>
+                    <Text
+                      style={styles.submitButtonText}
+                      disabled={
+                        !!this.state.error ||
+                        !!this.state.error ||
+                        this.state.loading
+                      }
+                    >
+                      Submit
+                    </Text>
                   </Button>
                 </View>
-                {notification.includes("Password Updated") && (
-                  <Text style={styles.successMessage}>Updated password.</Text>
+                {notification.includes("Email sent") && (
+                  <View style={{ marginTop: 60 }}>
+                    <Text style={styles.successMessage}>
+                      Check your inbox. We must have send you email.
+                    </Text>
+                    <Text
+                      style={{
+                        ...styles.successMessage,
+                        ...{ fontSize: 15, marginTop: 18 }
+                      }}
+                    >
+                      IMPORTANT: You must logout from the application also in
+                      case you reset your password for security reasons.
+                    </Text>
+                  </View>
                 )}
               </Form>
             </BackgroundImage>
@@ -212,8 +182,7 @@ const styles = {
     paddingLeft: 30,
     fontSize: 30,
     color: "#611265",
-    fontFamily: "Righteous-Regular",
-    marginBottom: 60
+    fontFamily: "Righteous-Regular"
   },
   formLabel: {
     marginTop: 60,
@@ -241,7 +210,6 @@ const styles = {
     borderRadius: 6
   },
   successMessage: {
-    marginTop: 60,
     textAlign: "center",
     color: "#500655",
     fontSize: 14,
@@ -253,8 +221,7 @@ const styles = {
 const _Wrapped = connect(
   state => ({
     loading: state.getIn(["application", "isLoading"]),
-    notification: state.getIn(["application", "notifications"]),
-    errors: state.getIn(["application", "errors"])
+    notification: state.getIn(["application", "notifications"])
   }),
   actionCreators
 )(ChangePassword);

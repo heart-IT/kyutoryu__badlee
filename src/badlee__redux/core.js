@@ -389,6 +389,14 @@ export function saveUserBadlees(state, userID, purpose, badlees) {
     );
 }
 
+export function saveSingleBadlee(state, badlee) {
+  let obj = {};
+  return state.setIn(
+    ["badlees", "data"],
+    state.getIn(["badlees", "data"]).set(obj)
+  );
+}
+
 export function likeBadlee(state, id) {
   let loggedUserID = state.getIn(["user", "loggedUserID"]);
   let loggedUser = state.getIn(["user", "data", loggedUserID]);

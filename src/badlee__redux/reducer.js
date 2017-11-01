@@ -66,6 +66,9 @@ export function reducer(state = core.InitialState, action) {
     case "SET_ACTIVE_BADLEE_ID":
       return core.setActiveBadleeID(state, action.badleeID);
       break;
+    case "SHOW_BADLEE_PAGE":
+      return core.saveSingleBadlee(state, action.badlee);
+      break;
     case "SET_NAVIGATOR":
       return core.setNavigator(state, action.navigator);
       break;

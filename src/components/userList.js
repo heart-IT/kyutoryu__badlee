@@ -98,17 +98,17 @@ class UserList extends React.PureComponent {
     this.unfollow = this.unfollow.bind(this);
   }
   onUserClicked(userId) {
-    this.setState({ clickedUserID: userId }, () => {
+    this.setState({ clickedUserID: userId, type: "click" }, () => {
       this.props.onClickUser(userId);
     });
   }
   follow(userId) {
-    this.setState({ clickedUserID: userId }, () => {
+    this.setState({ clickedUserID: userId, type: "follow" }, () => {
       this.props.onFollow(userId);
     });
   }
   unfollow(userId) {
-    this.setState({ clickedUserID: userId }, () => {
+    this.setState({ clickedUserID: userId, type: "unfollow" }, () => {
       this.props.onUnfollow(userId);
     });
   }
@@ -132,7 +132,8 @@ class UserList extends React.PureComponent {
       loading={
         this.props.loading &&
         this.state.clickedUserID ===
-          (item.user_id || item.user_id_following || item.user_id_follower)
+          (item.user_id || item.user_id_following || item.user_id_follower) &&
+        this.state.type !== "click"
       }
     />
   );

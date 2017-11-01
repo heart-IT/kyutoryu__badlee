@@ -122,7 +122,7 @@ export function reducer(state = core.InitialState, action) {
       );
       break;
     case "DELETE_COMMENT":
-      return core.deleteComment(state, action.id);
+      return core.deleteComment(state, action.commentID);
       break;
     case "REPORT_BADLEE":
       return core.reportBadlee(state, action.reportItem);

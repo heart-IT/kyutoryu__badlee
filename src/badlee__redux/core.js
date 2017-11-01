@@ -422,9 +422,9 @@ export function postComment(state, id, comment, timestamp) {
 export function deleteComment(state, id) {
   var badleeId = state.getIn(["badlees", "activeBadleeID"]);
   let oldComments = state.getIn(["badlees", "data", badleeId, "comments"]);
-  let newComments = oldComments.filter(
-    comment => comment.get("comment_id") !== id
-  );
+  let newComments = oldComments.filter(comment => {
+    return (comment.comment_id || comment.get("comment_id")) !== id;
+  });
   return state.updateIn(["badlees", "data", badleeId], badlee => {
     return badlee
       .set("comments", newComments)

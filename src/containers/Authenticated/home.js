@@ -149,7 +149,7 @@ class Home extends Component {
     this.props.getBadlees({
       tabName: "location",
       currentLocation: this.props.user.get("location")
-        ? this.props.user.get("location").split(",")[0]
+        ? this.props.user.get("location")
         : "Jaipur",
       offset: page * limit,
       limit: limit

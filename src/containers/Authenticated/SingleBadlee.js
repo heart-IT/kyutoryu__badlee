@@ -60,6 +60,10 @@ class SingleBadlee extends Component {
       });
     });
   }
+  componentWillReceiveProps(nextProps) {
+    let reports = nextProps.reports ? nextProps.reports.toJS() : [];
+    this.setState({ reports: reports });
+  }
 
   onClickLike(id, didLike) {
     didLike ? this.props.onClickLike(id) : this.props.onClickUnlike(id);
@@ -112,7 +116,7 @@ class SingleBadlee extends Component {
   }
   render() {
     let cardData = this.props.badlee.toJS();
-    let reports = this.props.reports ? this.props.reports.toJS() : [];
+    let reports = this.state.reports ? this.state.reports : [];
     let isItemReport = reports.filter(report => {
       if (
         report.report_type === "badlee" &&
@@ -237,7 +241,7 @@ const _Wrapped = connect(
       state.getIn(["badlees", "activeBadleeID"])
     ]),
     loggedUserID: state.getIn(["user", "loggedUserID"]),
-    reports: state.get(["badlees", "reports"])
+    reports: state.getIn(["badlees", "reports"])
   }),
   actionCreators
 )(SingleBadlee);
